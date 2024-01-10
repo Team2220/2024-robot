@@ -1,7 +1,12 @@
+package frc.lib;
+
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.event.EventLoop;
+
 public class IsolatedEventLoop {
     private EventLoop eventLoop;
 
-    public void IsolatedEventLoop {
+    public IsolatedEventLoop() {
         eventLoop = new EventLoop();
     }
 

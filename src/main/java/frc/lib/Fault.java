@@ -44,9 +44,9 @@ public final class Fault {
         return wasActive;
     }
 
-    public static void autoUpdating(String description, EventLoop eventLoop, BooleanSupplier booleanSupplier) {
+    public static void autoUpdating(String description, IsolatedEventLoop oncepersec, BooleanSupplier booleanSupplier) {
         Fault fault = new Fault(description);
-        eventLoop.bind(() -> {
+        oncepersec.bind(() -> {
             fault.setIsActive(booleanSupplier.getAsBoolean());
         });
     }
