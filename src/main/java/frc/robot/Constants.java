@@ -15,6 +15,7 @@ package frc.robot;
 public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
+    public static final int kCodriverControllerPort = 1;
   }
   public static final class LimelightConfig {
     public static final String LEFT_NAME = "limelight-left";
