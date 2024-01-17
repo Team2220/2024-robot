@@ -25,6 +25,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    addPeriodic(EventLoops.oncePerSec::poll, 1);
+    addPeriodic(EventLoops.oncePerMin::poll, 60); 
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
