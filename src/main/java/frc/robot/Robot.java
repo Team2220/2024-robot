@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.lib.CommandObserver;
 import frc.lib.EventLoops;
 
 /**
@@ -26,6 +27,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    CommandObserver.start();
     addPeriodic(EventLoops.oncePerSec::poll, 1);
     addPeriodic(EventLoops.oncePerMin::poll, 60); 
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
