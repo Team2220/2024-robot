@@ -6,6 +6,7 @@ package frc.robot;
 
 
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
+import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.controls.PositionDutyCycle;
 import com.ctre.phoenix6.controls.VelocityDutyCycle;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -69,29 +70,30 @@ public class SwerveModule {
     angle = Shuffleboard.getTab("swerve").add(name + " angle", 0).getEntry();
     drivePositionEntry  = Shuffleboard.getTab("swerve").add(name + " drivePostion", 0).getEntry();
     Shuffleboard.getTab("swerve").addDouble(name + "encoder", m_turningEncoder::getPosition);
+    var motorConfigs = new Slot0Configs();
     SwerveModule.DT_DRIVE_P.addChangeListener((value) -> {
-      m_driveMotor.config_kP(0, value);
+      motorConfigs.kP = value;
     });
     SwerveModule.DT_DRIVE_I.addChangeListener((value) -> {
-      m_driveMotor.config_kI(0, value);
+      motorConfigs.kI = value;
     });
     SwerveModule.DT_DRIVE_D.addChangeListener((value) -> {
-      m_driveMotor.config_kD(0, value);
+      motorConfigs.kD = value;
     });
     SwerveModule.DT_DRIVE_F.addChangeListener((value) -> {
-      m_driveMotor.config_kF(0, value);
+      motorConfigs.kV = value;
     });
     SwerveModule.DT_STEER_P.addChangeListener((value) -> {
-      m_turningMotor.config_kP(0, value);
+      motorConfigs.kP = value;
     });
     SwerveModule.DT_STEER_I.addChangeListener((value) -> {
-      m_turningMotor.config_kI(0, value);
+      motorConfigs.kI = value;
     });
     SwerveModule.DT_STEER_D.addChangeListener((value) -> {
-      m_turningMotor.config_kD(0, value);
+      motorConfigs.kD = value;
     });
     SwerveModule.DT_STEER_F.addChangeListener((value) -> {
-      m_turningMotor.config_kF(0, value);
+      motorConfigs.kV = value;
     });
     
     // Set the distance per pulse for the drive encoder. We can simply use the
