@@ -4,9 +4,11 @@
 
 package frc.robot;
 
-import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
+import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
+import com.ctre.phoenix6.controls.PositionDutyCycle;
+import com.ctre.phoenix6.controls.VelocityDutyCycle;
+import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -104,7 +106,7 @@ public class SwerveModule {
     // Limit the PID Controller's input range between -pi and pi and set the input
     // to be continuous.
     // m_turningPIDController.enableContinuousInput(-Math.PI, Math.PI);
-    m_turningMotor.setSelectedSensorPosition(-angleToEncoderTicks(getAngle().getDegrees()));
+    m_turningMotor.setPosition(-angleToEncoderTicks(getAngle().getDegrees()));
   }
 
   /**
@@ -118,13 +120,12 @@ public class SwerveModule {
   }
 
   private double getDriveVelocity() {
-    double ticks = m_driveMotor.getSelectedSensorVelocity();
+    double ticks = m_driveMotor.getVelocity().getValueAsDouble();
     double msToS = 100.0 * (1.0 / 1000.0);
-    double ticksToRevolutions = 1.0 / 2048.0;
     double revolutionsMotorToRevolutionsWheel = 1.0 / DT_DRIVE_GEAR_RATIO // Reduction from motor to output
     * (1.0 / (SwerveModule.DT_WHEEL_DIAMETER * Math.PI));
 
-    return ticks * msToS * ticksToRevolutions * revolutionsMotorToRevolutionsWheel;
+    return ticks * msToS * revolutionsMotorToRevolutionsWheel;
   }
 
   public static final TunableDouble DT_DRIVE_P =
@@ -147,30 +148,28 @@ public class SwerveModule {
       new TunableDouble("DT_STEER_F", 0, "swerve").setSpot(3, 1);
 
   private double getDrivePosition() {
-    double ticks = m_driveMotor.getSelectedSensorPosition();
-    double ticksToRevolutions = 1.0 / 2048.0;
+    double ticks = m_driveMotor.getRotorPosition().getValueAsDouble();
     double revolutionsMotorToRevolutionsWheel = 1.0 / DT_DRIVE_GEAR_RATIO // Reduction from motor to output
     * (1.0 / (SwerveModule.DT_WHEEL_DIAMETER * Math.PI));
 
-    return ticks * ticksToRevolutions * revolutionsMotorToRevolutionsWheel;
+    return ticks * revolutionsMotorToRevolutionsWheel;
   }
 
   private double mpsToEncoderTicks(double mps) {
     double sToMs = mps * 100.0 / 1000.0;
     double wheelRevolutions = sToMs / (DT_WHEEL_DIAMETER * Math.PI);
     double motorRev = wheelRevolutions * DT_DRIVE_GEAR_RATIO;
-    double ticks = motorRev * 2048.0;
+    double ticks = motorRev;
     return ticks; 
   }
 
   private double angleToEncoderTicks(double angle) {
     double angleToWheelRev = angle / 360.0;
     double motorRev = angleToWheelRev * DT_STEER_GEAR_RATIO;
-    double ticks = motorRev * 2048.0;
-    return ticks;
+    return motorRev;
   }
   private double steerEncoderTicksToAngle(double ticks) {
-    double motorRotation = ticks / 2048;
+    double motorRotation = ticks;
     double moduleRotation = motorRotation / DT_STEER_GEAR_RATIO;
     double angle = moduleRotation * 360;
     return angle;
@@ -198,15 +197,15 @@ public class SwerveModule {
   public void setDesiredState(SwerveModuleState desiredState) {
 drivePositionEntry.setDouble(getDrivePosition());
 
-    Rotation2d rotation2d = Rotation2d.fromDegrees(steerEncoderTicksToAngle(-m_turningMotor.getSelectedSensorPosition()));
+    Rotation2d rotation2d = Rotation2d.fromDegrees(steerEncoderTicksToAngle(-m_turningMotor.getPosition().getValueAsDouble()));
     // System.out.println("endoder:" + getAngle().getDegrees() + " | motor:" + rotation2d.getDegrees() + " | " + convertAngle( rotation2d.getDegrees(), 90));
     SwerveModuleState state =
         SwerveModuleState.optimize(desiredState, rotation2d);
         // System.out.println(String.format("joystick:%.2f ", state.angle.getDegrees()) + String.format(" motor: %.2f ", rotation2d.getDegrees()) + String.format(" output: %.2f", convertAngle(rotation2d.getDegrees(), state.angle.getDegrees())));
         // speed.setDouble(mpsToEncoderTicks(state.speedMetersPerSecond));
     // angle.setDouble(angleToEncoderTicks(state.angle.getDegrees()));
-    m_driveMotor.set(TalonFXControlMode.Velocity, mpsToEncoderTicks(state.speedMetersPerSecond) * -1);
-    m_turningMotor.set(TalonFXControlMode.Position, angleToEncoderTicks(convertAngle(rotation2d.getDegrees(), state.angle.getDegrees()) * -1));
+    m_driveMotor.setControl(new VelocityDutyCycle(mpsToEncoderTicks(state.speedMetersPerSecond) * -1));
+    m_turningMotor.setControl(new PositionDutyCycle( angleToEncoderTicks(convertAngle(rotation2d.getDegrees(), state.angle.getDegrees()) * -1)));
 
     // Calculate the drive output from the drive PID controller.
     // final double driveOutput =

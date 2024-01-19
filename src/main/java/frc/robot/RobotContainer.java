@@ -32,7 +32,7 @@ public class RobotContainer {
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
       /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    PDHLogPowerFaults.setPdh(m_PowerDistribution);
+    //PDHLogPowerFaults.setPdh(m_PowerDistribution);
     // Configure the trigger bindings
     configureBindings();
     driveTrain.setDefaultCommand(driveTrain.driveCommand(() -> {
