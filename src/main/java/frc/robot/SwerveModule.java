@@ -21,10 +21,6 @@ public class SwerveModule {
   GenericEntry speed;
   GenericEntry angle;
   GenericEntry drivePositionEntry;
-  private static final double kModuleMaxAngularVelocity = DriveTrain.kMaxAngularSpeed;
-  private static final double kModuleMaxAngularAcceleration =
-      2 * Math.PI; // radians per second squared
-
   private final TalonFX m_driveMotor;
   private final TalonFX m_turningMotor;
 
@@ -47,7 +43,6 @@ public class SwerveModule {
   // Steer encoder inverted
   public static final boolean DT_STEER_ENCODER_INVERTED = false;
   
-  private String name;
   private double offset;
   /**
    * Constructs a SwerveModule with a drive motor, turning motor, drive encoder and turning encoder.
@@ -63,7 +58,6 @@ public class SwerveModule {
       String name, int driveMotorChannel,
       int turningMotorChannel,
       int turningEncoderChannelA, double offset) {
-    this.name = name;
     this.offset = offset;
     m_driveMotor = new TalonFX(driveMotorChannel);
     m_turningMotor = new TalonFX(turningMotorChannel);

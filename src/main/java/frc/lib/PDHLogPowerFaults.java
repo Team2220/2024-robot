@@ -4,7 +4,6 @@ package frc.lib;
 import java.util.ArrayList;
 
 import edu.wpi.first.hal.PowerDistributionStickyFaults;
-import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
 

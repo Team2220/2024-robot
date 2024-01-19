@@ -18,15 +18,7 @@ public class ObjectTracker extends Command {
   private static TunableDouble p = new TunableDouble("P", 12, true, "limelight");
   private static TunableDouble i = new TunableDouble("I", 0, true, "limelight");
   private static TunableDouble d = new TunableDouble("D", 0, true, "limelight");
-  private final DoubleSupplier fwd;
-  private final DoubleSupplier str;
-
   public ObjectTracker(/*Swerve swerve,*/ DoubleSupplier fwd, DoubleSupplier str) {
-    // this.swerve = swerve;
-    // this.addRequirements(swerve);
-    this.fwd = fwd;
-    this.str = str;
-
     pid.setTolerance(0.5);
     pid.setSetpoint(0);
   }
