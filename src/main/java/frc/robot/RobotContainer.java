@@ -4,9 +4,9 @@
 
 package frc.robot;
 
+import frc.lib.CommandChooser;
 import frc.lib.PDHLogPowerFaults;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.Autos;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -25,14 +25,12 @@ public class RobotContainer {
   private final PowerDistribution m_PowerDistribution = new PowerDistribution();
   @SuppressWarnings("unused")
   public static final DriverTab drivertab = new DriverTab();
+  public final CommandChooser commandChooser = new CommandChooser();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
-      private final CommandXboxController m_codriverController =
-      new CommandXboxController(OperatorConstants.kCodriverControllerPort);
-
-  /** The container for the robot. Contains subsystems, OI devices, and commands. */
+      /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     PDHLogPowerFaults.setPdh(m_PowerDistribution);
     // Configure the trigger bindings
@@ -72,6 +70,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return Autos.exampleAuto();
+    return commandChooser.getSelected();
   }
 }
