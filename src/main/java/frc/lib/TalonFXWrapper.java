@@ -10,6 +10,7 @@ public class TalonFXWrapper {
         talon = new TalonFX(id);
         this.name = name;
         TalonFXLogPowerFaults.setupChecks(this);
+        TalonFXRegistry.setupChecks(this);
 
     }
 

@@ -12,4 +12,9 @@ public class TalonFXRegistry {
     public static ArrayList<TalonFX> getTalonFXs() {
         return talonFXs;
     }
+
+    public static void setupChecks(TalonFXWrapper talonFXWrapper) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setupChecks'");
+    }
 }
