@@ -70,30 +70,39 @@ public class SwerveModule {
     angle = Shuffleboard.getTab("swerve").add(name + " angle", 0).getEntry();
     drivePositionEntry  = Shuffleboard.getTab("swerve").add(name + " drivePostion", 0).getEntry();
     Shuffleboard.getTab("swerve").addDouble(name + "encoder", m_turningEncoder::getPosition);
-    var motorConfigs = new Slot0Configs();
+    var driveConfigs = new Slot0Configs();
+    var steerConfigs = new Slot0Configs();
     SwerveModule.DT_DRIVE_P.addChangeListener((value) -> {
-      motorConfigs.kP = value;
+      driveConfigs.kP = value;
+      m_driveMotor.getConfigurator().apply(driveConfigs);
     });
     SwerveModule.DT_DRIVE_I.addChangeListener((value) -> {
-      motorConfigs.kI = value;
+      driveConfigs.kI = value;
+      m_driveMotor.getConfigurator().apply(driveConfigs);
     });
     SwerveModule.DT_DRIVE_D.addChangeListener((value) -> {
-      motorConfigs.kD = value;
+      driveConfigs.kD = value;
+      m_driveMotor.getConfigurator().apply(driveConfigs);
     });
     SwerveModule.DT_DRIVE_F.addChangeListener((value) -> {
-      motorConfigs.kV = value;
+      driveConfigs.kV = value;
+      m_driveMotor.getConfigurator().apply(driveConfigs);
     });
     SwerveModule.DT_STEER_P.addChangeListener((value) -> {
-      motorConfigs.kP = value;
+      steerConfigs.kP = value;
+      m_turningMotor.getConfigurator().apply(steerConfigs);
     });
     SwerveModule.DT_STEER_I.addChangeListener((value) -> {
-      motorConfigs.kI = value;
+      m_turningMotor.getConfigurator().apply(steerConfigs);
+      steerConfigs.kI = value;
     });
     SwerveModule.DT_STEER_D.addChangeListener((value) -> {
-      motorConfigs.kD = value;
+      m_turningMotor.getConfigurator().apply(steerConfigs);
+      steerConfigs.kD = value;
     });
     SwerveModule.DT_STEER_F.addChangeListener((value) -> {
-      motorConfigs.kV = value;
+      m_turningMotor.getConfigurator().apply(steerConfigs);
+      steerConfigs.kV = value;
     });
     
     // Set the distance per pulse for the drive encoder. We can simply use the
@@ -123,29 +132,28 @@ public class SwerveModule {
 
   private double getDriveVelocity() {
     double ticks = m_driveMotor.getVelocity().getValueAsDouble();
-    double msToS = 100.0 * (1.0 / 1000.0);
     double revolutionsMotorToRevolutionsWheel = 1.0 / DT_DRIVE_GEAR_RATIO // Reduction from motor to output
     * (1.0 / (SwerveModule.DT_WHEEL_DIAMETER * Math.PI));
 
-    return ticks * msToS * revolutionsMotorToRevolutionsWheel;
+    return ticks * revolutionsMotorToRevolutionsWheel;
   }
 
   public static final TunableDouble DT_DRIVE_P =
-      new TunableDouble("DT_DRIVE_P", 0.1, "swerve").setSpot(0, 0);
+      new TunableDouble("DT_DRIVE_P", 0, "swerve").setSpot(0, 0);
   public static final TunableDouble DT_DRIVE_I =
       new TunableDouble("DT_DRIVE_I", 0, "swerve").setSpot(1, 0);
   public static final TunableDouble DT_DRIVE_D =
-      new TunableDouble("DT_DRIVE_D", 0.2, "swerve").setSpot(2, 0);
+      new TunableDouble("DT_DRIVE_D", 0, "swerve").setSpot(2, 0);
   public static final TunableDouble DT_DRIVE_F =
-      new TunableDouble("DT_DRIVE_F", 0.052, "swerve").setSpot(3, 0);
+      new TunableDouble("DT_DRIVE_F", 0, "swerve").setSpot(3, 0);
 
   // PID values for the steer motor
   public static final TunableDouble DT_STEER_P =
-      new TunableDouble("DT_STEER_P", 0.4, "swerve").setSpot(0, 1);
+      new TunableDouble("DT_STEER_P", 1, "swerve").setSpot(0, 1);
   public static final TunableDouble DT_STEER_I =
-      new TunableDouble("DT_STEER_I", 0.0001, "swerve").setSpot(1, 1);
+      new TunableDouble("DT_STEER_I", 0, "swerve").setSpot(1, 1);
   public static final TunableDouble DT_STEER_D =
-      new TunableDouble("DT_STEER_D", 1.274, "swerve").setSpot(2, 1);
+      new TunableDouble("DT_STEER_D", 0, "swerve").setSpot(2, 1);
   public static final TunableDouble DT_STEER_F =
       new TunableDouble("DT_STEER_F", 0, "swerve").setSpot(3, 1);
 
@@ -158,8 +166,7 @@ public class SwerveModule {
   }
 
   private double mpsToEncoderTicks(double mps) {
-    double sToMs = mps * 100.0 / 1000.0;
-    double wheelRevolutions = sToMs / (DT_WHEEL_DIAMETER * Math.PI);
+    double wheelRevolutions = (DT_WHEEL_DIAMETER * Math.PI);
     double motorRev = wheelRevolutions * DT_DRIVE_GEAR_RATIO;
     double ticks = motorRev;
     return ticks; 
