@@ -17,6 +17,10 @@ public final class Constants {
     public static final int kDriverControllerPort = 0;
     public static final int kCodriverControllerPort = 1;
   }
+  public static class LEDS{
+  public static final int LEFT = 1;
+  public static final int RIGHT = 2;
+  }
   public static final class LimelightConfig {
     public static final String LEFT_NAME = "limelight-left";
     public static final String RIGHT_NAME = "limelight-right";
