@@ -6,7 +6,14 @@ package frc.robot;
 
 import frc.lib.CommandChooser;
 import frc.lib.PDHLogPowerFaults;
+import frc.lib.leds.LEDs;
+import frc.lib.leds.LedSegment;
+import frc.lib.leds.LedSignal;
 import frc.robot.Constants.OperatorConstants;
+
+import com.ctre.phoenix.led.CANdle;
+import com.ctre.phoenix.led.StrobeAnimation;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -21,6 +28,10 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
   private final DriveTrain driveTrain = new DriveTrain();
+  private final LEDs leds;
+  private CANdle left = new CANdle(Constants.LEDS.LEFT);
+  private CANdle right = new CANdle(Constants.LEDS.RIGHT);
+  
   // The robot's subsystems and commands are defined here...
   private final PowerDistribution m_PowerDistribution = new PowerDistribution();
   @SuppressWarnings("unused")
@@ -34,6 +45,17 @@ public class RobotContainer {
   public RobotContainer() {
     //PDHLogPowerFaults.setPdh(m_PowerDistribution);
     // Configure the trigger bindings
+    leds = new LEDs(
+                        new LedSegment[] {new LedSegment(left), new LedSegment(right)}, 
+                        new LedSignal[] {
+                                LedSignal.isBrownedOut(),
+                                LedSignal.isDSConnected(),
+                                // LedSignal.hasTarget(),
+                                LedSignal.isEndGame(),
+                                LedSignal.hasActiveFault(),
+                                LedSignal.getLowBatteryLedSignal(),
+                                LedSignal.previouslyHadFault(),      
+                        });
     configureBindings();
     driveTrain.setDefaultCommand(driveTrain.driveCommand(() -> {
       return MathUtil.applyDeadband(m_driverController.getLeftX(), 0.1);      
