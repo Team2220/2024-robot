@@ -57,11 +57,12 @@ public class DriveTrain extends SubsystemBase {
     }
 
     private final Field2d m_field = new Field2d();
+    private final Pose2d m_startPose = new Pose2d(0, 0, Rotation2d.fromDegrees(0));
 
     public Command zeroCommand() {
         return this.runOnce(() -> {
             navx.reset();
-poseEstimator.resetPosition(getGyroscopeRotation(), getModulePositions() ,new Pose2d());
+poseEstimator.resetPosition(getGyroscopeRotation(), getModulePositions() ,m_startPose);
         });
     }
 
@@ -92,16 +93,22 @@ poseEstimator.resetPosition(getGyroscopeRotation(), getModulePositions() ,new Po
     private final SwerveModule m_backRight = new SwerveModule("backright", 14, 13, 0, DT_BR_SE_OFFSET);
 
     public void periodic() {
-        m_field.setRobotPose(poseEstimator.getEstimatedPosition());
+        m_field.setRobotPose(getPose());
         gyroAngle.setDouble(getGyroscopeRotation().getDegrees());
         poseEstimator.update(
                 getGyroscopeRotation(), getModulePositions());
     }
 
+    private Pose2d getPose() {
+        var pose = poseEstimator.getEstimatedPosition();
+        return new Pose2d(pose.getY(), pose.getX() *-1, pose.getRotation());
+    }
+
     AHRS navx = new AHRS();
+    double gyroOffset = 0;
 
     public Rotation2d getGyroscopeRotation() {
-        var angle = navx.getAngle();
+        var angle = navx.getAngle() + gyroOffset;
         return Rotation2d.fromDegrees(angle * -1);
     }
 
@@ -146,7 +153,7 @@ poseEstimator.resetPosition(getGyroscopeRotation(), getModulePositions() ,new Po
             KINEMATICS,
             getGyroscopeRotation(),
             getModulePositions(),
-            new Pose2d(),
+            m_startPose,
             stateStdDevs,
             visionMeasurementStdDevs);
 
