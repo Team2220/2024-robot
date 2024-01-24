@@ -71,16 +71,19 @@ poseEstimator.resetPosition(getGyroscopeRotation(), getModulePositions() ,new Po
         });
     }
     
-    // Steer CANcoder offset front left
+    //public static final double DT_FL_SE_OFFSET = 155.302734375 - 90;
     public static final double DT_FL_SE_OFFSET = 38.84765625 - 90;
 
     // Steer CANcoder offset front right
+    //public static final double DT_FR_SE_OFFSET = 124.98046875 - 90;
     public static final double DT_FR_SE_OFFSET = 153.80859375 - 90;
 
     // Steer CANcoder offset back left
+    //public static final double DT_BL_SE_OFFSET = 8.96484375 - 90;
     public static final double DT_BL_SE_OFFSET = 346.81640625 - 90;
 
     // Steer CANcoder offset back right
+    //public static final double DT_BR_SE_OFFSET = 247.5 - 90;
     public static final double DT_BR_SE_OFFSET = 352.705078125 - 90;
 
     private final SwerveModule m_frontLeft = new SwerveModule("frontleft", 12, 11, 1, DT_FL_SE_OFFSET);

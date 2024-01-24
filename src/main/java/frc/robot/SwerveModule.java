@@ -93,16 +93,17 @@ public class SwerveModule {
       m_turningMotor.getConfigurator().apply(steerConfigs);
     });
     SwerveModule.DT_STEER_I.addChangeListener((value) -> {
-      m_turningMotor.getConfigurator().apply(steerConfigs);
       steerConfigs.kI = value;
+      m_turningMotor.getConfigurator().apply(steerConfigs);
+
     });
     SwerveModule.DT_STEER_D.addChangeListener((value) -> {
-      m_turningMotor.getConfigurator().apply(steerConfigs);
       steerConfigs.kD = value;
+      m_turningMotor.getConfigurator().apply(steerConfigs);
     });
     SwerveModule.DT_STEER_F.addChangeListener((value) -> {
-      m_turningMotor.getConfigurator().apply(steerConfigs);
       steerConfigs.kV = value;
+      m_turningMotor.getConfigurator().apply(steerConfigs);
     });
     
     // Set the distance per pulse for the drive encoder. We can simply use the
@@ -160,14 +161,14 @@ public class SwerveModule {
   private double getDrivePosition() {
     double ticks = m_driveMotor.getRotorPosition().getValueAsDouble();
     double revolutionsMotorToRevolutionsWheel = 1.0 / DT_DRIVE_GEAR_RATIO // Reduction from motor to output
-    * (1.0 / (SwerveModule.DT_WHEEL_DIAMETER * Math.PI));
+    * (1.0 * (SwerveModule.DT_WHEEL_DIAMETER * Math.PI));
 
     return ticks * revolutionsMotorToRevolutionsWheel;
   }
 
   private double mpsToEncoderTicks(double mps) {
     double wheelRevolutions = (DT_WHEEL_DIAMETER * Math.PI);
-    double motorRev = mps * wheelRevolutions * DT_DRIVE_GEAR_RATIO;
+    double motorRev = mps / wheelRevolutions * DT_DRIVE_GEAR_RATIO;
     double ticks = motorRev;
     return ticks; 
   }
@@ -211,7 +212,7 @@ drivePositionEntry.setDouble(getDrivePosition());
     SwerveModuleState state =
         SwerveModuleState.optimize(desiredState, rotation2d);
         // System.out.println(String.format("joystick:%.2f ", state.angle.getDegrees()) + String.format(" motor: %.2f ", rotation2d.getDegrees()) + String.format(" output: %.2f", convertAngle(rotation2d.getDegrees(), state.angle.getDegrees())));
-        // speed.setDouble(mpsToEncoderTicks(state.speedMetersPerSecond));
+        speed.setDouble(mpsToEncoderTicks(state.speedMetersPerSecond)*-1);
     // angle.setDouble(angleToEncoderTicks(state.angle.getDegrees()));
     m_driveMotor.setControl(new VelocityDutyCycle(mpsToEncoderTicks(state.speedMetersPerSecond) * -1));
     m_turningMotor.setControl(new PositionDutyCycle( angleToEncoderTicks(convertAngle(rotation2d.getDegrees(), state.angle.getDegrees()) * -1)));
