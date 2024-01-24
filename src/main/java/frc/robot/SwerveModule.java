@@ -140,7 +140,7 @@ public class SwerveModule {
   }
 
   public static final TunableDouble DT_DRIVE_P =
-      new TunableDouble("DT_DRIVE_P", 0, "swerve").setSpot(0, 0);
+      new TunableDouble("DT_DRIVE_P", 0.03, "swerve").setSpot(0, 0);
   public static final TunableDouble DT_DRIVE_I =
       new TunableDouble("DT_DRIVE_I", 0, "swerve").setSpot(1, 0);
   public static final TunableDouble DT_DRIVE_D =
