@@ -167,7 +167,7 @@ public class SwerveModule {
 
   private double mpsToEncoderTicks(double mps) {
     double wheelRevolutions = (DT_WHEEL_DIAMETER * Math.PI);
-    double motorRev = wheelRevolutions * DT_DRIVE_GEAR_RATIO;
+    double motorRev = mps * wheelRevolutions * DT_DRIVE_GEAR_RATIO;
     double ticks = motorRev;
     return ticks; 
   }
