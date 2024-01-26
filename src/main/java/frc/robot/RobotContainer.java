@@ -12,6 +12,9 @@ import frc.lib.leds.LEDs;
 import frc.lib.leds.LedSegment;
 import frc.lib.leds.LedSignal;
 import frc.robot.Constants.OperatorConstants;
+
+import com.ctre.phoenix.led.CANdle;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -28,6 +31,8 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
+  private CANdle left = new CANdle(Constants.LEDS.LEFT);
+  private CANdle right = new CANdle(Constants.LEDS.RIGHT);
   private final LEDs m_leds;
   private final DriveTrain driveTrain = new DriveTrain();
   // The robot's subsystems and commands are defined here...
