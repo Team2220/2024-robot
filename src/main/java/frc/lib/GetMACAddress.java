@@ -1,7 +1,6 @@
 package frc.lib;
 
 import java.net.*;
-import java.util.*;
 
 public class GetMACAddress {
     public static void main() throws Exception {
