@@ -5,6 +5,7 @@
 package frc.robot;
 
 import frc.lib.CommandChooser;
+import frc.lib.CommandXBoxWrapper;
 import frc.lib.GetMACAddress;
 import frc.lib.PDHLogPowerFaults;
 import frc.lib.leds.LEDs;
@@ -36,8 +37,7 @@ public class RobotContainer {
   public final CommandChooser commandChooser = new CommandChooser();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final CommandXboxController m_driverController = new CommandXboxController(
-      OperatorConstants.kDriverControllerPort);
+  private final CommandXBoxWrapper m_driverController = new CommandXBoxWrapper(OperatorConstants.kDriverControllerPort);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -48,11 +48,11 @@ public class RobotContainer {
     // Configure the trigger bindings
     configureBindings();
     driveTrain.setDefaultCommand(driveTrain.driveCommand(() -> {
-      return MathUtil.applyDeadband(m_driverController.getLeftX(), 0.1);
+      return m_driverController.getLeftX(0.1));
     }, () -> {
-      return MathUtil.applyDeadband(m_driverController.getLeftY() * -1, 0.1);
+      return m_driverController.getLeftY(.1) * -1);
     }, () -> {
-      return MathUtil.applyDeadband(m_driverController.getRightX(), 0.1);
+      return m_driverController.getRightX(.1));
 
     }));
 
