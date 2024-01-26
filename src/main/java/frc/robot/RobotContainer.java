@@ -15,7 +15,6 @@ import frc.robot.Constants.OperatorConstants;
 
 import com.ctre.phoenix.led.CANdle;
 
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -33,6 +32,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
   private CANdle left = new CANdle(Constants.LEDS.LEFT);
   private CANdle right = new CANdle(Constants.LEDS.RIGHT);
+  @SuppressWarnings("unused")
   private final LEDs m_leds;
   private final DriveTrain driveTrain = new DriveTrain();
   // The robot's subsystems and commands are defined here...
@@ -53,11 +53,11 @@ public class RobotContainer {
     // Configure the trigger bindings
     configureBindings();
     driveTrain.setDefaultCommand(driveTrain.driveCommand(() -> {
-      return m_driverController.getLeftX(0.1));
+      return m_driverController.getLeftX(0.1);
     }, () -> {
-      return m_driverController.getLeftY(.1) * -1);
+      return m_driverController.getLeftY(.1) * -1;
     }, () -> {
-      return m_driverController.getRightX(.1));
+      return m_driverController.getRightX(.1);
 
     }));
 
