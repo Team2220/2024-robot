@@ -5,14 +5,14 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.util.function.Function;
 
-public enum MACAddress {
+public enum RobotInstance {
     Robot23("00-80-2F-17-60-67"),
     Robot24("");
 
     private String address;
-    private static MACAddress current = getMacAddress();
+    private static RobotInstance current = getMacAddress();
 
-    MACAddress(String text) {
+    RobotInstance(String text) {
         this.address = text;
     }
 
@@ -20,8 +20,8 @@ public enum MACAddress {
         return this.address;
     }
 
-    public static MACAddress fromString(String text) {
-        for (MACAddress b : MACAddress.values()) {
+    public static RobotInstance fromString(String text) {
+        for (RobotInstance b : RobotInstance.values()) {
             if (b.address.equalsIgnoreCase(text)) {
                 return b;
             }
@@ -48,7 +48,7 @@ public enum MACAddress {
         }
     }
 
-    public static MACAddress getMacAddress() {
+    public static RobotInstance getMacAddress() {
         var check = fromString(getMacAddressStr());
         if (check == null) {
             return Robot24;
@@ -57,7 +57,7 @@ public enum MACAddress {
         }
     }
 
-    public static <T> void conifg(Function<MACAddress, T> config) {
-        config.apply(current);
+    public static <T> T config(Function<RobotInstance, T> config) {
+        return config.apply(current);
     }
 }
