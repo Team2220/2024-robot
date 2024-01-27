@@ -1,5 +1,6 @@
 package frc.lib;
 
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 public class TalonFXWrapper {
@@ -11,6 +12,7 @@ public class TalonFXWrapper {
         this.name = name;
         TalonFXLogPowerFaults.setupChecks(this);
         TalonFXRegistry.register(talon);
+        talon.getConfigurator().apply(new TalonFXConfiguration());
 
     }
 
