@@ -7,7 +7,7 @@ package frc.robot;
 import java.util.List;
 import frc.lib.CommandChooser;
 import frc.lib.CommandXBoxWrapper;
-import frc.lib.GetMACAddress;
+// import frc.lib.GetMACAddress;
 import frc.lib.PDHLogPowerFaults;
 import frc.lib.leds.LEDs;
 import frc.lib.leds.LedSegment;
@@ -51,6 +51,7 @@ public class RobotContainer {
   
 
   private final CommandXBoxWrapper m_driverController = new CommandXBoxWrapper(OperatorConstants.kDriverControllerPort);
+  private final CommandXBoxWrapper m_codriverController = new CommandXBoxWrapper(OperatorConstants.kDriverControllerPort);
 
 
   /**
@@ -58,7 +59,7 @@ public class RobotContainer {
    */
   public RobotContainer() {
     PDHLogPowerFaults.setPdh(m_PowerDistribution);
-    GetMACAddress.main();
+    // GetMACAddress.main();
     // Configure the trigger bindings
     configureBindings();
     driveTrain.setDefaultCommand(driveTrain.driveCommand(() -> {
@@ -67,8 +68,6 @@ public class RobotContainer {
       return m_driverController.getLeftY(.1) * -1;
     }, () -> {
       return m_driverController.getRightX(.1);
-
-
     }));
 
     m_leds = new LEDs(

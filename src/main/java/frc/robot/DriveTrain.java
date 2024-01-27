@@ -53,9 +53,9 @@ public class DriveTrain extends SubsystemBase {
                 this::autoDriveRobotRelative, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
                 new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your
                                                  // Constants class
-                        new PIDConstants(0.03, 0.0, 0.0), // Translation PID constants
-                        new PIDConstants(0.03, 0.0, 0.0), // Rotation PID constants
-                        1, // Max module speed, in m/s
+                        new PIDConstants(0.3, 0.0, 0.025456738383963862983267), // Translation PID constants
+                        new PIDConstants(0.3, 0.0, 0.025621832482875328792385), // Rotation PID constants
+                        3, // Max module speed, in m/s
                         driveRadius, // Drive base radius in meters. Distance from robot center to furthest module.
                         new ReplanningConfig() // Default path replanning config. See the API for the options here
                 ),
