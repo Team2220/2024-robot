@@ -13,8 +13,8 @@ public class Intake extends SubsystemBase {
     TalonFXWrapper conveyor;
 
     public Intake() {
-        intake = new TalonFXWrapper(Constants.Intake.id_intake, null);
-        conveyor = new TalonFXWrapper(Constants.Intake.id_conv, null);
+        intake = new TalonFXWrapper(Constants.Intake.id_intake, "intake");
+        conveyor = new TalonFXWrapper(Constants.Intake.id_conv, "conveyor");
     }
 
     public Command dutyCycleCommand(DoubleSupplier speed) {
