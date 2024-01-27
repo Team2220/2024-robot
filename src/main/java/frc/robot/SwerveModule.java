@@ -212,9 +212,9 @@ drivePositionEntry.setDouble(getDrivePosition());
     SwerveModuleState state =
         SwerveModuleState.optimize(desiredState, rotation2d);
         // System.out.println(String.format("joystick:%.2f ", state.angle.getDegrees()) + String.format(" motor: %.2f ", rotation2d.getDegrees()) + String.format(" output: %.2f", convertAngle(rotation2d.getDegrees(), state.angle.getDegrees())));
-        speed.setDouble(mpsToEncoderTicks(state.speedMetersPerSecond)*-1);
+        speed.setDouble(mpsToEncoderTicks(state.speedMetersPerSecond));
     // angle.setDouble(angleToEncoderTicks(state.angle.getDegrees()));
-    m_driveMotor.setControl(new VelocityDutyCycle(mpsToEncoderTicks(state.speedMetersPerSecond)));
+    m_driveMotor.setControl(new VelocityDutyCycle(mpsToEncoderTicks(state.speedMetersPerSecond) * -1));
     m_turningMotor.setControl(new PositionDutyCycle( angleToEncoderTicks(convertAngle(rotation2d.getDegrees(), state.angle.getDegrees()) * -1)));
 
     // Calculate the drive output from the drive PID controller.

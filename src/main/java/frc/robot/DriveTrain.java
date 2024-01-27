@@ -152,7 +152,7 @@ double driveRadius = Math.sqrt(Math.pow(DRIVETRAIN_TRACKWIDTH_METERS/2, 2) + Mat
 
     private Pose2d getPose() {
         var pose = poseEstimator.getEstimatedPosition();
-        return new Pose2d(pose.getY(), pose.getX() * -1, pose.getRotation());
+        return new Pose2d(pose.getY() * -1, pose.getX(), pose.getRotation());
     }
 
     AHRS navx = new AHRS();
