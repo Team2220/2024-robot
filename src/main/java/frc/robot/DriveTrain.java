@@ -51,7 +51,7 @@ double driveRadius = Math.sqrt(Math.pow(DRIVETRAIN_TRACKWIDTH_METERS/2, 2) + Mat
                 this::getPose, // Robot pose supplier
                 this::resetPose, // Method to reset odometry (will be called if your auto has a starting pose)
                 this::getSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
-                this::driveRobotRelative, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
+                this::autoDriveRobotRelative, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
                 new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your
                                                  // Constants class
                         new PIDConstants(0.1, 0.0, 0.0), // Translation PID constants
@@ -98,6 +98,10 @@ double driveRadius = Math.sqrt(Math.pow(DRIVETRAIN_TRACKWIDTH_METERS/2, 2) + Mat
         m_frontRight.setDesiredState(swerveModuleStates[1]);
         m_backLeft.setDesiredState(swerveModuleStates[2]);
         m_backRight.setDesiredState(swerveModuleStates[3]);
+    }
+
+    public void autoDriveRobotRelative(ChassisSpeeds speed){
+        driveRobotRelative(new ChassisSpeeds(speed.vyMetersPerSecond, speed.vxMetersPerSecond, speed.omegaRadiansPerSecond));
     }
 
     private final Field2d m_field = new Field2d();
