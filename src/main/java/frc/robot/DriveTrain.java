@@ -2,9 +2,6 @@ package frc.robot;
 
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.Vector;
-import edu.wpi.first.math.controller.HolonomicDriveController;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -14,7 +11,6 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.numbers.N3;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -35,6 +31,7 @@ import com.pathplanner.lib.util.ReplanningConfig;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.lib.RobotInstance;
 
 /**
  * Standard deviations of the vision measurements. Increase these numbers to
@@ -44,7 +41,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  */
 
 public class DriveTrain extends SubsystemBase {
-double driveRadius = Math.sqrt(Math.pow(DRIVETRAIN_TRACKWIDTH_METERS/2, 2) + Math.pow(DRIVETRAIN_WHEELBASE_METERS/2, 2));
+    double driveRadius = Math
+            .sqrt(Math.pow(DRIVETRAIN_TRACKWIDTH_METERS / 2, 2) + Math.pow(DRIVETRAIN_WHEELBASE_METERS / 2, 2));
+
     public DriveTrain() {
         SmartDashboard.putData("Field", m_field);
         AutoBuilder.configureHolonomic(
@@ -75,7 +74,7 @@ double driveRadius = Math.sqrt(Math.pow(DRIVETRAIN_TRACKWIDTH_METERS/2, 2) + Mat
                 this // Reference to this subsystem to set requirements
         );
         // Set up custom logging to add the current path to a field 2d widget
-    PathPlannerLogging.setLogActivePathCallback((poses) -> m_field.getObject("path").setPoses(poses));
+        PathPlannerLogging.setLogActivePathCallback((poses) -> m_field.getObject("path").setPoses(poses));
 
     }
 
@@ -90,7 +89,6 @@ double driveRadius = Math.sqrt(Math.pow(DRIVETRAIN_TRACKWIDTH_METERS/2, 2) + Mat
                         : new ChassisSpeeds(xSpeed, ySpeed, rot));
     }
 
-
     public void driveRobotRelative(ChassisSpeeds speed) {
         var swerveModuleStates = KINEMATICS.toSwerveModuleStates(speed);
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, kMaxSpeed);
@@ -100,8 +98,9 @@ double driveRadius = Math.sqrt(Math.pow(DRIVETRAIN_TRACKWIDTH_METERS/2, 2) + Mat
         m_backRight.setDesiredState(swerveModuleStates[3]);
     }
 
-    public void autoDriveRobotRelative(ChassisSpeeds speed){
-        driveRobotRelative(new ChassisSpeeds(speed.vyMetersPerSecond * -1, speed.vxMetersPerSecond, speed.omegaRadiansPerSecond));
+    public void autoDriveRobotRelative(ChassisSpeeds speed) {
+        driveRobotRelative(
+                new ChassisSpeeds(speed.vyMetersPerSecond * -1, speed.vxMetersPerSecond, speed.omegaRadiansPerSecond));
     }
 
     private final Field2d m_field = new Field2d();
@@ -124,24 +123,38 @@ double driveRadius = Math.sqrt(Math.pow(DRIVETRAIN_TRACKWIDTH_METERS/2, 2) + Mat
             this.drive(xspeed.getAsDouble(), yspeed.getAsDouble(), rot.getAsDouble(), true);
         });
     }
+
     public ChassisSpeeds getSpeeds() {
         return KINEMATICS.toChassisSpeeds(getModuleStates());
-      }
+    }
 
-    public static final double DT_FL_SE_OFFSET = 155.302734375 - 90;
-    //public static final double DT_FL_SE_OFFSET = 38.84765625 - 90;
+    public static final double DT_BL_SE_OFFSET = RobotInstance.config((robot) -> {
+        return switch (robot) {
+            case Robot23 -> 8.96484375 - 90;
+            case Robot24 -> 346.81640625 - 90;
+        };
+    });
 
-    // Steer CANcoder offset front right
-    public static final double DT_FR_SE_OFFSET = 124.98046875 - 90;
-    //public static final double DT_FR_SE_OFFSET = 153.80859375 - 90;
+    public static final double DT_FR_SE_OFFSET = RobotInstance.config((robot) -> {
+        return switch (robot) {
+            case Robot23 -> 124.98046875 - 90;
+            case Robot24 -> 153.80859375 - 90;
+        };
+    });
 
-    // Steer CANcoder offset back left
-    public static final double DT_BL_SE_OFFSET = 8.96484375 - 90;
-    //public static final double DT_BL_SE_OFFSET = 346.81640625 - 90;
+    public static final double DT_FL_SE_OFFSET = RobotInstance.config((robot) -> {
+        return switch (robot) {
+            case Robot23 -> 155.302734375 - 90;
+            case Robot24 -> 38.84765625 - 90;
+        };
+    });
 
-    // Steer CANcoder offset back right
-    public static final double DT_BR_SE_OFFSET = 247.5 - 90;
-    //public static final double DT_BR_SE_OFFSET = 352.705078125 - 90;
+    public static final double DT_BR_SE_OFFSET = RobotInstance.config((robot) -> {
+        return switch (robot) {
+            case Robot23 -> 247.5 - 90;
+            case Robot24 -> 352.705078125 - 90;
+        };
+    });
 
     private final SwerveModule m_frontLeft = new SwerveModule("frontleft", 12, 11, 1, DT_FL_SE_OFFSET);
     private final SwerveModule m_frontRight = new SwerveModule("frontright", 18, 17, 2, DT_FR_SE_OFFSET);
@@ -176,6 +189,7 @@ double driveRadius = Math.sqrt(Math.pow(DRIVETRAIN_TRACKWIDTH_METERS/2, 2) + Mat
                 m_backRight.getPosition()
         };
     }
+
     public SwerveModuleState[] getModuleStates() {
         return new SwerveModuleState[] {
                 m_frontLeft.getState(),
