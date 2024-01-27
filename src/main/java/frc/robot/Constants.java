@@ -37,6 +37,10 @@ public final class Constants {
     public static int id_conv = 9;
   }
 
+  public static class Arm {
+    public static int talon_id = 7;
+  }
+
   public static final class LimelightConfig {
     public static final String LEFT_NAME = "limelight-left";
     public static final String RIGHT_NAME = "limelight-right";
