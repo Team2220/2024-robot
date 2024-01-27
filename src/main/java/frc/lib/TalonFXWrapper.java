@@ -1,5 +1,6 @@
 package frc.lib;
 
+import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 public class TalonFXWrapper {
@@ -20,5 +21,9 @@ public class TalonFXWrapper {
 
     public TalonFX getTalon() {
         return talon;
+    }
+
+    public void setControl(DutyCycleOut dutyLeft) {
+        talon.setControl(dutyLeft);
     }
 }
