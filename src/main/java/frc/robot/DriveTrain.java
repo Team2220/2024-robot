@@ -30,6 +30,7 @@ import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
+import com.pathplanner.lib.util.PathPlannerLogging;
 import com.pathplanner.lib.util.ReplanningConfig;
 
 import edu.wpi.first.wpilibj2.command.Command;
@@ -43,7 +44,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  */
 
 public class DriveTrain extends SubsystemBase {
-
+double driveRadius = Math.sqrt(Math.pow(DRIVETRAIN_TRACKWIDTH_METERS/2, 2) + Math.pow(DRIVETRAIN_WHEELBASE_METERS/2, 2));
     public DriveTrain() {
         SmartDashboard.putData("Field", m_field);
         AutoBuilder.configureHolonomic(
@@ -55,8 +56,8 @@ public class DriveTrain extends SubsystemBase {
                                                  // Constants class
                         new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
                         new PIDConstants(5.0, 0.0, 0.0), // Rotation PID constants
-                        4.5, // Max module speed, in m/s
-                        0.4, // Drive base radius in meters. Distance from robot center to furthest module.
+                        3, // Max module speed, in m/s
+                        driveRadius, // Drive base radius in meters. Distance from robot center to furthest module.
                         new ReplanningConfig() // Default path replanning config. See the API for the options here
                 ),
                 () -> {
@@ -73,6 +74,9 @@ public class DriveTrain extends SubsystemBase {
                 },
                 this // Reference to this subsystem to set requirements
         );
+        // Set up custom logging to add the current path to a field 2d widget
+    PathPlannerLogging.setLogActivePathCallback((poses) -> m_field.getObject("path").setPoses(poses));
+
     }
 
     GenericEntry gyroAngle = Shuffleboard.getTab("swerve").add("gyroAngle", 0).getEntry();
@@ -100,7 +104,7 @@ public class DriveTrain extends SubsystemBase {
     private final Pose2d m_startPose = new Pose2d(0, 0, Rotation2d.fromDegrees(0));
 
     public void resetPose(Pose2d pose) {
-        poseEstimator.resetPosition(getGyroscopeRotation(), getModulePositions(), m_startPose);
+        poseEstimator.resetPosition(getGyroscopeRotation(), getModulePositions(), pose);
     }
 
     public Command zeroCommand() {
@@ -119,20 +123,20 @@ public class DriveTrain extends SubsystemBase {
         return KINEMATICS.toChassisSpeeds(getModuleStates());
       }
 
-    // public static final double DT_FL_SE_OFFSET = 155.302734375 - 90;
-    public static final double DT_FL_SE_OFFSET = 38.84765625 - 90;
+    public static final double DT_FL_SE_OFFSET = 155.302734375 - 90;
+    //public static final double DT_FL_SE_OFFSET = 38.84765625 - 90;
 
     // Steer CANcoder offset front right
-    // public static final double DT_FR_SE_OFFSET = 124.98046875 - 90;
-    public static final double DT_FR_SE_OFFSET = 153.80859375 - 90;
+    public static final double DT_FR_SE_OFFSET = 124.98046875 - 90;
+    //public static final double DT_FR_SE_OFFSET = 153.80859375 - 90;
 
     // Steer CANcoder offset back left
-    // public static final double DT_BL_SE_OFFSET = 8.96484375 - 90;
-    public static final double DT_BL_SE_OFFSET = 346.81640625 - 90;
+    public static final double DT_BL_SE_OFFSET = 8.96484375 - 90;
+    //public static final double DT_BL_SE_OFFSET = 346.81640625 - 90;
 
     // Steer CANcoder offset back right
-    // public static final double DT_BR_SE_OFFSET = 247.5 - 90;
-    public static final double DT_BR_SE_OFFSET = 352.705078125 - 90;
+    public static final double DT_BR_SE_OFFSET = 247.5 - 90;
+    //public static final double DT_BR_SE_OFFSET = 352.705078125 - 90;
 
     private final SwerveModule m_frontLeft = new SwerveModule("frontleft", 12, 11, 1, DT_FL_SE_OFFSET);
     private final SwerveModule m_frontRight = new SwerveModule("frontright", 18, 17, 2, DT_FR_SE_OFFSET);

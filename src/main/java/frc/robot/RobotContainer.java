@@ -77,7 +77,7 @@ public class RobotContainer {
             LedSignal.isDSConnected(),
             // LedSignal.hasTarget(),
             LedSignal.isEndGame(),
-            LedSignal.hasActiveFault(),
+            //LedSignal.hasActiveFault(),
             LedSignal.getLowBatteryLedSignal()
         });
         autoChooser = AutoBuilder.buildAutoChooser();

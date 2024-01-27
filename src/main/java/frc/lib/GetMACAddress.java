@@ -16,8 +16,9 @@ public class GetMACAddress {
             for (int i = 0; i < mac.length; i++) {
                 stringBuilder.append(String.format("%02X%s", mac[i], (i < mac.length - 1) ? "-" : ""));
 
-                System.out.println(stringBuilder.toString());
+                
             }
+            System.out.println(stringBuilder.toString());
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
