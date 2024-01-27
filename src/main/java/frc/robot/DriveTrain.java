@@ -54,8 +54,8 @@ double driveRadius = Math.sqrt(Math.pow(DRIVETRAIN_TRACKWIDTH_METERS/2, 2) + Mat
                 this::autoDriveRobotRelative, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
                 new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your
                                                  // Constants class
-                        new PIDConstants(0.1, 0.0, 0.0), // Translation PID constants
-                        new PIDConstants(0.1, 0.0, 0.0), // Rotation PID constants
+                        new PIDConstants(0.03, 0.0, 0.0), // Translation PID constants
+                        new PIDConstants(0.03, 0.0, 0.0), // Rotation PID constants
                         1, // Max module speed, in m/s
                         driveRadius, // Drive base radius in meters. Distance from robot center to furthest module.
                         new ReplanningConfig() // Default path replanning config. See the API for the options here
@@ -101,7 +101,7 @@ double driveRadius = Math.sqrt(Math.pow(DRIVETRAIN_TRACKWIDTH_METERS/2, 2) + Mat
     }
 
     public void autoDriveRobotRelative(ChassisSpeeds speed){
-        driveRobotRelative(new ChassisSpeeds(speed.vyMetersPerSecond, speed.vxMetersPerSecond, speed.omegaRadiansPerSecond));
+        driveRobotRelative(new ChassisSpeeds(speed.vyMetersPerSecond * -1, speed.vxMetersPerSecond, speed.omegaRadiansPerSecond));
     }
 
     private final Field2d m_field = new Field2d();
