@@ -2,24 +2,26 @@ package frc.lib;
 
 import java.util.function.DoubleSupplier;
 
-import edu.wpi.first.wpilibj2.command.Command;
+import com.ctre.phoenix6.controls.DutyCycleOut;
 
-public class Intake {
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+
+public class Intake extends SubsystemBase {
     TalonFXWrapper intake;
     TalonFXWrapper conveyor;
 
     public Intake() {
-        intake = new TalonFXWrapper(0, null);
-        conveyor = new TalonFXWrapper(0, null);
+        intake = new TalonFXWrapper(Constants.Intake.id_intake, null);
+        conveyor = new TalonFXWrapper(Constants.Intake.id_conv, null);
     }
 
-    public Command dutyCycleCommand(DoubleSupplier leftSpeed, DoubleSupplier rightSpeed) {
-        this.run(() -> {
-            SetControlDutyCycle duty = new SetControlDutyCycle();
-            left.setControl(DutyCycle);
-            right.setControl(DutyCycle);
+    public Command dutyCycleCommand(DoubleSupplier speed) {
+        return this.run(() -> {
+            DutyCycleOut duty = new DutyCycleOut(speed.getAsDouble());
+            intake.setControl(duty);
+            conveyor.setControl(duty);
         });
-        return null;
-
     }
 }
