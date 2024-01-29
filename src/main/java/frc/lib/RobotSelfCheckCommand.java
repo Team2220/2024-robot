@@ -6,5 +6,5 @@ public class RobotSelfCheckCommand extends SequentialCommandGroup{
     public RobotSelfCheckCommand(CheckableSubsystem[] subsystems){
 
     }
-
+    public boolean anyFailed = false;
 }
