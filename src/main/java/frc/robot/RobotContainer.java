@@ -5,10 +5,14 @@
 package frc.robot;
 
 import java.util.List;
+
+import frc.lib.Arm;
 import frc.lib.CommandChooser;
 import frc.lib.CommandXBoxWrapper;
+import frc.lib.Intake;
 // import frc.lib.GetMACAddress;
 import frc.lib.PDHLogPowerFaults;
+import frc.lib.Shooter;
 import frc.lib.leds.LEDs;
 import frc.lib.leds.LedSegment;
 import frc.lib.leds.LedSignal;
@@ -46,13 +50,13 @@ public class RobotContainer {
   public static final DriverTab drivertab = new DriverTab();
   private final SendableChooser<Command> autoChooser;
 
-  
-
-  
-
   private final CommandXBoxWrapper m_driverController = new CommandXBoxWrapper(OperatorConstants.kDriverControllerPort);
-  private final CommandXBoxWrapper m_codriverController = new CommandXBoxWrapper(OperatorConstants.kDriverControllerPort);
+  private final CommandXBoxWrapper m_codriverController = new CommandXBoxWrapper(
+      OperatorConstants.kDriverControllerPort);
 
+  private final Shooter shooter = new Shooter();
+  private final Arm arm = new Arm();
+  private final Intake intake = new Intake();
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -62,6 +66,21 @@ public class RobotContainer {
     // GetMACAddress.main();
     // Configure the trigger bindings
     configureBindings();
+
+    shooter.setDefaultCommand(shooter.dutyCycleCommand(() -> {
+      return m_driverController.getLeftTriggerAxis(0);
+    }, () -> {
+      return m_driverController.getRightTriggerAxis(0);
+    }));
+
+    intake.setDefaultCommand(intake.dutyCycleCommand(() -> {
+      return m_driverController.getLeftY(0);
+    }));
+
+    arm.setDefaultCommand(arm.dutyCycleCommand(() -> {
+      return m_driverController.getRightY(0);
+    }));
+
     driveTrain.setDefaultCommand(driveTrain.driveCommand(() -> {
       return m_driverController.getLeftX(0.1);
     }, () -> {
@@ -77,15 +96,15 @@ public class RobotContainer {
             LedSignal.isDSConnected(),
             // LedSignal.hasTarget(),
             LedSignal.isEndGame(),
-            //LedSignal.hasActiveFault(),
+            // LedSignal.hasActiveFault(),
             LedSignal.getLowBatteryLedSignal()
         });
-        autoChooser = AutoBuilder.buildAutoChooser();
+    autoChooser = AutoBuilder.buildAutoChooser();
 
-        // Another option that allows you to specify the default auto by its name
-        // autoChooser = AutoBuilder.buildAutoChooser("My Default Auto");
+    // Another option that allows you to specify the default auto by its name
+    // autoChooser = AutoBuilder.buildAutoChooser("My Default Auto");
 
-        SmartDashboard.putData("Auto Chooser", autoChooser);
+    SmartDashboard.putData("Auto Chooser", autoChooser);
   }
 
   /**
