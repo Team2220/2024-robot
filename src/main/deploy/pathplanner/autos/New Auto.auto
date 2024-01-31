@@ -2,10 +2,17 @@
   "version": 1.0,
   "startingPose": {
     "position": {
+<<<<<<< Updated upstream
       "x": 7.244094488188977,
       "y": 7.351051793012677
     },
     "rotation": 0
+=======
+      "x": 1.4497508694265515,
+      "y": 3.5182698936826453
+    },
+    "rotation": 90.0
+>>>>>>> Stashed changes
   },
   "command": {
     "type": "sequential",
@@ -14,7 +21,11 @@
         {
           "type": "path",
           "data": {
+<<<<<<< Updated upstream
             "pathName": "Auto test"
+=======
+            "pathName": "New Path"
+>>>>>>> Stashed changes
           }
         }
       ]
