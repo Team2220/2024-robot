@@ -7,10 +7,12 @@ import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 
-public class TalonOrchestra {
-    Orchestra orchestra = new Orchestra();
 
-    public Command playMusicCommand() {
+
+public class TalonOrchestra {
+    static Orchestra orchestra = new Orchestra();
+
+    public static Command playMusicCommand() {
         return Commands.runOnce(() -> {
             orchestra.clearInstruments();
             for (TalonFX talon : TalonFXRegistry.getTalonFXs()) {
