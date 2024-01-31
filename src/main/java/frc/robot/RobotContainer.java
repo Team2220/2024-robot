@@ -12,7 +12,11 @@ import frc.lib.CommandXBoxWrapper;
 import frc.lib.Intake;
 // import frc.lib.GetMACAddress;
 import frc.lib.PDHLogPowerFaults;
+<<<<<<< Updated upstream
 import frc.lib.Shooter;
+=======
+import frc.lib.TalonOrchestra;
+>>>>>>> Stashed changes
 import frc.lib.leds.LEDs;
 import frc.lib.leds.LedSegment;
 import frc.lib.leds.LedSignal;
@@ -50,6 +54,7 @@ public class RobotContainer {
   public static final DriverTab drivertab = new DriverTab();
   private final SendableChooser<Command> autoChooser;
 
+<<<<<<< Updated upstream
   private final CommandXBoxWrapper m_driverController = new CommandXBoxWrapper(OperatorConstants.kDriverControllerPort);
   private final CommandXBoxWrapper m_codriverController = new CommandXBoxWrapper(
       OperatorConstants.kDriverControllerPort);
@@ -57,6 +62,37 @@ public class RobotContainer {
   private final Shooter shooter = new Shooter();
   private final Arm arm = new Arm();
   private final Intake intake = new Intake();
+=======
+  // Replace with CommandPS4Controller or CommandJoystick if needed
+  private final CommandXboxController m_driverController =
+      new CommandXboxController(OperatorConstants.kDriverControllerPort);
+      /** The container for the robot. Contains subsystems, OI devices, and commands. */
+  public RobotContainer() {
+    //PDHLogPowerFaults.setPdh(m_PowerDistribution);
+    // Configure the trigger bindings
+    leds = new LEDs(
+                        new LedSegment[] {new LedSegment(left), new LedSegment(right)}, 
+                        new LedSignal[] {
+                                LedSignal.isBrownedOut(),
+                                LedSignal.isDSConnected(),
+                                // LedSignal.hasTarget(),
+                                LedSignal.isEndGame(),
+                                LedSignal.hasActiveFault(),
+                                LedSignal.getLowBatteryLedSignal(),
+                                LedSignal.previouslyHadFault(),      
+                        });
+    configureBindings();
+    // driveTrain.setDefaultCommand(driveTrain.driveCommand(() -> {
+    //   return MathUtil.applyDeadband(m_driverController.getLeftX(), 0.1);      
+    // }, () -> {
+    //   return MathUtil.applyDeadband(m_driverController.getLeftY() * -1, 0.1);
+    // }, () -> {
+    //   return MathUtil.applyDeadband(m_driverController.getRightX(), 0.1);
+
+    // }));
+  }
+  
+>>>>>>> Stashed changes
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -125,8 +161,13 @@ public class RobotContainer {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     m_driverController.a().onTrue(driveTrain.zeroCommand());
     m_driverController.x().whileTrue((driveTrain.xcommand()));
+<<<<<<< Updated upstream
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is
     // pressed,
+=======
+    m_driverController.y().onTrue(TalonOrchestra.playMusicCommand());
+    // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
+>>>>>>> Stashed changes
     // cancelling on release.
   }
 
