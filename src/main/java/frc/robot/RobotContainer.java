@@ -6,17 +6,17 @@ package frc.robot;
 
 import java.util.List;
 
-import frc.lib.Arm;
 import frc.lib.CommandChooser;
 import frc.lib.CommandXBoxWrapper;
-import frc.lib.Intake;
 // import frc.lib.GetMACAddress;
 import frc.lib.PDHLogPowerFaults;
-import frc.lib.Shooter;
 import frc.lib.leds.LEDs;
 import frc.lib.leds.LedSegment;
 import frc.lib.leds.LedSignal;
 import frc.robot.Constants.OperatorConstants;
+import frc.subsystems.Arm;
+import frc.subsystems.Intake;
+import frc.subsystems.Shooter;
 
 import com.ctre.phoenix.led.CANdle;
 import com.ctre.phoenix.led.StrobeAnimation;
