@@ -8,10 +8,12 @@ public class RobotSelfCheckCommand extends SequentialCommandGroup{
         var commands = subsystem.getCheckCommands();
         for (CheckCommand command : commands){
             addCommands(command.finallyDo((interrupted)->{
-
+            if (interrupted) {
+                anyFailed = true;
+            }
             }));
         }
     }
     }
-    public boolean anyFailed = true;
+    public boolean anyFailed = false;
 }
