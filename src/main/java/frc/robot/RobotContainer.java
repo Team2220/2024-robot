@@ -14,9 +14,9 @@ import frc.lib.leds.LEDs;
 import frc.lib.leds.LedSegment;
 import frc.lib.leds.LedSignal;
 import frc.robot.Constants.OperatorConstants;
-import frc.subsystems.Arm;
-import frc.subsystems.Intake;
-import frc.subsystems.Shooter;
+import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Shooter;
 
 import com.ctre.phoenix.led.CANdle;
 import com.ctre.phoenix.led.StrobeAnimation;
@@ -84,7 +84,7 @@ public class RobotContainer {
     driveTrain.setDefaultCommand(driveTrain.driveCommand(() -> {
       return m_driverController.getLeftX(0.1);
     }, () -> {
-      return m_driverController.getLeftY(.1) * -1;
+      return m_driverController.getLeftY(.1);
     }, () -> {
       return m_driverController.getRightX(.1);
     }));
