@@ -6,18 +6,19 @@ package frc.robot;
 
 import java.util.List;
 
-import frc.lib.Arm;
 import frc.lib.CommandChooser;
 import frc.lib.CommandXBoxWrapper;
-import frc.lib.Intake;
 // import frc.lib.GetMACAddress;
 import frc.lib.PDHLogPowerFaults;
-import frc.lib.Shooter;
+// import frc.lib.Shooter;
 import frc.lib.TalonOrchestra;
 import frc.lib.leds.LEDs;
 import frc.lib.leds.LedSegment;
 import frc.lib.leds.LedSignal;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Shooter;
 
 import com.ctre.phoenix.led.CANdle;
 import com.ctre.phoenix.led.StrobeAnimation;
@@ -55,9 +56,9 @@ public class RobotContainer {
   private final CommandXBoxWrapper m_codriverController = new CommandXBoxWrapper(
       OperatorConstants.kDriverControllerPort);
 
-  private final Shooter shooter = new Shooter();
-  private final Arm arm = new Arm();
-  private final Intake intake = new Intake();
+  // private final Shooter shooter = new Shooter();
+  // private final Arm arm = new Arm();
+  // private final Intake intake = new Intake();
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -68,24 +69,24 @@ public class RobotContainer {
     // Configure the trigger bindings
     configureBindings();
 
-    shooter.setDefaultCommand(shooter.dutyCycleCommand(() -> {
-      return m_driverController.getLeftTriggerAxis(0);
-    }, () -> {
-      return m_driverController.getRightTriggerAxis(0);
-    }));
+    // shooter.setDefaultCommand(shooter.dutyCycleCommand(() -> {
+    // return m_driverController.getLeftTriggerAxis(0);
+    // }, () -> {
+    // return m_driverController.getRightTriggerAxis(0);
+    // }));
 
-    intake.setDefaultCommand(intake.dutyCycleCommand(() -> {
-      return m_driverController.getLeftY(0);
-    }));
+    // intake.setDefaultCommand(intake.dutyCycleCommand(() -> {
+    // return m_driverController.getLeftY(0);
+    // }));
 
-    arm.setDefaultCommand(arm.dutyCycleCommand(() -> {
-      return m_driverController.getRightY(0);
-    }));
+    // arm.setDefaultCommand(arm.dutyCycleCommand(() -> {
+    // return m_driverController.getRightY(0);
+    // }));
 
     driveTrain.setDefaultCommand(driveTrain.driveCommand(() -> {
       return m_driverController.getLeftX(0.1);
     }, () -> {
-      return m_driverController.getLeftY(.1) * -1;
+      return m_driverController.getLeftY(.1);
     }, () -> {
       return m_driverController.getRightX(.1);
     }));
@@ -127,7 +128,8 @@ public class RobotContainer {
     m_driverController.a().onTrue(driveTrain.zeroCommand());
     m_driverController.x().whileTrue((driveTrain.xcommand()));
     m_driverController.y().onTrue(TalonOrchestra.playMusicCommand());
-    // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
+    // Schedule `exampleMethodCommand` when the Xbox controller's B button is
+    // pressed,
     // cancelling on release.
   }
 

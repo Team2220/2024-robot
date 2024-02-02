@@ -41,6 +41,7 @@ import frc.lib.RobotInstance;
  */
 
 public class DriveTrain extends SubsystemBase {
+
     double driveRadius = Math
             .sqrt(Math.pow(DRIVETRAIN_TRACKWIDTH_METERS / 2, 2) + Math.pow(DRIVETRAIN_WHEELBASE_METERS / 2, 2));
 
@@ -55,7 +56,7 @@ public class DriveTrain extends SubsystemBase {
                                                  // Constants class
                         new PIDConstants(0.3, 0.0, 0.025456738383963862983267), // Translation PID constants
                         new PIDConstants(0.3, 0.0, 0.025621832482875328792385), // Rotation PID constants
-                        3, // Max module speed, in m/s
+                        MAX_VELOCITY_METERS_PER_SECOND, // Max module speed, in m/s
                         driveRadius, // Drive base radius in meters. Distance from robot center to furthest module.
                         new ReplanningConfig() // Default path replanning config. See the API for the options here
                 ),
@@ -234,6 +235,27 @@ public class DriveTrain extends SubsystemBase {
             m_startPose,
             stateStdDevs,
             visionMeasurementStdDevs);
+
+    /**
+     * The maximum velocity of the robot in meters per second.
+     * <p>
+     * This is a measure of how fast the robot should be able to drive in a straight
+     * line.
+     */
+    public static final double MAX_VELOCITY_METERS_PER_SECOND = 6380.0 / 60.0 * SwerveModule.DT_DRIVE_GEAR_RATIO
+            * SwerveModule.DT_WHEEL_DIAMETER * Math.PI;
+    // ModuleConfiguration.MK4I_L2.getDriveReduction() *
+    // ModuleConfiguration.MK4I_L2.getWheelDiameter() * PI;
+
+    /**
+     * The maximum angular velocity of the robot in radians per second.
+     * <p>
+     * This is a measure of how fast the robot can rotate in place.
+     */
+    // Here we calculate the theoretical maximum angular velocity. You can also
+    // replace this with a measured amount.
+    public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = (MAX_VELOCITY_METERS_PER_SECOND /
+            Math.hypot(DRIVETRAIN_TRACKWIDTH_METERS / 2.0, DRIVETRAIN_WHEELBASE_METERS / 2.0));
 
     public Command xcommand() {
         return this.run(() -> {

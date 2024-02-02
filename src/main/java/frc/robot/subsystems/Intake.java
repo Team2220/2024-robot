@@ -1,4 +1,4 @@
-package frc.lib;
+package frc.robot.subsystems;
 
 import java.util.function.DoubleSupplier;
 
@@ -6,6 +6,7 @@ import com.ctre.phoenix6.controls.DutyCycleOut;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.lib.TalonFXWrapper;
 import frc.robot.Constants;
 
 public class Intake extends SubsystemBase {
