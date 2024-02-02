@@ -257,4 +257,10 @@ public class SwerveModule {
     end += 360 * angleRevo;
     return end;
   }
+  public TalonFX getM_driveMotor() {
+      return m_driveMotor;
+  }
+  public TalonFX getM_turningMotor() {
+      return m_turningMotor;
+  }
 }
