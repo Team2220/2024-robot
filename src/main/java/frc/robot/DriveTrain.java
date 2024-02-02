@@ -20,8 +20,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import static edu.wpi.first.math.util.Units.inchesToMeters;
 
+import java.lang.reflect.Field;
 import java.util.function.DoubleSupplier;
 
+import com.ctre.phoenix6.hardware.TalonFX;
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
@@ -32,6 +34,7 @@ import com.pathplanner.lib.util.ReplanningConfig;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.RobotInstance;
+import frc.lib.TalonFXSubsystem;
 
 /**
  * Standard deviations of the vision measurements. Increase these numbers to
@@ -40,13 +43,13 @@ import frc.lib.RobotInstance;
  * radians.
  */
 
-public class DriveTrain extends SubsystemBase {
+public class DriveTrain extends SubsystemBase implements TalonFXSubsystem{
 
     double driveRadius = Math
             .sqrt(Math.pow(DRIVETRAIN_TRACKWIDTH_METERS / 2, 2) + Math.pow(DRIVETRAIN_WHEELBASE_METERS / 2, 2));
 
     public DriveTrain() {
-        SmartDashboard.putData("Field", m_field);
+        Shuffleboard.getTab("field").add("Field", m_field);
         AutoBuilder.configureHolonomic(
                 this::getPose, // Robot pose supplier
                 this::resetPose, // Method to reset odometry (will be called if your auto has a starting pose)
@@ -121,7 +124,10 @@ public class DriveTrain extends SubsystemBase {
 
     public Command driveCommand(DoubleSupplier xspeed, DoubleSupplier yspeed, DoubleSupplier rot) {
         return this.run(() -> {
-            this.drive(xspeed.getAsDouble(), yspeed.getAsDouble(), rot.getAsDouble(), true);
+            this.drive(
+                    xspeed.getAsDouble() * MAX_VELOCITY_METERS_PER_SECOND,
+                    yspeed.getAsDouble() * MAX_VELOCITY_METERS_PER_SECOND * -1,
+                    rot.getAsDouble() * MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND / 2.0, true);
         });
     }
 
@@ -264,5 +270,19 @@ public class DriveTrain extends SubsystemBase {
             m_backRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(135)));
             m_frontRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
         });
+    }
+
+    @Override
+    public TalonFX[] getTalonFXs() {
+        return new TalonFX[]{
+            m_backLeft.getM_driveMotor(),
+            m_backLeft.getM_turningMotor(),
+            m_frontLeft.getM_driveMotor(),
+            m_frontLeft.getM_turningMotor(),
+            m_backRight.getM_driveMotor(),
+            m_backRight.getM_turningMotor(),
+            m_frontRight.getM_driveMotor(),
+            m_frontRight.getM_turningMotor(),
+        };
     }
 }
