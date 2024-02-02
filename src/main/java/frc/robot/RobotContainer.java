@@ -10,7 +10,6 @@ import frc.lib.CommandChooser;
 import frc.lib.CommandXBoxWrapper;
 // import frc.lib.GetMACAddress;
 import frc.lib.PDHLogPowerFaults;
-// import frc.lib.Shooter;
 import frc.lib.TalonOrchestra;
 import frc.lib.leds.LEDs;
 import frc.lib.leds.LedSegment;
@@ -127,7 +126,7 @@ public class RobotContainer {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     m_driverController.a().onTrue(driveTrain.zeroCommand());
     m_driverController.x().whileTrue((driveTrain.xcommand()));
-    m_driverController.y().onTrue(TalonOrchestra.playMusicCommand());
+    m_driverController.y().onTrue(new TalonOrchestra());
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is
     // pressed,
     // cancelling on release.
