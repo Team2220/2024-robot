@@ -64,6 +64,8 @@ public class SwerveModule {
     this.offset = offset;
     m_driveMotor = new TalonFX(driveMotorChannel);
     m_turningMotor = new TalonFX(turningMotorChannel);
+    TalonFXRegistry.register(m_driveMotor);
+    TalonFXRegistry.register(m_turningMotor);
 
     m_turningEncoder = new PWMEncoder(turningEncoderChannelA);
     speed = Shuffleboard.getTab("swerve").add(name + " speed", 0).getEntry();
