@@ -10,7 +10,6 @@ import frc.lib.CommandChooser;
 import frc.lib.CommandXBoxWrapper;
 // import frc.lib.GetMACAddress;
 import frc.lib.PDHLogPowerFaults;
-import frc.lib.Shooter;
 import frc.lib.TalonOrchestra;
 import frc.lib.leds.LEDs;
 import frc.lib.leds.LedSegment;
