@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import static edu.wpi.first.math.util.Units.inchesToMeters;
 
+import java.lang.reflect.Field;
 import java.util.function.DoubleSupplier;
 
 import com.kauailabs.navx.frc.AHRS;
@@ -46,7 +47,7 @@ public class DriveTrain extends SubsystemBase {
             .sqrt(Math.pow(DRIVETRAIN_TRACKWIDTH_METERS / 2, 2) + Math.pow(DRIVETRAIN_WHEELBASE_METERS / 2, 2));
 
     public DriveTrain() {
-        SmartDashboard.putData("Field", m_field);
+        Shuffleboard.getTab("field").add("Field", m_field);
         AutoBuilder.configureHolonomic(
                 this::getPose, // Robot pose supplier
                 this::resetPose, // Method to reset odometry (will be called if your auto has a starting pose)
@@ -123,7 +124,7 @@ public class DriveTrain extends SubsystemBase {
         return this.run(() -> {
             this.drive(
                     xspeed.getAsDouble() * MAX_VELOCITY_METERS_PER_SECOND,
-                    yspeed.getAsDouble() * MAX_VELOCITY_METERS_PER_SECOND,
+                    yspeed.getAsDouble() * MAX_VELOCITY_METERS_PER_SECOND * -1,
                     rot.getAsDouble() * MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND / 2.0, true);
         });
     }
