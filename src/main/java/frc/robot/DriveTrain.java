@@ -121,7 +121,10 @@ public class DriveTrain extends SubsystemBase {
 
     public Command driveCommand(DoubleSupplier xspeed, DoubleSupplier yspeed, DoubleSupplier rot) {
         return this.run(() -> {
-            this.drive(xspeed.getAsDouble(), yspeed.getAsDouble(), rot.getAsDouble(), true);
+            this.drive(
+                    xspeed.getAsDouble() * MAX_VELOCITY_METERS_PER_SECOND,
+                    yspeed.getAsDouble() * MAX_VELOCITY_METERS_PER_SECOND,
+                    rot.getAsDouble() * MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND / 2.0, true);
         });
     }
 
