@@ -1,6 +1,7 @@
 package frc.lib;
 
 import edu.wpi.first.wpilibj.DataLogManager;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class RobotSelfCheckCommand extends SequentialCommandGroup {
@@ -14,8 +15,13 @@ public class RobotSelfCheckCommand extends SequentialCommandGroup {
 
                     DataLogManager.log(command.getName() + "  " + subsystem.getName());
                 }).withTimeout(command.getTimeoutSeconds()));
+                
             }
         }
+        addCommands(Commands.runOnce(()->{
+            DataLogManager.log("anyFailed="+ anyFailed);
+
+        }));
     }
 
     public boolean anyFailed = false;
