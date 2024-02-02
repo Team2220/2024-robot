@@ -6,10 +6,12 @@ import com.ctre.phoenix6.controls.DutyCycleOut;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.lib.CheckCommand;
+import frc.lib.CheckableSubsystem;
 import frc.lib.TalonFXWrapper;
 import frc.robot.Constants;
 
-public class Arm extends SubsystemBase {
+public class Arm extends SubsystemBase implements CheckableSubsystem {
     TalonFXWrapper talon;
 
     public Arm() {
@@ -22,5 +24,10 @@ public class Arm extends SubsystemBase {
             talon.setControl(duty);
 
         });
+    }
+
+    @Override
+    public CheckCommand[] getCheckCommands() {
+        return new CheckCommand[]{};
     }
 }
