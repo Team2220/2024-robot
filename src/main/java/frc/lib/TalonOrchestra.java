@@ -11,6 +11,7 @@ public class TalonOrchestra extends Command {
     Orchestra orchestra = new Orchestra();
 
     public TalonOrchestra(TalonFXSubsystem... subsystems) {
+        addRequirements(subsystems);
         for (TalonFXSubsystem subsystem : subsystems) {
 
             for (TalonFX talon : subsystem.getTalonFXs()) {
