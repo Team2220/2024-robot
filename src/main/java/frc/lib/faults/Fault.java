@@ -55,8 +55,8 @@ public final class Fault {
     }
 
     public static void setupDefaultFaults() {
-        autoUpdating("canBusUtilization", () -> {
-            return RobotController.getCANStatus().percentBusUtilization > 0.8;
-        });
+        // autoUpdating("canBusUtilization", () -> {
+        //     return RobotController.getCANStatus().percentBusUtilization > 0.8;
+        // });
     }
 }
