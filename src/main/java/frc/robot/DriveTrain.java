@@ -23,7 +23,6 @@ import static edu.wpi.first.math.util.Units.inchesToMeters;
 import java.lang.reflect.Field;
 import java.util.function.DoubleSupplier;
 
-import com.ctre.phoenix6.hardware.TalonFX;
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
@@ -33,10 +32,7 @@ import com.pathplanner.lib.util.ReplanningConfig;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.lib.CheckCommand;
-import frc.lib.CheckableSubsystem;
 import frc.lib.RobotInstance;
-import frc.lib.TalonFXSubsystem;
 
 /**
  * Standard deviations of the vision measurements. Increase these numbers to
@@ -45,7 +41,7 @@ import frc.lib.TalonFXSubsystem;
  * radians.
  */
 
-public class DriveTrain extends SubsystemBase implements TalonFXSubsystem,CheckableSubsystem{
+public class DriveTrain extends SubsystemBase {
 
     double driveRadius = Math
             .sqrt(Math.pow(DRIVETRAIN_TRACKWIDTH_METERS / 2, 2) + Math.pow(DRIVETRAIN_WHEELBASE_METERS / 2, 2));
@@ -61,7 +57,7 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem,Checka
                                                  // Constants class
                         new PIDConstants(0.3, 0.0, 0.025456738383963862983267), // Translation PID constants
                         new PIDConstants(0.3, 0.0, 0.025621832482875328792385), // Rotation PID constants
-                        MAX_VELOCITY_METERS_PER_SECOND, // Max module speed, in m/s
+                        1.0, // Max module speed, in m/s
                         driveRadius, // Drive base radius in meters. Distance from robot center to furthest module.
                         new ReplanningConfig() // Default path replanning config. See the API for the options here
                 ),
@@ -80,13 +76,17 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem,Checka
                 this // Reference to this subsystem to set requirements
         );
         // Set up custom logging to add the current path to a field 2d widget
-        PathPlannerLogging.setLogActivePathCallback((poses) -> m_field.getObject("path").setPoses(poses));
-
+        PathPlannerLogging.setLogActivePathCallback((poses) -> {
+            m_field.getObject("path").setPoses(poses);
+            for (Pose2d pose : poses) {
+                System.out.println(pose);
+            }
+        });
     }
 
     GenericEntry gyroAngle = Shuffleboard.getTab("swerve").add("gyroAngle", 0).getEntry();
     public static final double kMaxAngularSpeed = Math.PI; // 1/2 rotation per second
-    public static final double kMaxSpeed = 3.0; // 3 meters per second
+    public static final double kMaxSpeed = 1; // 3 meters per second
 
     public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
         driveRobotRelative(
@@ -272,24 +272,5 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem,Checka
             m_backRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(135)));
             m_frontRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
         });
-    }
-
-    @Override
-    public TalonFX[] getTalonFXs() {
-        return new TalonFX[]{
-            m_backLeft.getM_driveMotor(),
-            m_backLeft.getM_turningMotor(),
-            m_frontLeft.getM_driveMotor(),
-            m_frontLeft.getM_turningMotor(),
-            m_backRight.getM_driveMotor(),
-            m_backRight.getM_turningMotor(),
-            m_frontRight.getM_driveMotor(),
-            m_frontRight.getM_turningMotor(),
-        };
-    }
-
-    @Override
-    public CheckCommand[] getCheckCommands() {
-        return new CheckCommand[]{};
     }
 }
