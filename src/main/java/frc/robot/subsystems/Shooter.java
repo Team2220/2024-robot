@@ -63,8 +63,8 @@ public class Shooter extends SubsystemBase implements CheckableSubsystem{
 
     public Command velocityCommand(double leftSpeed, double rightSpeed) {
         return this.run(() -> {
-            pid_controller_left.setReference(leftSpeed, CANSparkMax.ControlType.kSmartVelocity);
-            pid_controller_right.setReference(rightSpeed, CANSparkMax.ControlType.kSmartVelocity);
+            pid_controller_left.setReference(leftSpeed * Constants.Shooter.gear_ratio, CANSparkMax.ControlType.kSmartVelocity);
+            pid_controller_right.setReference(rightSpeed * Constants.Shooter.gear_ratio, CANSparkMax.ControlType.kSmartVelocity);
         }).finallyDo(() -> {
             pid_controller_left.setReference(0, CANSparkMax.ControlType.kSmartVelocity);
             pid_controller_right.setReference(0, CANSparkMax.ControlType.kSmartVelocity);

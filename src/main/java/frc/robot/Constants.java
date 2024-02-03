@@ -30,6 +30,7 @@ public final class Constants {
   public static class Shooter {
     public static int id_left = 10;
     public static int id_right = 11;
+    public static double gear_ratio = 30.0/18.0;
   }
 
   public static class Intake {
