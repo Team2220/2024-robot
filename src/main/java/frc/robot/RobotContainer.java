@@ -25,6 +25,8 @@ import com.ctre.phoenix.led.StrobeAnimation;
 import com.pathplanner.lib.auto.AutoBuilder;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -64,6 +66,7 @@ public class RobotContainer {
    */
   public RobotContainer() {
     PDHLogPowerFaults.setPdh(m_PowerDistribution);
+    Shuffleboard.getTab("can").addDouble("can utilization", () -> RobotController.getCANStatus().percentBusUtilization);
     // GetMACAddress.main();
     // Configure the trigger bindings
     configureBindings();
@@ -152,8 +155,8 @@ m_operatorController.a().onTrue(Commands.runOnce(m_arm::setZero, m_arm));
     return autoChooser.getSelected();
   }
 
-  public void getTestCommand() {
-    // return new RobotSelfCheckCommand(driveTrain);
+  public Command getTestCommand() {
+    return new RobotSelfCheckCommand(driveTrain);
   }
 }
 
