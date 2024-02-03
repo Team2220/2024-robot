@@ -107,17 +107,17 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {}
 
-  @Override
-  public void testInit() {
-    // Cancels all running commands at the start of test mode.
-    CommandScheduler.getInstance().cancelAll();
-    m_testCommand = m_robotContainer.getTestCommand();
+  // @Override
+  // public void testInit() {
+  //   // Cancels all running commands at the start of test mode.
+  //   CommandScheduler.getInstance().cancelAll();
+  //   m_testCommand = m_robotContainer.getTestCommand();
 
-    // schedule the autonomous command (example)
-    if (m_testCommand != null) {
-      m_testCommand.schedule();
-    }
-  }
+  //   // schedule the autonomous command (example)
+  //   if (m_testCommand != null) {
+  //     m_testCommand.schedule();
+  //   }
+  // }
 
   /** This function is called periodically during test mode. */
   @Override
