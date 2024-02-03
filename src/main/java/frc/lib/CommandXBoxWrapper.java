@@ -1,5 +1,7 @@
 package frc.lib;
 
+import static edu.wpi.first.math.util.Units.rotationsPerMinuteToRadiansPerSecond;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.event.EventLoop;
@@ -434,8 +436,12 @@ public class CommandXBoxWrapper {
         return MathUtil.applyDeadband(xbox.getRightTriggerAxis(), deadBand);
     }
 
-    public Object getAButton() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAButton'");
+    public Trigger joysticksTrigger(double deadBand) {
+        return new Trigger(()->{
+            return getLeftX(deadBand)>0
+            || getLeftY(deadBand)>0 
+            || getRightX(deadBand)>0 
+            || getRightY(deadBand)>0;
+        });
     }
 }

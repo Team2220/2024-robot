@@ -88,14 +88,15 @@ m_arm.setDefaultCommand(Commands.run(()->{
 
 m_operatorController.a().onTrue(Commands.runOnce(m_arm::setZero, m_arm));
   
-  
-    driveTrain.setDefaultCommand(driveTrain.driveCommand(() -> {
+    var driveCommand = driveTrain.driveCommand(() -> {
       return m_driverController.getLeftX(0.1);
     }, () -> {
       return m_driverController.getLeftY(.1);
     }, () -> {
       return m_driverController.getRightX(.1);
-    }));
+    });
+    driveTrain.setDefaultCommand(driveCommand);
+    m_driverController.joysticksTrigger(.1).onTrue(driveCommand);
 
     m_leds = new LEDs(
         new LedSegment[] { new LedSegment(left), new LedSegment(right) },
