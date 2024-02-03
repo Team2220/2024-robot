@@ -40,7 +40,7 @@ public class InstallAlert {
                 }
             }
         } else {
-            System.out.println("Shuffleboard Alerts Exists Already!");
+            System.out.println("You Have Already Downloaded Shuffleboard Alerts!");
         }
     }
 }
