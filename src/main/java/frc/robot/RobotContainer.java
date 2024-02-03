@@ -28,6 +28,7 @@ import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -51,13 +52,11 @@ public class RobotContainer {
   @SuppressWarnings("unused")
   public static final DriverTab drivertab = new DriverTab();
   private final SendableChooser<Command> autoChooser;
-
   private final CommandXBoxWrapper m_driverController = new CommandXBoxWrapper(OperatorConstants.kDriverControllerPort);
-  private final CommandXBoxWrapper m_codriverController = new CommandXBoxWrapper(
-      OperatorConstants.kDriverControllerPort);
+  private final CommandXBoxWrapper m_operatorController = new CommandXBoxWrapper(OperatorConstants.kOperatorControllerPort);
 
   // private final Shooter shooter = new Shooter();
-  // private final Arm arm = new Arm();
+   private final Arm m_arm = new Arm();
   // private final Intake intake = new Intake();
 
   /**
@@ -82,7 +81,14 @@ public class RobotContainer {
     // arm.setDefaultCommand(arm.dutyCycleCommand(() -> {
     // return m_driverController.getRightY(0);
     // }));
+m_arm.setDefaultCommand(Commands.run(()->{
+      m_arm.setPosition(m_operatorController.getLeftY(0.1)*90);
+    }, m_arm));
+    
 
+m_operatorController.a().onTrue(Commands.runOnce(m_arm::setZero, m_arm));
+  
+  
     driveTrain.setDefaultCommand(driveTrain.driveCommand(() -> {
       return m_driverController.getLeftX(0.1);
     }, () -> {
@@ -105,6 +111,8 @@ public class RobotContainer {
 
     // Another option that allows you to specify the default auto by its name
     // autoChooser = AutoBuilder.buildAutoChooser("My Default Auto");
+
+
 
     SmartDashboard.putData("Auto Chooser", autoChooser);
   }

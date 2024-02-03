@@ -433,4 +433,9 @@ public class CommandXBoxWrapper {
     public double getRightTriggerAxis(double deadBand) {
         return MathUtil.applyDeadband(xbox.getRightTriggerAxis(), deadBand);
     }
+
+    public Object getAButton() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getAButton'");
+    }
 }
