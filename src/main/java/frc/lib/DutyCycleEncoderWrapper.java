@@ -2,6 +2,7 @@ package frc.lib;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import frc.lib.faults.Fault;
 
 public class DutyCycleEncoderWrapper {
 

@@ -1,4 +1,4 @@
-package frc.lib;
+package frc.lib.faults;
 
 import java.util.ArrayList;
 

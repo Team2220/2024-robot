@@ -8,7 +8,7 @@ import com.ctre.phoenix.led.StrobeAnimation;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotController;
-import frc.lib.FaultRegistry;
+import frc.lib.faults.FaultRegistry;
 import frc.lib.tunables.TunableDouble;
 
 public class LedSignal {
