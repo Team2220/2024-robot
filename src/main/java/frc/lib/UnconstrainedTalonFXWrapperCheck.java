@@ -8,15 +8,15 @@ public class UnconstrainedTalonFXWrapperCheck extends CheckCommand {
         this.talon = talon;
     }
 
-    @Override
-    public void initialize() {
-        position = talon.getRotorPosition().getValueAsDouble();
+    // @Override
+    // public void initialize() {
+    //     position = talon.getRotorPosition().getValueAsDouble();
 
-    }
-    @Override
-    public boolean isFinished() {
-        return Math.abs(position - talon.getRotorPosition().getValueAsDouble()) > 10;
-    }
+    // }
+    // @Override
+    // public boolean isFinished() {
+    //     return Math.abs(position - talon.getRotorPosition().getValueAsDouble()) > 10;
+    // }
 
     @Override
     double getTimeoutSeconds() {
