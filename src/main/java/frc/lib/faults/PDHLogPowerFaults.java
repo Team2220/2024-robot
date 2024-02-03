@@ -1,11 +1,13 @@
 
-package frc.lib;
+package frc.lib.faults;
 
 import java.util.ArrayList;
 
 import edu.wpi.first.hal.PowerDistributionStickyFaults;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
+import frc.lib.EventLoops;
+import frc.lib.IsolatedEventLoop;
 
 public class PDHLogPowerFaults {
     private static boolean firstCheckPdh = true;

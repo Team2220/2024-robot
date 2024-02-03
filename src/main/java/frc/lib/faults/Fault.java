@@ -1,10 +1,13 @@
-package frc.lib;
+package frc.lib.faults;
 
 import java.util.function.BooleanSupplier;
 
 import edu.wpi.first.util.datalog.BooleanLogEntry;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.RobotController;
+import frc.lib.Alert;
+import frc.lib.EventLoops;
+import frc.lib.IsolatedEventLoop;
 
 public final class Fault {
     private boolean isActive = false;
@@ -55,8 +58,8 @@ public final class Fault {
     }
 
     public static void setupDefaultFaults() {
-        autoUpdating("canBusUtilization", () -> {
-            return RobotController.getCANStatus().percentBusUtilization > 0.8;
-        });
+        // autoUpdating("canBusUtilization", () -> {
+        //     return RobotController.getCANStatus().percentBusUtilization > 0.8;
+        // });
     }
 }

@@ -7,6 +7,8 @@ import com.ctre.phoenix6.configs.AudioConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 
+import frc.lib.faults.TalonFXLogPowerFaults;
+
 public class TalonFXWrapper {
     private TalonFX talon;
     private String name;

@@ -1,4 +1,6 @@
-package frc.lib;
+package frc.lib.faults;
+
+import frc.lib.TalonFXWrapper;
 
 public class TalonFXLogPowerFaults {
 

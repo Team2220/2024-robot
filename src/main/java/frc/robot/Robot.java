@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.lib.CommandObserver;
 import frc.lib.EventLoops;
-import frc.lib.Fault;
+import frc.lib.faults.Fault;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
