@@ -89,9 +89,6 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem,Checka
     }
 
     GenericEntry gyroAngle = Shuffleboard.getTab("swerve").add("gyroAngle", 0).getEntry();
-    public static final double kMaxAngularSpeed = Math.PI; // 1/2 rotation per second
-    public static final double kMaxSpeed = 1; // 3 meters per second
-
     public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
         driveRobotRelative(
                 fieldRelative
@@ -101,7 +98,7 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem,Checka
 
     public void driveRobotRelative(ChassisSpeeds speed) {
         var swerveModuleStates = KINEMATICS.toSwerveModuleStates(speed);
-        SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, kMaxSpeed);
+        SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, MAX_VELOCITY_METERS_PER_SECOND);
         m_frontLeft.setDesiredState(swerveModuleStates[0]);
         m_frontRight.setDesiredState(swerveModuleStates[1]);
         m_backLeft.setDesiredState(swerveModuleStates[2]);
@@ -197,6 +194,7 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem,Checka
         gyroAngle.setDouble(getGyroscopeRotation().getDegrees());
         poseEstimator.update(
                 getGyroscopeRotation(), getModulePositions());
+        //System.out.println(MAX_VELOCITY_METERS_PER_SECOND);        
     }
 
     private Pose2d getPose() {
@@ -272,7 +270,7 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem,Checka
      * This is a measure of how fast the robot should be able to drive in a straight
      * line.
      */
-    public static final double MAX_VELOCITY_METERS_PER_SECOND = 6380.0 / 60.0 * SwerveModule.DT_DRIVE_GEAR_RATIO
+    public static final double MAX_VELOCITY_METERS_PER_SECOND = 6380.0 / 60.0 / SwerveModule.DT_DRIVE_GEAR_RATIO
             * SwerveModule.DT_WHEEL_DIAMETER * Math.PI;
     // ModuleConfiguration.MK4I_L2.getDriveReduction() *
     // ModuleConfiguration.MK4I_L2.getWheelDiameter() * PI;
