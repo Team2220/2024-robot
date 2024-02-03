@@ -21,6 +21,7 @@ public class UnconstrainedTalonFXWrapperCheck extends CheckCommand {
     // }
 
     @Override
+    public
     double getTimeoutSeconds() {
         return 10;
 
