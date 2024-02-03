@@ -17,7 +17,6 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import frc.lib.PWMEncoder;
-import frc.lib.TalonFXRegistry;
 import frc.lib.tunables.TunableDouble;
 
 public class SwerveModule {
@@ -68,8 +67,6 @@ public class SwerveModule {
     this.offset = offset;
     m_driveMotor = new TalonFX(driveMotorChannel);
     m_turningMotor = new TalonFX(turningMotorChannel);
-    TalonFXRegistry.register(m_driveMotor);
-    TalonFXRegistry.register(m_turningMotor);
 
     m_turningEncoder = new PWMEncoder(turningEncoderChannelA);
     speed = Shuffleboard.getTab("swerve").add(name + " speed", 0).getEntry();

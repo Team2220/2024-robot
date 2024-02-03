@@ -15,7 +15,6 @@ public class TalonFXWrapper {
         talon = new TalonFX(id);
         this.name = name;
         TalonFXLogPowerFaults.setupChecks(this);
-        TalonFXRegistry.register(talon);
         talon.getConfigurator().apply(new TalonFXConfiguration());
         var audioConfigs = new AudioConfigs();
         audioConfigs.BeepOnBoot = false;
