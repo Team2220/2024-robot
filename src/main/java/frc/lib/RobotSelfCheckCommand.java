@@ -3,6 +3,8 @@ package frc.lib;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.lib.selfCheck.CheckCommand;
+import frc.lib.selfCheck.CheckableSubsystem;
 
 public class RobotSelfCheckCommand extends SequentialCommandGroup {
     public RobotSelfCheckCommand(CheckableSubsystem... subsystems) {

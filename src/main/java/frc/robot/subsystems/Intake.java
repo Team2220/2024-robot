@@ -6,9 +6,9 @@ import com.ctre.phoenix6.controls.DutyCycleOut;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.lib.CheckCommand;
-import frc.lib.CheckableSubsystem;
 import frc.lib.TalonFXWrapper;
+import frc.lib.selfCheck.CheckCommand;
+import frc.lib.selfCheck.CheckableSubsystem;
 import frc.robot.Constants;
 
 public class Intake extends SubsystemBase implements CheckableSubsystem{

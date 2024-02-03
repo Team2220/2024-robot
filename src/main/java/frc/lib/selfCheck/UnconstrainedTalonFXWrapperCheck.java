@@ -1,4 +1,6 @@
-package frc.lib;
+package frc.lib.selfCheck;
+
+import frc.lib.TalonFXWrapper;
 
 public class UnconstrainedTalonFXWrapperCheck extends CheckCommand {
     TalonFXWrapper talon;
