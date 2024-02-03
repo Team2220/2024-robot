@@ -1,8 +1,8 @@
-package frc.lib;
+package frc.lib.selfCheck;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
 public abstract class CheckCommand extends Command {
-    abstract double getTimeoutSeconds();
+    public abstract double getTimeoutSeconds();
  }
  

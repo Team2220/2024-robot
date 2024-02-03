@@ -1,4 +1,6 @@
-package frc.lib;
+package frc.lib.selfCheck;
+
+import frc.lib.TalonFXWrapper;
 
 public class UnconstrainedTalonFXWrapperCheck extends CheckCommand {
     TalonFXWrapper talon;
@@ -19,6 +21,7 @@ public class UnconstrainedTalonFXWrapperCheck extends CheckCommand {
     // }
 
     @Override
+    public
     double getTimeoutSeconds() {
         return 10;
 

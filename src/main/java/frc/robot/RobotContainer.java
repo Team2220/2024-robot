@@ -59,7 +59,7 @@ public class RobotContainer {
   private final CommandXBoxWrapper m_operatorController = new CommandXBoxWrapper(OperatorConstants.kOperatorControllerPort);
 
   // private final Shooter shooter = new Shooter();
-   private final Arm m_arm = new Arm();
+  //  private final Arm m_arm = new Arm();
   // private final Intake intake = new Intake();
 
   /**
@@ -85,12 +85,12 @@ public class RobotContainer {
     // arm.setDefaultCommand(arm.dutyCycleCommand(() -> {
     // return m_driverController.getRightY(0);
     // }));
-m_arm.setDefaultCommand(Commands.run(()->{
-      m_arm.setPosition(m_operatorController.getLeftY(0.1)*90);
-    }, m_arm));
+// m_arm.setDefaultCommand(Commands.run(()->{
+//       m_arm.setPosition(m_operatorController.getLeftY(0.1)*90);
+//     }, m_arm));
     
 
-m_operatorController.a().onTrue(Commands.runOnce(m_arm::setZero, m_arm));
+// m_operatorController.a().onTrue(Commands.runOnce(m_arm::setZero, m_arm));
   
     var driveCommand = driveTrain.driveCommand(() -> {
       return m_driverController.getLeftX(0.1);
@@ -140,7 +140,7 @@ m_operatorController.a().onTrue(Commands.runOnce(m_arm::setZero, m_arm));
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     m_driverController.a().onTrue(driveTrain.zeroCommand());
     m_driverController.x().whileTrue((driveTrain.xcommand()));
-    // m_driverController.y().onTrue(new TalonOrchestra(driveTrain));
+    m_driverController.y().onTrue(new TalonOrchestra(driveTrain));
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is
     // pressed,
     // cancelling on release.
