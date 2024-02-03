@@ -151,8 +151,8 @@ m_operatorController.a().onTrue(Commands.runOnce(m_arm::setZero, m_arm));
     return autoChooser.getSelected();
   }
 
-  public void getTestCommand() {
-    // return new RobotSelfCheckCommand(driveTrain);
+  public Command getTestCommand() {
+    return new RobotSelfCheckCommand(driveTrain);
   }
 }
 
