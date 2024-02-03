@@ -33,6 +33,8 @@ import com.pathplanner.lib.util.ReplanningConfig;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.lib.CheckCommand;
+import frc.lib.CheckableSubsystem;
 import frc.lib.RobotInstance;
 import frc.lib.TalonFXSubsystem;
 
@@ -43,7 +45,7 @@ import frc.lib.TalonFXSubsystem;
  * radians.
  */
 
-public class DriveTrain extends SubsystemBase implements TalonFXSubsystem{
+public class DriveTrain extends SubsystemBase implements TalonFXSubsystem,CheckableSubsystem{
 
     double driveRadius = Math
             .sqrt(Math.pow(DRIVETRAIN_TRACKWIDTH_METERS / 2, 2) + Math.pow(DRIVETRAIN_WHEELBASE_METERS / 2, 2));
@@ -284,5 +286,10 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem{
             m_frontRight.getM_driveMotor(),
             m_frontRight.getM_turningMotor(),
         };
+    }
+
+    @Override
+    public CheckCommand[] getCheckCommands() {
+        return new CheckCommand[]{};
     }
 }

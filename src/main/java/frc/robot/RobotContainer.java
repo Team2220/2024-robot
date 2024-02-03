@@ -10,6 +10,7 @@ import frc.lib.CommandChooser;
 import frc.lib.CommandXBoxWrapper;
 // import frc.lib.GetMACAddress;
 import frc.lib.PDHLogPowerFaults;
+import frc.lib.RobotSelfCheckCommand;
 import frc.lib.TalonOrchestra;
 import frc.lib.leds.LEDs;
 import frc.lib.leds.LedSegment;
@@ -140,5 +141,8 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
     return autoChooser.getSelected();
+  }
+  public Command getTestCommand() {
+    return new RobotSelfCheckCommand(driveTrain);
   }
 }
