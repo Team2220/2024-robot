@@ -19,7 +19,7 @@ package frc.robot;
 public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
-    public static final int kCodriverControllerPort = 1;
+    public static final int kOperatorControllerPort = 1;
   }
 
   public static class LEDS {
@@ -38,7 +38,8 @@ public final class Constants {
   }
 
   public static class Arm {
-    public static int talon_id = 7;
+    public static int ARM_TALON = 7;
+    public static double ARM_GEAR_RATIO = (5.0/1.0)*(4.0/1.0)*(3.0/1.0)*(18.0/58.0);
   }
 
   public static final class LimelightConfig {
