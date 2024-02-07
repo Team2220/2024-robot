@@ -58,8 +58,8 @@ public class RobotContainer {
   private final CommandXBoxWrapper m_operatorController = new CommandXBoxWrapper(OperatorConstants.kOperatorControllerPort);
 
   // private final Shooter shooter = new Shooter();
-   private final Arm m_arm = new Arm();
-  private final Intake intake = new Intake();
+  //  private final Arm m_arm = new Arm();
+  // private final Intake intake = new Intake();
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -77,19 +77,19 @@ public class RobotContainer {
     // return m_driverController.getRightTriggerAxis(0);
     // }));
 
-    intake.setDefaultCommand(intake.dutyCycleCommand(() -> {
-    return m_operatorController.getRightY(0.1);
-    }));
+    // intake.setDefaultCommand(intake.dutyCycleCommand(() -> {
+    // return m_driverController.getLeftY(0);
+    // }));
 
     // arm.setDefaultCommand(arm.dutyCycleCommand(() -> {
     // return m_driverController.getRightY(0);
     // }));
-m_arm.setDefaultCommand(Commands.run(()->{
-      m_arm.setPosition(m_operatorController.getLeftY(0.1)*90);
-    }, m_arm));
+// m_arm.setDefaultCommand(Commands.run(()->{
+//       m_arm.setPosition(m_operatorController.getLeftY(0.1)*90);
+//     }, m_arm));
     
 
-m_operatorController.a().onTrue(Commands.runOnce(m_arm::setZero, m_arm));
+// m_operatorController.a().onTrue(Commands.runOnce(m_arm::setZero, m_arm));
   
     var driveCommand = driveTrain.driveCommand(() -> {
       return m_driverController.getLeftX(0.1);
