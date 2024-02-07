@@ -101,6 +101,17 @@ public class RobotContainer {
     driveTrain.setDefaultCommand(driveCommand);
     m_driverController.joysticksTrigger(.1).onTrue(driveCommand);
 
+    var slowMode = driveTrain.driveCommand(() -> {
+      return m_driverController.getLeftX(0.1);
+    }, () -> {
+      return m_driverController.getLeftY(.1);
+    }, () -> {
+      return m_driverController.getRightX(.1);
+    });
+    driveTrain.setDefaultCommand(slowMode);
+    m_driverController.joysticksTrigger(.1).onTrue(slowMode);
+
+
     m_leds = new LEDs(
         new LedSegment[] { new LedSegment(left), new LedSegment(right) },
         new LedSignal[] {
@@ -140,6 +151,9 @@ public class RobotContainer {
     m_driverController.a().onTrue(driveTrain.zeroCommand());
     m_driverController.x().whileTrue((driveTrain.xcommand()));
     m_driverController.y().onTrue(new TalonOrchestra(driveTrain));
+    m_driverController.b().whileTrue(driveTrain.slowMode(m_driverController.getLeftX(0.1), 
+    m_driverController.getLeftY(0.1),
+    m_driverController.getRightX(0.1)));
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is
     // pressed,
     // cancelling on release.
