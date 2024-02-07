@@ -46,6 +46,7 @@ import frc.lib.selfCheck.CheckableSubsystem;
  */
 
 public class DriveTrain extends SubsystemBase implements TalonFXSubsystem,CheckableSubsystem{
+    
 
     double driveRadius = Math
             .sqrt(Math.pow(DRIVETRAIN_TRACKWIDTH_METERS / 2, 2) + Math.pow(DRIVETRAIN_WHEELBASE_METERS / 2, 2));
@@ -293,12 +294,13 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem,Checka
             m_frontRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
         });
     }
+    
     public Command slowMode() {
         return this.run(() -> {
-            m_backLeft.setDesiredState(new SwerveModuleState(1, Rotation2d.fromDegrees(0)));
-            m_frontLeft.setDesiredState(new SwerveModuleState(1, Rotation2d.fromDegrees(0)));
-            m_backRight.setDesiredState(new SwerveModuleState(1, Rotation2d.fromDegrees(0)));
-            m_frontRight.setDesiredState(new SwerveModuleState(1, Rotation2d.fromDegrees(0)));
+            m_backLeft.setDesiredState(new SwerveModuleState(MAX_VELOCITY_METERS_PER_SECOND/5, Rotation2d.fromDegrees(90)));
+            m_frontLeft.setDesiredState(new SwerveModuleState(MAX_VELOCITY_METERS_PER_SECOND/5, Rotation2d.fromDegrees(90)));
+            m_backRight.setDesiredState(new SwerveModuleState(MAX_VELOCITY_METERS_PER_SECOND/5, Rotation2d.fromDegrees(90)));
+            m_frontRight.setDesiredState(new SwerveModuleState(MAX_VELOCITY_METERS_PER_SECOND/5, Rotation2d.fromDegrees(90)));
         });
     }
 }
