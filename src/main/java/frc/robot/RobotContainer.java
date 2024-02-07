@@ -140,6 +140,7 @@ m_operatorController.a().onTrue(Commands.runOnce(m_arm::setZero, m_arm));
     m_driverController.a().onTrue(driveTrain.zeroCommand());
     m_driverController.x().whileTrue((driveTrain.xcommand()));
     m_driverController.y().onTrue(new TalonOrchestra(driveTrain));
+    m_driverController.b().onTrue(driveTrain.slowMode());
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is
     // pressed,
     // cancelling on release.

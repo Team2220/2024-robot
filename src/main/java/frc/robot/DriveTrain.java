@@ -293,4 +293,12 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem,Checka
             m_frontRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
         });
     }
+    public Command slowMode() {
+        return this.run(() -> {
+            m_backLeft.setDesiredState(new SwerveModuleState(1, Rotation2d.fromDegrees(0)));
+            m_frontLeft.setDesiredState(new SwerveModuleState(1, Rotation2d.fromDegrees(0)));
+            m_backRight.setDesiredState(new SwerveModuleState(1, Rotation2d.fromDegrees(0)));
+            m_frontRight.setDesiredState(new SwerveModuleState(1, Rotation2d.fromDegrees(0)));
+        });
+    }
 }
