@@ -14,6 +14,7 @@ import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -297,10 +298,10 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem,Checka
     
     public Command slowMode() {
         return this.run(() -> {
-            m_backLeft.setDesiredState(new SwerveModuleState(MAX_VELOCITY_METERS_PER_SECOND/5, Rotation2d.fromDegrees(90)));
-            m_frontLeft.setDesiredState(new SwerveModuleState(MAX_VELOCITY_METERS_PER_SECOND/5, Rotation2d.fromDegrees(90)));
-            m_backRight.setDesiredState(new SwerveModuleState(MAX_VELOCITY_METERS_PER_SECOND/5, Rotation2d.fromDegrees(90)));
-            m_frontRight.setDesiredState(new SwerveModuleState(MAX_VELOCITY_METERS_PER_SECOND/5, Rotation2d.fromDegrees(90)));
+            m_backLeft.setDesiredState(new SwerveModuleState(DriveTrain.MAX_VELOCITY_METERS_PER_SECOND * .25, Rotation2d.fromDegrees(90)));
+            m_frontLeft.setDesiredState(new SwerveModuleState(DriveTrain.MAX_VELOCITY_METERS_PER_SECOND * .25, Rotation2d.fromDegrees(90)));
+            m_backRight.setDesiredState(new SwerveModuleState(DriveTrain.MAX_VELOCITY_METERS_PER_SECOND * .25, Rotation2d.fromDegrees(90)));
+            m_frontRight.setDesiredState(new SwerveModuleState(DriveTrain.MAX_VELOCITY_METERS_PER_SECOND * .25, Rotation2d.fromDegrees(90)));
         });
     }
 }
