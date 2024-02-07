@@ -61,7 +61,7 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem,Checka
                                                  // Constants class
                         new PIDConstants(0.3, 0.0, 0.025456738383963862983267), // Translation PID constants
                         new PIDConstants(0.3, 0.0, 0.025621832482875328792385), // Rotation PID constants
-                        1.0, // Max module speed, in m/s
+                        MAX_VELOCITY_METERS_PER_SECOND, // Max module speed, in m/s
                         driveRadius, // Drive base radius in meters. Distance from robot center to furthest module.
                         new ReplanningConfig() // Default path replanning config. See the API for the options here
                 ),
@@ -125,7 +125,7 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem,Checka
 
     public void autoDriveRobotRelative(ChassisSpeeds speed) {
         driveRobotRelative(
-                new ChassisSpeeds(speed.vyMetersPerSecond * -1, speed.vxMetersPerSecond, speed.omegaRadiansPerSecond));
+                new ChassisSpeeds(speed.vyMetersPerSecond * -1.25, speed.vxMetersPerSecond * 1.25, speed.omegaRadiansPerSecond));
     }
 
     private final Field2d m_field = new Field2d();
