@@ -13,18 +13,18 @@ import frc.robot.Constants;
 
 public class Intake extends SubsystemBase implements CheckableSubsystem{
     TalonFXWrapper intake;
-    TalonFXWrapper conveyor;
+    // TalonFXWrapper conveyor;
 
     public Intake() {
         intake = new TalonFXWrapper(Constants.Intake.id_intake, "intake");
-        conveyor = new TalonFXWrapper(Constants.Intake.id_conv, "conveyor");
+        // conveyor = new TalonFXWrapper(Constants.Intake.id_conv, "conveyor");
     }
 
     public Command dutyCycleCommand(DoubleSupplier speed) {
         return this.run(() -> {
             DutyCycleOut duty = new DutyCycleOut(speed.getAsDouble());
             intake.setControl(duty);
-            conveyor.setControl(duty);
+            // conveyor.setControl(duty);
         });
     }
 
