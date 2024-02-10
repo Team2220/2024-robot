@@ -6,17 +6,14 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 
 public class SparkMaxWrapper {
     private int id;
-    private String name;
-    private CANSparkMax sparkMax;
+    public static String name;
+    public CANSparkMax sparkMax;
 
     public SparkMaxWrapper(int id, String name) {
         id = this.id;
         name = this.name;
         sparkMax = new CANSparkMax(id, MotorType.kBrushless);
-    }
-
-    public String getName() {
-        return name;
+        sparkMax.restoreFactoryDefaults();
     }
 
     public void checkFaults() {
