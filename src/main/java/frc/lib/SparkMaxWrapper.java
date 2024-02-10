@@ -4,6 +4,8 @@ import com.revrobotics.CANSparkBase;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
+import frc.lib.faults.SparkMaxLogPowerFaults;
+
 public class SparkMaxWrapper {
     private int id;
     public static String name;
@@ -14,12 +16,11 @@ public class SparkMaxWrapper {
         name = this.name;
         sparkMax = new CANSparkMax(id, MotorType.kBrushless);
         sparkMax.restoreFactoryDefaults();
+        SparkMaxLogPowerFaults.check(sparkMax, oncepersec);
     }
 
     public void checkFaults() {
-        if (sparkMax.getFault(null)) {
-
-        }
+        SparkMaxLogPowerFaults.check(sparkMax, oncepersec);
     }
 
     public void set(double speed) {
