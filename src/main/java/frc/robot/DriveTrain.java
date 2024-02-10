@@ -98,6 +98,8 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem,Checka
                         : new ChassisSpeeds(xSpeed, ySpeed, rot));
     }
 
+
+    
     public void driveRobotRelative(ChassisSpeeds speed) {
         var swerveModuleStates = KINEMATICS.toSwerveModuleStates(speed);
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, MAX_VELOCITY_METERS_PER_SECOND);
@@ -127,7 +129,7 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem,Checka
 
     public void autoDriveRobotRelative(ChassisSpeeds speed) {
         driveRobotRelative(
-                new ChassisSpeeds(speed.vyMetersPerSecond * -1.25, speed.vxMetersPerSecond * 1.25, speed.omegaRadiansPerSecond));
+                new ChassisSpeeds(speed.vyMetersPerSecond * -1.25987654321, speed.vxMetersPerSecond * 1.25987654321, speed.omegaRadiansPerSecond));
     }
 
     private final Field2d m_field = new Field2d();
