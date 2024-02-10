@@ -3,21 +3,26 @@ package frc.robot.subsystems;
 import java.util.function.DoubleSupplier;
 
 import com.ctre.phoenix6.controls.DutyCycleOut;
+import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.TalonFXWrapper;
 import frc.lib.selfCheck.CheckCommand;
 import frc.lib.selfCheck.CheckableSubsystem;
 import frc.robot.Constants;
 
-public class Intake extends SubsystemBase implements CheckableSubsystem{
+public class Intake extends SubsystemBase implements CheckableSubsystem {
     TalonFXWrapper intake;
     // TalonFXWrapper conveyor;
 
     public Intake() {
         intake = new TalonFXWrapper(Constants.Intake.id_intake, "intake");
         // conveyor = new TalonFXWrapper(Constants.Intake.id_conv, "conveyor");
+        conveyor = new TalonFXWrapper(Constants.Intake.id_conv, "conveyor");
+
+        NamedCommands.registerCommand("AutoIntake", null);
     }
 
     public Command dutyCycleCommand(DoubleSupplier speed) {
@@ -30,6 +35,10 @@ public class Intake extends SubsystemBase implements CheckableSubsystem{
 
     @Override
     public CheckCommand[] getCheckCommands() {
-        return new CheckCommand[]{};
+        return new CheckCommand[] {};
+    }
+
+    public Command autoIntakeCommand() {
+        return Commands.run(null, null)
     }
 }
