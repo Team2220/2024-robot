@@ -13,6 +13,7 @@ public class SparkMaxLogPowerFaults {
             for (CANSparkBase.FaultID c : CANSparkBase.FaultID.values()) {
                 if (sparkMaxWrap.sparkMax.getStickyFault(c)) {
                     System.out.println(c);
+                    Fault fault = new Fault(c.toString());
                 }
             }
 
