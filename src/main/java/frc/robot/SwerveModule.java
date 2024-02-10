@@ -145,13 +145,13 @@ public class SwerveModule {
 
   public static final TunableDouble DT_DRIVE_P = new TunableDouble("DT_DRIVE_P", 0.03, "swerve").setSpot(0, 0);
   public static final TunableDouble DT_DRIVE_I = new TunableDouble("DT_DRIVE_I", 0, "swerve").setSpot(1, 0);
-  public static final TunableDouble DT_DRIVE_D = new TunableDouble("DT_DRIVE_D", 0, "swerve").setSpot(2, 0);
+  public static final TunableDouble DT_DRIVE_D = new TunableDouble("DT_DRIVE_D", 0.00001, "swerve").setSpot(2, 0);
   public static final TunableDouble DT_DRIVE_F = new TunableDouble("DT_DRIVE_F", 0, "swerve").setSpot(3, 0);
 
   // PID values for the steer motor
   public static final TunableDouble DT_STEER_P = new TunableDouble("DT_STEER_P", 1, "swerve").setSpot(0, 1);
   public static final TunableDouble DT_STEER_I = new TunableDouble("DT_STEER_I", 0, "swerve").setSpot(1, 1);
-  public static final TunableDouble DT_STEER_D = new TunableDouble("DT_STEER_D", 0, "swerve").setSpot(2, 1);
+  public static final TunableDouble DT_STEER_D = new TunableDouble("DT_STEER_D", 0.0001, "swerve").setSpot(2, 1);
   public static final TunableDouble DT_STEER_F = new TunableDouble("DT_STEER_F", 0, "swerve").setSpot(3, 1);
 
   private double getDrivePosition() {

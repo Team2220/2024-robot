@@ -15,7 +15,7 @@ public class ObjectTracker extends Command {
 
   // private Swerve swerve;
 
-  private static TunableDouble p = new TunableDouble("P", 12, true, "limelight");
+  private static TunableDouble p = new TunableDouble("P", .03, true, "limelight");
   private static TunableDouble i = new TunableDouble("I", 0, true, "limelight");
   private static TunableDouble d = new TunableDouble("D", 0, true, "limelight");
   public ObjectTracker(/*Swerve swerve,*/ DoubleSupplier fwd, DoubleSupplier str) {
