@@ -9,7 +9,7 @@ import java.nio.file.*;
 
 public class InstallAlert {
     public static void main(String[] args) throws IOException {
-        // checking if file exists
+        // checking if alerts exist already
         Path filePathObj = Paths
                 .get(System.getProperty("user.home") + File.separator + "Shuffleboard" + File.separator + "plugins" + File.separator + "NetworkAlerts.jar");
         boolean fileExists = Files.exists(filePathObj);
