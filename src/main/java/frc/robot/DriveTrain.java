@@ -97,6 +97,12 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem,Checka
                         ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, getGyroscopeRotation())
                         : new ChassisSpeeds(xSpeed, ySpeed, rot));
     }
+    public void shoot(double xSpeed, double ySpeed) {
+                
+    }
+    public void resetPosition(){
+        
+    }
 
 
     
@@ -153,6 +159,13 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem,Checka
                     xspeed.getAsDouble() * MAX_VELOCITY_METERS_PER_SECOND,
                     yspeed.getAsDouble() * MAX_VELOCITY_METERS_PER_SECOND * -1,
                     rot.getAsDouble() * MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND / 2.0, true);
+        });
+    }
+    public Command shooterCommand(DoubleSupplier xspeedy, DoubleSupplier yspeedy) {
+        return this.run(() -> {
+            this.shoot(
+                    xspeedy.getAsDouble() * MAX_SHOOTING_SPEED_PER_SECOND,
+                    yspeedy.getAsDouble() * MAX_SHOOTING_SPEED_PER_SECOND);
         });
     }
 
@@ -276,6 +289,7 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem,Checka
      */
     public static final double MAX_VELOCITY_METERS_PER_SECOND = 6380.0 / 60.0 / SwerveModule.DT_DRIVE_GEAR_RATIO
             * SwerveModule.DT_WHEEL_DIAMETER * Math.PI;
+    public static final double MAX_SHOOTING_SPEED_PER_SECOND = 600;
     // ModuleConfiguration.MK4I_L2.getDriveReduction() *
     // ModuleConfiguration.MK4I_L2.getWheelDiameter() * PI;
 

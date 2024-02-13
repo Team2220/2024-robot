@@ -98,6 +98,13 @@ m_operatorController.a().onTrue(Commands.runOnce(m_arm::setZero, m_arm));
     }, () -> {
       return m_driverController.getRightX(0.15);
     });
+    var shooterController = driveTrain.driveCommand(() -> {
+      return m_operatorController.getLeftX(0.1);
+    }, () -> {
+      return m_operatorController.getLeftY(0.1);
+    }, () -> {
+      return m_operatorController.getRightY(0.15);
+    });
     driveTrain.setDefaultCommand(driveCommand);
     m_driverController.joysticksTrigger(.1).onTrue(driveCommand);
 
