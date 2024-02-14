@@ -44,10 +44,10 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-  private CANdle left = new CANdle(Constants.LEDS.LEFT);
-  private CANdle right = new CANdle(Constants.LEDS.RIGHT);
+  //private CANdle left = new CANdle(Constants.LEDS.LEFT);
+  //private CANdle right = new CANdle(Constants.LEDS.RIGHT);
   @SuppressWarnings("unused")
-  private final LEDs m_leds;
+  //private final LEDs m_leds;
   private final DriveTrain driveTrain = new DriveTrain();
   // The robot's subsystems and commands are defined here...
   private final PowerDistribution m_PowerDistribution = new PowerDistribution();
@@ -101,16 +101,16 @@ m_operatorController.a().onTrue(Commands.runOnce(m_arm::setZero, m_arm));
     driveTrain.setDefaultCommand(driveCommand);
     m_driverController.joysticksTrigger(.1).onTrue(driveCommand);
 
-    m_leds = new LEDs(
-        new LedSegment[] { new LedSegment(left), new LedSegment(right) },
-        new LedSignal[] {
-            LedSignal.isBrownedOut(),
-            LedSignal.isDSConnected(),
-            // LedSignal.hasTarget(),
-            LedSignal.isEndGame(),
-            // LedSignal.hasActiveFault(),
-            LedSignal.getLowBatteryLedSignal()
-        });
+    // m_leds = new LEDs(
+    //     new LedSegment[] { new LedSegment(left), new LedSegment(right) },
+    //     new LedSignal[] {
+    //         LedSignal.isBrownedOut(),
+    //         LedSignal.isDSConnected(),
+    //         // LedSignal.hasTarget(),
+    //         LedSignal.isEndGame(),
+    //         // LedSignal.hasActiveFault(),
+    //         LedSignal.getLowBatteryLedSignal()
+    //     });
     autoChooser = AutoBuilder.buildAutoChooser();
 
     // Another option that allows you to specify the default auto by its name
