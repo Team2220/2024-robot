@@ -40,6 +40,7 @@ public final class Constants {
 
   public static class Arm {
     public static int ARM_TALON = 20;
+    public static int arm_id = 8; // fake
     // public static double ARM_GEAR_RATIO =
     // (5.0/1.0)*(4.0/1.0)*(3.0/1.0)*(18.0/58.0);
 
