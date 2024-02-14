@@ -34,8 +34,8 @@ public final class Constants {
   }
 
   public static class Intake {
-    public static int id_intake = 10;
-    public static int id_conv = 9;
+    public static int id_intake = 4;
+    public static int id_conv = 5;
   }
 
   public static class Arm {

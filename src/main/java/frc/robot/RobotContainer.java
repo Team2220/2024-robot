@@ -65,7 +65,7 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-    PDHLogPowerFaults.setPdh(m_PowerDistribution);
+    PDHLogPowerFaults.setPdh(m_PowerDistribution,8,12,13,14,15,16,17,22,23);
     Shuffleboard.getTab("can").addDouble("can utilization", () -> RobotController.getCANStatus().percentBusUtilization).withWidget(BuiltInWidgets.kGraph);
     // GetMACAddress.main();
     // Configure the trigger bindings

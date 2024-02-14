@@ -31,7 +31,7 @@ public class Intake extends SubsystemBase implements CheckableSubsystem {
         intakePidController.setI(kI_intake);
         intakePidController.setD(kD_intake);
 
-        Shuffleboard.getTab("Intake").add("Intake PID Controller", intakePidController);
+        // Shuffleboard.getTab("Intake").add("Intake PID Controller", intakePidController);
         // conveyor = new TalonFXWrapper(Constants.Intake.id_conv, "conveyor");
     }
 
