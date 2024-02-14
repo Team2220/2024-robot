@@ -30,7 +30,7 @@ public final class Constants {
   public static class Shooter {
     public static int id_left = 10;
     public static int id_right = 11;
-    public static double gear_ratio = 30.0/18.0;
+    public static double gear_ratio = 30.0 / 18.0;
   }
 
   public static class Intake {
@@ -40,8 +40,9 @@ public final class Constants {
 
   public static class Arm {
     public static int ARM_TALON = 20;
-    // public static double ARM_GEAR_RATIO = (5.0/1.0)*(4.0/1.0)*(3.0/1.0)*(18.0/58.0);
-    
+    // public static double ARM_GEAR_RATIO =
+    // (5.0/1.0)*(4.0/1.0)*(3.0/1.0)*(18.0/58.0);
+
     public static double ARM_GEAR_RATIO = (5.0 / 1.0) * (5.0 / 1.0) * (5.0 / 1.0);
   }
 
@@ -51,4 +52,6 @@ public final class Constants {
     public static final String LEFT_URL = "http://10.22.20.10:5800/stream.mjpg";
     public static final String RIGHT_URL = "http://10.22.20.11:5800/stream.mjpg";
   }
+
+  public static Object intake;
 }

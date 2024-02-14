@@ -16,33 +16,33 @@ public class Arm extends SubsystemBase implements CheckableSubsystem {
     TalonFXWrapper ArmTalonFX;
 
     final PositionDutyCycle m_positionDutyCycle = new PositionDutyCycle(0);
+
     public Arm() {
-     
+
         ArmTalonFX = new TalonFXWrapper(Constants.Arm.ARM_TALON, "Arm");
         TunableTalonFX.addTunableTalonFX(ArmTalonFX.getTalon(), 0, 0, 0, 0);
     }
 
     // public Command dutyCycleCommand(DoubleSupplier speed) {
-    //     return this.run(() -> {
-    //         DutyCycleOut duty = new DutyCycleOut(speed.getAsDouble());
-    //         talon.setControl(duty);
+    // return this.run(() -> {
+    // DutyCycleOut duty = new DutyCycleOut(speed.getAsDouble());
+    // talon.setControl(duty);
 
-    //     });
+    // });
     // }
-    public void setPosition(double degrees){
+    public void setPosition(double degrees) {
 
-
-        ArmTalonFX.setControlPosition(m_positionDutyCycle.withPosition(degrees/360*Constants.Arm.ARM_GEAR_RATIO));
+        ArmTalonFX.'ArmTalonFX
+                .setControlPosition(m_positionDutyCycle.withPosition(degrees / 360 * Constants.Arm.ARM_GEAR_RATIO));
     }
 
-    public void setZero(){
+    public void setZero() {
         ArmTalonFX.setPosition(0);
     }
 
     @Override
     public CheckCommand[] getCheckCommands() {
-        return new CheckCommand[]{};
+        return new CheckCommand[] {};
     }
 
-    
 }
