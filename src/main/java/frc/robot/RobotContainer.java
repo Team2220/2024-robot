@@ -57,8 +57,8 @@ public class RobotContainer {
   private final CommandXBoxWrapper m_driverController = new CommandXBoxWrapper(OperatorConstants.kDriverControllerPort);
   private final CommandXBoxWrapper m_operatorController = new CommandXBoxWrapper(OperatorConstants.kOperatorControllerPort);
 
-  // private final Shooter shooter = new Shooter();
-   private final Arm m_arm = new Arm();
+  private final Shooter shooter = new Shooter();
+  private final Arm m_arm = new Arm();
   private final Intake intake = new Intake();
 
   /**
@@ -71,11 +71,11 @@ public class RobotContainer {
     // Configure the trigger bindings
     configureBindings();
 
-    // shooter.setDefaultCommand(shooter.dutyCycleCommand(() -> {
-    // return m_driverController.getLeftTriggerAxis(0);
-    // }, () -> {
-    // return m_driverController.getRightTriggerAxis(0);
-    // }));
+    shooter.setDefaultCommand(shooter.dutyCycleCommand(() -> {
+    return m_operatorController.getLeftTriggerAxis(0);
+    }, () -> {
+    return m_operatorController.getRightTriggerAxis(0);
+    }));
 
     intake.setDefaultCommand(intake.dutyCycleCommand(() -> {
     return m_operatorController.getRightY(0.1);

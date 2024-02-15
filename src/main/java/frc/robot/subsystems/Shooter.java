@@ -50,8 +50,8 @@ public class Shooter extends SubsystemBase implements CheckableSubsystem{
         pid_controller_right.setI(kI_right);
         pid_controller_right.setD(kD_right);
 
-        Shuffleboard.getTab("Shooter").add("left pid controller", pid_controller_left);
-        Shuffleboard.getTab("Shooter").add("right pid controller", pid_controller_right);
+        // Shuffleboard.getTab("Shooter").add("left pid controller", pid_controller_left);
+        // Shuffleboard.getTab("Shooter").add("right pid controller", pid_controller_right);
     }
 
     public Command dutyCycleCommand(DoubleSupplier leftSpeed, DoubleSupplier rightSpeed) {

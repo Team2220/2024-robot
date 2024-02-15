@@ -1,6 +1,7 @@
 package frc.lib;
 
 import com.ctre.phoenix6.controls.DutyCycleOut;
+import com.ctre.phoenix6.controls.MotionMagicDutyCycle;
 import com.ctre.phoenix6.controls.PositionDutyCycle;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.AudioConfigs;
@@ -38,8 +39,8 @@ public class TalonFXWrapper {
         talon.setControl(dutyLeft);
     }
 
-    public void setControlPosition(PositionDutyCycle positionDutyCycle) {
-        talon.setControl(positionDutyCycle);
+    public void setControlPosition(MotionMagicDutyCycle motionMagicDutyCycle) {
+        talon.setControl(motionMagicDutyCycle);
     }
 
 public void setPosition(double newPosition){

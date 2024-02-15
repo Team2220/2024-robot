@@ -10,6 +10,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.lib.TalonFXWrapper;
 import frc.lib.selfCheck.CheckCommand;
 import frc.lib.selfCheck.CheckableSubsystem;
 import frc.robot.Constants;
@@ -18,7 +19,7 @@ public class Intake extends SubsystemBase implements CheckableSubsystem {
     private CANSparkMax intakeRev;
     private SparkPIDController intakePidController;
     public double kP_intake, kI_intake, kD_intake;
-    // TalonFXWrapper conveyor;
+    TalonFXWrapper conveyor;
 
     public Intake() {
         intakeRev = new CANSparkMax(Constants.Intake.id_intake, MotorType.kBrushless);
@@ -38,8 +39,8 @@ public class Intake extends SubsystemBase implements CheckableSubsystem {
     public Command dutyCycleCommand(DoubleSupplier speed) {
         return this.run(() -> {
             DutyCycleOut duty = new DutyCycleOut(speed.getAsDouble());
-            // intakeRev.setControl(duty);
-            // conveyor.setControl(duty);
+             intakeRev.set(speed.getAsDouble());
+            //  conveyor.setControl(duty);
         });
     }
 
