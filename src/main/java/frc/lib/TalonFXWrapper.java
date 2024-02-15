@@ -1,9 +1,6 @@
 package frc.lib;
 
 import com.ctre.phoenix6.controls.ControlRequest;
-import com.ctre.phoenix6.controls.DutyCycleOut;
-import com.ctre.phoenix6.controls.MotionMagicDutyCycle;
-import com.ctre.phoenix6.controls.PositionDutyCycle;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.AudioConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -32,6 +29,10 @@ public class TalonFXWrapper {
         return name + " (" + talon.getDeviceID() + ")";
     }
 
+    public void setInverted(boolean isInverted) {
+        talon.setInverted(isInverted);
+    }
+
     public TalonFX getTalon() {
         return talon;
     }
@@ -40,12 +41,11 @@ public class TalonFXWrapper {
         talon.setControl(controlRequest);
     }
 
+    public void setPosition(double newPosition) {
+        talon.setPosition(newPosition);
+    }
 
-public void setPosition(double newPosition){
-    talon.setPosition(newPosition);
-}
-
-public StatusSignal<Double> getRotorPosition() {
-    return talon.getRotorPosition();
-}
+    public StatusSignal<Double> getRotorPosition() {
+        return talon.getRotorPosition();
+    }
 }
