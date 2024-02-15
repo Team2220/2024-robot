@@ -17,8 +17,8 @@ public class SparkMaxWrapper {
     public SparkPIDController pidController;
 
     public SparkMaxWrapper(int id, String name, double P, double I, double D) {
-        id = this.id;
-        name = this.name;
+        this.id = id;
+        this.name = name;
         this.P = P;
         this.I = I;
         this.D = D;
