@@ -1,31 +1,22 @@
 package frc.robot.subsystems;
 
-import java.util.function.DoubleConsumer;
-
-import com.ctre.phoenix6.configs.FeedbackConfigs;
-import com.ctre.phoenix6.configs.Slot0Configs;
-import com.ctre.phoenix6.configs.Slot1Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 
-import edu.wpi.first.math.filter.Debouncer;
-import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import frc.lib.TalonFXWrapper;
 import frc.lib.tunables.TunableDouble;
 
 public class TunableTalonFX {
 
-
   public static void addTunableTalonFX(
-    TalonFXWrapper talonFXWrapper,
-    double P, 
-    double I, 
-    double D, 
-    double G,
-    double Acceleration,
-    double CruiseVelocity,
-    double Jerk
-   ) {
+      TalonFXWrapper talonFXWrapper,
+      double P,
+      double I,
+      double D,
+      double G,
+      double Acceleration,
+      double CruiseVelocity,
+      double Jerk) {
     TalonFX talonFX = talonFXWrapper.getTalon();
     TalonFXConfiguration talonFXConfigs = new TalonFXConfiguration();
 
@@ -65,8 +56,5 @@ public class TunableTalonFX {
     });
 
   }
-  
 
 }
-
-    

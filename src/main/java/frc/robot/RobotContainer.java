@@ -4,25 +4,16 @@
 
 package frc.robot;
 
-import java.util.List;
-
-import frc.lib.CommandChooser;
 import frc.lib.CommandXBoxWrapper;
 import frc.lib.RobotSelfCheckCommand;
 import frc.lib.TalonOrchestra;
 import frc.lib.faults.PDHLogPowerFaults;
-import frc.lib.leds.LEDs;
-import frc.lib.leds.LedSegment;
-import frc.lib.leds.LedSignal;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 
-import com.ctre.phoenix.led.CANdle;
-import com.ctre.phoenix.led.StrobeAnimation;
 import com.pathplanner.lib.auto.AutoBuilder;
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
@@ -44,10 +35,10 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-  //private CANdle left = new CANdle(Constants.LEDS.LEFT);
-  //private CANdle right = new CANdle(Constants.LEDS.RIGHT);
+  // private CANdle left = new CANdle(Constants.LEDS.LEFT);
+  // private CANdle right = new CANdle(Constants.LEDS.RIGHT);
   @SuppressWarnings("unused")
-  //private final LEDs m_leds;
+  // private final LEDs m_leds;
   private final DriveTrain driveTrain = new DriveTrain();
   // The robot's subsystems and commands are defined here...
   private final PowerDistribution m_PowerDistribution = new PowerDistribution();
@@ -55,7 +46,8 @@ public class RobotContainer {
   public static final DriverTab drivertab = new DriverTab();
   private final SendableChooser<Command> autoChooser;
   private final CommandXBoxWrapper m_driverController = new CommandXBoxWrapper(OperatorConstants.kDriverControllerPort);
-  private final CommandXBoxWrapper m_operatorController = new CommandXBoxWrapper(OperatorConstants.kOperatorControllerPort);
+  private final CommandXBoxWrapper m_operatorController = new CommandXBoxWrapper(
+      OperatorConstants.kOperatorControllerPort);
 
   private final Shooter shooter = new Shooter();
   private final Arm m_arm = new Arm();
@@ -65,32 +57,29 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-    PDHLogPowerFaults.setPdh(m_PowerDistribution,8,12,13,14,15,16,17,22,23);
-    Shuffleboard.getTab("can").addDouble("can utilization", () -> RobotController.getCANStatus().percentBusUtilization).withWidget(BuiltInWidgets.kGraph);
+    PDHLogPowerFaults.setPdh(m_PowerDistribution, 8, 12, 13, 14, 15, 16, 17, 22, 23);
+    Shuffleboard.getTab("can").addDouble("can utilization", () -> RobotController.getCANStatus().percentBusUtilization)
+        .withWidget(BuiltInWidgets.kGraph);
     // GetMACAddress.main();
     // Configure the trigger bindings
     configureBindings();
 
     shooter.setDefaultCommand(shooter.dutyCycleCommand(() -> {
-    return m_operatorController.getLeftTriggerAxis(0);
+      return m_operatorController.getLeftTriggerAxis(0);
     }, () -> {
-    return m_operatorController.getRightTriggerAxis(0);
+      return m_operatorController.getRightTriggerAxis(0);
     }));
 
     intake.setDefaultCommand(intake.dutyCycleCommand(() -> {
-    return m_operatorController.getRightY(0.1);
+      return m_operatorController.getRightY(0.1);
     }));
 
-    // arm.setDefaultCommand(arm.dutyCycleCommand(() -> {
-    // return m_driverController.getRightY(0);
-    // }));
-m_arm.setDefaultCommand(Commands.run(()->{
-      m_arm.setPosition(m_operatorController.getLeftY(0.1)*90);
+    m_arm.setDefaultCommand(Commands.run(() -> {
+      m_arm.setPosition(m_operatorController.getLeftY(0.1) * 90);
     }, m_arm));
-    
 
-m_operatorController.a().onTrue(Commands.runOnce(m_arm::setZero, m_arm));
-  
+    m_operatorController.a().onTrue(Commands.runOnce(m_arm::setZero, m_arm));
+
     var driveCommand = driveTrain.driveCommand(() -> {
       return m_driverController.getLeftX(0.1) * -1;
     }, () -> {
@@ -102,21 +91,19 @@ m_operatorController.a().onTrue(Commands.runOnce(m_arm::setZero, m_arm));
     m_driverController.joysticksTrigger(.1).onTrue(driveCommand);
 
     // m_leds = new LEDs(
-    //     new LedSegment[] { new LedSegment(left), new LedSegment(right) },
-    //     new LedSignal[] {
-    //         LedSignal.isBrownedOut(),
-    //         LedSignal.isDSConnected(),
-    //         // LedSignal.hasTarget(),
-    //         LedSignal.isEndGame(),
-    //         // LedSignal.hasActiveFault(),
-    //         LedSignal.getLowBatteryLedSignal()
-    //     });
+    // new LedSegment[] { new LedSegment(left), new LedSegment(right) },
+    // new LedSignal[] {
+    // LedSignal.isBrownedOut(),
+    // LedSignal.isDSConnected(),
+    // // LedSignal.hasTarget(),
+    // LedSignal.isEndGame(),
+    // // LedSignal.hasActiveFault(),
+    // LedSignal.getLowBatteryLedSignal()
+    // });
     autoChooser = AutoBuilder.buildAutoChooser();
 
     // Another option that allows you to specify the default auto by its name
     // autoChooser = AutoBuilder.buildAutoChooser("My Default Auto");
-
-
 
     SmartDashboard.putData("Auto Chooser", autoChooser);
   }
@@ -160,5 +147,3 @@ m_operatorController.a().onTrue(Commands.runOnce(m_arm::setZero, m_arm));
     return new RobotSelfCheckCommand(driveTrain);
   }
 }
-
-  

@@ -14,11 +14,11 @@ public class SparkMaxWrapper {
     private int id;
     public String name;
     public CANSparkMax sparkMax;
-    SparkPIDController pidController;
+    public SparkPIDController pidController;
 
     public SparkMaxWrapper(int id, String name, double P, double I, double D) {
-        id = this.id;
-        name = this.name;
+        this.id = id;
+        this.name = name;
         this.P = P;
         this.I = I;
         this.D = D;
@@ -51,5 +51,9 @@ public class SparkMaxWrapper {
 
     public void set(double speed) {
         sparkMax.set(speed);
+    }
+
+    public void setReference(double speed) {
+        pidController.setReference(speed, CANSparkMax.ControlType.kSmartVelocity);
     }
 }
