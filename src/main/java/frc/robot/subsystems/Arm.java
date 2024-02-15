@@ -23,6 +23,7 @@ public class Arm extends SubsystemBase implements CheckableSubsystem {
     public Arm() {
 
         ArmTalonFX = new TalonFXWrapper(Constants.Arm.ARM_TALON, "Arm");
+        
         TunableTalonFX.addTunableTalonFX(ArmTalonFX, 0, 0, 0, 0, 0, 0, 0);
     }
 
