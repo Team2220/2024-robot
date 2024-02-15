@@ -85,11 +85,11 @@ public class RobotContainer {
     m_operatorController.b().onTrue(m_arm.setPositionCommand(45));
 
     var driveCommand = driveTrain.driveCommand(() -> {
-      return m_driverController.getLeftX(0.1);
+      return m_driverController.getLeftX(0.1) * -1;
     }, () -> {
-      return m_driverController.getLeftY(0.1);
+      return m_driverController.getLeftY(0.1) * -1;
     }, () -> {
-      return m_driverController.getRightX(0.15);
+      return m_driverController.getRightX(0.15) * -1;
     });
     driveTrain.setDefaultCommand(driveCommand);
     m_driverController.joysticksTrigger(.1).onTrue(driveCommand);
