@@ -10,36 +10,62 @@ import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import frc.lib.TalonFXWrapper;
 import frc.lib.tunables.TunableDouble;
 
 public class TunableTalonFX {
 
 
-  public static void addTunableTalonFX(TalonFX talonFX, double P, double I, double D, double G) {
+  public static void addTunableTalonFX(
+    TalonFXWrapper talonFXWrapper,
+    double P, 
+    double I, 
+    double D, 
+    double G,
+    double Acceleration,
+    double CruiseVelocity,
+    double Jerk
+   ) {
+    TalonFX talonFX = talonFXWrapper.getTalon();
+    TalonFXConfiguration talonFXConfigs = new TalonFXConfiguration();
 
-    Slot0Configs talonFXConfigs = new Slot0Configs();
-
-    new TunableDouble("P", P, "P", value -> {
-      talonFXConfigs.kP = value;
+    new TunableDouble("P", P, talonFXWrapper.getName(), value -> {
+      talonFXConfigs.Slot0.kP = value;
       talonFX.getConfigurator().apply(talonFXConfigs);
     });
 
-    new TunableDouble("I", I, "I", value -> {
-      talonFXConfigs.kI = value;
+    new TunableDouble("I", I, talonFXWrapper.getName(), value -> {
+      talonFXConfigs.Slot0.kI = value;
       talonFX.getConfigurator().apply(talonFXConfigs);
     });
 
-    new TunableDouble("D", D, "D", value -> {
-      talonFXConfigs.kD = value;
+    new TunableDouble("D", D, talonFXWrapper.getName(), value -> {
+      talonFXConfigs.Slot0.kD = value;
       talonFX.getConfigurator().apply(talonFXConfigs);
     });
 
-    new TunableDouble("G", G, "G", value -> {
-      talonFXConfigs.kG = value;
+    new TunableDouble("G", G, talonFXWrapper.getName(), value -> {
+      talonFXConfigs.Slot0.kG = value;
+      talonFX.getConfigurator().apply(talonFXConfigs);
+    });
+
+    new TunableDouble("Acceleration", Acceleration, talonFXWrapper.getName(), value -> {
+      talonFXConfigs.MotionMagic.MotionMagicAcceleration = value;
+      talonFX.getConfigurator().apply(talonFXConfigs);
+    });
+
+    new TunableDouble("CruiseVelocity", CruiseVelocity, talonFXWrapper.getName(), value -> {
+      talonFXConfigs.MotionMagic.MotionMagicCruiseVelocity = value;
+      talonFX.getConfigurator().apply(talonFXConfigs);
+    });
+
+    new TunableDouble("Jerk", Jerk, talonFXWrapper.getName(), value -> {
+      talonFXConfigs.MotionMagic.MotionMagicJerk = value;
       talonFX.getConfigurator().apply(talonFXConfigs);
     });
 
   }
+  
 
 }
 

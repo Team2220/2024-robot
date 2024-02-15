@@ -4,6 +4,7 @@ import java.util.function.DoubleSupplier;
 
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.MotionMagicDutyCycle;
+import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.PositionDutyCycle;
 
 import edu.wpi.first.wpilibj2.command.Command;
@@ -15,13 +16,14 @@ import frc.robot.Constants;
 
 public class Arm extends SubsystemBase implements CheckableSubsystem {
     TalonFXWrapper ArmTalonFX;
+    
 
-    final MotionMagicDutyCycle m_positionDutyCycle = new MotionMagicDutyCycle(0);
+    final MotionMagicVoltage m_positionDutyCycle = new MotionMagicVoltage(0);
 
     public Arm() {
 
         ArmTalonFX = new TalonFXWrapper(Constants.Arm.ARM_TALON, "Arm");
-        TunableTalonFX.addTunableTalonFX(ArmTalonFX.getTalon(), 0.01, 0, 0, 0);
+        TunableTalonFX.addTunableTalonFX(ArmTalonFX, 0, 0, 0, 0, 0, 0, 0);
     }
 
     // public Command dutyCycleCommand(DoubleSupplier speed) {
@@ -33,7 +35,7 @@ public class Arm extends SubsystemBase implements CheckableSubsystem {
     // }
     public void setPosition(double degrees) {
 
-        ArmTalonFX.setControlPosition(m_positionDutyCycle.withPosition(degrees / 360 * Constants.Arm.ARM_GEAR_RATIO));
+        ArmTalonFX.setControl(m_positionDutyCycle.withPosition(degrees / 360 * Constants.Arm.ARM_GEAR_RATIO));
     }
 
     public void setZero() {

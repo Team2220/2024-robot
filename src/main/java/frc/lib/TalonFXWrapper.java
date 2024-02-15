@@ -1,5 +1,6 @@
 package frc.lib;
 
+import com.ctre.phoenix6.controls.ControlRequest;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.MotionMagicDutyCycle;
 import com.ctre.phoenix6.controls.PositionDutyCycle;
@@ -35,13 +36,10 @@ public class TalonFXWrapper {
         return talon;
     }
 
-    public void setControl(DutyCycleOut dutyLeft) {
-        talon.setControl(dutyLeft);
+    public void setControl(ControlRequest controlRequest) {
+        talon.setControl(controlRequest);
     }
 
-    public void setControlPosition(MotionMagicDutyCycle motionMagicDutyCycle) {
-        talon.setControl(motionMagicDutyCycle);
-    }
 
 public void setPosition(double newPosition){
     talon.setPosition(newPosition);
