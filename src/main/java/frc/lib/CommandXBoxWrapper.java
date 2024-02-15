@@ -437,11 +437,17 @@ public class CommandXBoxWrapper {
     }
 
     public Trigger joysticksTrigger(double deadBand) {
-        return new Trigger(()->{
-            return getLeftX(deadBand)>0
-            || getLeftY(deadBand)>0 
-            || getRightX(deadBand)>0 
-            || getRightY(deadBand)>0;
+        return new Trigger(() -> {
+            return getLeftX(deadBand) > 0
+                    || getLeftY(deadBand) > 0
+                    || getRightX(deadBand) > 0
+                    || getRightY(deadBand) > 0;
+        });
+    }
+
+    public Trigger leftYTrigger(double deadBand) {
+        return new Trigger(() -> {
+            return getLeftY(deadBand) > 0;
         });
     }
 }

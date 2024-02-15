@@ -74,11 +74,15 @@ public class RobotContainer {
       return m_operatorController.getRightY(0.1);
     }));
 
-    m_arm.setDefaultCommand(Commands.run(() -> {
+    var armCommand = Commands.run(() -> {
       m_arm.setPosition(m_operatorController.getLeftY(0.1) * 90);
-    }, m_arm));
+    }, m_arm);
+    m_operatorController.leftYTrigger(0.1).onTrue(armCommand);
+    m_arm.setDefaultCommand(armCommand);
 
     m_operatorController.a().onTrue(Commands.runOnce(m_arm::setZero, m_arm));
+    m_operatorController.y().onTrue(m_arm.setPositionCommand(90));
+    m_operatorController.b().onTrue(m_arm.setPositionCommand(45));
 
     var driveCommand = driveTrain.driveCommand(() -> {
       return m_driverController.getLeftX(0.1);
