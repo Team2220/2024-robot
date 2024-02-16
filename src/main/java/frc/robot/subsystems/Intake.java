@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.TalonFXWrapper;
 import frc.lib.selfCheck.CheckCommand;
 import frc.lib.selfCheck.CheckableSubsystem;
+import frc.lib.selfCheck.SpinTalonCheck;
 import frc.robot.Constants;
 
 public class Intake extends SubsystemBase implements CheckableSubsystem{
@@ -30,6 +31,8 @@ public class Intake extends SubsystemBase implements CheckableSubsystem{
 
     @Override
     public CheckCommand[] getCheckCommands() {
-        return new CheckCommand[]{};
+        return new CheckCommand[]{
+            new SpinTalonCheck(intake),
+        };
     }
 }

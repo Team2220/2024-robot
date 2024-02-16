@@ -157,7 +157,7 @@ m_operatorController.a().onTrue(Commands.runOnce(m_arm::setZero, m_arm));
   }
 
   public Command getTestCommand() {
-    return new RobotSelfCheckCommand(driveTrain);
+    return new RobotSelfCheckCommand(driveTrain, intake);
   }
 }
 
