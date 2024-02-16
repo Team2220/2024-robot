@@ -6,8 +6,6 @@ import com.ctre.phoenix6.configs.AudioConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 
-import frc.lib.faults.TalonFXLogPowerFaults;
-
 public class TalonFXWrapper {
     private TalonFX talon;
     private String name;
@@ -23,6 +21,11 @@ public class TalonFXWrapper {
         audioConfigs.AllowMusicDurDisable = true;
         talon.getConfigurator().apply(audioConfigs);
 
+    }
+
+    public void holdPosition() {
+        double position = talon.getPosition().getValueAsDouble();
+        talon.setPosition(position);
     }
 
     public String getName() {

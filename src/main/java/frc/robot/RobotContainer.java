@@ -15,6 +15,8 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
+
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
@@ -23,6 +25,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -76,7 +79,12 @@ public class RobotContainer {
     }));
 
     var armCommand = Commands.run(() -> {
-      m_arm.setPosition(m_operatorController.getLeftY(0.1) * 90);
+      var joyStickPosition = m_operatorController.getLeftY(0.1);
+      if (joyStickPosition > 0.01 || joyStickPosition < -0.01) {
+        m_arm.setDutyCycle(joyStickPosition);
+      } else {
+        m_arm.holdPosition();
+      }
     }, m_arm);
     m_operatorController.leftYTrigger(0.1).onTrue(armCommand);
     m_arm.setDefaultCommand(armCommand);
@@ -105,12 +113,21 @@ public class RobotContainer {
     // // LedSignal.hasActiveFault(),
     // LedSignal.getLowBatteryLedSignal()
     // });
+   NamedCommands.registerCommand("test print", Commands.print("heloo foortnite"));
+   NamedCommands.registerCommand("boxy", Commands.run(()->{
+    m_arm.setPosition(90);
+   }, m_arm));
+   NamedCommands.registerCommand("sucky", intake.setDutyCycleCommand(.5).withTimeout(2));
+   NamedCommands.registerCommand("themo", shooter.setDutyCycleCommand(.5, .5).withTimeout(2));
+
+
     autoChooser = AutoBuilder.buildAutoChooser();
 
     // Another option that allows you to specify the default auto by its name
     // autoChooser = AutoBuilder.buildAutoChooser("My Default Auto");
 
     SmartDashboard.putData("Auto Chooser", autoChooser);
+
   }
 
   /**
