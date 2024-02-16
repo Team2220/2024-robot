@@ -1,13 +1,13 @@
-package frc.lib;
+package frc.lib.selfCheck;
 
 import edu.wpi.first.wpilibj.DataLogManager;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.lib.selfCheck.CheckCommand;
-import frc.lib.selfCheck.CheckableSubsystem;
+import frc.lib.MusicToneCommand;
 
 public class RobotSelfCheckCommand extends SequentialCommandGroup {
-    public RobotSelfCheckCommand(CheckableSubsystem... subsystems) {
+    public RobotSelfCheckCommand( Command onPassCommand, Command onFailedCommand, CheckableSubsystem... subsystems) {
         for (CheckableSubsystem subsystem : subsystems) {
             var commands = subsystem.getCheckCommands();
             for (CheckCommand command : commands) {
@@ -25,6 +25,7 @@ public class RobotSelfCheckCommand extends SequentialCommandGroup {
             
 
         }));
+        addCommands(Commands.either(onFailedCommand, onPassCommand, ()-> anyFailed));
     }
 
     public boolean anyFailed = false;
