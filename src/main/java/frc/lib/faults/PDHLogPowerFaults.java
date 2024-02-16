@@ -4,6 +4,7 @@ package frc.lib.faults;
 import java.util.ArrayList;
 
 import edu.wpi.first.hal.PowerDistributionStickyFaults;
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import frc.lib.EventLoops;
@@ -30,6 +31,7 @@ public class PDHLogPowerFaults {
     private static void checkPDH(IsolatedEventLoop oncepersec) {
         oncepersec.bind(() -> {
             if (firstCheckPdh) {
+                logFaults(pdh.getStickyFaults());
                 pdh.clearStickyFaults();
                 firstCheckPdh = false;
             }
@@ -108,5 +110,91 @@ public class PDHLogPowerFaults {
         channel21BreakerFault.setIsActive(faults.Channel21BreakerFault && !unusedBreakers.contains(21));
         channel22BreakerFault.setIsActive(faults.Channel22BreakerFault && !unusedBreakers.contains(22));
         channel23BreakerFault.setIsActive(faults.Channel23BreakerFault && !unusedBreakers.contains(23));
+    }
+    private static void logFaults(PowerDistributionStickyFaults faults) {
+        if (faults.Brownout){
+            DataLogManager.log("PDH Brownout Fault");
+        }
+        if (faults.HasReset){
+            DataLogManager.log("PDH HasReset Fault");
+        }
+        if (faults.CanWarning){
+            DataLogManager.log("PDH CanWarning Fault");
+        }
+        if (faults.CanBusOff){
+            DataLogManager.log("PDH CanBusOff Fault");
+        }
+        if (faults.Channel0BreakerFault){
+            DataLogManager.log("PDH Channel0BreakerFault Fault");
+        }
+        if (faults.Channel1BreakerFault){
+            DataLogManager.log("PDH Channel1BreakerFault Fault");
+        }
+        if (faults.Channel2BreakerFault){
+            DataLogManager.log("PDH Channel2BreakerFault Fault");
+        }
+        if (faults.Channel3BreakerFault){
+            DataLogManager.log("PDH Channel3BreakerFault Fault");
+        }
+        if (faults.Channel4BreakerFault){
+            DataLogManager.log("PDH Channel4BreakerFault Fault");
+        }
+        if (faults.Channel5BreakerFault){
+            DataLogManager.log("PDH Channel5BreakerFault Fault");
+        }
+        if (faults.Channel6BreakerFault){
+            DataLogManager.log("PDH Channel6BreakerFault Fault");
+        }
+        if (faults.Channel7BreakerFault){
+            DataLogManager.log("PDH Channel7BreakerFault Fault");
+        }
+        if (faults.Channel8BreakerFault){
+            DataLogManager.log("PDH Channel8BreakerFault Fault");
+        }
+        if (faults.Channel9BreakerFault){
+            DataLogManager.log("PDH Channel9BreakerFault Fault");
+        }
+        if (faults.Channel10BreakerFault){
+            DataLogManager.log("PDH Channel10BreakerFault Fault");
+        }
+        if (faults.Channel11BreakerFault){
+            DataLogManager.log("PDH Channel11BreakerFault Fault");
+        }
+        if (faults.Channel12BreakerFault){
+            DataLogManager.log("PDH Channel2BreakerFault Fault");
+        }
+        if (faults.Channel13BreakerFault){
+            DataLogManager.log("PDH Channel3BreakerFault Fault");
+        }
+        if (faults.Channel14BreakerFault){
+            DataLogManager.log("PDH Channel4BreakerFault Fault");
+        }
+        if (faults.Channel15BreakerFault){
+            DataLogManager.log("PDH Channel5BreakerFault Fault");
+        }
+        if (faults.Channel16BreakerFault){
+            DataLogManager.log("PDH Channel6BreakerFault Fault");
+        }
+        if (faults.Channel7BreakerFault){
+            DataLogManager.log("PDH Channel7BreakerFault Fault");
+        }
+        if (faults.Channel18BreakerFault){
+            DataLogManager.log("PDH Channel8BreakerFault Fault");
+        }
+        if (faults.Channel9BreakerFault){
+            DataLogManager.log("PDH Channel9BreakerFault Fault");
+        }
+        if (faults.Channel20BreakerFault){
+            DataLogManager.log("PDH Channel20BreakerFault Fault");
+        }
+        if (faults.Channel21BreakerFault){
+            DataLogManager.log("PDH Channel21BreakerFault Fault");
+        }
+        if (faults.Channel22BreakerFault){
+            DataLogManager.log("PDH Channel22BreakerFault Fault");
+        }
+        if (faults.Channel23BreakerFault){
+            DataLogManager.log("PDH Channel23BreakerFault Fault");
+        }
     }
 }
