@@ -16,11 +16,11 @@
     },
     {
       "anchor": {
-        "x": 1.0,
+        "x": 4.241728768764241,
         "y": 0.0
       },
       "prevControl": {
-        "x": 0.0,
+        "x": 3.241728768764241,
         "y": 0.0
       },
       "nextControl": null,
@@ -30,7 +30,28 @@
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "test print",
+      "waypointRelativePos": 0.5,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": []
+        }
+      }
+    },
+    {
+      "name": "boxy",
+      "waypointRelativePos": 0.8,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": []
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 5.0,
     "maxAcceleration": 3.0,

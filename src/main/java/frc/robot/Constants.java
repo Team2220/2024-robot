@@ -28,21 +28,20 @@ public final class Constants {
   }
 
   public static class Shooter {
-    public static int id_left = 10;
-    public static int id_right = 11;
-    public static double gear_ratio = 30.0/18.0;
+    public static final int id_left = 4;
+    public static final int id_right = 5;
+    public static final double gear_ratio = 30.0 / 18.0;
   }
 
   public static class Intake {
-    public static int id_intake = 10;
-    public static int id_conv = 9;
+    public static final int id_intake = 3;
+    public static final int id_conv = 5;
+    public static final int noteSensorId = 0;
   }
 
   public static class Arm {
-    public static int ARM_TALON = 20;
-    // public static double ARM_GEAR_RATIO = (5.0/1.0)*(4.0/1.0)*(3.0/1.0)*(18.0/58.0);
-    
-    public static double ARM_GEAR_RATIO = (5.0 / 1.0) * (5.0 / 1.0) * (5.0 / 1.0);
+    public static final int ARM_TALON = 20;
+    public static final double ARM_GEAR_RATIO = (5.0 / 1.0) * (4.0 / 1.0) * (3.0 / 1.0) * (58.0 / 18.0);
   }
 
   public static final class LimelightConfig {

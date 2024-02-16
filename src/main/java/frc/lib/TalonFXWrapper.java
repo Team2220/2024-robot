@@ -1,13 +1,10 @@
 package frc.lib;
 
-import com.ctre.phoenix6.controls.DutyCycleOut;
-import com.ctre.phoenix6.controls.PositionDutyCycle;
+import com.ctre.phoenix6.controls.ControlRequest;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.AudioConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
-
-import frc.lib.faults.TalonFXLogPowerFaults;
 
 public class TalonFXWrapper {
     private TalonFX talon;
@@ -16,7 +13,7 @@ public class TalonFXWrapper {
     public TalonFXWrapper(int id, String name) {
         talon = new TalonFX(id);
         this.name = name;
-        TalonFXLogPowerFaults.setupChecks(this);
+        // TalonFXLogPowerFaults.setupChecks(this);
         talon.getConfigurator().apply(new TalonFXConfiguration());
         var audioConfigs = new AudioConfigs();
         audioConfigs.BeepOnBoot = false;
@@ -26,27 +23,32 @@ public class TalonFXWrapper {
 
     }
 
+    public void holdPosition() {
+        double position = talon.getPosition().getValueAsDouble();
+        talon.setPosition(position);
+    }
+
     public String getName() {
         return name + " (" + talon.getDeviceID() + ")";
+    }
+
+    public void setInverted(boolean isInverted) {
+        talon.setInverted(isInverted);
     }
 
     public TalonFX getTalon() {
         return talon;
     }
 
-    public void setControl(DutyCycleOut dutyLeft) {
-        talon.setControl(dutyLeft);
+    public void setControl(ControlRequest controlRequest) {
+        talon.setControl(controlRequest);
     }
 
-    public void setControlPosition(PositionDutyCycle positionDutyCycle) {
-        talon.setControl(positionDutyCycle);
+    public void setPosition(double newPosition) {
+        talon.setPosition(newPosition);
     }
 
-public void setPosition(double newPosition){
-    talon.setPosition(newPosition);
-}
-
-public StatusSignal<Double> getRotorPosition() {
-    return talon.getRotorPosition();
-}
+    public StatusSignal<Double> getRotorPosition() {
+        return talon.getRotorPosition();
+    }
 }
