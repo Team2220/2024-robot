@@ -5,6 +5,7 @@
 package frc.robot;
 
 import frc.lib.CommandXBoxWrapper;
+import frc.lib.MusicToneCommand;
 import frc.lib.RobotSelfCheckCommand;
 import frc.lib.TalonOrchestra;
 import frc.lib.faults.PDHLogPowerFaults;
@@ -132,6 +133,7 @@ public class RobotContainer {
     m_driverController.x().whileTrue((driveTrain.xcommand()));
     m_driverController.y().onTrue(new TalonOrchestra(driveTrain));
     m_driverController.b().onTrue(driveTrain.slowMode());
+    m_driverController.start().whileTrue(new MusicToneCommand(256, driveTrain));
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is
     // pressed,
     // cancelling on release.
