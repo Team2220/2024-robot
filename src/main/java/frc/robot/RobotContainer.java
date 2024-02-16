@@ -150,7 +150,7 @@ public class RobotContainer {
     m_driverController.x().whileTrue((driveTrain.xcommand()));
     m_driverController.y().onTrue(new TalonOrchestra(driveTrain));
     m_driverController.b().onTrue(driveTrain.slowMode());
-    m_driverController.start().whileTrue(new MusicToneCommand(256, driveTrain));
+    m_driverController.start().whileTrue(new MusicToneCommand(256, driveTrain)); // 256 Hz is middle C
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is
     // pressed,
     // cancelling on release.
