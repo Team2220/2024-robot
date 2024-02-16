@@ -12,9 +12,9 @@ public class DigitalInputWrapper {
     DigitalInput dInput;
 
     public DigitalInputWrapper(int channel, String name, boolean inverted) {
-        channel = this.channel;
-        name = this.name;
-        inverted = this.inverted;
+        this.channel = channel;
+        this.name = name;;
+        this.inverted = inverted;
         dInput = new DigitalInput(channel);
         Shuffleboard.getTab("sensors").addBoolean(name,this::get);
     }
