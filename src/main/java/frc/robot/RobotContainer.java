@@ -78,7 +78,12 @@ public class RobotContainer {
     }));
 
     var armCommand = Commands.run(() -> {
-      m_arm.setPosition(m_operatorController.getLeftY(0.1) * 90);
+      var joyStickPosition = m_operatorController.getLeftY(0.1);
+      if (joyStickPosition > 0.01 || joyStickPosition < -0.01) {
+        m_arm.setDutyCycle(joyStickPosition);
+      } else {
+        m_arm.holdPosition();
+      }
     }, m_arm);
     m_operatorController.leftYTrigger(0.1).onTrue(armCommand);
     m_arm.setDefaultCommand(armCommand);
