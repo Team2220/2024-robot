@@ -29,6 +29,10 @@ public class Arm extends SubsystemBase implements CheckableSubsystem {
         });
     }
 
+    public void holtPosition() {
+        ArmTalonFX.holdPosition();
+    }
+
     public void setPosition(double degrees) {
 
         ArmTalonFX.setControl(m_positionDutyCycle.withPosition(degrees / 360.0 * Constants.Arm.ARM_GEAR_RATIO));
