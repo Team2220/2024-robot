@@ -36,7 +36,6 @@ public class Arm extends SubsystemBase implements CheckableSubsystem {
     public void setDutyCycle(double value) {
         DutyCycleOut duty = new DutyCycleOut(value);
         ArmTalonFX.setControl(duty);
-
     }
 
     public void setPosition(double degrees) {
