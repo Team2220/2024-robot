@@ -167,6 +167,6 @@ public class RobotContainer {
   }
 
   public Command getTestCommand() {
-    return new RobotSelfCheckCommand(driveTrain);
+    return new RobotSelfCheckCommand(driveTrain, intake);
   }
 }

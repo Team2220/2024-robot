@@ -1,7 +1,11 @@
-package frc.lib;
+package frc.lib.selfCheck;
 
 import com.ctre.phoenix6.controls.DutyCycleOut;
 
+import frc.lib.TalonFXWrapper;
+import frc.lib.TalonFXWrapper;
+import frc.lib.TalonFXWrapper;
+import frc.lib.TalonFXWrapper;
 import frc.lib.selfCheck.CheckCommand;
 
 public class SpinTalonCheck extends CheckCommand {
