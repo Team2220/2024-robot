@@ -1,0 +1,237 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 0.36878105135577316,
+        "y": 1.9465961310122464
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.318050794646062,
+        "y": 2.902695153040673
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 0.8058548899900084,
+        "y": 4.6031855564987705
+      },
+      "prevControl": {
+        "x": 0.9094431564347826,
+        "y": 4.663761715628963
+      },
+      "nextControl": {
+        "x": 0.7027569432042593,
+        "y": 4.542896125612124
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.8956141809867075,
+        "y": 4.097818930571464
+      },
+      "prevControl": {
+        "x": 3.035673662043047,
+        "y": 4.099525305003047
+      },
+      "nextControl": {
+        "x": 2.755554699930368,
+        "y": 4.096112556139881
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 0.8058548899900084,
+        "y": 4.6031855564987705
+      },
+      "prevControl": {
+        "x": 1.064191280712237,
+        "y": 4.417426150274154
+      },
+      "nextControl": {
+        "x": 0.5475184992677802,
+        "y": 4.788944962723388
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.417564669976574,
+        "y": 2.3904992483808254
+      },
+      "prevControl": {
+        "x": 1.4887827628669292,
+        "y": 1.9124497373685077
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1,
+      "rotationDegrees": -60.0,
+      "rotateFast": true
+    },
+    {
+      "waypointRelativePos": 2,
+      "rotationDegrees": 0.0,
+      "rotateFast": true
+    },
+    {
+      "waypointRelativePos": 3,
+      "rotationDegrees": -60.0,
+      "rotateFast": true
+    }
+  ],
+  "constraintZones": [],
+  "eventMarkers": [
+    {
+      "name": "arm set",
+      "waypointRelativePos": 0.3,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "boxy"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "shoot",
+      "waypointRelativePos": 0.8,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "sucky"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "themo"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "intak",
+      "waypointRelativePos": 1.55,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "20degrees"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "sucky"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "shoot again",
+      "waypointRelativePos": 2.6,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "boxy"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "New Event Markershooty",
+      "waypointRelativePos": 2.85,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "themo"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "sucky"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "New Event Marker",
+      "waypointRelativePos": 3.5,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "20degrees"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 1.0,
+    "maxAcceleration": 1.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 2.0825652803085664,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": null,
+  "previewStartingState": {
+    "rotation": 0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}
