@@ -7,6 +7,7 @@ package frc.robot;
 import frc.lib.CommandXBoxWrapper;
 import frc.lib.MusicToneCommand;
 import frc.lib.SparkMaxWrapper;
+import frc.lib.Note;
 import frc.lib.TalonOrchestra;
 import frc.lib.faults.PDHLogPowerFaults;
 import frc.lib.selfCheck.RobotSelfCheckCommand;
@@ -145,12 +146,14 @@ public class RobotContainer {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     m_driverController.a().onTrue(driveTrain.zeroCommand());
     m_driverController.x().whileTrue((driveTrain.xcommand()));
-    m_driverController.start().onTrue(new TalonOrchestra(driveTrain));
+    m_driverController.y().onTrue(new TalonOrchestra(driveTrain));
     m_driverController.b().onTrue(driveTrain.slowMode());
 
+    m_driverController.start().whileTrue(new MusicToneCommand(256, driveTrain)); // 256 Hz is middle C
     m_driverController.leftTrigger().whileTrue(intake.intakeUntilQueued());
     // m_driverController.start().whileTrue(new MusicToneCommand(256, driveTrain));
     // // 256 Hz is middle C
+
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is
     // pressed,
     // cancelling on release.
@@ -168,8 +171,14 @@ public class RobotContainer {
 
   public Command getTestCommand() {
     return new RobotSelfCheckCommand(
-        new MusicToneCommand(261.626, driveTrain).withTimeout(2),
-        new MusicToneCommand(440, driveTrain).withTimeout(2),
+        Commands.sequence(
+            new MusicToneCommand(Note.MiddleC, driveTrain).withTimeout(2),
+            new MusicToneCommand(Note.HighC, driveTrain).withTimeout(2)
+        ),
+        Commands.sequence(
+            new MusicToneCommand(Note.MiddleC, driveTrain).withTimeout(2),
+            new MusicToneCommand(Note.LowC, driveTrain).withTimeout(2)
+        ),
         driveTrain,
         intake);
   }

@@ -3,25 +3,79 @@ package frc.lib;
 import com.ctre.phoenix6.controls.ControlRequest;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.StatusSignal;
-import com.ctre.phoenix6.configs.AudioConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
+
+import frc.lib.tunables.TunableDouble;
 
 public class TalonFXWrapper {
     private TalonFX talon;
     private String name;
 
-    public TalonFXWrapper(int id, String name) {
+    public TalonFXWrapper(
+            int id,
+            String name,
+            double P,
+            double I,
+            double D,
+            double G,
+            double Acceleration,
+            double CruiseVelocity,
+            double Jerk) {
         talon = new TalonFX(id);
         this.name = name;
         // TalonFXLogPowerFaults.setupChecks(this);
-        talon.getConfigurator().apply(new TalonFXConfiguration());
-        var audioConfigs = new AudioConfigs();
-        audioConfigs.BeepOnBoot = false;
-        audioConfigs.BeepOnConfig = false;
-        audioConfigs.AllowMusicDurDisable = true;
-        talon.getConfigurator().apply(audioConfigs);
+        TalonFXConfiguration talonFXConfigs = new TalonFXConfiguration();
 
+        talonFXConfigs.Audio.BeepOnBoot = false;
+        talonFXConfigs.Audio.BeepOnConfig = false;
+        talonFXConfigs.Audio.AllowMusicDurDisable = true;
+
+        talonFXConfigs.CurrentLimits.StatorCurrentLimit = 40;
+        talonFXConfigs.CurrentLimits.StatorCurrentLimitEnable = true;
+        talonFXConfigs.CurrentLimits.SupplyCurrentLimit = 40;
+        talonFXConfigs.CurrentLimits.SupplyCurrentLimitEnable = true;
+
+        talon.getConfigurator().apply(talonFXConfigs);
+
+        new TunableDouble("P", P, getName(), value -> {
+            talonFXConfigs.Slot0.kP = value;
+            talon.getConfigurator().apply(talonFXConfigs);
+        });
+
+        new TunableDouble("I", I, getName(), value -> {
+            talonFXConfigs.Slot0.kI = value;
+            talon.getConfigurator().apply(talonFXConfigs);
+        });
+
+        new TunableDouble("D", D, getName(), value -> {
+            talonFXConfigs.Slot0.kD = value;
+            talon.getConfigurator().apply(talonFXConfigs);
+        });
+
+        new TunableDouble("G", G, getName(), value -> {
+            talonFXConfigs.Slot0.kG = value;
+            talon.getConfigurator().apply(talonFXConfigs);
+        });
+
+        new TunableDouble("Acceleration", Acceleration, getName(), value -> {
+            talonFXConfigs.MotionMagic.MotionMagicAcceleration = value;
+            talon.getConfigurator().apply(talonFXConfigs);
+        });
+
+        new TunableDouble("CruiseVelocity", CruiseVelocity, getName(), value -> {
+            talonFXConfigs.MotionMagic.MotionMagicCruiseVelocity = value;
+            talon.getConfigurator().apply(talonFXConfigs);
+        });
+
+        new TunableDouble("Jerk", Jerk, getName(), value -> {
+            talonFXConfigs.MotionMagic.MotionMagicJerk = value;
+            talon.getConfigurator().apply(talonFXConfigs);
+        });
+    }
+
+    public TalonFXWrapper(int id, String name) {
+        this(id, name, 0, 0, 0, 0, 0, 0, 0);
     }
 
     public void holdPosition() {
