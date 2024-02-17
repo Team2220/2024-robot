@@ -113,13 +113,12 @@ public class RobotContainer {
     // // LedSignal.hasActiveFault(),
     // LedSignal.getLowBatteryLedSignal()
     // });
-   NamedCommands.registerCommand("test print", Commands.print("heloo foortnite"));
-   NamedCommands.registerCommand("boxy", Commands.run(()->{
-    m_arm.setPosition(90);
-   }, m_arm));
-   NamedCommands.registerCommand("sucky", intake.setDutyCycleCommand(.5).withTimeout(2));
-   NamedCommands.registerCommand("themo", shooter.setDutyCycleCommand(.5, .5).withTimeout(2));
-
+    NamedCommands.registerCommand("test print", Commands.print("heloo foortnite"));
+    NamedCommands.registerCommand("boxy", Commands.run(() -> {
+      m_arm.setPosition(90);
+    }, m_arm));
+    NamedCommands.registerCommand("sucky", intake.setDutyCycleCommand(.5).withTimeout(2));
+    NamedCommands.registerCommand("themo", shooter.setDutyCycleCommand(.5, .5).withTimeout(2));
 
     autoChooser = AutoBuilder.buildAutoChooser();
 
@@ -148,9 +147,12 @@ public class RobotContainer {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     m_driverController.a().onTrue(driveTrain.zeroCommand());
     m_driverController.x().whileTrue((driveTrain.xcommand()));
-    m_driverController.y().onTrue(new TalonOrchestra(driveTrain));
+    m_driverController.start().onTrue(new TalonOrchestra(driveTrain));
     m_driverController.b().onTrue(driveTrain.slowMode());
-    m_driverController.start().whileTrue(new MusicToneCommand(256, driveTrain)); // 256 Hz is middle C
+
+    m_driverController.leftTrigger().whileTrue(intake.intakeUntilQueued());
+    // m_driverController.start().whileTrue(new MusicToneCommand(256, driveTrain));
+    // // 256 Hz is middle C
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is
     // pressed,
     // cancelling on release.
@@ -168,9 +170,9 @@ public class RobotContainer {
 
   public Command getTestCommand() {
     return new RobotSelfCheckCommand(
-      new MusicToneCommand( 261.626, driveTrain).withTimeout(2),
-      new MusicToneCommand(440, driveTrain).withTimeout(2),
-       driveTrain,
+        new MusicToneCommand(261.626, driveTrain).withTimeout(2),
+        new MusicToneCommand(440, driveTrain).withTimeout(2),
+        driveTrain,
         intake);
   }
 }
