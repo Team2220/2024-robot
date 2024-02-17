@@ -2,6 +2,7 @@ package frc.lib;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkPIDController;
+import com.revrobotics.CANSparkBase.FaultID;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import frc.lib.faults.SparkMaxLogPowerFaults;
@@ -44,11 +45,19 @@ public class SparkMaxWrapper {
             pidController.setSmartMotionAllowedClosedLoopError(value, 0);
         });
 
-        SparkMaxLogPowerFaults.setupCheck(sparkMax);
+        SparkMaxLogPowerFaults.setupCheck(this);
     }
 
     public SparkMaxWrapper(int id, String name) {
         this(id, name, 0, 0, 0, 0, 0, 0);
+    }
+
+    public boolean getStickyFault(FaultID faultID) {
+        return sparkMax.getStickyFault(faultID);
+    }
+
+    public void clearFaults() {
+        sparkMax.clearFaults();
     }
 
     public void setInverted(boolean inverted) {
