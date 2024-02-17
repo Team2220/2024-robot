@@ -1,5 +1,10 @@
 package frc.lib.faults;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.function.BooleanSupplier;
 
 import edu.wpi.first.util.datalog.BooleanLogEntry;
@@ -59,7 +64,23 @@ public final class Fault {
 
     public static void setupDefaultFaults() {
         // autoUpdating("canBusUtilization", () -> {
-        //     return RobotController.getCANStatus().percentBusUtilization > 0.8;
+        // return RobotController.getCANStatus().percentBusUtilization > 0.8;
         // });
+
+        autoUpdating("No usb connected into roboreo", () -> {
+            try {
+                // prefer a mounted USB drive if one is accessible
+                Path usbDir = Paths.get("/u").toRealPath();
+                if (Files.isWritable(usbDir)) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } catch (IOException ex) {
+                return false;
+            }
+
+        });
     }
+
 }

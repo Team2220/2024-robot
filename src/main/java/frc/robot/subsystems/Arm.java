@@ -17,9 +17,9 @@ public class Arm extends SubsystemBase implements CheckableSubsystem {
     final MotionMagicVoltage m_positionDutyCycle = new MotionMagicVoltage(0);
 
     public Arm() {
-        ArmTalonFX = new TalonFXWrapper(Constants.Arm.ARM_TALON, "Arm");
+        ArmTalonFX = new TalonFXWrapper(Constants.Arm.ARM_TALON, "Arm", 15, 0, 0.1, 0, 3000, 3000,
+                3000, true, true, 90 * Constants.Arm.ARM_GEAR_RATIO, 0);
         ArmTalonFX.setInverted(true);
-        TunableTalonFX.addTunableTalonFX(ArmTalonFX, 15, 0, 0.1, 0, 3000, 3000, 3000);
     }
 
     public Command dutyCycleCommand(DoubleSupplier speed) {

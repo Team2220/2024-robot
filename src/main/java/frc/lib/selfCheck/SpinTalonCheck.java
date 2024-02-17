@@ -23,13 +23,13 @@ public class SpinTalonCheck extends CheckCommand {
     }
     @Override
     public boolean isFinished() {
-        return Math.abs(position - talon.getRotorPosition().getValueAsDouble()) > 10;
+        return Math.abs(position - talon.getRotorPosition().getValueAsDouble()) > 20;
     }
 
     @Override
     public
     double getTimeoutSeconds() {
-        return 10;
+        return 3;
 
     }
     @Override

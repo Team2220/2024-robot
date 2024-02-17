@@ -2,6 +2,10 @@ package frc.robot.subsystems;
 
 import java.util.function.DoubleSupplier;
 
+import com.revrobotics.CANEncoder;
+
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.SparkMaxWrapper;
@@ -15,26 +19,36 @@ public class Shooter extends SubsystemBase implements CheckableSubsystem {
 
     public Shooter() {
         left = new SparkMaxWrapper(Constants.Shooter.id_left, "leftShooter");
+        left.setInverted(true);
         right = new SparkMaxWrapper(Constants.Shooter.id_right, "rightShooter");
+        right.setInverted(false);
+        left.getVelocity();
+        right.getVelocity();
+        Shuffleboard.getTab("ShooterSpeed").addDouble("ShooterVelocityRight", () -> right.getVelocity())
+                .withWidget(BuiltInWidgets.kGraph);
+
+        Shuffleboard.getTab("ShooterSpeed").addDouble("ShooterVelocityLeft", () -> left.getVelocity())
+                .withWidget(BuiltInWidgets.kGraph);
     }
 
-    public Command dutyCycleCommand(DoubleSupplier leftSpeed, DoubleSupplier rightSpeed) {
+    public Command dutyCycleCommand(DoubleSupplier speed) {
         return this.run(() -> {
-            left.set(leftSpeed.getAsDouble());
-            right.set(rightSpeed.getAsDouble());
-        });
-    }
-    public Command setDutyCycleCommand(double leftSpeed, double rightSpeed){
-        return this.run(() -> {
-            left.set(.5);
-            right.set(.5);
+            left.set(speed.getAsDouble());
+            right.set(speed.getAsDouble());
         });
     }
 
-    public Command velocityCommand(double leftSpeed, double rightSpeed) {
+    public Command setDutyCycleCommand(double speed) {
         return this.run(() -> {
-            left.setReference(leftSpeed * Constants.Shooter.gear_ratio);
-            right.setReference(rightSpeed * Constants.Shooter.gear_ratio);
+            left.set(speed);
+            right.set(speed);
+        });
+    }
+
+    public Command velocityCommand(double speed) {
+        return this.run(() -> {
+            left.setReference(speed * Constants.Shooter.gear_ratio);
+            right.setReference(speed * Constants.Shooter.gear_ratio);
         }).finallyDo(() -> {
             left.setReference(0);
             right.setReference(0);

@@ -1,7 +1,10 @@
 {
   "NTProvider": {
     "types": {
-      "/FMSInfo": "FMSInfo"
+      "/FMSInfo": "FMSInfo",
+      "/Shuffleboard/Scheduler/Scheduler": "Scheduler",
+      "/Shuffleboard/field/Field": "Field2d",
+      "/SmartDashboard/Auto Chooser": "String Chooser"
     }
   },
   "NetworkTables Info": {
