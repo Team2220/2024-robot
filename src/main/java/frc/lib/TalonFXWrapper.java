@@ -90,12 +90,12 @@ public class TalonFXWrapper {
         RobotControllerTriggers.isSysActive().debounce(2).onFalse(Commands.runOnce(()->{
             talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Coast;
             talon.getConfigurator().apply(talonFXConfigs);
-        } ).runsWhenDisabled());
+        } ).ignoringDisable(true));
 
           RobotControllerTriggers.isSysActive().onTrue(Commands.runOnce(()->{
             talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
             talon.getConfigurator().apply(talonFXConfigs);
-        } ).runsWhenDisabled());
+        } ).ignoringDisable(true));
     }
 
 
