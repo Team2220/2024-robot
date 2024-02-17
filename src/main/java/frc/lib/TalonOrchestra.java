@@ -23,7 +23,7 @@ public class TalonOrchestra extends Command {
     @Override
     public void initialize() {
 
-        orchestra.loadMusic("chip.chrp");
+        orchestra.loadMusic("despaceto.chrp");
         orchestra.play();
     }
 
