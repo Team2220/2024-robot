@@ -4,6 +4,9 @@ import java.util.function.DoubleSupplier;
 
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
+
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.TalonFXWrapper;
@@ -18,8 +21,10 @@ public class Arm extends SubsystemBase implements CheckableSubsystem {
 
  public Arm() {
  ArmTalonFX = new TalonFXWrapper(Constants.Arm.ARM_TALON, "Arm", 15, 0, 0.1, 0, 3000, 3000,
-            3000, false, false, 0, 90 * Constants.Arm.ARM_GEAR_RATIO);
-      ArmTalonFX.setInverted(true);
+            3000, true, true, 110.0/360.0 * Constants.Arm.ARM_GEAR_RATIO,0);
+      ArmTalonFX.setInverted(false);
+      Shuffleboard.getTab("Arm").addDouble("ArmAngle", () -> ArmTalonFX.getRotorPosition().refresh().getValueAsDouble()/Constants.Arm.ARM_GEAR_RATIO*360);
+               
     }
 
     public Command dutyCycleCommand(DoubleSupplier speed) {
