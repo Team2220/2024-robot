@@ -55,6 +55,7 @@ public enum RobotInstance {
         var check = fromString(getMacAddressStr());
         if (check == null) {
             fault.setIsActive(true);
+            System.out.println("Unknown Robot MAC Address: " + getMacAddressStr());
             return Robot24;
         } else {
             return check;
