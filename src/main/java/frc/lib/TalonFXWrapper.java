@@ -27,6 +27,7 @@ public class TalonFXWrapper {
         currentLimConfig.StatorCurrentLimitEnable = true;
         currentLimConfig.SupplyCurrentLimit = 40;
         currentLimConfig.SupplyCurrentLimitEnable = true;
+        talon.getConfigurator().apply(currentLimConfig);
     }
 
     public void holdPosition() {
