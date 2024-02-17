@@ -118,6 +118,9 @@ public class RobotContainer {
     }, m_arm));
     NamedCommands.registerCommand("sucky", intake.setDutyCycleCommand(.5).withTimeout(2));
     NamedCommands.registerCommand("themo", shooter.setDutyCycleCommand(.5).withTimeout(2));
+    NamedCommands.registerCommand("20degrees", Commands.run(()->{
+      m_arm.setPosition(20);
+    }, m_arm));
 
     autoChooser = AutoBuilder.buildAutoChooser();
 
