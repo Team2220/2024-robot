@@ -6,6 +6,7 @@ import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 
+import frc.lib.faults.TalonFXLogPowerFaults;
 import frc.lib.tunables.TunableDouble;
 
 public class TalonFXWrapper {
@@ -28,7 +29,7 @@ public class TalonFXWrapper {
             double reverseSoftLimitThreshold) {
         talon = new TalonFX(id);
         this.name = name;
-        // TalonFXLogPowerFaults.setupChecks(this);
+        TalonFXLogPowerFaults.setupChecks(this);
         TalonFXConfiguration talonFXConfigs = new TalonFXConfiguration();
 
         talonFXConfigs.Audio.BeepOnBoot = false;
