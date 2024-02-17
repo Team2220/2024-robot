@@ -1,6 +1,7 @@
 package frc.lib;
 
 import com.ctre.phoenix6.controls.ControlRequest;
+import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.AudioConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -25,7 +26,7 @@ public class TalonFXWrapper {
 
     public void holdPosition() {
         double position = talon.getPosition().getValueAsDouble();
-        talon.setPosition(position);
+        talon.setControl(new MotionMagicVoltage(position));
     }
 
     public String getName() {

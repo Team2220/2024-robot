@@ -26,7 +26,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -71,8 +70,6 @@ public class RobotContainer {
 
     shooter.setDefaultCommand(shooter.dutyCycleCommand(() -> {
       return m_operatorController.getLeftTriggerAxis(0);
-    }, () -> {
-      return m_operatorController.getRightTriggerAxis(0);
     }));
 
     intake.setDefaultCommand(intake.dutyCycleCommand(() -> {
@@ -114,13 +111,12 @@ public class RobotContainer {
     // // LedSignal.hasActiveFault(),
     // LedSignal.getLowBatteryLedSignal()
     // });
-   NamedCommands.registerCommand("test print", Commands.print("heloo foortnite"));
-   NamedCommands.registerCommand("boxy", Commands.run(()->{
-    m_arm.setPosition(90);
-   }, m_arm));
-   NamedCommands.registerCommand("sucky", intake.setDutyCycleCommand(.5).withTimeout(2));
-   NamedCommands.registerCommand("themo", shooter.setDutyCycleCommand(.5, .5).withTimeout(2));
-
+    NamedCommands.registerCommand("test print", Commands.print("heloo foortnite"));
+    NamedCommands.registerCommand("boxy", Commands.run(() -> {
+      m_arm.setPosition(90);
+    }, m_arm));
+    NamedCommands.registerCommand("sucky", intake.setDutyCycleCommand(.5).withTimeout(2));
+    NamedCommands.registerCommand("themo", shooter.setDutyCycleCommand(.5).withTimeout(2));
 
     autoChooser = AutoBuilder.buildAutoChooser();
 
@@ -151,7 +147,12 @@ public class RobotContainer {
     m_driverController.x().whileTrue((driveTrain.xcommand()));
     m_driverController.y().onTrue(new TalonOrchestra(driveTrain));
     m_driverController.b().onTrue(driveTrain.slowMode());
+
     m_driverController.start().whileTrue(new MusicToneCommand(256, driveTrain)); // 256 Hz is middle C
+    m_driverController.leftTrigger().whileTrue(intake.intakeUntilQueued());
+    // m_driverController.start().whileTrue(new MusicToneCommand(256, driveTrain));
+    // // 256 Hz is middle C
+
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is
     // pressed,
     // cancelling on release.
