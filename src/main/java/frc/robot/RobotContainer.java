@@ -150,17 +150,12 @@ public class RobotContainer {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     m_driverController.a().onTrue(driveTrain.zeroCommand());
     m_driverController.x().whileTrue((driveTrain.xcommand()));
-    m_driverController.y().onTrue(new TalonOrchestra(driveTrain));
+   // m_driverController.y().onTrue(new TalonOrchestra(driveTrain));
     m_driverController.b().onTrue(driveTrain.slowMode());
 
     m_driverController.start().whileTrue(new MusicToneCommand(256, driveTrain)); // 256 Hz is middle C
+    m_driverController.back().onTrue(new TalonOrchestra("jepordy.chrp",driveTrain));
     m_driverController.leftTrigger().whileTrue(intake.intakeUntilQueued());
-    // m_driverController.start().whileTrue(new MusicToneCommand(256, driveTrain));
-    // // 256 Hz is middle C
-
-    // Schedule `exampleMethodCommand` when the Xbox controller's B button is
-    // pressed,
-    // cancelling on release.
   }
 
   /**

@@ -9,8 +9,9 @@ import edu.wpi.first.wpilibj2.command.Commands;
 
 public class TalonOrchestra extends Command {
     Orchestra orchestra = new Orchestra();
-
-    public TalonOrchestra(TalonFXSubsystem... subsystems) {
+    private String file;
+    public TalonOrchestra(String file, TalonFXSubsystem... subsystems) {
+        this.file = file;
         addRequirements(subsystems);
         for (TalonFXSubsystem subsystem : subsystems) {
 
@@ -23,7 +24,7 @@ public class TalonOrchestra extends Command {
     @Override
     public void initialize() {
 
-        orchestra.loadMusic("despaceto.chrp");
+        orchestra.loadMusic(file);
         orchestra.play();
     }
 
