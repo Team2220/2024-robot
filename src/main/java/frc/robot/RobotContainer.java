@@ -91,6 +91,7 @@ public class RobotContainer {
     m_operatorController.a().onTrue(Commands.runOnce(m_arm::setZero, m_arm));
     m_operatorController.y().onTrue(m_arm.setPositionCommand(90));
     m_operatorController.b().onTrue(m_arm.setPositionCommand(45));
+    m_operatorController.leftStick().whileTrue(m_arm.overrideSoftLimits());
 
     var driveCommand = driveTrain.driveCommand(() -> {
       return m_driverController.getLeftX(0.1) * -1;
