@@ -27,7 +27,7 @@ public class Intake extends SubsystemBase implements CheckableSubsystem {
     public Command dutyCycleCommand(DoubleSupplier speed) {
 
         return this.run(() -> {
-            DutyCycleOut duty = new DutyCycleOut(speed.getAsDouble());
+            DutyCycleOut duty = new DutyCycleOut(speed.getAsDouble() * -1);
             intake.set(speed.getAsDouble());
              conveyor.setControl(duty);
         });
