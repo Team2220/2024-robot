@@ -1,9 +1,7 @@
 package frc.lib;
 
-import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardComponent;
 
 public class DigitalInputWrapper {
     int channel;
@@ -13,10 +11,10 @@ public class DigitalInputWrapper {
 
     public DigitalInputWrapper(int channel, String name, boolean inverted) {
         this.channel = channel;
-        this.name = name;;
+        this.name = name;
         this.inverted = inverted;
         dInput = new DigitalInput(channel);
-        Shuffleboard.getTab("sensors").addBoolean(name,this::get);
+        Shuffleboard.getTab("sensors").addBoolean(name, this::get);
     }
 
     public boolean get() {
