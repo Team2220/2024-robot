@@ -45,6 +45,10 @@ public class SparkMaxWrapper {
         this(id, name, 0, 0, 0);
     }
 
+    public void setInverted(boolean inverted) {
+        sparkMax.setInverted(inverted);
+    }
+
     public String getName() {
         return name + " (" + sparkMax.getDeviceId() + ")";
     }

@@ -6,6 +6,7 @@ package frc.robot;
 
 import frc.lib.CommandXBoxWrapper;
 import frc.lib.MusicToneCommand;
+import frc.lib.Note;
 import frc.lib.TalonOrchestra;
 import frc.lib.faults.PDHLogPowerFaults;
 import frc.lib.selfCheck.RobotSelfCheckCommand;
@@ -25,7 +26,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -70,8 +70,6 @@ public class RobotContainer {
 
     shooter.setDefaultCommand(shooter.dutyCycleCommand(() -> {
       return m_operatorController.getLeftTriggerAxis(0);
-    }, () -> {
-      return m_operatorController.getRightTriggerAxis(0);
     }));
 
     intake.setDefaultCommand(intake.dutyCycleCommand(() -> {
@@ -118,7 +116,7 @@ public class RobotContainer {
       m_arm.setPosition(90);
     }, m_arm));
     NamedCommands.registerCommand("sucky", intake.setDutyCycleCommand(.5).withTimeout(2));
-    NamedCommands.registerCommand("themo", shooter.setDutyCycleCommand(.5, .5).withTimeout(2));
+    NamedCommands.registerCommand("themo", shooter.setDutyCycleCommand(.5).withTimeout(2));
 
     autoChooser = AutoBuilder.buildAutoChooser();
 
@@ -147,12 +145,14 @@ public class RobotContainer {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     m_driverController.a().onTrue(driveTrain.zeroCommand());
     m_driverController.x().whileTrue((driveTrain.xcommand()));
-    m_driverController.start().onTrue(new TalonOrchestra(driveTrain));
+    m_driverController.y().onTrue(new TalonOrchestra(driveTrain));
     m_driverController.b().onTrue(driveTrain.slowMode());
 
+    m_driverController.start().whileTrue(new MusicToneCommand(256, driveTrain)); // 256 Hz is middle C
     m_driverController.leftTrigger().whileTrue(intake.intakeUntilQueued());
     // m_driverController.start().whileTrue(new MusicToneCommand(256, driveTrain));
     // // 256 Hz is middle C
+
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is
     // pressed,
     // cancelling on release.
@@ -170,8 +170,14 @@ public class RobotContainer {
 
   public Command getTestCommand() {
     return new RobotSelfCheckCommand(
-        new MusicToneCommand(261.626, driveTrain).withTimeout(2),
-        new MusicToneCommand(440, driveTrain).withTimeout(2),
+        Commands.sequence(
+            new MusicToneCommand(Note.MiddleC, driveTrain).withTimeout(2),
+            new MusicToneCommand(Note.HighC, driveTrain).withTimeout(2)
+        ),
+        Commands.sequence(
+            new MusicToneCommand(Note.MiddleC, driveTrain).withTimeout(2),
+            new MusicToneCommand(Note.LowC, driveTrain).withTimeout(2)
+        ),
         driveTrain,
         intake);
   }

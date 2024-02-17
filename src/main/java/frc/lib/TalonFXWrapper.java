@@ -4,6 +4,7 @@ import com.ctre.phoenix6.controls.ControlRequest;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.AudioConfigs;
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 
@@ -21,7 +22,12 @@ public class TalonFXWrapper {
         audioConfigs.BeepOnConfig = false;
         audioConfigs.AllowMusicDurDisable = true;
         talon.getConfigurator().apply(audioConfigs);
-
+        var currentLimConfig = new CurrentLimitsConfigs();
+        currentLimConfig.StatorCurrentLimit = 40;
+        currentLimConfig.StatorCurrentLimitEnable = true;
+        currentLimConfig.SupplyCurrentLimit = 40;
+        currentLimConfig.SupplyCurrentLimitEnable = true;
+        talon.getConfigurator().apply(currentLimConfig);
     }
 
     public void holdPosition() {

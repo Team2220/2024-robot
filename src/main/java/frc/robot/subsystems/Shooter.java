@@ -15,26 +15,29 @@ public class Shooter extends SubsystemBase implements CheckableSubsystem {
 
     public Shooter() {
         left = new SparkMaxWrapper(Constants.Shooter.id_left, "leftShooter");
+        left.setInverted(true);
         right = new SparkMaxWrapper(Constants.Shooter.id_right, "rightShooter");
+        right.setInverted(false);
     }
 
-    public Command dutyCycleCommand(DoubleSupplier leftSpeed, DoubleSupplier rightSpeed) {
+    public Command dutyCycleCommand(DoubleSupplier speed) {
         return this.run(() -> {
-            left.set(leftSpeed.getAsDouble());
-            right.set(rightSpeed.getAsDouble());
-        });
-    }
-    public Command setDutyCycleCommand(double leftSpeed, double rightSpeed){
-        return this.run(() -> {
-            left.set(leftSpeed);
-            right.set(rightSpeed);
+            left.set(speed.getAsDouble());
+            right.set(speed.getAsDouble());
         });
     }
 
-    public Command velocityCommand(double leftSpeed, double rightSpeed) {
+    public Command setDutyCycleCommand(double speed) {
         return this.run(() -> {
-            left.setReference(leftSpeed * Constants.Shooter.gear_ratio);
-            right.setReference(rightSpeed * Constants.Shooter.gear_ratio);
+            left.set(speed);
+            right.set(speed);
+        });
+    }
+
+    public Command velocityCommand(double speed) {
+        return this.run(() -> {
+            left.setReference(speed * Constants.Shooter.gear_ratio);
+            right.setReference(speed * Constants.Shooter.gear_ratio);
         }).finallyDo(() -> {
             left.setReference(0);
             right.setReference(0);
