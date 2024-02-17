@@ -1,10 +1,6 @@
 package frc.lib;
 
-import java.util.function.DoubleSupplier;
-
-import com.revrobotics.CANSparkBase;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.SparkMaxRelativeEncoder;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
@@ -12,20 +8,14 @@ import frc.lib.faults.SparkMaxLogPowerFaults;
 import frc.lib.tunables.TunableDouble;
 
 public class SparkMaxWrapper {
-    private final double P;
-    private final double I;
-    private final double D;
-    private int id;
     public String name;
     public CANSparkMax sparkMax;
     public SparkPIDController pidController;
 
-    public SparkMaxWrapper(int id, String name, double P, double I, double D) {
-        this.id = id;
+    public SparkMaxWrapper(int id, String name, double P, double I, double D, double maxAcceleration,
+            double maxVelocity, double allowedErr) {
         this.name = name;
-        this.P = P;
-        this.I = I;
-        this.D = D;
+
         sparkMax = new CANSparkMax(id, MotorType.kBrushless);
         sparkMax.restoreFactoryDefaults();
         pidController = sparkMax.getPIDController();
@@ -42,11 +32,23 @@ public class SparkMaxWrapper {
             pidController.setD(value);
         });
 
+        new TunableDouble("maxAcceleration", maxAcceleration, getName(), value -> {
+            pidController.setSmartMotionMaxAccel(value, 0);
+        });
+
+        new TunableDouble("maxVelocity", maxVelocity, getName(), value -> {
+            pidController.setSmartMotionMaxVelocity(value, 0);
+        });
+
+        new TunableDouble("allowedErr", allowedErr, getName(), value -> {
+            pidController.setSmartMotionAllowedClosedLoopError(value, 0);
+        });
+
         SparkMaxLogPowerFaults.setupCheck(sparkMax);
     }
 
     public SparkMaxWrapper(int id, String name) {
-        this(id, name, 0, 0, 0);
+        this(id, name, 0, 0, 0, 0, 0, 0);
     }
 
     public void setInverted(boolean inverted) {
@@ -61,10 +63,8 @@ public class SparkMaxWrapper {
         sparkMax.set(speed);
     }
 
-    public double getVelocity(){
-
-     return sparkMax.getEncoder().getVelocity();
-        
+    public double getVelocity() {
+        return sparkMax.getEncoder().getVelocity();
     }
 
     public void setReference(double speed) {
