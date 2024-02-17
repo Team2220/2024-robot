@@ -22,13 +22,15 @@ public class Shooter extends SubsystemBase implements CheckableSubsystem {
         left.setInverted(true);
         right = new SparkMaxWrapper(Constants.Shooter.id_right, "rightShooter");
         right.setInverted(false);
-left.getVelocity();
-right.getVelocity();
-Shuffleboard.getTab("ShooterSpeed").addDouble("ShooterVelocityRight", ()-> right.getVelocity() ).withWidget(BuiltInWidgets.kGraph);
- 
-Shuffleboard.getTab("ShooterSpeed").addDouble("ShooterVelocityLeft", ()-> left.getVelocity() ).withWidget(BuiltInWidgets.kGraph);
+        left.getVelocity();
+        right.getVelocity();
+        Shuffleboard.getTab("ShooterSpeed").addDouble("ShooterVelocityRight", () -> right.getVelocity())
+                .withWidget(BuiltInWidgets.kGraph);
+
+        Shuffleboard.getTab("ShooterSpeed").addDouble("ShooterVelocityLeft", () -> left.getVelocity())
+                .withWidget(BuiltInWidgets.kGraph);
     }
-   
+
     public Command dutyCycleCommand(DoubleSupplier speed) {
         return this.run(() -> {
             left.set(speed.getAsDouble());
