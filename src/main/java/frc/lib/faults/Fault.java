@@ -72,12 +72,12 @@ public final class Fault {
                 // prefer a mounted USB drive if one is accessible
                 Path usbDir = Paths.get("/u").toRealPath();
                 if (Files.isWritable(usbDir)) {
-                    return true;
-                } else {
                     return false;
+                } else {
+                    return true;
                 }
             } catch (IOException ex) {
-                return false;
+                return true;
             }
 
         });

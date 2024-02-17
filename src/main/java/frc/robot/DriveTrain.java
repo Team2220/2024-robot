@@ -151,8 +151,8 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem,Checka
     public Command driveCommand(DoubleSupplier xspeed, DoubleSupplier yspeed, DoubleSupplier rot) {
         return this.run(() -> {
             this.drive(
-                    xspeed.getAsDouble() * MAX_VELOCITY_METERS_PER_SECOND * .25,
-                    yspeed.getAsDouble() * MAX_VELOCITY_METERS_PER_SECOND * -.25,
+                    xspeed.getAsDouble() * MAX_VELOCITY_METERS_PER_SECOND * 1,
+                    yspeed.getAsDouble() * MAX_VELOCITY_METERS_PER_SECOND * -1,
                     rot.getAsDouble() * MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND / 2.0, true);
         });
     }
