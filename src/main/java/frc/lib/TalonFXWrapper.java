@@ -21,7 +21,11 @@ public class TalonFXWrapper {
             double G,
             double Acceleration,
             double CruiseVelocity,
-            double Jerk) {
+            double Jerk,
+            boolean forwardSoftLimitEnable,
+            boolean reverseSoftLimitEnable,
+            double forwardSoftLimitTreshold,
+            double reverseSoftLimitThreshold) {
         talon = new TalonFX(id);
         this.name = name;
         // TalonFXLogPowerFaults.setupChecks(this);
@@ -35,6 +39,11 @@ public class TalonFXWrapper {
         talonFXConfigs.CurrentLimits.StatorCurrentLimitEnable = true;
         talonFXConfigs.CurrentLimits.SupplyCurrentLimit = 40;
         talonFXConfigs.CurrentLimits.SupplyCurrentLimitEnable = true;
+
+        talonFXConfigs.SoftwareLimitSwitch.ForwardSoftLimitEnable = forwardSoftLimitEnable;
+        talonFXConfigs.SoftwareLimitSwitch.ReverseSoftLimitEnable = reverseSoftLimitEnable;
+        talonFXConfigs.SoftwareLimitSwitch.ForwardSoftLimitThreshold = forwardSoftLimitTreshold;
+        talonFXConfigs.SoftwareLimitSwitch.ReverseSoftLimitThreshold = reverseSoftLimitThreshold;
 
         talon.getConfigurator().apply(talonFXConfigs);
 
@@ -75,7 +84,20 @@ public class TalonFXWrapper {
     }
 
     public TalonFXWrapper(int id, String name) {
-        this(id, name, 0, 0, 0, 0, 0, 0, 0);
+        this(
+                id,
+                name,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                false,
+                false,
+                0,
+                0);
     }
 
     public void holdPosition() {

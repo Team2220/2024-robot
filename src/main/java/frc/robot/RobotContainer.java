@@ -6,7 +6,6 @@ package frc.robot;
 
 import frc.lib.CommandXBoxWrapper;
 import frc.lib.MusicToneCommand;
-import frc.lib.SparkMaxWrapper;
 import frc.lib.Note;
 import frc.lib.TalonOrchestra;
 import frc.lib.faults.PDHLogPowerFaults;
@@ -173,12 +172,10 @@ public class RobotContainer {
     return new RobotSelfCheckCommand(
         Commands.sequence(
             new MusicToneCommand(Note.MiddleC, driveTrain).withTimeout(2),
-            new MusicToneCommand(Note.HighC, driveTrain).withTimeout(2)
-        ),
+            new MusicToneCommand(Note.HighC, driveTrain).withTimeout(2)),
         Commands.sequence(
             new MusicToneCommand(Note.MiddleC, driveTrain).withTimeout(2),
-            new MusicToneCommand(Note.LowC, driveTrain).withTimeout(2)
-        ),
+            new MusicToneCommand(Note.LowC, driveTrain).withTimeout(2)),
         driveTrain,
         intake);
   }
