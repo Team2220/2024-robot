@@ -6,6 +6,7 @@ package frc.robot;
 
 import frc.lib.CommandXBoxWrapper;
 import frc.lib.MusicToneCommand;
+import frc.lib.SparkMaxWrapper;
 import frc.lib.TalonOrchestra;
 import frc.lib.faults.PDHLogPowerFaults;
 import frc.lib.selfCheck.RobotSelfCheckCommand;

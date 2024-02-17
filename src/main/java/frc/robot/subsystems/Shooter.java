@@ -2,6 +2,10 @@ package frc.robot.subsystems;
 
 import java.util.function.DoubleSupplier;
 
+import com.revrobotics.CANEncoder;
+
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.SparkMaxWrapper;
@@ -18,8 +22,13 @@ public class Shooter extends SubsystemBase implements CheckableSubsystem {
         left.setInverted(true);
         right = new SparkMaxWrapper(Constants.Shooter.id_right, "rightShooter");
         right.setInverted(false);
+left.getVelocity();
+right.getVelocity();
+Shuffleboard.getTab("ShooterSpeed").addDouble("ShooterVelocityRight", ()-> right.getVelocity() ).withWidget(BuiltInWidgets.kGraph);
+ 
+Shuffleboard.getTab("ShooterSpeed").addDouble("ShooterVelocityLeft", ()-> left.getVelocity() ).withWidget(BuiltInWidgets.kGraph);
     }
-
+   
     public Command dutyCycleCommand(DoubleSupplier speed) {
         return this.run(() -> {
             left.set(speed.getAsDouble());

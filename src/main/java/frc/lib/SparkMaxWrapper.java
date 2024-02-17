@@ -1,6 +1,10 @@
 package frc.lib;
 
+import java.util.function.DoubleSupplier;
+
+import com.revrobotics.CANSparkBase;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.SparkMaxRelativeEncoder;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
@@ -55,6 +59,12 @@ public class SparkMaxWrapper {
 
     public void set(double speed) {
         sparkMax.set(speed);
+    }
+
+    public double getVelocity(){
+
+     return sparkMax.getEncoder().getVelocity();
+        
     }
 
     public void setReference(double speed) {
