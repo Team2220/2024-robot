@@ -9,6 +9,7 @@ import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.controls.PositionDutyCycle;
 import com.ctre.phoenix6.controls.VelocityDutyCycle;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -66,7 +67,9 @@ public class SwerveModule {
       int turningEncoderChannelA, double offset) {
     this.offset = offset;
     m_driveMotor = new TalonFX(driveMotorChannel);
+    m_driveMotor.setNeutralMode(NeutralModeValue.Brake);
     m_turningMotor = new TalonFX(turningMotorChannel);
+    m_turningMotor.setNeutralMode(NeutralModeValue.Brake);
 
     m_turningEncoder = new PWMEncoder(turningEncoderChannelA);
     speed = Shuffleboard.getTab("swerve").add(name + " speed", 0).getEntry();

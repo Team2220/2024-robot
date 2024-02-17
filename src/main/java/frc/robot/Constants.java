@@ -28,7 +28,8 @@ public final class Constants {
   }
 
   public static class Shooter {
-    public static final int id_left = 4;
+    public static final int id_left = 4
+    ;
     public static final int id_right = 5;
     public static final double gear_ratio = 30.0 / 18.0;
   }

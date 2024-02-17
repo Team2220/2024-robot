@@ -38,7 +38,7 @@ public class SparkMaxWrapper {
             pidController.setD(value);
         });
 
-        SparkMaxLogPowerFaults.setupCheck(sparkMax);
+        // SparkMaxLogPowerFaults.setupCheck(sparkMax);
     }
 
     public SparkMaxWrapper(int id, String name) {

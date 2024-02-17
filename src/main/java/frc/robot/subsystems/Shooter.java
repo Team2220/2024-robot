@@ -26,8 +26,8 @@ public class Shooter extends SubsystemBase implements CheckableSubsystem {
     }
     public Command setDutyCycleCommand(double leftSpeed, double rightSpeed){
         return this.run(() -> {
-            left.set(leftSpeed);
-            right.set(rightSpeed);
+            left.set(.5);
+            right.set(.5);
         });
     }
 

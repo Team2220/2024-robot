@@ -79,8 +79,9 @@ public class RobotContainer {
     }));
 
     var armCommand = Commands.run(() -> {
-      var joyStickPosition = m_operatorController.getLeftY(0.1);
+      var joyStickPosition = m_operatorController.getLeftY(0.1) * .75;
       if (joyStickPosition > 0.01 || joyStickPosition < -0.01) {
+        
         m_arm.setDutyCycle(joyStickPosition);
       } else {
         m_arm.holdPosition();
@@ -117,7 +118,7 @@ public class RobotContainer {
    NamedCommands.registerCommand("boxy", Commands.run(()->{
     m_arm.setPosition(90);
    }, m_arm));
-   NamedCommands.registerCommand("sucky", intake.setDutyCycleCommand(.5).withTimeout(2));
+   NamedCommands.registerCommand("sucky", intake.setDutyCycleCommand(.5).withTimeout(1));
    NamedCommands.registerCommand("themo", shooter.setDutyCycleCommand(.5, .5).withTimeout(2));
 
 

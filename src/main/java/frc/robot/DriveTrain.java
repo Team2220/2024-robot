@@ -61,9 +61,9 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem,Checka
                 this::autoDriveRobotRelative, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
                 new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your
                                                  // Constants class
-                        new PIDConstants(0.3, 0.0, 0.025456738383963862983267), // Translation PID constants
-                        new PIDConstants(0.3, 0.0, 0.025621832482875328792385), // Rotation PID constants
-                        MAX_VELOCITY_METERS_PER_SECOND, // Max module speed, in m/s
+                        new PIDConstants(0.01, 0.0, 0.0), // Translation PID constants
+                        new PIDConstants(0.01, 0.0, 0.0), // Rotation PID constants
+                        1, // Max module speed, in m/s
                         driveRadius, // Drive base radius in meters. Distance from robot center to furthest module.
                         new ReplanningConfig() // Default path replanning config. See the API for the options here
                 ),
@@ -129,15 +129,16 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem,Checka
 
     public void autoDriveRobotRelative(ChassisSpeeds speed) {
         driveRobotRelative(
-                new ChassisSpeeds(speed.vyMetersPerSecond * -1.320011, speed.vxMetersPerSecond * 1.320011, speed.omegaRadiansPerSecond));
+                new ChassisSpeeds(speed.vyMetersPerSecond * 1.41873874, speed.vxMetersPerSecond * -1.41873874, speed.omegaRadiansPerSecond));
     }
 
     private final Field2d m_field = new Field2d();
     private final Pose2d m_startPose = new Pose2d(0, 0, Rotation2d.fromDegrees(0));
 
     public void resetPose(Pose2d pose) {
-        poseEstimator.resetPosition(getGyroscopeRotation(), getModulePositions(), pose);
-        System.out.println("fortnite");
+        var newPose = new Pose2d(pose.getY() * -1, pose.getX(), pose.getRotation());
+        System.out.println("resseting pose to" + newPose.toString());
+        poseEstimator.resetPosition(getGyroscopeRotation(), getModulePositions(), newPose);
     }
 
     public Command zeroCommand() {
