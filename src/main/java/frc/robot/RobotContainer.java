@@ -69,7 +69,7 @@ public class RobotContainer {
     configureBindings();
 
     shooter.setDefaultCommand(shooter.dutyCycleCommand(() -> {
-      return m_operatorController.getLeftTriggerAxis(0.1);
+      return m_operatorController.getRightTriggerAxis(0.1);
     }));
 
     intake.setDefaultCommand(intake.dutyCycleCommand(() -> {
@@ -77,7 +77,7 @@ public class RobotContainer {
     }));
 
     var armCommand = Commands.run(() -> {
-      var joyStickPosition = m_operatorController.getLeftY(0.1) * -0.75;
+      var joyStickPosition = m_operatorController.getLeftY(0.1) * -0.55;
       if (joyStickPosition > 0.01 || joyStickPosition < -0.01) {
         
         m_arm.setDutyCycle(joyStickPosition);
@@ -87,11 +87,13 @@ public class RobotContainer {
     }, m_arm);
     m_operatorController.leftYTrigger(0.1).onTrue(armCommand);
     m_arm.setDefaultCommand(armCommand);
-
+    m_operatorController.rightBumper().whileTrue(shooter.velocityCommand());
     m_operatorController.a().onTrue(Commands.runOnce(m_arm::setZero, m_arm));
     m_operatorController.y().onTrue(m_arm.setPositionCommand(90));
     m_operatorController.b().onTrue(m_arm.setPositionCommand(45));
     m_operatorController.leftStick().whileTrue(m_arm.overrideSoftLimits());
+    m_operatorController.x().onTrue(m_arm.setPositionCommand(58.7));
+
 
     var driveCommand = driveTrain.driveCommand(() -> {
       return m_driverController.getLeftX(0.1) * -1;
@@ -151,7 +153,7 @@ public class RobotContainer {
     m_driverController.a().onTrue(driveTrain.zeroCommand());
     m_driverController.x().whileTrue((driveTrain.xcommand()));
     m_driverController.y().onTrue(new TalonOrchestra(driveTrain));
-    m_driverController.b().onTrue(driveTrain.slowMode());
+    // m_driverController.b().onTrue(driveTrain.slowMode());
 
     m_driverController.start().whileTrue(new MusicToneCommand(256, driveTrain)); // 256 Hz is middle C
     m_driverController.leftTrigger().whileTrue(intake.intakeUntilQueued());

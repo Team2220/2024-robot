@@ -11,13 +11,16 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.SparkMaxWrapper;
 import frc.lib.selfCheck.CheckCommand;
 import frc.lib.selfCheck.CheckableSubsystem;
+import frc.lib.tunables.TunableDouble;
 import frc.robot.Constants;
 
 public class Shooter extends SubsystemBase implements CheckableSubsystem {
     private SparkMaxWrapper left;
     private SparkMaxWrapper right;
+    private TunableDouble shooterSpeed;
 
     public Shooter() {
+        shooterSpeed = new TunableDouble("shooterSpeed", 100, "shooter");
         left = new SparkMaxWrapper(Constants.Shooter.id_left, "leftShooter");
         left.setInverted(true);
         right = new SparkMaxWrapper(Constants.Shooter.id_right, "rightShooter");
@@ -45,8 +48,9 @@ public class Shooter extends SubsystemBase implements CheckableSubsystem {
         });
     }
 
-    public Command velocityCommand(double speed) {
+    public Command velocityCommand() {
         return this.run(() -> {
+            double speed = shooterSpeed.getValue();
             left.setReference(speed * Constants.Shooter.gear_ratio);
             right.setReference(speed * Constants.Shooter.gear_ratio);
         }).finallyDo(() -> {
