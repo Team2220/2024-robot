@@ -65,6 +65,23 @@
               "data": {
                 "name": "boxy"
               }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "shoot",
+      "waypointRelativePos": 1.6,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "sucky"
+              }
             },
             {
               "type": "named",
