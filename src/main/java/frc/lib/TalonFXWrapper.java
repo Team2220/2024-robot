@@ -5,7 +5,9 @@ import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 
+import edu.wpi.first.wpilibj2.command.Commands;
 import frc.lib.faults.TalonFXLogPowerFaults;
 import frc.lib.tunables.TunableDouble;
 
@@ -31,6 +33,7 @@ public class TalonFXWrapper {
         this.name = name;
         TalonFXLogPowerFaults.setupChecks(this);
         TalonFXConfiguration talonFXConfigs = new TalonFXConfiguration();
+        talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
 
         talonFXConfigs.Audio.BeepOnBoot = false;
         talonFXConfigs.Audio.BeepOnConfig = false;
@@ -82,7 +85,19 @@ public class TalonFXWrapper {
             talonFXConfigs.MotionMagic.MotionMagicJerk = value;
             talon.getConfigurator().apply(talonFXConfigs);
         });
+
+
+        RobotControllerTriggers.isSysActive().debounce(2).onFalse(Commands.runOnce(()->{
+            talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Coast;
+            talon.getConfigurator().apply(talonFXConfigs);
+        } ).runsWhenDisabled());
+
+          RobotControllerTriggers.isSysActive().onTrue(Commands.runOnce(()->{
+            talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+            talon.getConfigurator().apply(talonFXConfigs);
+        } ).runsWhenDisabled());
     }
+
 
     public TalonFXWrapper(int id, String name) {
         this(

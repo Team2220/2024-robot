@@ -69,15 +69,15 @@ public class RobotContainer {
     configureBindings();
 
     shooter.setDefaultCommand(shooter.dutyCycleCommand(() -> {
-      return m_operatorController.getLeftTriggerAxis(0);
+      return m_operatorController.getLeftTriggerAxis(0.1);
     }));
 
     intake.setDefaultCommand(intake.dutyCycleCommand(() -> {
-      return m_operatorController.getRightY(0.1);
+      return m_operatorController.getRightY(0.1) * -1;
     }));
 
     var armCommand = Commands.run(() -> {
-      var joyStickPosition = m_operatorController.getLeftY(0.1) * .75;
+      var joyStickPosition = m_operatorController.getLeftY(0.1) * -0.75;
       if (joyStickPosition > 0.01 || joyStickPosition < -0.01) {
         
         m_arm.setDutyCycle(joyStickPosition);

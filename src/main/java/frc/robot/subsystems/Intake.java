@@ -42,8 +42,8 @@ public class Intake extends SubsystemBase implements CheckableSubsystem {
                 intake.set(0);
                 conveyor.setControl(new DutyCycleOut(0));
             } else {
-                intake.set(intakeSpeed.getValue());
-                conveyor.setControl(new DutyCycleOut(intakeSpeed.getValue()));
+                intake.set(-intakeSpeed.getValue());
+                conveyor.setControl(new DutyCycleOut(-intakeSpeed.getValue()));
             }
         });
     }
