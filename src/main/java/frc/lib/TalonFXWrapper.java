@@ -14,6 +14,7 @@ import frc.lib.tunables.TunableDouble;
 public class TalonFXWrapper {
     private TalonFX talon;
     private String name;
+    private TalonFXConfiguration talonFXConfigs;
 
     public TalonFXWrapper(
             int id,
@@ -32,7 +33,7 @@ public class TalonFXWrapper {
         talon = new TalonFX(id);
         this.name = name;
         TalonFXLogPowerFaults.setupChecks(this);
-        TalonFXConfiguration talonFXConfigs = new TalonFXConfiguration();
+        talonFXConfigs = new TalonFXConfiguration();
         talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
 
         talonFXConfigs.Audio.BeepOnBoot = false;
@@ -114,6 +115,12 @@ public class TalonFXWrapper {
                 false,
                 0,
                 0);
+    }
+
+    public void setSoftLimitsEnabled(boolean enabled) {
+        talonFXConfigs.SoftwareLimitSwitch.ForwardSoftLimitEnable = enabled;
+        talonFXConfigs.SoftwareLimitSwitch.ReverseSoftLimitEnable = enabled;
+        talon.getConfigurator().apply(talonFXConfigs);
     }
 
     public void holdPosition() {

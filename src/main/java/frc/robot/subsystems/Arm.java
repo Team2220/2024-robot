@@ -5,9 +5,9 @@ import java.util.function.DoubleSupplier;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.TalonFXWrapper;
 import frc.lib.selfCheck.CheckCommand;
@@ -31,6 +31,14 @@ public class Arm extends SubsystemBase implements CheckableSubsystem {
         return this.run(() -> {
             DutyCycleOut duty = new DutyCycleOut(speed.getAsDouble());
             ArmTalonFX.setControl(duty);
+        });
+    }
+
+    public Command overrideSoftLimits() {
+        return Commands.startEnd(() -> {
+            ArmTalonFX.setSoftLimitsEnabled(false);
+        }, () -> {
+            ArmTalonFX.setSoftLimitsEnabled(true);
         });
     }
 
