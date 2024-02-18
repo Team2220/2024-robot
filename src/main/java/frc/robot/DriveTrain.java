@@ -61,8 +61,8 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem,Checka
                 this::autoDriveRobotRelative, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
                 new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your
                                                  // Constants class
-                        new PIDConstants(0.01, 0.0, 0.0), // Translation PID constants
-                        new PIDConstants(0.01, 0.0, 0.0), // Rotation PID constants
+                        new PIDConstants(1, 0.0, 0.1), // Translation PID constants
+                        new PIDConstants(3, 0.0, 0.3), // Rotation PID constants
                         1, // Max module speed, in m/s
                         driveRadius, // Drive base radius in meters. Distance from robot center to furthest module.
                         new ReplanningConfig() // Default path replanning config. See the API for the options here
@@ -153,7 +153,7 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem,Checka
             this.drive(
                     xspeed.getAsDouble() * MAX_VELOCITY_METERS_PER_SECOND * 1,
                     yspeed.getAsDouble() * MAX_VELOCITY_METERS_PER_SECOND * -1,
-                    rot.getAsDouble() * MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND / 2.0, true);
+                    rot.getAsDouble() * MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, true);
         });
     }
 
