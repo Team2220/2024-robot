@@ -1,5 +1,6 @@
 package frc.lib;
 
+import com.revrobotics.CANSparkBase;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.FaultID;
@@ -79,6 +80,6 @@ public class SparkMaxWrapper {
     }
 
     public void setReference(double speed) {
-        pidController.setReference(speed, CANSparkMax.ControlType.kSmartVelocity);
+        pidController.setReference(speed, CANSparkBase.ControlType.kSmartVelocity);
     }
 }
