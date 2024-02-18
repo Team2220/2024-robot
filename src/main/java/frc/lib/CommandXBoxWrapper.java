@@ -14,11 +14,10 @@ import frc.lib.faults.Fault;
 public class CommandXBoxWrapper {
 
     CommandXboxController xbox;
-    private Fault fault;
 
     public CommandXBoxWrapper(int inPort) {
         xbox = new CommandXboxController(inPort);
-        fault = new Fault("Controller is disconnected.");
+        Fault.autoUpdating("Controller is disconnected.", this::isConnected);
     }
 
     /**
@@ -43,11 +42,9 @@ public class CommandXBoxWrapper {
         return xbox.leftBumper();
     }
 
-    public void checkIsConnected() {
-        if (!DriverStation.isJoystickConnected(xbox.getHID().getPort())
-                || !DriverStation.getJoystickIsXbox(xbox.getHID().getPort())) {
-            fault.setIsActive(true);
-        }
+    public boolean isConnected() {
+        return !DriverStation.isJoystickConnected(xbox.getHID().getPort())
+                || !DriverStation.getJoystickIsXbox(xbox.getHID().getPort());
     }
 
     /**
