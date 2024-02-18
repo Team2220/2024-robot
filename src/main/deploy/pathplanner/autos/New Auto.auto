@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.4,
-      "y": 1.3
+      "x": 3.4146393643736914,
+      "y": 6.08513904063316
     },
     "rotation": 0
   },
@@ -14,7 +14,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "griffs path"
+            "pathName": "New New Path"
           }
         }
       ]
