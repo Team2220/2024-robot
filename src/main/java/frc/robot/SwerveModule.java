@@ -6,8 +6,11 @@ package frc.robot;
 
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.configs.VoltageConfigs;
+import com.ctre.phoenix6.controls.PositionDutyCycle;
 import com.ctre.phoenix6.controls.PositionVoltage;
+import com.ctre.phoenix6.controls.VelocityDutyCycle;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
@@ -73,8 +76,10 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
     this.name = name;
     m_driveMotor = new TalonFX(driveMotorChannel);
     m_driveMotor.setNeutralMode(NeutralModeValue.Brake);
+    m_driveMotor.getConfigurator().apply(new TalonFXConfiguration());
     m_turningMotor = new TalonFX(turningMotorChannel);
     m_turningMotor.setNeutralMode(NeutralModeValue.Brake);
+    m_turningMotor.getConfigurator().apply(new TalonFXConfiguration());
     CurrentLimitsConfigs currentConfigs = new CurrentLimitsConfigs();
     currentConfigs.StatorCurrentLimit = 60;
     currentConfigs.StatorCurrentLimitEnable = true;
@@ -239,8 +244,8 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
     // state.angle.getDegrees())));
     speed.setDouble(mpsToEncoderTicks(state.speedMetersPerSecond));
     // angle.setDouble(angleToEncoderTicks(state.angle.getDegrees()));
-    m_driveMotor.setControl(new VelocityVoltage(mpsToEncoderTicks(state.speedMetersPerSecond) * -1));
-    m_turningMotor.setControl(new PositionVoltage(
+    m_driveMotor.setControl(new VelocityDutyCycle(mpsToEncoderTicks(state.speedMetersPerSecond) * -1));
+    m_turningMotor.setControl(new PositionDutyCycle(
         angleToEncoderTicks(convertAngle(rotation2d.getDegrees(), state.angle.getDegrees()) * -1)));
 
     // Calculate the drive output from the drive PID controller.

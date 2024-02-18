@@ -6,9 +6,9 @@
     "PathPlanner"
   ],
   "autoFolders": [],
-  "defaultMaxVel": 10.0,
-  "defaultMaxAccel": 10.0,
-  "defaultMaxAngVel": 540.0,
-  "defaultMaxAngAccel": 720.0,
-  "maxModuleSpeed": 10.0
+  "defaultMaxVel": 3.0,
+  "defaultMaxAccel": 1.0,
+  "defaultMaxAngVel": 180.0,
+  "defaultMaxAngAccel": 180.0,
+  "maxModuleSpeed": 3.0
 }

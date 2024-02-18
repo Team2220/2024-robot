@@ -24,14 +24,14 @@ public class Intake extends SubsystemBase implements CheckableSubsystem {
         intakeSpeed = new TunableDouble("intakeSpeed", .5, "intake");
         intake = new SparkMaxWrapper(Constants.Intake.id_intake, "intake");
         conveyor = new TalonFXWrapper(Constants.Intake.id_conv, "conveyor");
-        conveyor.setInverted(true);
+        conveyor.setInverted(false);
     }
 
     public Command dutyCycleCommand(DoubleSupplier speed) {
 
         return this.run(() -> {
             intake.set(speed.getAsDouble());
-            conveyor.set(speed.getAsDouble());
+            conveyor.set(speed.getAsDouble() * -1);
         });
     }
 
