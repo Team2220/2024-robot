@@ -9,6 +9,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj2.command.Commands;
+import frc.lib.faults.Fault;
 import frc.lib.faults.TalonFXLogPowerFaults;
 import frc.lib.tunables.TunableDouble;
 
@@ -16,6 +17,8 @@ public class TalonFXWrapper {
     private TalonFX talon;
     private String name;
     private TalonFXConfiguration talonFXConfigs;
+    private static Fault fault = new Fault("TalonFX device disconnected");
+    private StatusSignal<Integer> firmwareVersionSignal;
 
     public TalonFXWrapper(
             int id,
@@ -33,6 +36,7 @@ public class TalonFXWrapper {
             double reverseSoftLimitThreshold) {
         talon = new TalonFX(id);
         this.name = name;
+        firmwareVersionSignal = talon.getVersion();
         TalonFXLogPowerFaults.setupChecks(this);
 
         talonFXConfigs = new TalonFXConfiguration();
@@ -93,18 +97,16 @@ public class TalonFXWrapper {
             talon.getConfigurator().apply(talonFXConfigs);
         });
 
-
-        RobotControllerTriggers.isSysActive().debounce(2).onFalse(Commands.runOnce(()->{
+        RobotControllerTriggers.isSysActive().debounce(2).onFalse(Commands.runOnce(() -> {
             talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Coast;
             talon.getConfigurator().apply(talonFXConfigs);
-        } ).ignoringDisable(true));
+        }).ignoringDisable(true));
 
-          RobotControllerTriggers.isSysActive().onTrue(Commands.runOnce(()->{
+        RobotControllerTriggers.isSysActive().onTrue(Commands.runOnce(() -> {
             talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
             talon.getConfigurator().apply(talonFXConfigs);
-        } ).ignoringDisable(true));
+        }).ignoringDisable(true));
     }
-
 
     public TalonFXWrapper(int id, String name) {
         this(
@@ -146,6 +148,12 @@ public class TalonFXWrapper {
         return talon;
     }
 
+    public void checkFault() {
+        // if (firmwareVersionSignal.refresh().getError() != StatusCode.OK) {
+        // fault.setIsActive(true);
+        // }
+    }
+
     public void setControl(ControlRequest controlRequest) {
         talon.setControl(controlRequest);
     }
@@ -157,7 +165,8 @@ public class TalonFXWrapper {
     public StatusSignal<Double> getRotorPosition() {
         return talon.getRotorPosition();
     }
-//multaplying by 10 to convert duty cycle to voltage
+
+    // multaplying by 10 to convert duty cycle to voltage
     public void set(double speed) {
         talon.setControl(new VoltageOut(speed * 10));
     }
