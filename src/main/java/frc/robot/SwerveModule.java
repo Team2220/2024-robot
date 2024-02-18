@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.configs.VoltageConfigs;
 import com.ctre.phoenix6.controls.PositionDutyCycle;
 import com.ctre.phoenix6.controls.VelocityDutyCycle;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -74,11 +75,17 @@ public class SwerveModule {
     m_turningMotor = new TalonFX(turningMotorChannel);
     m_turningMotor.setNeutralMode(NeutralModeValue.Brake);
     CurrentLimitsConfigs currentConfigs = new CurrentLimitsConfigs();
-    currentConfigs.StatorCurrentLimit = 40;
+    currentConfigs.StatorCurrentLimit = 60;
     currentConfigs.StatorCurrentLimitEnable = true;
-    currentConfigs.SupplyCurrentLimit = 40;
+    currentConfigs.SupplyCurrentLimit = 60;
     currentConfigs.SupplyCurrentLimitEnable = true;
     m_driveMotor.getConfigurator().apply(currentConfigs);
+    m_turningMotor.getConfigurator().apply(currentConfigs);
+    VoltageConfigs voltageConfigs = new VoltageConfigs();
+    voltageConfigs.PeakForwardVoltage= 10;
+    voltageConfigs.PeakReverseVoltage= -10;
+    m_driveMotor.getConfigurator().apply(voltageConfigs);
+    m_turningMotor.getConfigurator().apply(voltageConfigs);
 
     m_turningEncoder = new PWMEncoder(turningEncoderChannelA);
     speed = Shuffleboard.getTab("swerve").add(name + " speed", 0).getEntry();

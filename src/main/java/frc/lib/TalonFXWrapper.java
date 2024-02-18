@@ -33,22 +33,27 @@ public class TalonFXWrapper {
         talon = new TalonFX(id);
         this.name = name;
         TalonFXLogPowerFaults.setupChecks(this);
+
         talonFXConfigs = new TalonFXConfiguration();
+        
         talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
 
         talonFXConfigs.Audio.BeepOnBoot = false;
         talonFXConfigs.Audio.BeepOnConfig = false;
         talonFXConfigs.Audio.AllowMusicDurDisable = true;
 
-        talonFXConfigs.CurrentLimits.StatorCurrentLimit = 40;
+        talonFXConfigs.CurrentLimits.StatorCurrentLimit = 60;
         talonFXConfigs.CurrentLimits.StatorCurrentLimitEnable = true;
-        talonFXConfigs.CurrentLimits.SupplyCurrentLimit = 40;
+        talonFXConfigs.CurrentLimits.SupplyCurrentLimit = 60;
         talonFXConfigs.CurrentLimits.SupplyCurrentLimitEnable = true;
 
         talonFXConfigs.SoftwareLimitSwitch.ForwardSoftLimitEnable = forwardSoftLimitEnable;
         talonFXConfigs.SoftwareLimitSwitch.ReverseSoftLimitEnable = reverseSoftLimitEnable;
         talonFXConfigs.SoftwareLimitSwitch.ForwardSoftLimitThreshold = forwardSoftLimitTreshold;
         talonFXConfigs.SoftwareLimitSwitch.ReverseSoftLimitThreshold = reverseSoftLimitThreshold;
+
+        talonFXConfigs.Voltage.PeakForwardVoltage = 10;
+        talonFXConfigs.Voltage.PeakReverseVoltage = -10;
 
         talon.getConfigurator().apply(talonFXConfigs);
 
