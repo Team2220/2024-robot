@@ -2,6 +2,7 @@ package frc.lib;
 
 import com.ctre.phoenix6.controls.ControlRequest;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
+import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -35,7 +36,7 @@ public class TalonFXWrapper {
         TalonFXLogPowerFaults.setupChecks(this);
 
         talonFXConfigs = new TalonFXConfiguration();
-        
+
         talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
 
         talonFXConfigs.Audio.BeepOnBoot = false;
@@ -155,5 +156,9 @@ public class TalonFXWrapper {
 
     public StatusSignal<Double> getRotorPosition() {
         return talon.getRotorPosition();
+    }
+//multaplying by 10 to convert duty cycle to voltage
+    public void set(double speed) {
+        talon.setControl(new VoltageOut(speed * 10));
     }
 }

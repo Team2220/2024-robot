@@ -2,9 +2,10 @@ package frc.robot.subsystems;
 
 import java.util.function.DoubleSupplier;
 
-import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
+import com.ctre.phoenix6.controls.VoltageOut;
 
+import edu.wpi.first.units.Voltage;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -29,7 +30,7 @@ public class Arm extends SubsystemBase implements CheckableSubsystem {
 
     public Command dutyCycleCommand(DoubleSupplier speed) {
         return this.run(() -> {
-            DutyCycleOut duty = new DutyCycleOut(speed.getAsDouble());
+            VoltageOut duty = new VoltageOut(speed.getAsDouble()* 10);
             ArmTalonFX.setControl(duty);
         });
     }
@@ -47,8 +48,7 @@ public class Arm extends SubsystemBase implements CheckableSubsystem {
     }
 
     public void setDutyCycle(double value) {
-        DutyCycleOut duty = new DutyCycleOut(value);
-        ArmTalonFX.setControl(duty);
+        ArmTalonFX.set(value);
     }
 
     public void setPosition(double degrees) {

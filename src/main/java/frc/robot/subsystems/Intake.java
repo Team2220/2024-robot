@@ -2,7 +2,6 @@ package frc.robot.subsystems;
 
 import java.util.function.DoubleSupplier;
 
-import com.ctre.phoenix6.controls.DutyCycleOut;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.DigitalInputWrapper;
@@ -25,14 +24,14 @@ public class Intake extends SubsystemBase implements CheckableSubsystem {
         intakeSpeed = new TunableDouble("intakeSpeed", .5, "intake");
         intake = new SparkMaxWrapper(Constants.Intake.id_intake, "intake");
         conveyor = new TalonFXWrapper(Constants.Intake.id_conv, "conveyor");
+        conveyor.setInverted(true);
     }
 
     public Command dutyCycleCommand(DoubleSupplier speed) {
 
         return this.run(() -> {
-            DutyCycleOut duty = new DutyCycleOut(speed.getAsDouble() * -1);
             intake.set(speed.getAsDouble());
-            conveyor.setControl(duty);
+            conveyor.set(speed.getAsDouble());
         });
     }
 
@@ -40,19 +39,18 @@ public class Intake extends SubsystemBase implements CheckableSubsystem {
         return this.run(() -> {
             if (noteSensor.get()) {
                 intake.set(0);
-                conveyor.setControl(new DutyCycleOut(0));
+                conveyor.set(0);
             } else {
                 intake.set(intakeSpeed.getValue());
-                conveyor.setControl(new DutyCycleOut(-intakeSpeed.getValue()));
+                conveyor.set(intakeSpeed.getValue());
             }
         });
     }
 
     public Command setDutyCycleCommand(double speed) {
         return this.run(() -> {
-            DutyCycleOut duty = new DutyCycleOut(speed * -1);
             intake.set(speed);
-            conveyor.setControl(duty);
+            conveyor.set(speed);
         });
     }
 
