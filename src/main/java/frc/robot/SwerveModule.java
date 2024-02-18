@@ -5,6 +5,8 @@
 package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
+import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.controls.PositionDutyCycle;
 import com.ctre.phoenix6.controls.VelocityDutyCycle;
@@ -15,6 +17,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import frc.lib.PWMEncoder;
@@ -29,7 +32,7 @@ public class SwerveModule {
 
   private final PWMEncoder m_turningEncoder;
 
-  public static final double DT_WHEEL_DIAMETER = 0.10033;
+  public static final double DT_WHEEL_DIAMETER = Units.inchesToMeters(4);
 
   // Drive gear ratio (that number is the number of revolutions of the motor to
   // get one revolution of the output)
@@ -70,6 +73,12 @@ public class SwerveModule {
     m_driveMotor.setNeutralMode(NeutralModeValue.Brake);
     m_turningMotor = new TalonFX(turningMotorChannel);
     m_turningMotor.setNeutralMode(NeutralModeValue.Brake);
+    CurrentLimitsConfigs currentConfigs = new CurrentLimitsConfigs();
+    currentConfigs.StatorCurrentLimit = 40;
+    currentConfigs.StatorCurrentLimitEnable = true;
+    currentConfigs.SupplyCurrentLimit = 40;
+    currentConfigs.SupplyCurrentLimitEnable = true;
+    m_driveMotor.getConfigurator().apply(currentConfigs);
 
     m_turningEncoder = new PWMEncoder(turningEncoderChannelA);
     speed = Shuffleboard.getTab("swerve").add(name + " speed", 0).getEntry();

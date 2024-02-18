@@ -61,9 +61,9 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem,Checka
                 this::autoDriveRobotRelative, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
                 new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your
                                                  // Constants class
-                        new PIDConstants(1, 0.0, 0.1), // Translation PID constants
+                        new PIDConstants(0.1, 0.0, 0.1), // Translation PID constants
                         new PIDConstants(3, 0.0, 0.3), // Rotation PID constants
-                        1, // Max module speed, in m/s
+                        MAX_VELOCITY_METERS_PER_SECOND, // Max module speed, in m/s
                         driveRadius, // Drive base radius in meters. Distance from robot center to furthest module.
                         new ReplanningConfig() // Default path replanning config. See the API for the options here
                 ),
@@ -129,7 +129,7 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem,Checka
 
     public void autoDriveRobotRelative(ChassisSpeeds speed) {
         driveRobotRelative(
-                new ChassisSpeeds(speed.vyMetersPerSecond * 1.41873874, speed.vxMetersPerSecond * -1.41873874, speed.omegaRadiansPerSecond));
+                new ChassisSpeeds(speed.vyMetersPerSecond * 1.5, speed.vxMetersPerSecond * -1.5, speed.omegaRadiansPerSecond));
     }
 
     private final Field2d m_field = new Field2d();
@@ -204,7 +204,7 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem,Checka
 
     private Pose2d getPose() {
         var pose = poseEstimator.getEstimatedPosition();
-        return new Pose2d(pose.getY() * 1, pose.getX()* -1, pose.getRotation());
+        return new Pose2d(pose.getY(), pose.getX() * -1, pose.getRotation());
     }
 
     AHRS navx = new AHRS();
