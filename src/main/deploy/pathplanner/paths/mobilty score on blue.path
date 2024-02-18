@@ -217,10 +217,10 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 2.0,
-    "maxAcceleration": 2.0,
-    "maxAngularVelocity": 100000.0,
-    "maxAngularAcceleration": 1000000.0
+    "maxVelocity": 10.0,
+    "maxAcceleration": 10.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
@@ -228,7 +228,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": null,
+  "folder": "PathPlanner",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0
