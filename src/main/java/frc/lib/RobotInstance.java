@@ -9,7 +9,7 @@ import frc.lib.faults.Fault;
 
 public enum RobotInstance {
     Robot23("00-80-2F-17-60-67"),
-    Robot24("");
+    Robot24("00-80-2F-36-FD-D6");
 
     private String address;
     private static RobotInstance current = getMacAddress();

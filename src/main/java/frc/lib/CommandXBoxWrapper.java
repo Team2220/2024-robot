@@ -15,7 +15,7 @@ public class CommandXBoxWrapper {
 
     public CommandXBoxWrapper(int inPort) {
         xbox = new CommandXboxController(inPort);
-        Fault.autoUpdating("Controller is disconnected.", this::isConnected);
+        Fault.autoUpdating("Controller " + inPort + " is disconnected.", this::isConnected);
     }
 
     /**
