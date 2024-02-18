@@ -119,15 +119,19 @@ public class RobotContainer {
     // LedSignal.getLowBatteryLedSignal()
     // });
     NamedCommands.registerCommand("test print", Commands.print("heloo foortnite"));
-    NamedCommands.registerCommand("boxy", Commands.run(() -> {
+    NamedCommands.registerCommand("armSpeakerPos", Commands.run(() -> {
       m_arm.setPosition(58.8);
     }, m_arm));
-    NamedCommands.registerCommand("sucky", intake.setDutyCycleCommand(.5).withTimeout(2));
-    NamedCommands.registerCommand("themo", shooter.setDutyCycleCommand(.5).withTimeout(2));
-    NamedCommands.registerCommand("20degrees", Commands.run(()->{
-      m_arm.setPosition(20);
-    }, m_arm));
-    PathPlannerPath choreoMobility = PathPlannerPath.fromChoreoTrajectory("mobility");
+    NamedCommands.registerCommand("intake", intake.intakeUntilQueued());
+    NamedCommands.registerCommand(
+      "shooter",
+      Commands.parallel(
+        Commands.sequence(
+          Commands.waitSeconds(.5),
+          shooter.setDutyCycleCommand(.5)
+        ),
+        intake.setDutyCycleCommand(.5)
+        ).withTimeout(2));
 
     autoChooser = AutoBuilder.buildAutoChooser();
 
