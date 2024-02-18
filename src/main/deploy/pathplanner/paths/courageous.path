@@ -104,6 +104,12 @@
               "data": {
                 "name": "themo"
               }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": null
+              }
             }
           ]
         }
@@ -111,10 +117,10 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 10.0,
-    "maxAcceleration": 10.0,
-    "maxAngularVelocity": 540.0,
-    "maxAngularAcceleration": 720.0
+    "maxVelocity": 2.0,
+    "maxAcceleration": 100.0,
+    "maxAngularVelocity": 100000.0,
+    "maxAngularAcceleration": 100000.0
   },
   "goalEndState": {
     "velocity": 0,
@@ -122,7 +128,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "PathPlanner",
+  "folder": null,
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0
