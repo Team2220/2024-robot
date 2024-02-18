@@ -13,7 +13,7 @@ public enum RobotInstance {
 
     private String address;
     private static RobotInstance current = getMacAddress();
-    // private static Fault fault = new Fault("unknown robot mac address");
+    private static Fault fault;
 
     RobotInstance(String text) {
         this.address = text;
@@ -54,8 +54,11 @@ public enum RobotInstance {
     public static RobotInstance getMacAddress() {
         var check = fromString(getMacAddressStr());
         if (check == null) {
-            // fault.setIsActive(true);
-            System.out.println("Unknown Robot MAC Address: " + getMacAddressStr());
+            if (fault == null) {
+                fault = new Fault("Unknown Robot MAC Address: " + getMacAddressStr());
+                fault.setIsActive(true);
+                System.out.println("Unknown Robot MAC Address: " + getMacAddressStr());
+            }
             return Robot24;
         } else {
             return check;
