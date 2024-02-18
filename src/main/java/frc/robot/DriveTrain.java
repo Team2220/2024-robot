@@ -14,14 +14,10 @@ import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 import static edu.wpi.first.math.util.Units.inchesToMeters;
 
-import java.lang.reflect.Field;
 import java.util.function.DoubleSupplier;
 
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -35,6 +31,7 @@ import com.pathplanner.lib.util.ReplanningConfig;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.RobotInstance;
+import frc.lib.ShuffleBoardTabWrapper;
 import frc.lib.TalonFXSubsystem;
 import frc.lib.selfCheck.CheckCommand;
 import frc.lib.selfCheck.CheckableSubsystem;
@@ -46,7 +43,7 @@ import frc.lib.selfCheck.CheckableSubsystem;
  * radians.
  */
 
-public class DriveTrain extends SubsystemBase implements TalonFXSubsystem, CheckableSubsystem {
+public class DriveTrain extends SubsystemBase implements TalonFXSubsystem, CheckableSubsystem, ShuffleBoardTabWrapper {
 
     double driveRadius = Math
             .sqrt(Math.pow(DRIVETRAIN_TRACKWIDTH_METERS / 2, 2) + Math.pow(DRIVETRAIN_WHEELBASE_METERS / 2, 2));
@@ -87,6 +84,8 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem, Check
                 System.out.println(pose);
             }
         });
+
+        addGraph("GyroRate", navx::getRate);
     }
 
     GenericEntry gyroAngle = Shuffleboard.getTab("swerve").add("gyroAngle", 0).getEntry();

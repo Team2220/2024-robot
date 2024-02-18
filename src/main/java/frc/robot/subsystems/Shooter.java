@@ -2,36 +2,31 @@ package frc.robot.subsystems;
 
 import java.util.function.DoubleSupplier;
 
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.lib.ShuffleBoardTabWrapper;
 import frc.lib.SparkMaxWrapper;
 import frc.lib.selfCheck.CheckCommand;
 import frc.lib.selfCheck.CheckableSubsystem;
 import frc.lib.tunables.TunableDouble;
 import frc.robot.Constants;
 
-public class Shooter extends SubsystemBase implements CheckableSubsystem {
+public class Shooter extends SubsystemBase implements CheckableSubsystem, ShuffleBoardTabWrapper {
     private SparkMaxWrapper left;
     private SparkMaxWrapper right;
     private TunableDouble shooterSpeed;
     private TunableDouble tolerance;
 
     public Shooter() {
-        shooterSpeed = new TunableDouble("shooterSpeed", 1000, "shooter");
-        tolerance = new TunableDouble("tolerance", 100, "shooter");
+        shooterSpeed = addTunableDouble("shooterSpeed", 1000);
+        tolerance = addTunableDouble("tolerance", 100);
         left = new SparkMaxWrapper(Constants.Shooter.id_left, "leftShooter");
         left.setInverted(true);
         right = new SparkMaxWrapper(Constants.Shooter.id_right, "rightShooter");
         right.setInverted(false);
-        Shuffleboard.getTab("shooter")
-                .addDouble("ShooterVelocityRight", () -> right.getVelocity() * Constants.Shooter.gear_ratio)
-                .withWidget(BuiltInWidgets.kGraph);
 
-        Shuffleboard.getTab("shooter")
-                .addDouble("ShooterVelocityLeft", () -> left.getVelocity() * Constants.Shooter.gear_ratio)
-                .withWidget(BuiltInWidgets.kGraph);
+        addGraph("ShooterVelocityRight", () -> right.getVelocity() * Constants.Shooter.gear_ratio);
+        addGraph("ShooterVelocityLeft", () -> left.getVelocity() * Constants.Shooter.gear_ratio);
     }
 
     public Command dutyCycleCommand(DoubleSupplier speed) {
