@@ -17,6 +17,8 @@ import frc.robot.subsystems.Shooter;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.path.PathPlannerPath;
 
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.RobotController;
@@ -39,6 +41,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
+
   // private CANdle left = new CANdle(Constants.LEDS.LEFT);
   // private CANdle right = new CANdle(Constants.LEDS.RIGHT);
   @SuppressWarnings("unused")
@@ -124,6 +127,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("20degrees", Commands.run(()->{
       m_arm.setPosition(20);
     }, m_arm));
+    PathPlannerPath choreoMobility = PathPlannerPath.fromChoreoTrajectory("mobility");
 
     autoChooser = AutoBuilder.buildAutoChooser();
 
@@ -131,6 +135,7 @@ public class RobotContainer {
     // autoChooser = AutoBuilder.buildAutoChooser("My Default Auto");
 
     SmartDashboard.putData("Auto Chooser", autoChooser);
+    
 
   }
 
@@ -171,8 +176,9 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
     return autoChooser.getSelected();
-  }
+    }
 
+    
   public Command getTestCommand() {
     return new RobotSelfCheckCommand(
         Commands.sequence(

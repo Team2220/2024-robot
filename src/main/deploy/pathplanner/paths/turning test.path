@@ -3,41 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.0,
-        "y": 2.0
+        "x": 0.771033906107768,
+        "y": 2.2872111448995365
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.0,
-        "y": 2.0
+        "x": 1.7710339061077685,
+        "y": 2.2872111448995365
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.0,
-        "y": 2.0
+        "x": 6.067302523062316,
+        "y": 2.2872111448995365
       },
       "prevControl": {
-        "x": 2.004958988519973,
-        "y": 1.9674205396912936
-      },
-      "nextControl": {
-        "x": 1.9991606887588702,
-        "y": 2.0055140896489085
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 2.0,
-        "y": 3.0
-      },
-      "prevControl": {
-        "x": 2.0,
-        "y": 2.0
+        "x": 4.387550084756108,
+        "y": 2.3055690950449605
       },
       "nextControl": null,
       "isLocked": false,
@@ -46,7 +30,31 @@
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "move",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "sucky"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "20degrees"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 10.0,
     "maxAcceleration": 10.0,
@@ -55,7 +63,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
+    "rotation": 180.0,
     "rotateFast": false
   },
   "reversed": false,
