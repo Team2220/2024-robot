@@ -19,6 +19,8 @@ public class SparkMaxWrapper {
 
         sparkMax = new CANSparkMax(id, MotorType.kBrushless);
         sparkMax.restoreFactoryDefaults();
+        sparkMax.enableVoltageCompensation(10);
+
         pidController = sparkMax.getPIDController();
 
         new TunableDouble("P", P, getName(), value -> {
