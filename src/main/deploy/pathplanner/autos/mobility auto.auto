@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.4,
-      "y": 1.3
+      "x": 0.589266300201416,
+      "y": 7.204306125640869
     },
-    "rotation": 0
+    "rotation": -3.9607614938475737e-36
   },
   "command": {
     "type": "sequential",
@@ -14,12 +14,12 @@
         {
           "type": "path",
           "data": {
-            "pathName": "griffs path"
+            "pathName": "mobility"
           }
         }
       ]
     }
   },
   "folder": null,
-  "choreoAuto": false
+  "choreoAuto": true
 }

@@ -2,8 +2,6 @@ package frc.robot.subsystems;
 
 import java.util.function.DoubleSupplier;
 
-import com.revrobotics.CANEncoder;
-
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -18,18 +16,20 @@ public class Shooter extends SubsystemBase implements CheckableSubsystem {
     private SparkMaxWrapper left;
     private SparkMaxWrapper right;
     private TunableDouble shooterSpeed;
+    private TunableDouble tolerance;
 
     public Shooter() {
-        shooterSpeed = new TunableDouble("shooterSpeed", 100, "shooter");
+        shooterSpeed = new TunableDouble("shooterSpeed", 1000, "shooter");
+        tolerance = new TunableDouble("tolerance", 100, "shooter");
         left = new SparkMaxWrapper(Constants.Shooter.id_left, "leftShooter");
         left.setInverted(true);
         right = new SparkMaxWrapper(Constants.Shooter.id_right, "rightShooter");
         right.setInverted(false);
-        Shuffleboard.getTab("ShooterSpeed")
+        Shuffleboard.getTab("shooter")
                 .addDouble("ShooterVelocityRight", () -> right.getVelocity() * Constants.Shooter.gear_ratio)
                 .withWidget(BuiltInWidgets.kGraph);
 
-        Shuffleboard.getTab("ShooterSpeed")
+        Shuffleboard.getTab("shooter")
                 .addDouble("ShooterVelocityLeft", () -> left.getVelocity() * Constants.Shooter.gear_ratio)
                 .withWidget(BuiltInWidgets.kGraph);
     }
@@ -51,15 +51,25 @@ public class Shooter extends SubsystemBase implements CheckableSubsystem {
         });
     }
 
+    public boolean isAtSetPoint() {
+        return left.isAtReference(shooterSpeed.getValue(), tolerance.getValue())
+                && right.isAtReference(shooterSpeed.getValue(), tolerance.getValue());
+    }
+
     public Command velocityCommand() {
         return this.run(() -> {
             double speed = shooterSpeed.getValue();
-            left.setReference(speed * Constants.Shooter.gear_ratio);
-            right.setReference(speed * Constants.Shooter.gear_ratio);
+            left.setReference(speed / Constants.Shooter.gear_ratio);
+            right.setReference(speed / Constants.Shooter.gear_ratio);
         }).finallyDo(() -> {
             left.setReference(0);
             right.setReference(0);
         });
+    }
+
+    public void setSpeed(double speed) {
+        left.setReference(speed / Constants.Shooter.gear_ratio);
+        right.setReference(speed / Constants.Shooter.gear_ratio);
     }
 
     @Override

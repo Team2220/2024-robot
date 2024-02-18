@@ -8,8 +8,11 @@ import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.configs.VoltageConfigs;
 import com.ctre.phoenix6.controls.PositionDutyCycle;
+import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityDutyCycle;
+import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
@@ -74,11 +77,17 @@ public class SwerveModule {
     m_turningMotor = new TalonFX(turningMotorChannel);
     m_turningMotor.setNeutralMode(NeutralModeValue.Brake);
     CurrentLimitsConfigs currentConfigs = new CurrentLimitsConfigs();
-    currentConfigs.StatorCurrentLimit = 40;
+    currentConfigs.StatorCurrentLimit = 60;
     currentConfigs.StatorCurrentLimitEnable = true;
-    currentConfigs.SupplyCurrentLimit = 40;
+    currentConfigs.SupplyCurrentLimit = 60;
     currentConfigs.SupplyCurrentLimitEnable = true;
     m_driveMotor.getConfigurator().apply(currentConfigs);
+    m_turningMotor.getConfigurator().apply(currentConfigs);
+    VoltageConfigs voltageConfigs = new VoltageConfigs();
+    voltageConfigs.PeakForwardVoltage= 10;
+    voltageConfigs.PeakReverseVoltage= -10;
+    m_driveMotor.getConfigurator().apply(voltageConfigs);
+    m_turningMotor.getConfigurator().apply(voltageConfigs);
 
     m_turningEncoder = new PWMEncoder(turningEncoderChannelA);
     speed = Shuffleboard.getTab("swerve").add(name + " speed", 0).getEntry();
@@ -229,8 +238,8 @@ public class SwerveModule {
     // state.angle.getDegrees())));
     speed.setDouble(mpsToEncoderTicks(state.speedMetersPerSecond));
     // angle.setDouble(angleToEncoderTicks(state.angle.getDegrees()));
-    m_driveMotor.setControl(new VelocityDutyCycle(mpsToEncoderTicks(state.speedMetersPerSecond) * -1));
-    m_turningMotor.setControl(new PositionDutyCycle(
+    m_driveMotor.setControl(new VelocityVoltage(mpsToEncoderTicks(state.speedMetersPerSecond) * -1));
+    m_turningMotor.setControl(new PositionVoltage(
         angleToEncoderTicks(convertAngle(rotation2d.getDegrees(), state.angle.getDegrees()) * -1)));
 
     // Calculate the drive output from the drive PID controller.
