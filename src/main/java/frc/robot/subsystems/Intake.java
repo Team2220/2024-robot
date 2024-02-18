@@ -35,6 +35,11 @@ public class Intake extends SubsystemBase implements CheckableSubsystem {
         });
     }
 
+    public void setSpeed(double speed) {
+        intake.set(speed);
+        conveyor.set(speed);
+    }
+
     public Command intakeUntilQueued() {
         return this.run(() -> {
             if (noteSensor.get()) {

@@ -1,7 +1,5 @@
 package frc.lib;
 
-import static edu.wpi.first.math.util.Units.rotationsPerMinuteToRadiansPerSecond;
-
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
