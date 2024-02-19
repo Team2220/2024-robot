@@ -42,8 +42,8 @@ public class Intake extends SubsystemBase implements CheckableSubsystem {
     public Command intakeUntilQueued() {
         return this.run(() -> {
             if (noteSensor.get()) {
-                intake.set(0);
-                conveyor.set(0);
+                intake.set(0.5);
+                conveyor.set(0.5);
             } else {
                 intake.set(intakeSpeed.getValue());
                 conveyor.set(intakeSpeed.getValue());
