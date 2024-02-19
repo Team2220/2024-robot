@@ -127,11 +127,11 @@ public class RobotContainer {
       "shooter",
       Commands.parallel(
         Commands.sequence(
-          Commands.waitSeconds(.5),
-          shooter.setDutyCycleCommand(.5)
+          Commands.waitSeconds(2),
+          intake.setDutyCycleCommand(1).withTimeout(2)
         ),
-        intake.setDutyCycleCommand(.5)
-        ).withTimeout(2));
+        shooter.setDutyCycleCommand(1).withTimeout(2)
+        ));
 
     autoChooser = AutoBuilder.buildAutoChooser();
 
