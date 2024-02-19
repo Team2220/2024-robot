@@ -125,7 +125,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("armRest", Commands.run(() -> {
       m_arm.setPosition(5);
     }, m_arm));
-    NamedCommands.registerCommand("intake", intake.intakeUntilQueued());
+    NamedCommands.registerCommand("intake", intake.setIntakeUntilQueued());
     NamedCommands.registerCommand("shooter",
       Commands.parallel(
         Commands.sequence(
@@ -135,8 +135,8 @@ public class RobotContainer {
         shooter.setDutyCycleCommand(1).withTimeout(2)
         ));
 
-
-         NamedCommands.registerCommand("shooter+", shooter.setDutyCycleCommand(1).withTimeout(15));
+    NamedCommands.registerCommand("conveyor", intake.setDutyCycleCommand(.5).withTimeout(2));
+    NamedCommands.registerCommand("shooter+", shooter.setDutyCycleCommand(.5).withTimeout(15));
          
     autoChooser = AutoBuilder.buildAutoChooser();
 

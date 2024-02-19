@@ -128,23 +128,6 @@
           ]
         }
       }
-    },
-    {
-      "name": "New Event Marker",
-      "waypointRelativePos": 0,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": null
-              }
-            }
-          ]
-        }
-      }
     }
   ],
   "globalConstraints": {

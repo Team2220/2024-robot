@@ -46,18 +46,40 @@ public class Intake extends SubsystemBase implements CheckableSubsystem {
                 conveyor.set(0.5);
             } else {
                 intake.set(intakeSpeed.getValue());
-                conveyor.set(intakeSpeed.getValue() * -1);
+                conveyor.set(intakeSpeed.getValue());
             }
         });
     }
-    public Command setintakeUntilQueued() {
+    public Command intakeUntilNotQueued() {
+        return this.run(() -> {
+            if (noteSensor.get()) {
+                intake.set(.5);
+                conveyor.set(.5);
+            } else {
+                intake.set(0);
+                conveyor.set(0);
+            }
+        });
+    }
+    public Command setIntakeUntilQueued() {
         return this.run(() -> {
             if (noteSensor.get()) {
                 intake.set(0);
                 conveyor.set(0);
             } else {
                 intake.set(.5);
-                conveyor.set(-.5);
+                conveyor.set(.5);
+            }
+        });
+    }
+    public Command setintakeUntilNotQueued() {
+        return this.run(() -> {
+            if (noteSensor.get()) {
+                intake.set(.5);
+                conveyor.set(.5);
+            } else {
+                intake.set(0);
+                conveyor.set(0);
             }
         });
     }
@@ -65,9 +87,10 @@ public class Intake extends SubsystemBase implements CheckableSubsystem {
     public Command setDutyCycleCommand(double speed) {
         return this.run(() -> {
             intake.set(speed);
-            conveyor.set(speed * -1);
+            conveyor.set(speed);
         });
     }
+    
 
     @Override
     public CheckCommand[] getCheckCommands() {
