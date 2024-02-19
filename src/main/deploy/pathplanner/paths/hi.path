@@ -73,13 +73,7 @@
             {
               "type": "named",
               "data": {
-                "name": "sucky"
-              }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "boxy"
+                "name": "shooter"
               }
             }
           ]
@@ -96,19 +90,7 @@
             {
               "type": "named",
               "data": {
-                "name": "sucky"
-              }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "themo"
-              }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "test print"
+                "name": "intake"
               }
             }
           ]
