@@ -136,7 +136,7 @@ public class RobotContainer {
         ));
 
 
-         NamedCommands.registerCommand("shooter+", shooter.setDutyCycleCommand(1).withTimeout(10));
+         NamedCommands.registerCommand("shooter+", shooter.setDutyCycleCommand(1).withTimeout(15));
          
     autoChooser = AutoBuilder.buildAutoChooser();
 
