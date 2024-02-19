@@ -122,9 +122,11 @@ public class RobotContainer {
     NamedCommands.registerCommand("armSpeakerPos", Commands.run(() -> {
       m_arm.setPosition(58.8);
     }, m_arm));
+    NamedCommands.registerCommand("armRest", Commands.run(() -> {
+      m_arm.setPosition(5);
+    }, m_arm));
     NamedCommands.registerCommand("intake", intake.intakeUntilQueued());
-    NamedCommands.registerCommand(
-      "shooter",
+    NamedCommands.registerCommand("shooter",
       Commands.parallel(
         Commands.sequence(
           Commands.waitSeconds(2),
@@ -133,6 +135,9 @@ public class RobotContainer {
         shooter.setDutyCycleCommand(1).withTimeout(2)
         ));
 
+
+         NamedCommands.registerCommand("shooter+", shooter.setDutyCycleCommand(1).withTimeout(10));
+         
     autoChooser = AutoBuilder.buildAutoChooser();
 
     // Another option that allows you to specify the default auto by its name
