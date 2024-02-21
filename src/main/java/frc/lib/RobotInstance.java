@@ -5,12 +5,15 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.util.function.Function;
 
+import frc.lib.faults.Fault;
+
 public enum RobotInstance {
     Robot23("00-80-2F-17-60-67"),
-    Robot24("");
+    Robot24("00-80-2F-36-FD-D6");
 
     private String address;
     private static RobotInstance current = getMacAddress();
+    private static Fault fault;
 
     RobotInstance(String text) {
         this.address = text;
@@ -35,7 +38,7 @@ public enum RobotInstance {
             address = InetAddress.getLocalHost();
             NetworkInterface networkInterface = NetworkInterface.getByInetAddress(address);
             byte[] mac = networkInterface.getHardwareAddress();
-            // System.out.print("MAC address  : ");
+            // System.out.print("MAC address : ");
             StringBuilder stringBuilder = new StringBuilder();
             for (int i = 0; i < mac.length; i++) {
                 stringBuilder.append(String.format("%02X%s", mac[i], (i < mac.length - 1) ? "-" : ""));
@@ -51,6 +54,11 @@ public enum RobotInstance {
     public static RobotInstance getMacAddress() {
         var check = fromString(getMacAddressStr());
         if (check == null) {
+            if (fault == null) {
+                fault = new Fault("Unknown Robot MAC Address: " + getMacAddressStr());
+                fault.setIsActive(true);
+                System.out.println("Unknown Robot MAC Address: " + getMacAddressStr());
+            }
             return Robot24;
         } else {
             return check;

@@ -6,6 +6,7 @@ package frc.robot;
 
 import frc.lib.CommandXBoxWrapper;
 import frc.lib.MusicToneCommand;
+import frc.lib.Note;
 import frc.lib.TalonOrchestra;
 import frc.lib.faults.PDHLogPowerFaults;
 import frc.lib.selfCheck.RobotSelfCheckCommand;
@@ -16,6 +17,8 @@ import frc.robot.subsystems.Shooter;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.path.PathPlannerPath;
 
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.RobotController;
@@ -25,7 +28,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -39,6 +41,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
+
   // private CANdle left = new CANdle(Constants.LEDS.LEFT);
   // private CANdle right = new CANdle(Constants.LEDS.RIGHT);
   @SuppressWarnings("unused")
@@ -69,18 +72,17 @@ public class RobotContainer {
     configureBindings();
 
     shooter.setDefaultCommand(shooter.dutyCycleCommand(() -> {
-      return m_operatorController.getLeftTriggerAxis(0);
-    }, () -> {
-      return m_operatorController.getRightTriggerAxis(0);
+      return m_operatorController.getRightTriggerAxis(0.1);
     }));
 
     intake.setDefaultCommand(intake.dutyCycleCommand(() -> {
-      return m_operatorController.getRightY(0.1);
+      return m_operatorController.getRightY(0.1) * -1;
     }));
 
     var armCommand = Commands.run(() -> {
-      var joyStickPosition = m_operatorController.getLeftY(0.1);
+      var joyStickPosition = m_operatorController.getLeftY(0.1) * -0.55;
       if (joyStickPosition > 0.01 || joyStickPosition < -0.01) {
+        
         m_arm.setDutyCycle(joyStickPosition);
       } else {
         m_arm.holdPosition();
@@ -88,10 +90,13 @@ public class RobotContainer {
     }, m_arm);
     m_operatorController.leftYTrigger(0.1).onTrue(armCommand);
     m_arm.setDefaultCommand(armCommand);
-
+    m_operatorController.rightBumper().whileTrue(shooter.velocityCommand());
     m_operatorController.a().onTrue(Commands.runOnce(m_arm::setZero, m_arm));
     m_operatorController.y().onTrue(m_arm.setPositionCommand(90));
     m_operatorController.b().onTrue(m_arm.setPositionCommand(45));
+    m_operatorController.leftStick().whileTrue(m_arm.overrideSoftLimits());
+    m_operatorController.x().onTrue(m_arm.setPositionCommand(58.7));
+
 
     var driveCommand = driveTrain.driveCommand(() -> {
       return m_driverController.getLeftX(0.1) * -1;
@@ -113,20 +118,33 @@ public class RobotContainer {
     // // LedSignal.hasActiveFault(),
     // LedSignal.getLowBatteryLedSignal()
     // });
-   NamedCommands.registerCommand("test print", Commands.print("heloo foortnite"));
-   NamedCommands.registerCommand("boxy", Commands.run(()->{
-    m_arm.setPosition(90);
-   }, m_arm));
-   NamedCommands.registerCommand("sucky", intake.setDutyCycleCommand(.5).withTimeout(2));
-   NamedCommands.registerCommand("themo", shooter.setDutyCycleCommand(.5, .5).withTimeout(2));
+    NamedCommands.registerCommand("test print", Commands.print("heloo foortnite"));
+    NamedCommands.registerCommand("armSpeakerPos", Commands.run(() -> {
+      m_arm.setPosition(58.8);
+    }, m_arm));
+    NamedCommands.registerCommand("armRest", Commands.run(() -> {
+      m_arm.setPosition(5);
+    }, m_arm));
+    NamedCommands.registerCommand("intake", intake.setIntakeUntilQueued());
+    NamedCommands.registerCommand("shooter",
+      Commands.parallel(
+        Commands.sequence(
+          Commands.waitSeconds(2),
+          intake.setDutyCycleCommand(1).withTimeout(2)
+        ),
+        shooter.setDutyCycleCommand(1).withTimeout(2)
+        ));
 
-
+    NamedCommands.registerCommand("conveyor", intake.setDutyCycleCommand(.5).withTimeout(2));
+    NamedCommands.registerCommand("shooter+", shooter.setDutyCycleCommand(.5).withTimeout(15));
+         
     autoChooser = AutoBuilder.buildAutoChooser();
 
     // Another option that allows you to specify the default auto by its name
     // autoChooser = AutoBuilder.buildAutoChooser("My Default Auto");
 
     SmartDashboard.putData("Auto Chooser", autoChooser);
+    
 
   }
 
@@ -148,13 +166,16 @@ public class RobotContainer {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     m_driverController.a().onTrue(driveTrain.zeroCommand());
     m_driverController.x().whileTrue((driveTrain.xcommand()));
-    m_driverController.y().onTrue(new TalonOrchestra(driveTrain));
+   // m_driverController.y().onTrue(new TalonOrchestra(driveTrain));
     m_driverController.b().onTrue(driveTrain.slowMode());
-    m_driverController.start().whileTrue(new MusicToneCommand(256, driveTrain)); // 256 Hz is middle C
-    // Schedule `exampleMethodCommand` when the Xbox controller's B button is
-    // pressed,
-    // cancelling on release.
+
+   // m_driverController.start().whileTrue(new MusicToneCommand(256, driveTrain)); // 256 Hz is middle C
+    m_driverController.start().onTrue(new TalonOrchestra("despaceto.chrp",driveTrain));
+    m_driverController.leftTrigger().whileTrue(intake.intakeUntilQueued());
+    m_operatorController.leftBumper().whileTrue(shooter.setDutyCycleCommand(-0.3));
   }
+
+
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -164,13 +185,18 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
     return autoChooser.getSelected();
-  }
+    }
 
+    
   public Command getTestCommand() {
     return new RobotSelfCheckCommand(
-      new MusicToneCommand( 261.626, driveTrain).withTimeout(2),
-      new MusicToneCommand(440, driveTrain).withTimeout(2),
-       driveTrain,
+        Commands.sequence(
+            new MusicToneCommand(Note.MiddleC, driveTrain).withTimeout(2),
+            new MusicToneCommand(Note.HighC, driveTrain).withTimeout(2)),
+        Commands.sequence(
+            new MusicToneCommand(Note.MiddleC, driveTrain).withTimeout(2),
+            new MusicToneCommand(Note.LowC, driveTrain).withTimeout(2)),
+        driveTrain,
         intake);
   }
 }

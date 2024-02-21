@@ -1,13 +1,13 @@
 package frc.lib;
 
-import static edu.wpi.first.math.util.Units.rotationsPerMinuteToRadiansPerSecond;
-
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.event.EventLoop;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.lib.faults.Fault;
 
 public class CommandXBoxWrapper {
 
@@ -15,6 +15,7 @@ public class CommandXBoxWrapper {
 
     public CommandXBoxWrapper(int inPort) {
         xbox = new CommandXboxController(inPort);
+        Fault.autoUpdating("Controller " + inPort + " is disconnected.", this::isConnected);
     }
 
     /**
@@ -37,6 +38,11 @@ public class CommandXBoxWrapper {
      */
     public Trigger leftBumper() {
         return xbox.leftBumper();
+    }
+
+    public boolean isConnected() {
+        return !DriverStation.isJoystickConnected(xbox.getHID().getPort())
+                || !DriverStation.getJoystickIsXbox(xbox.getHID().getPort());
     }
 
     /**

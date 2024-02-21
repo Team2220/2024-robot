@@ -14,14 +14,10 @@ import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 import static edu.wpi.first.math.util.Units.inchesToMeters;
 
-import java.lang.reflect.Field;
 import java.util.function.DoubleSupplier;
 
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -35,6 +31,7 @@ import com.pathplanner.lib.util.ReplanningConfig;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.RobotInstance;
+import frc.lib.ShuffleBoardTabWrapper;
 import frc.lib.TalonFXSubsystem;
 import frc.lib.selfCheck.CheckCommand;
 import frc.lib.selfCheck.CheckableSubsystem;
@@ -46,8 +43,7 @@ import frc.lib.selfCheck.CheckableSubsystem;
  * radians.
  */
 
-public class DriveTrain extends SubsystemBase implements TalonFXSubsystem,CheckableSubsystem{
-    
+public class DriveTrain extends SubsystemBase implements TalonFXSubsystem, CheckableSubsystem, ShuffleBoardTabWrapper {
 
     double driveRadius = Math
             .sqrt(Math.pow(DRIVETRAIN_TRACKWIDTH_METERS / 2, 2) + Math.pow(DRIVETRAIN_WHEELBASE_METERS / 2, 2));
@@ -61,8 +57,8 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem,Checka
                 this::autoDriveRobotRelative, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
                 new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your
                                                  // Constants class
-                        new PIDConstants(0.3, 0.0, 0.025456738383963862983267), // Translation PID constants
-                        new PIDConstants(0.3, 0.0, 0.025621832482875328792385), // Rotation PID constants
+                        new PIDConstants(.1, 0.0, 0.0), // Translation PID constants
+                        new PIDConstants(2, 0.0, 0.3), // Rotation PID constants
                         MAX_VELOCITY_METERS_PER_SECOND, // Max module speed, in m/s
                         driveRadius, // Drive base radius in meters. Distance from robot center to furthest module.
                         new ReplanningConfig() // Default path replanning config. See the API for the options here
@@ -88,9 +84,12 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem,Checka
                 System.out.println(pose);
             }
         });
+
+        addGraph("GyroRate", navx::getRate);
     }
 
     GenericEntry gyroAngle = Shuffleboard.getTab("swerve").add("gyroAngle", 0).getEntry();
+
     public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
         driveRobotRelative(
                 fieldRelative
@@ -98,8 +97,6 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem,Checka
                         : new ChassisSpeeds(xSpeed, ySpeed, rot));
     }
 
-
-    
     public void driveRobotRelative(ChassisSpeeds speed) {
         var swerveModuleStates = KINEMATICS.toSwerveModuleStates(speed);
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, MAX_VELOCITY_METERS_PER_SECOND);
@@ -108,36 +105,39 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem,Checka
         m_backLeft.setDesiredState(swerveModuleStates[2]);
         m_backRight.setDesiredState(swerveModuleStates[3]);
     }
+
     @Override
     public TalonFX[] getTalonFXs() {
-        return new TalonFX[]{
-            m_backLeft.getM_driveMotor(),
-            m_backLeft.getM_turningMotor(),
-            m_frontLeft.getM_driveMotor(),
-            m_frontLeft.getM_turningMotor(),
-            m_backRight.getM_driveMotor(),
-            m_backRight.getM_turningMotor(),
-            m_frontRight.getM_driveMotor(),
-            m_frontRight.getM_turningMotor(),
+        return new TalonFX[] {
+                m_backLeft.getM_driveMotor(),
+                m_backLeft.getM_turningMotor(),
+                m_frontLeft.getM_driveMotor(),
+                m_frontLeft.getM_turningMotor(),
+                m_backRight.getM_driveMotor(),
+                m_backRight.getM_turningMotor(),
+                m_frontRight.getM_driveMotor(),
+                m_frontRight.getM_turningMotor(),
         };
     }
 
     @Override
     public CheckCommand[] getCheckCommands() {
-        return new CheckCommand[]{};
+        return new CheckCommand[] {};
     }
 
     public void autoDriveRobotRelative(ChassisSpeeds speed) {
         driveRobotRelative(
-                new ChassisSpeeds(speed.vyMetersPerSecond * -1.320011, speed.vxMetersPerSecond * 1.320011, speed.omegaRadiansPerSecond));
+                new ChassisSpeeds(speed.vyMetersPerSecond * 1.41873874, speed.vxMetersPerSecond * -1.41873874,
+                        speed.omegaRadiansPerSecond));
     }
 
     private final Field2d m_field = new Field2d();
     private final Pose2d m_startPose = new Pose2d(0, 0, Rotation2d.fromDegrees(0));
 
     public void resetPose(Pose2d pose) {
-        poseEstimator.resetPosition(getGyroscopeRotation(), getModulePositions(), pose);
-        System.out.println("fortnite");
+        var newPose = new Pose2d(pose.getY() * -1, pose.getX(), pose.getRotation());
+        System.out.println("resseting pose to" + newPose.toString());
+        poseEstimator.resetPosition(getGyroscopeRotation(), getModulePositions(), newPose);
     }
 
     public Command zeroCommand() {
@@ -150,9 +150,9 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem,Checka
     public Command driveCommand(DoubleSupplier xspeed, DoubleSupplier yspeed, DoubleSupplier rot) {
         return this.run(() -> {
             this.drive(
-                    xspeed.getAsDouble() * MAX_VELOCITY_METERS_PER_SECOND * .25,
-                    yspeed.getAsDouble() * MAX_VELOCITY_METERS_PER_SECOND * -.25,
-                    rot.getAsDouble() * MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND / 2.0, true);
+                    xspeed.getAsDouble() * MAX_VELOCITY_METERS_PER_SECOND * 1,
+                    yspeed.getAsDouble() * MAX_VELOCITY_METERS_PER_SECOND * -1,
+                    rot.getAsDouble() * MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, true);
         });
     }
 
@@ -198,12 +198,12 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem,Checka
         gyroAngle.setDouble(getGyroscopeRotation().getDegrees());
         poseEstimator.update(
                 getGyroscopeRotation(), getModulePositions());
-        //System.out.println(MAX_VELOCITY_METERS_PER_SECOND);        
+        // System.out.println(MAX_VELOCITY_METERS_PER_SECOND);
     }
 
     private Pose2d getPose() {
         var pose = poseEstimator.getEstimatedPosition();
-        return new Pose2d(pose.getY() * 1, pose.getX()* -1, pose.getRotation());
+        return new Pose2d(pose.getY(), pose.getX() * -1, pose.getRotation());
     }
 
     AHRS navx = new AHRS();
@@ -297,13 +297,17 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem,Checka
             m_frontRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
         });
     }
-    
+
     public Command slowMode() {
         return this.run(() -> {
-            m_backLeft.setDesiredState(new SwerveModuleState(DriveTrain.MAX_VELOCITY_METERS_PER_SECOND * .25, Rotation2d.fromDegrees(90)));
-            m_frontLeft.setDesiredState(new SwerveModuleState(DriveTrain.MAX_VELOCITY_METERS_PER_SECOND * .25, Rotation2d.fromDegrees(90)));
-            m_backRight.setDesiredState(new SwerveModuleState(DriveTrain.MAX_VELOCITY_METERS_PER_SECOND * .25, Rotation2d.fromDegrees(90)));
-            m_frontRight.setDesiredState(new SwerveModuleState(DriveTrain.MAX_VELOCITY_METERS_PER_SECOND * .25, Rotation2d.fromDegrees(90)));
+            m_backLeft.setDesiredState(
+                    new SwerveModuleState(DriveTrain.MAX_VELOCITY_METERS_PER_SECOND * .25, Rotation2d.fromDegrees(90)));
+            m_frontLeft.setDesiredState(
+                    new SwerveModuleState(DriveTrain.MAX_VELOCITY_METERS_PER_SECOND * .25, Rotation2d.fromDegrees(90)));
+            m_backRight.setDesiredState(
+                    new SwerveModuleState(DriveTrain.MAX_VELOCITY_METERS_PER_SECOND * .25, Rotation2d.fromDegrees(90)));
+            m_frontRight.setDesiredState(
+                    new SwerveModuleState(DriveTrain.MAX_VELOCITY_METERS_PER_SECOND * .25, Rotation2d.fromDegrees(90)));
         });
     }
 }

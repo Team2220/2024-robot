@@ -1,29 +1,27 @@
 package frc.lib;
 
+import com.revrobotics.CANSparkBase;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkPIDController;
+import com.revrobotics.CANSparkBase.FaultID;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import frc.lib.faults.SparkMaxLogPowerFaults;
 import frc.lib.tunables.TunableDouble;
 
 public class SparkMaxWrapper {
-    private final double P;
-    private final double I;
-    private final double D;
-    private int id;
     public String name;
     public CANSparkMax sparkMax;
     public SparkPIDController pidController;
 
-    public SparkMaxWrapper(int id, String name, double P, double I, double D) {
-        this.id = id;
+    public SparkMaxWrapper(int id, String name, double P, double I, double D, double maxAcceleration,
+            double maxVelocity, double allowedErr) {
         this.name = name;
-        this.P = P;
-        this.I = I;
-        this.D = D;
+
         sparkMax = new CANSparkMax(id, MotorType.kBrushless);
         sparkMax.restoreFactoryDefaults();
+        sparkMax.enableVoltageCompensation(10);
+
         pidController = sparkMax.getPIDController();
 
         new TunableDouble("P", P, getName(), value -> {
@@ -38,11 +36,35 @@ public class SparkMaxWrapper {
             pidController.setD(value);
         });
 
-        SparkMaxLogPowerFaults.setupCheck(sparkMax);
+        new TunableDouble("maxAcceleration", maxAcceleration, getName(), value -> {
+            pidController.setSmartMotionMaxAccel(value, 0);
+        });
+
+        new TunableDouble("maxVelocity", maxVelocity, getName(), value -> {
+            pidController.setSmartMotionMaxVelocity(value, 0);
+        });
+
+        new TunableDouble("allowedErr", allowedErr, getName(), value -> {
+            pidController.setSmartMotionAllowedClosedLoopError(value, 0);
+        });
+
+        SparkMaxLogPowerFaults.setupCheck(this);
     }
 
     public SparkMaxWrapper(int id, String name) {
-        this(id, name, 0, 0, 0);
+        this(id, name, 0, 0, 0, 0, 0, 0);
+    }
+
+    public boolean getStickyFault(FaultID faultID) {
+        return sparkMax.getStickyFault(faultID);
+    }
+
+    public void clearFaults() {
+        sparkMax.clearFaults();
+    }
+
+    public void setInverted(boolean inverted) {
+        sparkMax.setInverted(inverted);
     }
 
     public String getName() {
@@ -53,7 +75,16 @@ public class SparkMaxWrapper {
         sparkMax.set(speed);
     }
 
+    public double getVelocity() {
+        return sparkMax.getEncoder().getVelocity();
+    }
+
     public void setReference(double speed) {
-        pidController.setReference(speed, CANSparkMax.ControlType.kSmartVelocity);
+        pidController.setReference(speed, CANSparkBase.ControlType.kSmartVelocity);
+    }
+
+    public boolean isAtReference(double speed, double tolerance) {
+        double diff = (getVelocity() - speed);
+        return Math.abs(diff) <= tolerance;
     }
 }

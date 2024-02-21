@@ -1,12 +1,7 @@
 package frc.lib.selfCheck;
 
-import com.ctre.phoenix6.controls.DutyCycleOut;
 
 import frc.lib.TalonFXWrapper;
-import frc.lib.TalonFXWrapper;
-import frc.lib.TalonFXWrapper;
-import frc.lib.TalonFXWrapper;
-import frc.lib.selfCheck.CheckCommand;
 
 public class SpinTalonCheck extends CheckCommand {
     TalonFXWrapper talon;
@@ -23,21 +18,21 @@ public class SpinTalonCheck extends CheckCommand {
     }
     @Override
     public boolean isFinished() {
-        return Math.abs(position - talon.getRotorPosition().getValueAsDouble()) > 10;
+        return Math.abs(position - talon.getRotorPosition().getValueAsDouble()) > 20;
     }
 
     @Override
     public
     double getTimeoutSeconds() {
-        return 10;
+        return 3;
 
     }
     @Override
     public void end(boolean interrupted) {
-        talon.setControl(new DutyCycleOut(0));
+        talon.set (0);
     }
     @Override
     public void execute() {
-        talon.setControl(new DutyCycleOut(0.25));
+        talon.set (0.25);
     }
 }
