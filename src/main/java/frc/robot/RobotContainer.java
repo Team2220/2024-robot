@@ -95,8 +95,7 @@ public class RobotContainer {
     m_operatorController.y().onTrue(m_arm.setPositionCommand(90));
     m_operatorController.b().onTrue(m_arm.setPositionCommand(45));
     m_operatorController.leftStick().whileTrue(m_arm.overrideSoftLimits());
-    m_operatorController.x().onTrue(m_arm.setPositionCommand(58.7));
-
+    m_operatorController.x().onTrue(m_arm.setPositionCommand(51));
 
     var driveCommand = driveTrain.driveCommand(() -> {
       return m_driverController.getLeftX(0.1) * -1;
@@ -107,6 +106,33 @@ public class RobotContainer {
     });
     driveTrain.setDefaultCommand(driveCommand);
     m_driverController.joysticksTrigger(.1).onTrue(driveCommand);
+
+
+  //   var driveCommand = driveTrain.driveCommand(() -> {
+  //     // Check if B button is pressed, if true, return half speed, otherwise return full speed
+  //     if (m_driverController.getBButton()) {
+  //         return m_driverController.getLeftY(0.1) * -0.5;
+  //     } else {
+  //         return m_driverController.getLeftY(0.1) * -1;
+  //     }
+  // }, () -> {
+  //     // Check if B button is pressed, if true, return half speed, otherwise return full speed
+  //     if (m_driverController.b().whileTrue) {
+  //         return m_driverController.getLeftX(0.1) * -0.5;
+  //     } else {
+  //         return m_driverController.getLeftX(0.1) * -1;
+  //     }
+  // }, () -> {
+  //     // Check if B button is pressed, if true, return half speed, otherwise return full speed
+  //     if (m_driverController.b().whileTrue) {
+  //         return m_driverController.getRightX(0.15) * -0.5;
+  //     } else {
+  //         return m_driverController.getRightX(0.15) * -1;
+  //     }
+  // });
+  
+
+
 
     // m_leds = new LEDs(
     // new LedSegment[] { new LedSegment(left), new LedSegment(right) },
@@ -167,7 +193,7 @@ public class RobotContainer {
     m_driverController.a().onTrue(driveTrain.zeroCommand());
     m_driverController.x().whileTrue((driveTrain.xcommand()));
    // m_driverController.y().onTrue(new TalonOrchestra(driveTrain));
-    m_driverController.b().onTrue(driveTrain.slowMode());
+    m_driverController.b().whileTrue((driveTrain.));
 
    // m_driverController.start().whileTrue(new MusicToneCommand(256, driveTrain)); // 256 Hz is middle C
     m_driverController.start().onTrue(new TalonOrchestra("despaceto.chrp",driveTrain));
