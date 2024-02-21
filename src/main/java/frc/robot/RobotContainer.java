@@ -190,14 +190,24 @@ public class RobotContainer {
    */
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    m_driverController.a().onTrue(driveTrain.zeroCommand());
+    m_driverController.start().onTrue(driveTrain.zeroCommand());
     m_driverController.x().whileTrue((driveTrain.xcommand()));
+    m_driverController.y().whileTrue(shooter.ampShot());
+    m_driverController.b().onTrue(m_arm.setPositionCommand(51.7));
+    m_driverController.a().onTrue(m_arm.setPositionCommand(0));
+    m_driverController.leftTrigger().whileTrue(intake.intakeUntilQueued());
+    m_driverController.rightTrigger().whileTrue(shooter.shooterReady());
+    m_driverController.rightBumper().whileTrue(shooter.setDutyCycleCommand(-1));
+    m_driverController.leftBumper().whileTrue(intake.setDutyCycleCommand(-1));
+
+
    // m_driverController.y().onTrue(new TalonOrchestra(driveTrain));
     // m_driverController.b().whileTrue((driveTrain.));
 
    // m_driverController.start().whileTrue(new MusicToneCommand(256, driveTrain)); // 256 Hz is middle C
-    m_driverController.start().onTrue(new TalonOrchestra("despaceto.chrp",driveTrain));
-    m_driverController.leftTrigger().whileTrue(intake.intakeUntilQueued());
+    // m_driverController.start().onTrue(new TalonOrchestra("despaceto.chrp",driveTrain));
+    
+    // m_driverController.leftTrigger().whileTrue(intake.intakeUntilQueued());
     m_operatorController.leftBumper().whileTrue(shooter.setDutyCycleCommand(-0.3));
   }
 

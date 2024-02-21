@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.ShuffleBoardTabWrapper;
 import frc.lib.SparkMaxWrapper;
+import frc.lib.TalonFXWrapper;
 import frc.lib.selfCheck.CheckCommand;
 import frc.lib.selfCheck.CheckableSubsystem;
 import frc.lib.tunables.TunableDouble;
@@ -16,6 +17,7 @@ public class Shooter extends SubsystemBase implements CheckableSubsystem, Shuffl
     private SparkMaxWrapper right;
     private TunableDouble shooterSpeed;
     private TunableDouble tolerance;
+    private TalonFXWrapper conveyor;
 
     public Shooter() {
         shooterSpeed = addTunableDouble("shooterSpeed", 1000);
@@ -24,6 +26,7 @@ public class Shooter extends SubsystemBase implements CheckableSubsystem, Shuffl
         left.setInverted(true);
         right = new SparkMaxWrapper(Constants.Shooter.id_right, "rightShooter");
         right.setInverted(false);
+        conveyor = new TalonFXWrapper(Constants.Intake.id_conv, "conveyor", false);
 
         addGraph("ShooterVelocityRight", () -> right.getVelocity() * Constants.Shooter.gear_ratio);
         addGraph("ShooterVelocityLeft", () -> left.getVelocity() * Constants.Shooter.gear_ratio);
@@ -65,6 +68,28 @@ public class Shooter extends SubsystemBase implements CheckableSubsystem, Shuffl
     public void setSpeed(double speed) {
         left.setReference(speed / Constants.Shooter.gear_ratio);
         right.setReference(speed / Constants.Shooter.gear_ratio);
+    }
+    public Command shooterReady() {
+        return this.run(() -> {
+            left.set(1);
+            right.set(1);
+            if (shooterSpeed.getValue() > 7500) {
+                conveyor.set(.5);
+            } else {
+                conveyor.set(0);
+            }
+        });
+    }
+    public Command ampShot() {
+        return this.run(() -> {
+            left.set(-1);
+            right.set(-1);
+            if (shooterSpeed.getValue() < -7500) {
+                conveyor.set(1);
+            } else {
+                conveyor.set(0);
+            }
+        });
     }
 
     @Override
