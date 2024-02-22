@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream:src/main/deploy/pathplanner/autos/New Auto.auto
 {
   "version": 1.0,
   "startingPose": {
@@ -23,3 +24,5 @@
   "folder": null,
   "choreoAuto": true
 }
+=======
+>>>>>>> Stashed changes:src/main/deploy/pathplanner/autos/New New Auto.auto
