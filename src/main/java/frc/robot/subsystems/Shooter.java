@@ -2,6 +2,8 @@ package frc.robot.subsystems;
 
 import java.util.function.DoubleSupplier;
 
+import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.ShuffleBoardTabWrapper;
@@ -31,7 +33,7 @@ public class Shooter extends SubsystemBase implements CheckableSubsystem, Shuffl
 
     public Command dutyCycleCommand(DoubleSupplier speed) {
         return this.run(() -> {
-            left.set(speed.getAsDouble());
+            left.set(speed.getAsDouble()* .85);
             right.set(speed.getAsDouble());
         });
     }
@@ -71,4 +73,10 @@ public class Shooter extends SubsystemBase implements CheckableSubsystem, Shuffl
     public CheckCommand[] getCheckCommands() {
         return new CheckCommand[] {};
     }
+
+
+
+
+
+
 }

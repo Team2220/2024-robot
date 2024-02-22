@@ -297,17 +297,4 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem, Check
             m_frontRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
         });
     }
-
-    public Command slowMode() {
-        return this.run(() -> {
-            m_backLeft.setDesiredState(
-                    new SwerveModuleState(DriveTrain.MAX_VELOCITY_METERS_PER_SECOND * .25, Rotation2d.fromDegrees(90)));
-            m_frontLeft.setDesiredState(
-                    new SwerveModuleState(DriveTrain.MAX_VELOCITY_METERS_PER_SECOND * .25, Rotation2d.fromDegrees(90)));
-            m_backRight.setDesiredState(
-                    new SwerveModuleState(DriveTrain.MAX_VELOCITY_METERS_PER_SECOND * .25, Rotation2d.fromDegrees(90)));
-            m_frontRight.setDesiredState(
-                    new SwerveModuleState(DriveTrain.MAX_VELOCITY_METERS_PER_SECOND * .25, Rotation2d.fromDegrees(90)));
-        });
-    }
 }
