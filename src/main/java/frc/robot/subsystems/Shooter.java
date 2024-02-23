@@ -19,6 +19,7 @@ public class Shooter extends SubsystemBase implements CheckableSubsystem, Shuffl
     private SparkMaxWrapper right;
     private TunableDouble shooterSpeed;
     private TunableDouble tolerance;
+    private TalonFXWrapper conveyor;
 
     public Shooter() {
         shooterSpeed = addTunableDouble("shooterSpeed", 1000);
@@ -27,6 +28,7 @@ public class Shooter extends SubsystemBase implements CheckableSubsystem, Shuffl
         left.setInverted(true);
         right = new SparkMaxWrapper(Constants.Shooter.id_right, "rightShooter");
         right.setInverted(false);
+        conveyor = new TalonFXWrapper(Constants.Intake.id_conv, "conveyor", false);
 
         addGraph("ShooterVelocityRight", () -> right.getVelocity() * Constants.Shooter.gear_ratio);
         addGraph("ShooterVelocityLeft", () -> left.getVelocity() * Constants.Shooter.gear_ratio);
@@ -69,28 +71,28 @@ public class Shooter extends SubsystemBase implements CheckableSubsystem, Shuffl
         left.setReference(speed / Constants.Shooter.gear_ratio);
         right.setReference(speed / Constants.Shooter.gear_ratio);
     }
-    // public Command shooterReady() {
-    //     return this.run(() -> {
-    //         left.set(1);
-    //         right.set(1);
-    //         if (shooterSpeed.getValue() > 7500) {
-    //             in.set(.5);
-    //         } else {
-    //             conveyor.set(0);
-    //         }
-    //     });
-    // }
-    // public Command ampShot() {
-    //     return this.run(() -> {
-    //         left.set(-1);
-    //         right.set(-1);
-    //         if (shooterSpeed.getValue() < -7500) {
-    //             conveyor.set(1);
-    //         } else {
-    //             conveyor.set(0);
-    //         }
-    //     });
-    // }
+    public Command shooterReady() {
+        return this.run(() -> {
+            left.set(1);
+            right.set(1);
+            if (shooterSpeed.getValue() > 7500) {
+                conveyor.set(.5);
+            } else {
+                conveyor.set(0);
+            }
+        });
+    }
+    public Command ampShot() {
+        return this.run(() -> {
+            left.set(-1);
+            right.set(-1);
+            if (shooterSpeed.getValue() < -7500) {
+                conveyor.set(1);
+            } else {
+                conveyor.set(0);
+            }
+        });
+    }
 
     @Override
     public CheckCommand[] getCheckCommands() {
