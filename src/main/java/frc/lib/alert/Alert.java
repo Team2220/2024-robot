@@ -1,5 +1,5 @@
 // From https://github.com/Mechanical-Advantage/NetworkAlerts
-package frc.lib;
+package frc.lib.alert;
 
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
