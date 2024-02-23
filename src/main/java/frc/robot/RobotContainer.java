@@ -192,11 +192,11 @@ public class RobotContainer {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     m_driverController.start().onTrue(driveTrain.zeroCommand());
     m_driverController.x().whileTrue((driveTrain.xcommand()));
-    m_driverController.y().whileTrue(shooter.ampShot());
+    // m_driverController.y().whileTrue(shooter.ampShot());
     m_driverController.b().onTrue(m_arm.setPositionCommand(51.7));
     m_driverController.a().onTrue(m_arm.setPositionCommand(0));
     m_driverController.leftTrigger().whileTrue(intake.intakeUntilQueued());
-    m_driverController.rightTrigger().whileTrue(shooter.shooterReady());
+    // m_driverController.rightTrigger().whileTrue(shooter.shooterReady());
     m_driverController.rightBumper().whileTrue(shooter.setDutyCycleCommand(-1));
     m_driverController.leftBumper().whileTrue(intake.setDutyCycleCommand(-1));
 
