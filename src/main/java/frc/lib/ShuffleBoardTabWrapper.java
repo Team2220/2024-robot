@@ -1,9 +1,11 @@
 package frc.lib;
 
+import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.SuppliedValueWidget;
 import frc.lib.tunables.TunableDouble;
 
 public interface ShuffleBoardTabWrapper {
@@ -17,6 +19,14 @@ public interface ShuffleBoardTabWrapper {
 
     default TunableDouble addTunableDouble(String name, double defaultValue) {
         return new TunableDouble(name, defaultValue, getName());
+    }
+
+    default SuppliedValueWidget<Double> addDouble(String name, DoubleSupplier supplier) {
+        return Shuffleboard.getTab(getName()).addDouble(name, supplier);
+    }
+
+    default SuppliedValueWidget<Boolean> addBoolean(String name, BooleanSupplier supplier) {
+        return Shuffleboard.getTab(getName()).addBoolean(name, supplier);
     }
 
 }
