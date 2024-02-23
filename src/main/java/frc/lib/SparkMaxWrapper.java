@@ -15,13 +15,13 @@ public class SparkMaxWrapper {
     public SparkPIDController pidController;
 
     public SparkMaxWrapper(int id, String name, double P, double I, double D, double maxAcceleration,
-            double maxVelocity, double allowedErr, boolean isInverted) {
+            double maxVelocity, double allowedErr) {
         this.name = name;
 
         sparkMax = new CANSparkMax(id, MotorType.kBrushless);
         sparkMax.restoreFactoryDefaults();
         sparkMax.enableVoltageCompensation(10);
-        sparkMax.setInverted(isInverted);
+
         pidController = sparkMax.getPIDController();
 
         new TunableDouble("P", P, getName(), value -> {
@@ -49,11 +49,10 @@ public class SparkMaxWrapper {
         });
 
         SparkMaxLogPowerFaults.setupCheck(this);
-        sparkMax.burnFlash();
     }
 
-    public SparkMaxWrapper(int id, String name, boolean isInverted) {
-        this(id, name, 0, 0, 0, 0, 0, 0, isInverted);
+    public SparkMaxWrapper(int id, String name) {
+        this(id, name, 0, 0, 0, 0, 0, 0);
     }
 
     public boolean getStickyFault(FaultID faultID) {
@@ -62,6 +61,10 @@ public class SparkMaxWrapper {
 
     public void clearFaults() {
         sparkMax.clearFaults();
+    }
+
+    public void setInverted(boolean inverted) {
+        sparkMax.setInverted(inverted);
     }
 
     public String getName() {
