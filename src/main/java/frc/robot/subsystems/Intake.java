@@ -18,7 +18,7 @@ public class Intake extends SubsystemBase implements CheckableSubsystem {
     private TunableDouble intakeSpeed;
     private TalonFXWrapper conveyor;
 
-    private DigitalInputWrapper noteSensor = new DigitalInputWrapper(Constants.Intake.noteSensorId, "noteSensor", true);
+    private DigitalInputWrapper topNoteSensor = new DigitalInputWrapper(Constants.Intake.noteSensorId, "noteSensor", true);
 
     public Intake() {
         intakeSpeed = new TunableDouble("intakeSpeed", .5, "intake");
@@ -41,7 +41,7 @@ public class Intake extends SubsystemBase implements CheckableSubsystem {
 
     public Command intakeUntilQueued() {
         return this.run(() -> {
-            if (noteSensor.get()) {
+            if (topNoteSensor.get()) {
                 intake.set(0.5);
                 conveyor.set(0.5);
             } else {
@@ -52,7 +52,7 @@ public class Intake extends SubsystemBase implements CheckableSubsystem {
     }
     public Command intakeUntilNotQueued() {
         return this.run(() -> {
-            if (noteSensor.get()) {
+            if (topNoteSensor.get()) {
                 intake.set(.5);
                 conveyor.set(.5);
             } else {
@@ -63,7 +63,7 @@ public class Intake extends SubsystemBase implements CheckableSubsystem {
     }
     public Command setIntakeUntilQueued() {
         return this.run(() -> {
-            if (noteSensor.get()) {
+            if (topNoteSensor.get()) {
                 intake.set(0);
                 conveyor.set(0);
             } else {
@@ -74,7 +74,7 @@ public class Intake extends SubsystemBase implements CheckableSubsystem {
     }
     public Command setintakeUntilNotQueued() {
         return this.run(() -> {
-            if (noteSensor.get()) {
+            if (topNoteSensor.get()) {
                 intake.set(.5);
                 conveyor.set(.5);
             } else {
