@@ -1,4 +1,4 @@
-package frc.lib.eventloops;
+package frc.lib.eventLoops;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.event.EventLoop;
