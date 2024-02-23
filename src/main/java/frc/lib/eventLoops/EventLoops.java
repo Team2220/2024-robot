@@ -1,4 +1,4 @@
-package frc.lib.eventLoops;
+package frc.lib.eventloops;
 
 public class EventLoops {
     public static final IsolatedEventLoop oncePerSec = new IsolatedEventLoop();
