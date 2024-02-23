@@ -5,8 +5,8 @@ import java.util.HashMap;
 import com.revrobotics.CANSparkBase;
 import com.revrobotics.CANSparkMax;
 
-import frc.lib.EventLoops;
 import frc.lib.SparkMaxWrapper;
+import frc.lib.eventLoops.EventLoops;
 
 public class SparkMaxLogPowerFaults {
     public static void setupCheck(SparkMaxWrapper sparkMax) {
