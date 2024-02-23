@@ -8,8 +8,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 
 public class TalonOrchestra extends Command {
+
     Orchestra orchestra = new Orchestra();
     private String file;
+
     public TalonOrchestra(String file, TalonFXSubsystem... subsystems) {
         this.file = file;
         addRequirements(subsystems);
@@ -38,4 +40,8 @@ public class TalonOrchestra extends Command {
         return !orchestra.isPlaying();
     }
 
+    @Override
+    public boolean runsWhenDisabled() {
+        return true;
+    }
 }
