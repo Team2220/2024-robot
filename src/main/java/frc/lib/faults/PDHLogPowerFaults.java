@@ -7,8 +7,8 @@ import edu.wpi.first.hal.PowerDistributionStickyFaults;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
-import frc.lib.EventLoops;
-import frc.lib.IsolatedEventLoop;
+import frc.lib.eventLoops.EventLoops;
+import frc.lib.eventLoops.IsolatedEventLoop;
 
 public class PDHLogPowerFaults {
     private static boolean firstCheckPdh = true;
