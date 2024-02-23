@@ -11,8 +11,8 @@ import edu.wpi.first.util.datalog.BooleanLogEntry;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.RobotController;
 import frc.lib.Alert;
-import frc.lib.EventLoops;
-import frc.lib.IsolatedEventLoop;
+import frc.lib.eventLoops.EventLoops;
+import frc.lib.eventLoops.IsolatedEventLoop;
 
 public final class Fault {
     private boolean isActive = false;
