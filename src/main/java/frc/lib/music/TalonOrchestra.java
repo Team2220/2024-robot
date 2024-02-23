@@ -1,4 +1,4 @@
-package frc.lib;
+package frc.lib.music;
 
 import com.ctre.phoenix6.Orchestra;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -6,6 +6,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import frc.lib.TalonFXSubsystem;
 
 public class TalonOrchestra extends Command {
     Orchestra orchestra = new Orchestra();

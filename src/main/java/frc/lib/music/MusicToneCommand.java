@@ -1,4 +1,4 @@
-package frc.lib;
+package frc.lib.music;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +9,8 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.lib.Note;
+import frc.lib.TalonFXSubsystem;
 
 public class MusicToneCommand extends Command {
     public final List<TalonFX> talonFXs = new ArrayList<>();
