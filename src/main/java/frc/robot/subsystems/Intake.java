@@ -23,7 +23,7 @@ public class Intake extends SubsystemBase implements CheckableSubsystem, Shuffle
 
     public Intake() {
         intakeSpeed = addTunableDouble("intakeSpeed", .5);
-        intake = new SparkMaxWrapper(Constants.Intake.id_intake, "intake");
+        intake = new SparkMaxWrapper(Constants.Intake.id_intake, "intake", false);
         conveyor = new TalonFXWrapper(Constants.Intake.id_conv, "conveyor", true);
     }
 
