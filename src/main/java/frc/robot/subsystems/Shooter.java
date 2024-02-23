@@ -2,8 +2,6 @@ package frc.robot.subsystems;
 
 import java.util.function.DoubleSupplier;
 
-import edu.wpi.first.networktables.GenericEntry;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.ShuffleBoardTabWrapper;
@@ -24,10 +22,8 @@ public class Shooter extends SubsystemBase implements CheckableSubsystem, Shuffl
     public Shooter() {
         shooterSpeed = addTunableDouble("shooterSpeed", 1000);
         tolerance = addTunableDouble("tolerance", 100);
-        left = new SparkMaxWrapper(Constants.Shooter.id_left, "leftShooter");
-        left.setInverted(true);
-        right = new SparkMaxWrapper(Constants.Shooter.id_right, "rightShooter");
-        right.setInverted(false);
+        left = new SparkMaxWrapper(Constants.Shooter.id_left, "leftShooter", true);
+        right = new SparkMaxWrapper(Constants.Shooter.id_right, "rightShooter", false);
         conveyor = new TalonFXWrapper(Constants.Intake.id_conv, "conveyor", false);
 
         addGraph("ShooterVelocityRight", () -> right.getVelocity() * Constants.Shooter.gear_ratio);
@@ -36,7 +32,7 @@ public class Shooter extends SubsystemBase implements CheckableSubsystem, Shuffl
 
     public Command dutyCycleCommand(DoubleSupplier speed) {
         return this.run(() -> {
-            left.set(speed.getAsDouble()* .85);
+            left.set(speed.getAsDouble() * .85);
             right.set(speed.getAsDouble());
         });
     }
@@ -71,6 +67,7 @@ public class Shooter extends SubsystemBase implements CheckableSubsystem, Shuffl
         left.setReference(speed / Constants.Shooter.gear_ratio);
         right.setReference(speed / Constants.Shooter.gear_ratio);
     }
+
     public Command shooterReady() {
         return this.run(() -> {
             left.set(1);
@@ -82,6 +79,7 @@ public class Shooter extends SubsystemBase implements CheckableSubsystem, Shuffl
             }
         });
     }
+
     public Command ampShot() {
         return this.run(() -> {
             left.set(-1);
@@ -98,10 +96,5 @@ public class Shooter extends SubsystemBase implements CheckableSubsystem, Shuffl
     public CheckCommand[] getCheckCommands() {
         return new CheckCommand[] {};
     }
-
-
-
-
-
 
 }
