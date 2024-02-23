@@ -15,7 +15,7 @@ public class SparkMaxWrapper {
     public SparkPIDController pidController;
 
     public SparkMaxWrapper(int id, String name, double P, double I, double D, double maxAcceleration,
-            double maxVelocity, double allowedErr) {
+            double maxVelocity, double allowedErr, boolean isInverted) {
         this.name = name;
 
         sparkMax = new CANSparkMax(id, MotorType.kBrushless);
@@ -49,10 +49,11 @@ public class SparkMaxWrapper {
         });
 
         SparkMaxLogPowerFaults.setupCheck(this);
+        sparkMax.burnFlash();
     }
 
     public SparkMaxWrapper(int id, String name) {
-        this(id, name, 0, 0, 0, 0, 0, 0);
+        this(id, name, 0, 0, 0, 0, 0, 0, false);
     }
 
     public boolean getStickyFault(FaultID faultID) {
