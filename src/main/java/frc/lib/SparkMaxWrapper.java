@@ -80,7 +80,7 @@ public class SparkMaxWrapper {
     }
 
     public void setReference(double speed) {
-        pidController.setReference(speed, CANSparkBase.ControlType.kSmartVelocity);
+        pidController.setReference(speed, CANSparkBase.ControlType.kVelocity);
     }
 
     public boolean isAtReference(double speed, double tolerance) {

@@ -54,7 +54,7 @@ public class Shooter extends SubsystemBase implements CheckableSubsystem, Shuffl
     public Command velocityCommand() {
         return this.run(() -> {
             double speed = shooterSpeed.getValue();
-            left.setReference(speed / Constants.Shooter.gear_ratio);
+            left.setReference(speed * Constants.Shooter.gear_ratio);
             right.setReference(speed / Constants.Shooter.gear_ratio);
         }).finallyDo(() -> {
             left.setReference(0);
