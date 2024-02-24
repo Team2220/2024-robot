@@ -1,6 +1,5 @@
 package frc.lib.faults;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -9,7 +8,6 @@ import java.util.function.BooleanSupplier;
 
 import edu.wpi.first.util.datalog.BooleanLogEntry;
 import edu.wpi.first.wpilibj.DataLogManager;
-import edu.wpi.first.wpilibj.RobotController;
 import frc.lib.Alert;
 import frc.lib.eventLoops.EventLoops;
 import frc.lib.eventLoops.IsolatedEventLoop;

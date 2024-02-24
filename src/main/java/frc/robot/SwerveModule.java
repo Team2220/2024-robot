@@ -10,9 +10,7 @@ import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.configs.VoltageConfigs;
 import com.ctre.phoenix6.controls.PositionDutyCycle;
-import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityDutyCycle;
-import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
@@ -101,7 +99,6 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
     m_driveMotor.getConfigurator().apply(audioConfigs);
     m_turningMotor.getConfigurator().apply(audioConfigs);
 
-
     m_turningEncoder = new PWMEncoder(turningEncoderChannelA);
     speed = Shuffleboard.getTab("swerve").add(name + " speed", 0).getEntry();
     angle = Shuffleboard.getTab("swerve").add(name + " angle", 0).getEntry();
@@ -158,9 +155,9 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
     // m_turningPIDController.enableContinuousInput(-Math.PI, Math.PI);
     m_turningMotor.setPosition(-angleToEncoderTicks(getAngle().getDegrees()));
 
-     Shuffleboard.getTab("swerve")
-                .addDouble(name, this::getDriveVelocity)
-                .withWidget(BuiltInWidgets.kGraph);
+    Shuffleboard.getTab("swerve")
+        .addDouble(name, this::getDriveVelocity)
+        .withWidget(BuiltInWidgets.kGraph).withSize(1, 1);
   }
 
   /**

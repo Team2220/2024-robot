@@ -10,13 +10,16 @@ public class NavXWrapper {
 
     public NavXWrapper() {
         Fault.autoUpdating("NavX Disconnected", () -> {
-            var value = navx.isConnected();
-            return value;
+            return !navx.isConnected();
         });
     }
 
     public Rotation2d getAngle() {
         return navx.getRotation2d();
+    }
+
+    public double getRate() {
+        return navx.getRate();
     }
 
     public void zero() {

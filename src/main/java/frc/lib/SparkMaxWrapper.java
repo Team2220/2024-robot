@@ -14,7 +14,8 @@ public class SparkMaxWrapper {
     public CANSparkMax sparkMax;
     public SparkPIDController pidController;
 
-    public SparkMaxWrapper(int id, String name, boolean isInverted, double P, double I, double D, double maxAcceleration,
+    public SparkMaxWrapper(int id, String name, boolean isInverted, double P, double I, double D,
+            double maxAcceleration,
             double maxVelocity, double allowedErr) {
         this.name = name;
 
