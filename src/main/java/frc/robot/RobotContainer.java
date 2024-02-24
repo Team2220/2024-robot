@@ -8,6 +8,8 @@ import frc.lib.CommandXBoxWrapper;
 import frc.lib.MusicToneCommand;
 import frc.lib.Note;
 import frc.lib.faults.PDHLogPowerFaults;
+import frc.lib.leds.LEDs;
+import frc.lib.leds.LedSignal;
 import frc.lib.selfCheck.RobotSelfCheckCommand;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.Arm;
@@ -38,10 +40,8 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
 
-  // private CANdle left = new CANdle(Constants.LEDS.LEFT);
-  // private CANdle right = new CANdle(Constants.LEDS.RIGHT);
   @SuppressWarnings("unused")
-  // private final LEDs m_leds;
+  private final LEDs m_leds;
   private final DriveTrain driveTrain = new DriveTrain();
   // The robot's subsystems and commands are defined here...
   private final PowerDistribution m_PowerDistribution = new PowerDistribution();
@@ -103,16 +103,16 @@ public class RobotContainer {
     driveTrain.setDefaultCommand(driveCommand);
     m_driverController.joysticksTrigger().onTrue(driveCommand);
 
-    // m_leds = new LEDs(
-    // new LedSegment[] { new LedSegment(left), new LedSegment(right) },
-    // new LedSignal[] {
-    // LedSignal.isBrownedOut(),
-    // LedSignal.isDSConnected(),
-    // // LedSignal.hasTarget(),
-    // LedSignal.isEndGame(),
-    // // LedSignal.hasActiveFault(),
-    // LedSignal.getLowBatteryLedSignal()
-    // });
+    m_leds = new LEDs(
+        new int[] {},
+        new LedSignal[] {
+            LedSignal.isBrownedOut(),
+            LedSignal.isDSConnected(),
+            // LedSignal.hasTarget(),
+            LedSignal.isEndGame(),
+            // LedSignal.hasActiveFault(),
+            LedSignal.getLowBatteryLedSignal()
+        });
     NamedCommands.registerCommand("test print", Commands.print("heloo foortnite"));
     NamedCommands.registerCommand("armSpeakerPos", Commands.run(() -> {
       m_arm.setPosition(58.8);
