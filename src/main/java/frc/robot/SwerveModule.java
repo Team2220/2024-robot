@@ -160,7 +160,7 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
 
      Shuffleboard.getTab("swerve")
                 .addDouble(name, this::getDriveVelocity)
-                .withWidget(BuiltInWidgets.kGraph);
+                .withWidget(BuiltInWidgets.kGraph).withSize(1,1);
   }
 
   /**
