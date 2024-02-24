@@ -7,19 +7,18 @@ package frc.robot;
 import frc.lib.CommandXBoxWrapper;
 import frc.lib.MusicToneCommand;
 import frc.lib.Note;
-import frc.lib.TalonOrchestra;
 import frc.lib.faults.PDHLogPowerFaults;
+import frc.lib.leds.LEDs;
+import frc.lib.leds.LedSignal;
 import frc.lib.selfCheck.RobotSelfCheckCommand;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.ShootCommand;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
-import com.pathplanner.lib.commands.PathPlannerAuto;
-import com.pathplanner.lib.path.PathPlannerPath;
-
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
@@ -42,10 +41,8 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
 
-  // private CANdle left = new CANdle(Constants.LEDS.LEFT);
-  // private CANdle right = new CANdle(Constants.LEDS.RIGHT);
   @SuppressWarnings("unused")
-  // private final LEDs m_leds;
+  private final LEDs m_leds;
   private final DriveTrain driveTrain = new DriveTrain();
   // The robot's subsystems and commands are defined here...
   private final PowerDistribution m_PowerDistribution = new PowerDistribution();
@@ -72,62 +69,71 @@ public class RobotContainer {
     configureBindings();
 
     shooter.setDefaultCommand(shooter.dutyCycleCommand(() -> {
-      return m_operatorController.getRightTriggerAxis(0.1);
+      return m_operatorController.getRightTriggerAxis();
     }));
 
     intake.setDefaultCommand(intake.dutyCycleCommand(() -> {
-      return m_operatorController.getRightY(0.1) * -1;
+      return m_operatorController.getRightY();
     }));
 
     var armCommand = Commands.run(() -> {
-      var joyStickPosition = m_operatorController.getLeftY(0.1) * -0.55;
+      var joyStickPosition = m_operatorController.getLeftY() * 0.55;
       if (joyStickPosition > 0.01 || joyStickPosition < -0.01) {
-        
+
         m_arm.setDutyCycle(joyStickPosition);
       } else {
         m_arm.holdPosition();
       }
     }, m_arm);
-    m_operatorController.leftYTrigger(0.1).onTrue(armCommand);
+    m_operatorController.leftYTrigger().onTrue(armCommand);
     m_arm.setDefaultCommand(armCommand);
     m_operatorController.rightBumper().whileTrue(shooter.velocityCommand());
     m_operatorController.a().onTrue(Commands.runOnce(m_arm::setZero, m_arm));
     m_operatorController.y().onTrue(m_arm.setPositionCommand(90));
     m_operatorController.b().onTrue(m_arm.setPositionCommand(45));
     m_operatorController.leftStick().whileTrue(m_arm.overrideSoftLimits());
-    m_operatorController.x().onTrue(m_arm.setPositionCommand(58.7));
-
+    m_operatorController.x().onTrue(m_arm.setPositionCommand(51));
 
     var driveCommand = driveTrain.driveCommand(() -> {
-      return m_driverController.getLeftX(0.1) * -1;
+      double coefficient=m_driverController.getHID().getLeftBumper()? 0.5:1;
+      return m_driverController.getLeftX() * -1 * coefficient;
     }, () -> {
-      return m_driverController.getLeftY(0.1) * -1;
+      double coefficient=m_driverController.getHID().getLeftBumper()? 0.5:1;
+      return m_driverController.getLeftY() * coefficient;
     }, () -> {
-      return m_driverController.getRightX(0.15) * -1;
+      double coefficient=m_driverController.getHID().getLeftBumper()? 0.5:1;
+      return m_driverController.getRightX() * -1 * coefficient;
     });
     driveTrain.setDefaultCommand(driveCommand);
-    m_driverController.joysticksTrigger(.1).onTrue(driveCommand);
+    m_driverController.joysticksTrigger().onTrue(driveCommand);
 
-    // m_leds = new LEDs(
-    // new LedSegment[] { new LedSegment(left), new LedSegment(right) },
-    // new LedSignal[] {
-    // LedSignal.isBrownedOut(),
-    // LedSignal.isDSConnected(),
-    // // LedSignal.hasTarget(),
-    // LedSignal.isEndGame(),
-    // // LedSignal.hasActiveFault(),
-    // LedSignal.getLowBatteryLedSignal()
-    // });
+    m_leds = new LEDs(
+        new int[] {},
+        new LedSignal[] {
+            LedSignal.isBrownedOut(),
+            LedSignal.isDSConnected(),
+            // LedSignal.hasTarget(),
+            LedSignal.isEndGame(),
+            // LedSignal.hasActiveFault(),
+            LedSignal.getLowBatteryLedSignal()
+        });
     NamedCommands.registerCommand("test print", Commands.print("heloo foortnite"));
-    NamedCommands.registerCommand("boxy", Commands.run(() -> {
+    NamedCommands.registerCommand("armSpeakerPos", Commands.run(() -> {
       m_arm.setPosition(58.8);
     }, m_arm));
-    NamedCommands.registerCommand("sucky", intake.setDutyCycleCommand(.5).withTimeout(2));
-    NamedCommands.registerCommand("themo", shooter.setDutyCycleCommand(.5).withTimeout(2));
-    NamedCommands.registerCommand("20degrees", Commands.run(()->{
-      m_arm.setPosition(20);
+    NamedCommands.registerCommand("armRest", Commands.run(() -> {
+      m_arm.setPosition(5);
     }, m_arm));
-    PathPlannerPath choreoMobility = PathPlannerPath.fromChoreoTrajectory("mobility");
+    NamedCommands.registerCommand("intake", intake.setIntakeUntilQueued());
+    NamedCommands.registerCommand("shooter",
+        Commands.parallel(
+            Commands.sequence(
+                Commands.waitSeconds(2),
+                intake.setDutyCycleCommand(1).withTimeout(2)),
+            shooter.setDutyCycleCommand(1).withTimeout(2)));
+
+    NamedCommands.registerCommand("conveyor", intake.setDutyCycleCommand(.5).withTimeout(2));
+    NamedCommands.registerCommand("shooter+", shooter.setDutyCycleCommand(.5).withTimeout(15));
 
     autoChooser = AutoBuilder.buildAutoChooser();
 
@@ -135,7 +141,6 @@ public class RobotContainer {
     // autoChooser = AutoBuilder.buildAutoChooser("My Default Auto");
 
     SmartDashboard.putData("Auto Chooser", autoChooser);
-    
 
   }
 
@@ -155,18 +160,41 @@ public class RobotContainer {
    */
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    m_driverController.a().onTrue(driveTrain.zeroCommand());
+    m_driverController.start().onTrue(driveTrain.zeroCommand());
     m_driverController.x().whileTrue((driveTrain.xcommand()));
-   // m_driverController.y().onTrue(new TalonOrchestra(driveTrain));
-    m_driverController.b().onTrue(driveTrain.slowMode());
 
-   // m_driverController.start().whileTrue(new MusicToneCommand(256, driveTrain)); // 256 Hz is middle C
-    m_driverController.start().onTrue(new TalonOrchestra("despaceto.chrp",driveTrain));
+    // m_driverController.y().whileTrue(shooter.ampShot());
+    m_driverController.b().onTrue(m_arm.setPositionCommand(51.7));
+    m_driverController.a().onTrue(m_arm.setPositionCommand(0));
+    // m_driverController.rightTrigger().whileTrue(shooter.shooterReady());
+    // m_driverController.rightBumper().whileTrue(new ShootCommand(shooter, intake));
+    m_driverController.rightTrigger().whileTrue(Commands.run(shooter:: setDefaultSpeed, shooter))
+    .onFalse(Commands.startEnd(()->{
+      if (shooter.isAtSetPoint()) {
+          shooter.setDefaultSpeed();
+          intake.setSpeed(.75);
+      } else {
+          shooter.setDefaultSpeed();
+          intake.setSpeed(0);
+      }
+    }, ()->{
+      shooter.stopShooter();
+      intake.setSpeed(0);
+    }, shooter, intake).withTimeout(.5));
+    
     m_driverController.leftTrigger().whileTrue(intake.intakeUntilQueued());
-    m_operatorController.leftBumper().whileTrue(shooter.setDutyCycleCommand(-0.3));
+
+    // m_driverController.y().onTrue(new TalonOrchestra(driveTrain));
+    // m_driverController.b().whileTrue((driveTrain.));
+
+    m_driverController.back().whileTrue(new MusicToneCommand(256, driveTrain));
+    // // 256 Hz is middle C
+    // m_driverController.start().onTrue(new
+    // TalonOrchestra("despaceto.chrp",driveTrain));
+
+    // m_driverController.leftTrigger().whileTrue(intake.intakeUntilQueued());
+    m_operatorController.leftBumper().whileTrue(shooter.setDutyCycleCommand(-1));
   }
-
-
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -176,9 +204,8 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
     return autoChooser.getSelected();
-    }
+  }
 
-    
   public Command getTestCommand() {
     return new RobotSelfCheckCommand(
         Commands.sequence(

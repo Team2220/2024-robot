@@ -14,14 +14,14 @@ public class SparkMaxWrapper {
     public CANSparkMax sparkMax;
     public SparkPIDController pidController;
 
-    public SparkMaxWrapper(int id, String name, double P, double I, double D, double maxAcceleration,
+    public SparkMaxWrapper(int id, String name, boolean isInverted, double P, double I, double D, double maxAcceleration,
             double maxVelocity, double allowedErr) {
         this.name = name;
 
         sparkMax = new CANSparkMax(id, MotorType.kBrushless);
         sparkMax.restoreFactoryDefaults();
         sparkMax.enableVoltageCompensation(10);
-
+        sparkMax.setInverted(isInverted);
         pidController = sparkMax.getPIDController();
 
         new TunableDouble("P", P, getName(), value -> {
@@ -49,10 +49,11 @@ public class SparkMaxWrapper {
         });
 
         SparkMaxLogPowerFaults.setupCheck(this);
+        sparkMax.burnFlash();
     }
 
-    public SparkMaxWrapper(int id, String name) {
-        this(id, name, 0, 0, 0, 0, 0, 0);
+    public SparkMaxWrapper(int id, String name, boolean isInverted) {
+        this(id, name, isInverted, 0, 0, 0, 0, 0, 0);
     }
 
     public boolean getStickyFault(FaultID faultID) {
@@ -61,10 +62,6 @@ public class SparkMaxWrapper {
 
     public void clearFaults() {
         sparkMax.clearFaults();
-    }
-
-    public void setInverted(boolean inverted) {
-        sparkMax.setInverted(inverted);
     }
 
     public String getName() {
@@ -79,12 +76,17 @@ public class SparkMaxWrapper {
         return sparkMax.getEncoder().getVelocity();
     }
 
+    public double getPosition() {
+        return sparkMax.getEncoder().getPosition();
+    }
+
     public void setReference(double speed) {
-        pidController.setReference(speed, CANSparkBase.ControlType.kSmartVelocity);
+        pidController.setReference(speed, CANSparkBase.ControlType.kVelocity);
     }
 
     public boolean isAtReference(double speed, double tolerance) {
         double diff = (getVelocity() - speed);
+        System.out.println("hedskb :" + diff);
         return Math.abs(diff) <= tolerance;
     }
 }

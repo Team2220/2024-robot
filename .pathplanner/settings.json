@@ -3,12 +3,15 @@
   "robotLength": 0.6223,
   "holonomicMode": true,
   "pathFolders": [
+    "Sectret",
     "PathPlanner"
   ],
-  "autoFolders": [],
-  "defaultMaxVel": 10.0,
-  "defaultMaxAccel": 10.0,
-  "defaultMaxAngVel": 540.0,
-  "defaultMaxAngAccel": 720.0,
-  "maxModuleSpeed": 10.0
+  "autoFolders": [
+    "sectret"
+  ],
+  "defaultMaxVel": 3.0,
+  "defaultMaxAccel": 1.0,
+  "defaultMaxAngVel": 360.0,
+  "defaultMaxAngAccel": 360.0,
+  "maxModuleSpeed": 4.0
 }

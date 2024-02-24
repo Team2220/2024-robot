@@ -4,10 +4,9 @@
 
 package frc.robot;
 
-import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
-import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.configs.VoltageConfigs;
 import com.ctre.phoenix6.controls.PositionDutyCycle;
 import com.ctre.phoenix6.controls.PositionVoltage;
@@ -24,9 +23,10 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import frc.lib.PWMEncoder;
+import frc.lib.ShuffleBoardTabWrapper;
 import frc.lib.tunables.TunableDouble;
 
-public class SwerveModule {
+public class SwerveModule implements ShuffleBoardTabWrapper {
   GenericEntry speed;
   GenericEntry angle;
   GenericEntry drivePositionEntry;
@@ -55,6 +55,7 @@ public class SwerveModule {
   public static final boolean DT_STEER_ENCODER_INVERTED = false;
 
   private double offset;
+  private String name;
 
   /**
    * Constructs a SwerveModule with a drive motor, turning motor, drive encoder
@@ -72,10 +73,13 @@ public class SwerveModule {
       int turningMotorChannel,
       int turningEncoderChannelA, double offset) {
     this.offset = offset;
+    this.name = name;
     m_driveMotor = new TalonFX(driveMotorChannel);
     m_driveMotor.setNeutralMode(NeutralModeValue.Brake);
+    m_driveMotor.getConfigurator().apply(new TalonFXConfiguration());
     m_turningMotor = new TalonFX(turningMotorChannel);
     m_turningMotor.setNeutralMode(NeutralModeValue.Brake);
+    m_turningMotor.getConfigurator().apply(new TalonFXConfiguration());
     CurrentLimitsConfigs currentConfigs = new CurrentLimitsConfigs();
     currentConfigs.StatorCurrentLimit = 60;
     currentConfigs.StatorCurrentLimitEnable = true;
@@ -84,8 +88,8 @@ public class SwerveModule {
     m_driveMotor.getConfigurator().apply(currentConfigs);
     m_turningMotor.getConfigurator().apply(currentConfigs);
     VoltageConfigs voltageConfigs = new VoltageConfigs();
-    voltageConfigs.PeakForwardVoltage= 10;
-    voltageConfigs.PeakReverseVoltage= -10;
+    voltageConfigs.PeakForwardVoltage = 10;
+    voltageConfigs.PeakReverseVoltage = -10;
     m_driveMotor.getConfigurator().apply(voltageConfigs);
     m_turningMotor.getConfigurator().apply(voltageConfigs);
 
@@ -144,6 +148,8 @@ public class SwerveModule {
     // to be continuous.
     // m_turningPIDController.enableContinuousInput(-Math.PI, Math.PI);
     m_turningMotor.setPosition(-angleToEncoderTicks(getAngle().getDegrees()));
+
+    addGraph("DriveVelocity", this::getDriveVelocity);
   }
 
   /**
@@ -238,8 +244,8 @@ public class SwerveModule {
     // state.angle.getDegrees())));
     speed.setDouble(mpsToEncoderTicks(state.speedMetersPerSecond));
     // angle.setDouble(angleToEncoderTicks(state.angle.getDegrees()));
-    m_driveMotor.setControl(new VelocityVoltage(mpsToEncoderTicks(state.speedMetersPerSecond) * -1));
-    m_turningMotor.setControl(new PositionVoltage(
+    m_driveMotor.setControl(new VelocityDutyCycle(mpsToEncoderTicks(state.speedMetersPerSecond) * -1));
+    m_turningMotor.setControl(new PositionDutyCycle(
         angleToEncoderTicks(convertAngle(rotation2d.getDegrees(), state.angle.getDegrees()) * -1)));
 
     // Calculate the drive output from the drive PID controller.
@@ -275,10 +281,18 @@ public class SwerveModule {
     end += 360 * angleRevo;
     return end;
   }
+
   public TalonFX getM_driveMotor() {
-      return m_driveMotor;
+    return m_driveMotor;
   }
+
   public TalonFX getM_turningMotor() {
-      return m_turningMotor;
+    return m_turningMotor;
+  }
+
+  @Override
+  public String getName() {
+    // TODO Auto-generated method stub
+    return name;
   }
 }

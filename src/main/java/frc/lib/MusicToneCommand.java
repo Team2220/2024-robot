@@ -13,8 +13,9 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class MusicToneCommand extends Command {
     public final List<TalonFX> talonFXs = new ArrayList<>();
     public final double frequency;
+
     public MusicToneCommand(Note note, TalonFXSubsystem... subsystems) {
-    this(note.getFrequency(), subsystems);
+        this(note.getFrequency(), subsystems);
     }
 
     public MusicToneCommand(double frequency, TalonFXSubsystem... subsystems) {
@@ -43,6 +44,11 @@ public class MusicToneCommand extends Command {
     @Override
     public void end(boolean interrupted) {
         setAllTalonsTo(0);
+    }
+
+    @Override
+    public boolean runsWhenDisabled() {
+        return true;
     }
 
 }

@@ -8,12 +8,12 @@
         {
           "type": "path",
           "data": {
-            "pathName": "longL"
+            "pathName": "New New Path"
           }
         }
       ]
     }
   },
-  "folder": null,
+  "folder": "sectret",
   "choreoAuto": false
 }

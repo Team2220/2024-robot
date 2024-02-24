@@ -5,26 +5,30 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.DigitalInputWrapper;
+import frc.lib.ShuffleBoardTabWrapper;
 import frc.lib.SparkMaxWrapper;
 import frc.lib.TalonFXWrapper;
 import frc.lib.selfCheck.CheckCommand;
 import frc.lib.selfCheck.CheckableSubsystem;
+import frc.lib.selfCheck.SparkMAXSpinCheck;
 import frc.lib.selfCheck.SpinTalonCheck;
 import frc.lib.tunables.TunableDouble;
 import frc.robot.Constants;
 
-public class Intake extends SubsystemBase implements CheckableSubsystem {
+public class Intake extends SubsystemBase implements CheckableSubsystem, ShuffleBoardTabWrapper {
     private SparkMaxWrapper intake;
     private TunableDouble intakeSpeed;
     private TalonFXWrapper conveyor;
 
-    private DigitalInputWrapper noteSensor = new DigitalInputWrapper(Constants.Intake.noteSensorId, "noteSensor", true);
+    private DigitalInputWrapper topNoteSensor = new DigitalInputWrapper(Constants.Intake.noteSensorId, "noteSensor",
+            true);
+    private DigitalInputWrapper bottomNoteSensor = new DigitalInputWrapper(Constants.Intake.bottomNoteSensorID,
+            "bottomNoteSensor", true);
 
     public Intake() {
-        intakeSpeed = new TunableDouble("intakeSpeed", .5, "intake");
-        intake = new SparkMaxWrapper(Constants.Intake.id_intake, "intake");
-        conveyor = new TalonFXWrapper(Constants.Intake.id_conv, "conveyor");
-        conveyor.setInverted(true);
+        intakeSpeed = addTunableDouble("intakeSpeed", .5);
+        intake = new SparkMaxWrapper(Constants.Intake.id_intake, "intake", false);
+        conveyor = new TalonFXWrapper(Constants.Intake.id_conv, "conveyor", true);
     }
 
     public Command dutyCycleCommand(DoubleSupplier speed) {
@@ -42,12 +46,53 @@ public class Intake extends SubsystemBase implements CheckableSubsystem {
 
     public Command intakeUntilQueued() {
         return this.run(() -> {
-            if (noteSensor.get()) {
+            if (topNoteSensor.get()) {
                 intake.set(0);
                 conveyor.set(0);
+
             } else {
                 intake.set(intakeSpeed.getValue());
                 conveyor.set(intakeSpeed.getValue());
+            }
+        });
+    }
+
+    public Command intakeUntilNotQueued() {
+        return this.run(() -> {
+            if (topNoteSensor.get()) {
+                intake.set(.5);
+                conveyor.set(.5);
+            } else {
+                intake.set(0);
+                conveyor.set(0);
+            }
+        });
+    }
+
+    public boolean bottomNoteGet() {
+        return bottomNoteSensor.get();
+    }
+
+    public Command setIntakeUntilQueued() {
+        return this.run(() -> {
+            if (topNoteSensor.get()) {
+                intake.set(0);
+                conveyor.set(0);
+            } else {
+                intake.set(.5);
+                conveyor.set(.5);
+            }
+        });
+    }
+
+    public Command setintakeUntilNotQueued() {
+        return this.run(() -> {
+            if (topNoteSensor.get()) {
+                intake.set(.5);
+                conveyor.set(.5);
+            } else {
+                intake.set(0);
+                conveyor.set(0);
             }
         });
     }
@@ -63,6 +108,7 @@ public class Intake extends SubsystemBase implements CheckableSubsystem {
     public CheckCommand[] getCheckCommands() {
         return new CheckCommand[] {
                 new SpinTalonCheck(conveyor),
+                new SparkMAXSpinCheck(intake),
         };
     }
 }

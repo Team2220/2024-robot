@@ -14,14 +14,10 @@ import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 import static edu.wpi.first.math.util.Units.inchesToMeters;
 
-import java.lang.reflect.Field;
 import java.util.function.DoubleSupplier;
 
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -35,6 +31,7 @@ import com.pathplanner.lib.util.ReplanningConfig;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.RobotInstance;
+import frc.lib.ShuffleBoardTabWrapper;
 import frc.lib.TalonFXSubsystem;
 import frc.lib.selfCheck.CheckCommand;
 import frc.lib.selfCheck.CheckableSubsystem;
@@ -46,7 +43,7 @@ import frc.lib.selfCheck.CheckableSubsystem;
  * radians.
  */
 
-public class DriveTrain extends SubsystemBase implements TalonFXSubsystem, CheckableSubsystem {
+public class DriveTrain extends SubsystemBase implements TalonFXSubsystem, CheckableSubsystem, ShuffleBoardTabWrapper {
 
     double driveRadius = Math
             .sqrt(Math.pow(DRIVETRAIN_TRACKWIDTH_METERS / 2, 2) + Math.pow(DRIVETRAIN_WHEELBASE_METERS / 2, 2));
@@ -60,8 +57,8 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem, Check
                 this::autoDriveRobotRelative, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
                 new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your
                                                  // Constants class
-                        new PIDConstants(1, 0.0, 0.1), // Translation PID constants
-                        new PIDConstants(3, 0.0, 0.3), // Rotation PID constants
+                        new PIDConstants(.1, 0.0, 0.0), // Translation PID constants
+                        new PIDConstants(2, 0.0, 0.3), // Rotation PID constants
                         MAX_VELOCITY_METERS_PER_SECOND, // Max module speed, in m/s
                         driveRadius, // Drive base radius in meters. Distance from robot center to furthest module.
                         new ReplanningConfig() // Default path replanning config. See the API for the options here
@@ -87,6 +84,8 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem, Check
                 System.out.println(pose);
             }
         });
+
+        addGraph("GyroRate", navx::getRate);
     }
 
     GenericEntry gyroAngle = Shuffleboard.getTab("swerve").add("gyroAngle", 0).getEntry();
@@ -296,19 +295,6 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem, Check
             m_frontLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(-45)));
             m_backRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(135)));
             m_frontRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
-        });
-    }
-
-    public Command slowMode() {
-        return this.run(() -> {
-            m_backLeft.setDesiredState(
-                    new SwerveModuleState(DriveTrain.MAX_VELOCITY_METERS_PER_SECOND * .25, Rotation2d.fromDegrees(90)));
-            m_frontLeft.setDesiredState(
-                    new SwerveModuleState(DriveTrain.MAX_VELOCITY_METERS_PER_SECOND * .25, Rotation2d.fromDegrees(90)));
-            m_backRight.setDesiredState(
-                    new SwerveModuleState(DriveTrain.MAX_VELOCITY_METERS_PER_SECOND * .25, Rotation2d.fromDegrees(90)));
-            m_frontRight.setDesiredState(
-                    new SwerveModuleState(DriveTrain.MAX_VELOCITY_METERS_PER_SECOND * .25, Rotation2d.fromDegrees(90)));
         });
     }
 }

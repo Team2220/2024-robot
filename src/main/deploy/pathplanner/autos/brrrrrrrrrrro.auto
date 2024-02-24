@@ -1,12 +1,6 @@
 {
   "version": 1.0,
-  "startingPose": {
-    "position": {
-      "x": 0.589266300201416,
-      "y": 7.204306125640869
-    },
-    "rotation": -3.9607614938475737e-36
-  },
+  "startingPose": null,
   "command": {
     "type": "sequential",
     "data": {
@@ -14,12 +8,12 @@
         {
           "type": "path",
           "data": {
-            "pathName": "mobility"
+            "pathName": "hi"
           }
         }
       ]
     }
   },
   "folder": null,
-  "choreoAuto": true
+  "choreoAuto": false
 }

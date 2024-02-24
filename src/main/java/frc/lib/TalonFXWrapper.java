@@ -6,6 +6,7 @@ import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -19,10 +20,12 @@ public class TalonFXWrapper {
     private TalonFXConfiguration talonFXConfigs;
     private static Fault fault = new Fault("TalonFX device disconnected");
     private StatusSignal<Integer> firmwareVersionSignal;
+    private Fault softLimitOverrideFault;
 
     public TalonFXWrapper(
             int id,
             String name,
+            boolean isInverted,
             double P,
             double I,
             double D,
@@ -38,10 +41,14 @@ public class TalonFXWrapper {
         this.name = name;
         firmwareVersionSignal = talon.getVersion();
         TalonFXLogPowerFaults.setupChecks(this);
+        softLimitOverrideFault = new Fault(getName() + " Device ID: " + id + " Soft Limit Overrided");
 
         talonFXConfigs = new TalonFXConfiguration();
 
         talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+
+        talonFXConfigs.MotorOutput.Inverted = isInverted ? InvertedValue.Clockwise_Positive
+                : InvertedValue.CounterClockwise_Positive;
 
         talonFXConfigs.Audio.BeepOnBoot = false;
         talonFXConfigs.Audio.BeepOnConfig = false;
@@ -108,10 +115,11 @@ public class TalonFXWrapper {
         }).ignoringDisable(true));
     }
 
-    public TalonFXWrapper(int id, String name) {
+    public TalonFXWrapper(int id, String name, boolean isInverted) {
         this(
                 id,
                 name,
+                isInverted,
                 0,
                 0,
                 0,
@@ -129,6 +137,8 @@ public class TalonFXWrapper {
         talonFXConfigs.SoftwareLimitSwitch.ForwardSoftLimitEnable = enabled;
         talonFXConfigs.SoftwareLimitSwitch.ReverseSoftLimitEnable = enabled;
         talon.getConfigurator().apply(talonFXConfigs);
+
+        softLimitOverrideFault.setIsActive(enabled);
     }
 
     public void holdPosition() {
@@ -138,10 +148,6 @@ public class TalonFXWrapper {
 
     public String getName() {
         return name + " (" + talon.getDeviceID() + ")";
-    }
-
-    public void setInverted(boolean isInverted) {
-        talon.setInverted(isInverted);
     }
 
     public TalonFX getTalon() {

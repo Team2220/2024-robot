@@ -1,5 +1,5 @@
 package frc.lib;
-
+//  website for note freqency www.liutaiomottola.com
 public enum Note {
     LowC(32.703),
     MiddleC(261.626),
