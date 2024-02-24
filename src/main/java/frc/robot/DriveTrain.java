@@ -51,6 +51,7 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem, Check
 
     public DriveTrain() {
         Shuffleboard.getTab("field").add("Field", m_field);
+        System.out.println("Velocity" + MAX_VELOCITY_METERS_PER_SECOND);
         AutoBuilder.configureHolonomic(
                 this::getPose, // Robot pose supplier
                 this::resetPose, // Method to reset odometry (will be called if your auto has a starting pose)
