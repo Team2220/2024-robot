@@ -21,6 +21,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import frc.lib.PWMEncoder;
 import frc.lib.ShuffleBoardTabWrapper;
@@ -149,7 +150,9 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
     // m_turningPIDController.enableContinuousInput(-Math.PI, Math.PI);
     m_turningMotor.setPosition(-angleToEncoderTicks(getAngle().getDegrees()));
 
-    addGraph("DriveVelocity", this::getDriveVelocity);
+     Shuffleboard.getTab("swerve")
+                .addDouble(name, this::getDriveVelocity)
+                .withWidget(BuiltInWidgets.kGraph);
   }
 
   /**
