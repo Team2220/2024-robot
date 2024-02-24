@@ -20,7 +20,10 @@ public class Intake extends SubsystemBase implements CheckableSubsystem, Shuffle
     private TunableDouble intakeSpeed;
     private TalonFXWrapper conveyor;
 
-    private DigitalInputWrapper topNoteSensor = new DigitalInputWrapper(Constants.Intake.noteSensorId, "noteSensor", true);
+    private DigitalInputWrapper topNoteSensor = new DigitalInputWrapper(Constants.Intake.noteSensorId, "noteSensor",
+            true);
+    private DigitalInputWrapper bottomNoteSensor = new DigitalInputWrapper(Constants.Intake.bottomNoteSensorID,
+            "bottomNoteSensor", true);
 
     public Intake() {
         intakeSpeed = addTunableDouble("intakeSpeed", .5);
@@ -46,7 +49,7 @@ public class Intake extends SubsystemBase implements CheckableSubsystem, Shuffle
             if (topNoteSensor.get()) {
                 intake.set(0);
                 conveyor.set(0);
-                
+
             } else {
                 intake.set(intakeSpeed.getValue());
                 conveyor.set(intakeSpeed.getValue());
@@ -64,6 +67,10 @@ public class Intake extends SubsystemBase implements CheckableSubsystem, Shuffle
                 conveyor.set(0);
             }
         });
+    }
+
+    public boolean bottomNoteGet() {
+        return bottomNoteSensor.get();
     }
 
     public Command setIntakeUntilQueued() {
