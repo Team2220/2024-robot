@@ -15,14 +15,14 @@ public class ShootCommand extends Command {
 
     @Override
     public void execute() {
-        shooter.setSpeed(1);
+        shooter.setDefaultSpeed();
         if (shooter.isAtSetPoint()) {
-            intake.setSpeed(1);
+            intake.setSpeed(.75);
         } 
     }
 
     public void end() {
-        shooter.setSpeed(0);
+        shooter.stopShooter();
         intake.setSpeed(0);
     }
 }

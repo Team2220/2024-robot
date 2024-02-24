@@ -19,10 +19,10 @@ public class Shooter extends SubsystemBase implements CheckableSubsystem, Shuffl
     private TunableDouble tolerance;
 
     public Shooter() {
-        shooterSpeed = addTunableDouble("shooterSpeed", 1000);
+        shooterSpeed = addTunableDouble("shooterSpeed", 7000);
         tolerance = addTunableDouble("tolerance", 100);
-        left = new SparkMaxWrapper(Constants.Shooter.id_left, "leftShooter", true);
-        right = new SparkMaxWrapper(Constants.Shooter.id_right, "rightShooter", false);
+        left = new SparkMaxWrapper(Constants.Shooter.id_left, "leftShooter", true, 0.000115, 0, 0, 0, 0, 0);
+        right = new SparkMaxWrapper(Constants.Shooter.id_right, "rightShooter", false, 0.000115, 0, 0, 0, 0, 0);
 
         addGraph("ShooterVelocityRight", () -> right.getVelocity() * Constants.Shooter.gear_ratio);
         addGraph("ShooterVelocityLeft", () -> left.getVelocity() * Constants.Shooter.gear_ratio);
@@ -46,24 +46,29 @@ public class Shooter extends SubsystemBase implements CheckableSubsystem, Shuffl
     }
 
     public boolean isAtSetPoint() {
-        return left.isAtReference(shooterSpeed.getValue(), tolerance.getValue())
-                && right.isAtReference(shooterSpeed.getValue(), tolerance.getValue());
+        return left.isAtReference(shooterSpeed.getValue() / Constants.Shooter.gear_ratio, tolerance.getValue())
+                && right.isAtReference(shooterSpeed.getValue() / Constants.Shooter.gear_ratio, tolerance.getValue());
     }
 
     public Command velocityCommand() {
         return this.run(() -> {
             double speed = shooterSpeed.getValue();
-            left.setReference(speed / Constants.Shooter.gear_ratio);
-            right.setReference(speed / Constants.Shooter.gear_ratio);
+            left.setReference(speed * Constants.Shooter.gear_ratio);
+            right.setReference(speed * Constants.Shooter.gear_ratio);
         }).finallyDo(() -> {
             left.setReference(0);
             right.setReference(0);
         });
     }
 
-    public void setSpeed(double speed) {
-        left.setReference(speed / Constants.Shooter.gear_ratio);
-        right.setReference(speed / Constants.Shooter.gear_ratio);
+    public void setDefaultSpeed() {
+        double speed = shooterSpeed.getValue();
+        left.setReference(speed * Constants.Shooter.gear_ratio);
+        right.setReference(speed * Constants.Shooter.gear_ratio);
+    }
+    public void stopShooter(){
+        left.set(0);
+        right.set(0);
     }
 
     // public Command shooterReady() {

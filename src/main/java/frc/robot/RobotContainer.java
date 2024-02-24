@@ -11,6 +11,7 @@ import frc.lib.TalonOrchestra;
 import frc.lib.faults.PDHLogPowerFaults;
 import frc.lib.selfCheck.RobotSelfCheckCommand;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.ShootCommand;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
@@ -192,13 +193,13 @@ public class RobotContainer {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     m_driverController.start().onTrue(driveTrain.zeroCommand());
     m_driverController.x().whileTrue((driveTrain.xcommand()));
+
     // m_driverController.y().whileTrue(shooter.ampShot());
     m_driverController.b().onTrue(m_arm.setPositionCommand(51.7));
     m_driverController.a().onTrue(m_arm.setPositionCommand(0));
-    m_driverController.leftTrigger().whileTrue(intake.intakeUntilQueued());
     // m_driverController.rightTrigger().whileTrue(shooter.shooterReady());
-    m_driverController.rightBumper().whileTrue(shooter.setDutyCycleCommand(-1));
-    m_driverController.leftBumper().whileTrue(intake.setDutyCycleCommand(-1));
+    m_driverController.rightBumper().whileTrue(new ShootCommand(shooter, intake));
+    m_driverController.leftBumper().whileTrue(intake.intakeUntilQueued());
 
 
    // m_driverController.y().onTrue(new TalonOrchestra(driveTrain));

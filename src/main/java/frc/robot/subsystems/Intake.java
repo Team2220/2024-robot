@@ -43,8 +43,8 @@ public class Intake extends SubsystemBase implements CheckableSubsystem, Shuffle
     public Command intakeUntilQueued() {
         return this.run(() -> {
             if (topNoteSensor.get()) {
-                intake.set(0.5);
-                conveyor.set(0.5);
+                intake.set(0);
+                conveyor.set(0);
             } else {
                 intake.set(intakeSpeed.getValue());
                 conveyor.set(intakeSpeed.getValue());
