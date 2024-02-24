@@ -95,11 +95,14 @@ public class RobotContainer {
     m_operatorController.x().onTrue(m_arm.setPositionCommand(51));
 
     var driveCommand = driveTrain.driveCommand(() -> {
-      return m_driverController.getLeftX() * -1;
+      double coefficient=m_driverController.getrawLeftBumper()? 0.5:1;
+      return m_driverController.getLeftX() * -1 * coefficient;
     }, () -> {
-      return m_driverController.getLeftY();
+      double coefficient=m_driverController.getrawLeftBumper()? 0.5:1;
+      return m_driverController.getLeftY() * coefficient;
     }, () -> {
-      return m_driverController.getRightX() * -1;
+      double coefficient=m_driverController.getrawLeftBumper()? 0.5:1;
+      return m_driverController.getRightX() * -1 * coefficient;
     });
     driveTrain.setDefaultCommand(driveCommand);
     m_driverController.joysticksTrigger().onTrue(driveCommand);
@@ -164,8 +167,8 @@ public class RobotContainer {
     m_driverController.b().onTrue(m_arm.setPositionCommand(51.7));
     m_driverController.a().onTrue(m_arm.setPositionCommand(0));
     // m_driverController.rightTrigger().whileTrue(shooter.shooterReady());
-    m_driverController.rightBumper().whileTrue(new ShootCommand(shooter, intake));
-    m_driverController.leftBumper().whileTrue(intake.intakeUntilQueued());
+    m_driverController.rightTrigger().whileTrue(new ShootCommand(shooter, intake));
+    m_driverController.leftTrigger().whileTrue(intake.intakeUntilQueued());
 
     // m_driverController.y().onTrue(new TalonOrchestra(driveTrain));
     // m_driverController.b().whileTrue((driveTrain.));

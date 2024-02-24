@@ -27,15 +27,11 @@ public class CommandXBoxWrapper {
         this(inPort, .1, .1);
     }
 
-    /**
-     * Get the underlying GenericHID object.
-     *
-     * @return the wrapped GenericHID object
-     */
-    public XboxController getHID() {
-        return xbox.getHID();
-    }
+    public boolean getrawLeftBumper() {
 
+        return xbox.getHID().getLeftBumperPressed();
+
+    }
     /**
      * Constructs an event instance around the left bumper's digital signal.
      *
