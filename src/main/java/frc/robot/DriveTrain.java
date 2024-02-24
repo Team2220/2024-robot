@@ -30,6 +30,7 @@ import com.pathplanner.lib.util.ReplanningConfig;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.NavXWrapper;
+import frc.lib.LimelightHelpers;
 import frc.lib.RobotInstance;
 import frc.lib.ShuffleBoardTabWrapper;
 import frc.lib.TalonFXSubsystem;
@@ -199,6 +200,7 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem, Check
         poseEstimator.update(
                 getGyroscopeRotation(), getModulePositions());
         // System.out.println(MAX_VELOCITY_METERS_PER_SECOND);
+        System.out.println(LimelightHelpers.getBotPose2d_wpiBlue("limelight-right"));
     }
 
     private Pose2d getPose() {
