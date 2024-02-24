@@ -10,6 +10,7 @@ import frc.lib.SparkMaxWrapper;
 import frc.lib.TalonFXWrapper;
 import frc.lib.selfCheck.CheckCommand;
 import frc.lib.selfCheck.CheckableSubsystem;
+import frc.lib.selfCheck.SparkMAXSpinCheck;
 import frc.lib.selfCheck.SpinTalonCheck;
 import frc.lib.tunables.TunableDouble;
 import frc.robot.Constants;
@@ -99,6 +100,7 @@ public class Intake extends SubsystemBase implements CheckableSubsystem, Shuffle
     public CheckCommand[] getCheckCommands() {
         return new CheckCommand[] {
                 new SpinTalonCheck(conveyor),
+                new SparkMAXSpinCheck(intake),
         };
     }
 }

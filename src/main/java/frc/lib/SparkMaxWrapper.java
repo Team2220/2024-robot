@@ -76,6 +76,10 @@ public class SparkMaxWrapper {
         return sparkMax.getEncoder().getVelocity();
     }
 
+    public double getPosition() {
+        return sparkMax.getEncoder().getPosition();
+    }
+
     public void setReference(double speed) {
         pidController.setReference(speed, CANSparkBase.ControlType.kSmartVelocity);
     }
