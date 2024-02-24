@@ -71,10 +71,10 @@ public class Shooter extends SubsystemBase implements CheckableSubsystem, Shuffl
         right.set(0);
     }
 
+
+
     // public Command shooterReady() {
     //     return this.run(() -> {
-    //         left.set(1);
-    //         right.set(1);
     //         if (shooterSpeed.getValue() > 7500) {
     //             conveyor.set(.5);
     //         } else {

@@ -164,13 +164,23 @@ public class RobotContainer {
     m_driverController.b().onTrue(m_arm.setPositionCommand(51.7));
     m_driverController.a().onTrue(m_arm.setPositionCommand(0));
     // m_driverController.rightTrigger().whileTrue(shooter.shooterReady());
-    m_driverController.rightBumper().whileTrue(new ShootCommand(shooter, intake));
+    // m_driverController.rightBumper().whileTrue(new ShootCommand(shooter, intake));
+    m_driverController.rightBumper().whileTrue(Commands.run(shooter:: setDefaultSpeed, shooter))
+    .onFalse(Commands.startEnd(()->{
+      
+      shooter.setDefaultSpeed();
+      intake.setSpeed(.75);
+    }, ()->{
+      shooter.stopShooter();
+      intake.setSpeed(0);
+    }, shooter, intake).withTimeout(.5));
+    
     m_driverController.leftBumper().whileTrue(intake.intakeUntilQueued());
 
     // m_driverController.y().onTrue(new TalonOrchestra(driveTrain));
     // m_driverController.b().whileTrue((driveTrain.));
 
-    // m_driverController.start().whileTrue(new MusicToneCommand(256, driveTrain));
+    m_driverController.back().whileTrue(new MusicToneCommand(256, driveTrain));
     // // 256 Hz is middle C
     // m_driverController.start().onTrue(new
     // TalonOrchestra("despaceto.chrp",driveTrain));
