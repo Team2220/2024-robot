@@ -198,7 +198,8 @@ public class RobotContainer {
    // m_driverController.start().whileTrue(new MusicToneCommand(256, driveTrain)); // 256 Hz is middle C
     m_driverController.start().onTrue(new TalonOrchestra("despaceto.chrp",driveTrain));
     m_driverController.leftTrigger().whileTrue(intake.intakeUntilQueued());
-    m_operatorController.leftBumper().whileTrue(shooter.setDutyCycleCommand(-0.3));
+    m_operatorController.leftBumper().whileTrue(shooter.setDutyCycleCommand(-1));
+    m_driverController.x().onTrue(m_arm.setPositionCommand(51.7));
   }
 
 
