@@ -18,7 +18,7 @@ public class ShootCommand extends Command {
         shooter.setDefaultSpeed();
         if (shooter.isAtSetPoint()) {
             intake.setSpeed(.75);
-        } 
+        }
     }
 
     public void end() {

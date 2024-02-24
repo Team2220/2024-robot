@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.ShuffleBoardTabWrapper;
 import frc.lib.SparkMaxWrapper;
-import frc.lib.TalonFXWrapper;
 import frc.lib.selfCheck.CheckCommand;
 import frc.lib.selfCheck.CheckableSubsystem;
 import frc.lib.tunables.TunableDouble;
@@ -66,33 +65,32 @@ public class Shooter extends SubsystemBase implements CheckableSubsystem, Shuffl
         left.setReference(speed * Constants.Shooter.gear_ratio);
         right.setReference(speed * Constants.Shooter.gear_ratio);
     }
-    public void stopShooter(){
+
+    public void stopShooter() {
         left.set(0);
         right.set(0);
     }
 
-
-
     // public Command shooterReady() {
-    //     return this.run(() -> {
-    //         if (shooterSpeed.getValue() > 7500) {
-    //             conveyor.set(.5);
-    //         } else {
-    //             conveyor.set(0);
-    //         }
-    //     });
+    // return this.run(() -> {
+    // if (shooterSpeed.getValue() > 7500) {
+    // conveyor.set(.5);
+    // } else {
+    // conveyor.set(0);
+    // }
+    // });
     // }
 
     // public Command ampShot() {
-    //     return this.run(() -> {
-    //         left.set(-1);
-    //         right.set(-1);
-    //         if (shooterSpeed.getValue() < -7500) {
-    //             conveyor.set(1);
-    //         } else {
-    //             conveyor.set(0);
-    //         }
-    //     });
+    // return this.run(() -> {
+    // left.set(-1);
+    // right.set(-1);
+    // if (shooterSpeed.getValue() < -7500) {
+    // conveyor.set(1);
+    // } else {
+    // conveyor.set(0);
+    // }
+    // });
     // }
 
     @Override
