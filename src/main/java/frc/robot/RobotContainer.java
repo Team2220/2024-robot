@@ -12,6 +12,7 @@ import frc.lib.faults.PDHLogPowerFaults;
 import frc.lib.selfCheck.RobotSelfCheckCommand;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.ArmPositions;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 
@@ -92,17 +93,20 @@ public class RobotContainer {
     m_arm.setDefaultCommand(armCommand);
     m_operatorController.rightBumper().whileTrue(shooter.velocityCommand());
     m_operatorController.a().onTrue(Commands.runOnce(m_arm::setZero, m_arm));
-    m_operatorController.y().onTrue(m_arm.setPositionCommand(90));
-    m_operatorController.b().onTrue(m_arm.setPositionCommand(45));
+    m_operatorController.y().onTrue(m_arm.setPositionCommand(ArmPositions.NINETY));
+    m_operatorController.b().onTrue(m_arm.setPositionCommand(ArmPositions.FORTYFIVE));
     m_operatorController.leftStick().whileTrue(m_arm.overrideSoftLimits());
-    m_operatorController.x().onTrue(m_arm.setPositionCommand(51));
+    m_operatorController.x().onTrue(m_arm.setPositionCommand(ArmPositions.SPEAKER));
 
     var driveCommand = driveTrain.driveCommand(() -> {
-      return m_driverController.getLeftX(0.1) * -1;
+      double coefficient = m_driverController.getrawLeftBumper() ? 0.5 : 1;
+      return m_driverController.getLeftX() * -1 * coefficient;
     }, () -> {
-      return m_driverController.getLeftY(0.1) * -1;
+      double coefficient = m_driverController.getrawLeftBumper() ? 0.5 : 1;
+      return m_driverController.getLeftY() * coefficient;
     }, () -> {
-      return m_driverController.getRightX(0.15) * -1;
+      double coefficient = m_driverController.getrawLeftBumper() ? 0.5 : 1;
+      return m_driverController.getRightX() * -1 * coefficient;
     });
     driveTrain.setDefaultCommand(driveCommand);
     m_driverController.joysticksTrigger(.1).onTrue(driveCommand);
@@ -146,10 +150,10 @@ public class RobotContainer {
     // });
     NamedCommands.registerCommand("test print", Commands.print("heloo foortnite"));
     NamedCommands.registerCommand("armSpeakerPos", Commands.run(() -> {
-      m_arm.setPosition(58.8);
+      m_arm.setPosition(ArmPositions.SPEAKER);
     }, m_arm));
     NamedCommands.registerCommand("armRest", Commands.run(() -> {
-      m_arm.setPosition(5);
+      m_arm.setPosition(ArmPositions.ARMREST);
     }, m_arm));
     NamedCommands.registerCommand("intake", intake.setIntakeUntilQueued());
     NamedCommands.registerCommand("shooter",
@@ -192,9 +196,12 @@ public class RobotContainer {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     m_driverController.start().onTrue(driveTrain.zeroCommand());
     m_driverController.x().whileTrue((driveTrain.xcommand()));
-    m_driverController.y().whileTrue(shooter.ampShot());
-    m_driverController.b().onTrue(m_arm.setPositionCommand(51.7));
-    m_driverController.a().onTrue(m_arm.setPositionCommand(0));
+
+    // m_driverController.y().whileTrue(shooter.ampShot());
+    m_driverController.b().onTrue(m_arm.setPositionCommand(ArmPositions.SPEAKER));
+    m_driverController.a().onTrue(m_arm.setPositionCommand(ArmPositions.ARMREST));
+    // m_driverController.rightTrigger().whileTrue(shooter.shooterReady());
+    m_driverController.rightTrigger().whileTrue(new ShootCommand(shooter, intake));
     m_driverController.leftTrigger().whileTrue(intake.intakeUntilQueued());
     m_driverController.rightTrigger().whileTrue(shooter.shooterReady());
     m_driverController.rightBumper().whileTrue(shooter.setDutyCycleCommand(-1));

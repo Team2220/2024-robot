@@ -5,7 +5,6 @@ import java.util.function.DoubleSupplier;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 
-import edu.wpi.first.units.Voltage;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -51,18 +50,19 @@ public class Arm extends SubsystemBase implements CheckableSubsystem {
         ArmTalonFX.set(value);
     }
 
-    public void setPosition(double degrees) {
+    public void setPosition(ArmPositions position) {
 
-        ArmTalonFX.setControl(m_positionDutyCycle.withPosition(degrees / 360.0 * Constants.Arm.ARM_GEAR_RATIO));
+        ArmTalonFX.setControl(
+                m_positionDutyCycle.withPosition(position.getAngle() / 360.0 * Constants.Arm.ARM_GEAR_RATIO));
     }
 
     public void setZero() {
         ArmTalonFX.setPosition(0);
     }
 
-    public Command setPositionCommand(double degrees) {
+    public Command setPositionCommand(ArmPositions position) {
         return this.run(() -> {
-            this.setPosition(degrees);
+            this.setPosition(position);
         });
     }
 
