@@ -21,6 +21,7 @@ public class TalonFXWrapper {
     private TalonFXConfiguration talonFXConfigs;
     private static Fault fault = new Fault("TalonFX device disconnected");
     private StatusSignal<Integer> firmwareVersionSignal;
+    private Fault softLimitOverrideFault;
 
     public TalonFXWrapper(
             int id,
@@ -41,6 +42,7 @@ public class TalonFXWrapper {
         this.name = name;
         firmwareVersionSignal = talon.getVersion();
         TalonFXLogPowerFaults.setupChecks(this);
+        softLimitOverrideFault = new Fault(getName() + " Device ID: " + id + " Soft Limit Overrided");
 
         talonFXConfigs = new TalonFXConfiguration();
 
@@ -136,6 +138,8 @@ public class TalonFXWrapper {
         talonFXConfigs.SoftwareLimitSwitch.ForwardSoftLimitEnable = enabled;
         talonFXConfigs.SoftwareLimitSwitch.ReverseSoftLimitEnable = enabled;
         talon.getConfigurator().apply(talonFXConfigs);
+
+        softLimitOverrideFault.setIsActive(enabled);
     }
 
     public void holdPosition() {
