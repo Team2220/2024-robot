@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import com.ctre.phoenix6.configs.AudioConfigs;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -92,6 +93,12 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
     voltageConfigs.PeakReverseVoltage = -10;
     m_driveMotor.getConfigurator().apply(voltageConfigs);
     m_turningMotor.getConfigurator().apply(voltageConfigs);
+    AudioConfigs audioConfigs = new AudioConfigs();
+    audioConfigs.BeepOnBoot = false;
+    audioConfigs.BeepOnConfig = false;
+    audioConfigs.AllowMusicDurDisable = true;
+    m_driveMotor.getConfigurator().apply(audioConfigs);
+    m_turningMotor.getConfigurator().apply(audioConfigs);
 
     m_turningEncoder = new PWMEncoder(turningEncoderChannelA);
     speed = Shuffleboard.getTab("swerve").add(name + " speed", 0).getEntry();
