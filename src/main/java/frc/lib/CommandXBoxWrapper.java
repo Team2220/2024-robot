@@ -24,7 +24,7 @@ public class CommandXBoxWrapper {
     }
 
     public CommandXBoxWrapper(int inPort) {
-        this(inPort, .1, .1);
+        this(inPort, .15, .1);
     }
 
     /**

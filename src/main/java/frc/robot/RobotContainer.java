@@ -176,7 +176,7 @@ public class RobotContainer {
     // TalonOrchestra("despaceto.chrp",driveTrain));
 
     // m_driverController.leftTrigger().whileTrue(intake.intakeUntilQueued());
-    m_operatorController.leftBumper().whileTrue(shooter.setDutyCycleCommand(-0.3));
+    m_operatorController.leftBumper().whileTrue(shooter.setDutyCycleCommand(-1));
   }
 
   /**
