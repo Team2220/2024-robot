@@ -167,9 +167,13 @@ public class RobotContainer {
     // m_driverController.rightBumper().whileTrue(new ShootCommand(shooter, intake));
     m_driverController.rightBumper().whileTrue(Commands.run(shooter:: setDefaultSpeed, shooter))
     .onFalse(Commands.startEnd(()->{
-      
-      shooter.setDefaultSpeed();
-      intake.setSpeed(.75);
+      if (shooter.isAtSetPoint()) {
+          shooter.setDefaultSpeed();
+          intake.setSpeed(.75);
+      } else {
+          shooter.setDefaultSpeed();
+          intake.setSpeed(0);
+      }
     }, ()->{
       shooter.stopShooter();
       intake.setSpeed(0);

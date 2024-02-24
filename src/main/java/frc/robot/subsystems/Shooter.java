@@ -20,7 +20,7 @@ public class Shooter extends SubsystemBase implements CheckableSubsystem, Shuffl
 
     public Shooter() {
         shooterSpeed = addTunableDouble("shooterSpeed", 7000);
-        tolerance = addTunableDouble("tolerance", 100);
+        tolerance = addTunableDouble("tolerance", 300);
         left = new SparkMaxWrapper(Constants.Shooter.id_left, "leftShooter", true, 0.000115, 0, 0, 0, 0, 0);
         right = new SparkMaxWrapper(Constants.Shooter.id_right, "rightShooter", false, 0.000115, 0, 0, 0, 0, 0);
 
