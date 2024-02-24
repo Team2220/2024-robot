@@ -12,10 +12,19 @@ import frc.lib.faults.Fault;
 public class CommandXBoxWrapper {
 
     CommandXboxController xbox;
+    double joystickDeadband;
+    double triggerDeadZone;
+
+    public CommandXBoxWrapper(int inPort, double joystickDeadband, double triggerDeadZone) {
+        xbox = new CommandXboxController(inPort);
+        this.joystickDeadband = joystickDeadband;
+        this.triggerDeadZone = triggerDeadZone;
+
+        Fault.autoUpdating("Controller " + inPort + " is disconnected.", this::isConnected);
+    }
 
     public CommandXBoxWrapper(int inPort) {
-        xbox = new CommandXboxController(inPort);
-        Fault.autoUpdating("Controller " + inPort + " is disconnected.", this::isConnected);
+        this(inPort, .1, .1);
     }
 
     /**
@@ -389,8 +398,8 @@ public class CommandXBoxWrapper {
      *
      * @return The axis value.
      */
-    public double getLeftX(double deadBand) {
-        return MathUtil.applyDeadband(xbox.getLeftX(), deadBand);
+    public double getLeftX() {
+        return MathUtil.applyDeadband(xbox.getLeftX(), joystickDeadband);
     }
 
     /**
@@ -398,8 +407,8 @@ public class CommandXBoxWrapper {
      *
      * @return The axis value.
      */
-    public double getRightX(double deadBand) {
-        return MathUtil.applyDeadband(xbox.getRightX(), deadBand);
+    public double getRightX() {
+        return MathUtil.applyDeadband(xbox.getRightX(), joystickDeadband);
     }
 
     /**
@@ -407,8 +416,9 @@ public class CommandXBoxWrapper {
      *
      * @return The axis value.
      */
-    public double getLeftY(double deadBand) {
-        return MathUtil.applyDeadband(xbox.getLeftY(), deadBand);
+    public double getLeftY() {
+        // flip y axis so that up is positive
+        return MathUtil.applyDeadband(xbox.getLeftY(), joystickDeadband) * -1;
     }
 
     /**
@@ -416,8 +426,9 @@ public class CommandXBoxWrapper {
      *
      * @return The axis value.
      */
-    public double getRightY(double deadBand) {
-        return MathUtil.applyDeadband(xbox.getRightY(), deadBand);
+    public double getRightY() {
+        // flip y axis so that up is positive
+        return MathUtil.applyDeadband(xbox.getRightY(), joystickDeadband) * -1;
     }
 
     /**
@@ -427,8 +438,8 @@ public class CommandXBoxWrapper {
      *
      * @return The axis value.
      */
-    public double getLeftTriggerAxis(double deadBand) {
-        return MathUtil.applyDeadband(xbox.getLeftTriggerAxis(), deadBand);
+    public double getLeftTriggerAxis() {
+        return MathUtil.applyDeadband(xbox.getLeftTriggerAxis(), triggerDeadZone);
     }
 
     /**
@@ -438,22 +449,22 @@ public class CommandXBoxWrapper {
      *
      * @return The axis value.
      */
-    public double getRightTriggerAxis(double deadBand) {
-        return MathUtil.applyDeadband(xbox.getRightTriggerAxis(), deadBand);
+    public double getRightTriggerAxis() {
+        return MathUtil.applyDeadband(xbox.getRightTriggerAxis(), triggerDeadZone);
     }
 
-    public Trigger joysticksTrigger(double deadBand) {
+    public Trigger joysticksTrigger() {
         return new Trigger(() -> {
-            return getLeftX(deadBand) > 0
-                    || getLeftY(deadBand) > 0
-                    || getRightX(deadBand) > 0
-                    || getRightY(deadBand) > 0;
+            return getLeftX() > 0
+                    || getLeftY() > 0
+                    || getRightX() > 0
+                    || getRightY() > 0;
         });
     }
 
-    public Trigger leftYTrigger(double deadBand) {
+    public Trigger leftYTrigger() {
         return new Trigger(() -> {
-            return getLeftY(deadBand) > 0;
+            return getLeftY() > 0;
         });
     }
 }
