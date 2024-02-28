@@ -19,8 +19,12 @@ public class SparkMaxLogPowerFaults {
                 boolean isActive = sparkMax.getStickyFault(c);
                 map.get(c).setIsActive(isActive);
             }
-
             sparkMax.clearFaults();
+        });
+
+        Fault.autoUpdating("SparkMax:" + sparkMax.getName() + "MoterTempToHigh", () -> {
+            var value = sparkMax.getTempature();
+            return value > 40;
         });
     }
 }
