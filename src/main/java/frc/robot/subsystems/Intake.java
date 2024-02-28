@@ -111,4 +111,7 @@ public class Intake extends SubsystemBase implements CheckableSubsystem, Shuffle
                 new SparkMAXSpinCheck(intake),
         };
     }
+    public boolean getBottomNoteSensor() {
+        return bottomNoteSensor.get();
+    }
 }

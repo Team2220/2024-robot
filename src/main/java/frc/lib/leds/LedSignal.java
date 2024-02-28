@@ -115,6 +115,12 @@ public class LedSignal {
         }, singleFadeAnimation, 0);
     }
 
+     public static LedSignal hasgamepiceLedSignal(BooleanSupplier supplier) {
+        // blink red
+        StrobeAnimation singleFadeAnimation = new StrobeAnimation (0, 255, 0, 0, 0.5, 164, 0);
+        return new LedSignal("HasGamepice", supplier, singleFadeAnimation, 0);
+    }
+
     // public static LedSignal hasTarget() {
     // // private final CANdle left = new CANdle(Constants.LEDS.LEFT);
     // // private final CANdle right = new CANdle(Constants.LEDS.RIGHT);

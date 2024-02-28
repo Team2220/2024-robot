@@ -29,7 +29,7 @@ public class Shooter extends SubsystemBase implements CheckableSubsystem, Shuffl
 
     public Command dutyCycleCommand(DoubleSupplier speed) {
         return this.run(() -> {
-            left.set(speed.getAsDouble() * .85);
+            left.set(speed.getAsDouble());
             right.set(speed.getAsDouble());
         });
     }
@@ -38,9 +38,6 @@ public class Shooter extends SubsystemBase implements CheckableSubsystem, Shuffl
         return this.run(() -> {
             left.set(speed);
             right.set(speed);
-        }).finallyDo(() -> {
-            left.set(0);
-            right.set(0);
         });
     }
 

@@ -50,7 +50,8 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem, Check
             .sqrt(Math.pow(DRIVETRAIN_TRACKWIDTH_METERS / 2, 2) + Math.pow(DRIVETRAIN_WHEELBASE_METERS / 2, 2));
 
     public DriveTrain() {
-        Shuffleboard.getTab("field").add("Field", m_field);
+        Shuffleboard.getTab("field").add("Field", m_poseEstimatorField);
+        Shuffleboard.getTab("limeLight").add("limeLight", m_limeLightField);
         System.out.println("Velocity" + MAX_VELOCITY_METERS_PER_SECOND);
         AutoBuilder.configureHolonomic(
                 this::getPose, // Robot pose supplier
@@ -81,7 +82,7 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem, Check
         );
         // Set up custom logging to add the current path to a field 2d widget
         PathPlannerLogging.setLogActivePathCallback((poses) -> {
-            m_field.getObject("path").setPoses(poses);
+            m_poseEstimatorField.getObject("path").setPoses(poses);
             for (Pose2d pose : poses) {
                 System.out.println(pose);
             }
@@ -133,7 +134,9 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem, Check
                         speed.omegaRadiansPerSecond));
     }
 
-    private final Field2d m_field = new Field2d();
+    
+private final Field2d m_poseEstimatorField = new Field2d();
+private final Field2d m_limeLightField = new Field2d();
     private final Pose2d m_startPose = new Pose2d(0, 0, Rotation2d.fromDegrees(0));
 
     public void resetPose(Pose2d pose) {
@@ -196,7 +199,9 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem, Check
     private final SwerveModule m_backRight = new SwerveModule("backright", 14, 13, 0, DT_BR_SE_OFFSET);
 
     public void periodic() {
-        m_field.setRobotPose(getPose());
+        m_poseEstimatorField.setRobotPose(getPose());
+        LimelightHelpers.PoseEstimate limelightMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight");
+        m_limeLightField.setRobotPose(limelightMeasurement.pose);
         gyroAngle.setDouble(getGyroscopeRotation().getDegrees());
         poseEstimator.update(
                 getGyroscopeRotation(), getModulePositions());
