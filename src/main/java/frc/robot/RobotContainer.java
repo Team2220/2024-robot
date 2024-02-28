@@ -119,12 +119,12 @@ public class RobotContainer {
     NamedCommands.registerCommand("test print", Commands.print("heloo foortnite"));
     NamedCommands.registerCommand("armSpeakerPos", Commands.run(() -> {
       m_arm.setPosition(52.3);
-    }, m_arm));
-    NamedCommands.registerCommand("armRest", Commands.run(() -> {
+    }, m_arm).withTimeout(2));
+    NamedCommands.registerCommand("armRest", Commands.runOnce(() -> {
       m_arm.setPosition(20);
     }, m_arm));
     NamedCommands.registerCommand("intake", intake.setIntakeUntilQueued());
-    NamedCommands.registerCommand("intakeShot", intake.setDutyCycleCommand(.75).withTimeout(2));
+    NamedCommands.registerCommand("intakeShot", intake.setDutyCycleCommand(.75).withTimeout(1));
     NamedCommands.registerCommand("shooter",
         Commands.parallel(
             Commands.sequence(
