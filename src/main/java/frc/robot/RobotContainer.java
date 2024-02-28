@@ -5,6 +5,7 @@
 package frc.robot;
 
 import frc.lib.CommandXBoxWrapper;
+import frc.lib.LimelightPortForwarding;
 import frc.lib.MusicToneCommand;
 import frc.lib.Note;
 import frc.lib.faults.PDHLogPowerFaults;
@@ -61,6 +62,7 @@ public class RobotContainer {
    */
   public RobotContainer() {
     PDHLogPowerFaults.setPdh(m_PowerDistribution, 8, 12, 13, 14, 15, 16, 17, 22, 23);
+    LimelightPortForwarding.setup();
     Shuffleboard.getTab("can").addDouble("can utilization", () -> RobotController.getCANStatus().percentBusUtilization)
         .withWidget(BuiltInWidgets.kGraph);
     // GetMACAddress.main();
@@ -133,7 +135,7 @@ public class RobotContainer {
             shooter.setDutyCycleCommand(1).withTimeout(2)));
 
     NamedCommands.registerCommand("conveyor", intake.setDutyCycleCommand(.5).withTimeout(2));
-    NamedCommands.registerCommand("shooter+", Commands.run(()->{
+    NamedCommands.registerCommand("shooter+", Commands.run(() -> {
       shooter.setDefaultSpeed();
     }, shooter).withTimeout(15));
 
