@@ -132,7 +132,13 @@ public class TalonFXLogPowerFaults {
             // unable to find clearStickyFault for UsingFusedCANcoderWhileUnlicensed
             return value;
         });
+        var device_temp = talonFX.getDeviceTemp();
+        Fault.autoUpdating("TalonFX:" + wrapper.getName() + "MoterTempToHigh", () -> {
+            var value = device_temp.refresh().getValue();
+            // unable to find clearStickyFault for UsingFusedCANcoderWhileUnlicensed
+            return value > 100;
+
+        });
 
     }
-
 }
