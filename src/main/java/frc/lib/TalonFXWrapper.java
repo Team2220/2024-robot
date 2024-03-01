@@ -168,10 +168,6 @@ public class TalonFXWrapper {
         // }
     }
 
-    public void setControl(ControlRequest controlRequest) {
-        talon.setControl(controlRequest);
-    }
-
     public void setPosition(double newPosition) {
         talon.setPosition(newPosition);
     }
