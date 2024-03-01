@@ -69,6 +69,10 @@ public class SparkMaxWrapper {
         return name + " (" + sparkMax.getDeviceId() + ")";
     }
 
+    public double getTemperature() {
+        return sparkMax.getMotorTemperature();
+    }
+
     public void set(double speed) {
         sparkMax.set(speed);
     }

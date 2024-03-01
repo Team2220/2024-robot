@@ -23,7 +23,7 @@ public class SparkMaxLogPowerFaults {
         });
 
         Fault.autoUpdating("SparkMax:" + sparkMax.getName() + "MoterTempToHigh", () -> {
-            var value = sparkMax.getTempature();
+            var value = sparkMax.getTemperature();
             return value > 40;
         });
     }
