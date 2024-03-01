@@ -9,17 +9,22 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
+import edu.wpi.first.units.Angle;
+import edu.wpi.first.units.Measure;
+import edu.wpi.first.units.Units;
+import edu.wpi.first.units.Velocity;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.lib.faults.Fault;
 import frc.lib.faults.TalonFXLogPowerFaults;
 import frc.lib.tunables.TunableDouble;
+import frc.lib.tunables.TunableMeasure;
 
 public class TalonFXWrapper {
     private TalonFX talon;
     private String name;
     private TalonFXConfiguration talonFXConfigs;
-    private static Fault fault = new Fault("TalonFX device disconnected");
-    private StatusSignal<Integer> firmwareVersionSignal;
+    // private static Fault fault = new Fault("TalonFX device disconnected");
+    // private StatusSignal<Integer> firmwareVersionSignal;
     private Fault softLimitOverrideFault;
 
     public TalonFXWrapper(
@@ -30,16 +35,16 @@ public class TalonFXWrapper {
             double I,
             double D,
             double G,
-            double Acceleration,
-            double CruiseVelocity,
-            double Jerk,
+            Measure<Velocity<Velocity<Angle>>> Acceleration,
+            Measure<Velocity<Angle>> CruiseVelocity,
+            Measure<Velocity<Velocity<Velocity<Angle>>>> Jerk,
             boolean forwardSoftLimitEnable,
             boolean reverseSoftLimitEnable,
             double forwardSoftLimitTreshold,
             double reverseSoftLimitThreshold) {
         talon = new TalonFX(id);
         this.name = name;
-        firmwareVersionSignal = talon.getVersion();
+        // firmwareVersionSignal = talon.getVersion();
         TalonFXLogPowerFaults.setupChecks(this);
         softLimitOverrideFault = new Fault(getName() + " Device ID: " + id + " Soft Limit Overrided");
 
@@ -89,23 +94,24 @@ public class TalonFXWrapper {
             talon.getConfigurator().apply(talonFXConfigs);
         });
 
-        new TunableDouble("Acceleration", Acceleration, getName(), value -> {
-            talonFXConfigs.MotionMagic.MotionMagicAcceleration = value;
+        new TunableMeasure<>("Acceleration", Acceleration, getName(), value -> {
+            talonFXConfigs.MotionMagic.MotionMagicAcceleration = value.in(Units.RotationsPerSecond.per(Units.Seconds));
             talon.getConfigurator().apply(talonFXConfigs);
         });
 
-        new TunableDouble("CruiseVelocity", CruiseVelocity, getName(), value -> {
-            talonFXConfigs.MotionMagic.MotionMagicCruiseVelocity = value;
+        new TunableMeasure<>("CruiseVelocity", CruiseVelocity, getName(), value -> {
+            talonFXConfigs.MotionMagic.MotionMagicCruiseVelocity = value.in(Units.RotationsPerSecond);
             talon.getConfigurator().apply(talonFXConfigs);
         });
 
-        new TunableDouble("Jerk", Jerk, getName(), value -> {
-            talonFXConfigs.MotionMagic.MotionMagicJerk = value;
+        new TunableMeasure<>("Jerk", Jerk, getName(), value -> {
+            talonFXConfigs.MotionMagic.MotionMagicJerk = value
+                    .in(Units.RotationsPerSecond.per(Units.Seconds).per(Units.Seconds));
             talon.getConfigurator().apply(talonFXConfigs);
         });
 
         RobotControllerTriggers.isSysActive().debounce(5).onFalse(Commands.runOnce(() -> {
-           talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Coast;
+            talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Coast;
             talon.getConfigurator().apply(talonFXConfigs);
         }).ignoringDisable(true));
 
@@ -124,9 +130,9 @@ public class TalonFXWrapper {
                 0,
                 0,
                 0,
-                0,
-                0,
-                0,
+                Units.RotationsPerSecond.per(Units.Seconds).of(0),
+                Units.RotationsPerSecond.of(0),
+                Units.RotationsPerSecond.per(Units.Seconds).per(Units.Seconds).of(0),
                 false,
                 false,
                 0,
