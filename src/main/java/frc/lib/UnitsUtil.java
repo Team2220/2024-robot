@@ -22,9 +22,10 @@ public class UnitsUtil<U extends Unit<U>> {
         return Units.Meters.of(distance);
     }
 
-    public Measure<Velocity<Distance>> velocityForWheel(Measure<Velocity<Distance>> velocity) {
+    public Measure<Velocity<Distance>> velocityForWheel(Measure<Velocity<Distance>> velocity, Measure<Angle> rotation) {
         double vel = velocity.in(Units.MetersPerSecond);
-        return Units.MetersPerSecond.of(vel);
-
+        double ang = rotation.in(Units.Rotations);
+        double velForWheel = vel * ang * Math.PI;
+        return Units.MetersPerSecond.of(velForWheel);
     }
 }
