@@ -1,7 +1,9 @@
 package frc.lib;
 
 import com.ctre.phoenix6.controls.ControlRequest;
+import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
+import com.ctre.phoenix6.controls.MusicTone;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -110,15 +112,15 @@ public class TalonFXWrapper {
             talon.getConfigurator().apply(talonFXConfigs);
         });
 
-        RobotControllerTriggers.isSysActive().debounce(5).onFalse(Commands.runOnce(() -> {
-            talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Coast;
-            talon.getConfigurator().apply(talonFXConfigs);
-        }).ignoringDisable(true));
+        // RobotControllerTriggers.isSysActive().debounce(2).onFalse(Commands.runOnce(() -> {
+        //     talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Coast;
+        //     talon.getConfigurator().apply(talonFXConfigs);
+        // }).ignoringDisable(true));
 
-        RobotControllerTriggers.isSysActive().onTrue(Commands.runOnce(() -> {
-            talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-            talon.getConfigurator().apply(talonFXConfigs);
-        }).ignoringDisable(true));
+        // RobotControllerTriggers.isSysActive().onTrue(Commands.runOnce(() -> {
+        //     talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+        //     talon.getConfigurator().apply(talonFXConfigs);
+        // }).ignoringDisable(true));
     }
 
     public TalonFXWrapper(int id, String name, boolean isInverted) {
@@ -130,9 +132,9 @@ public class TalonFXWrapper {
                 0,
                 0,
                 0,
-                Units.RotationsPerSecond.per(Units.Seconds).of(0),
+                UnitsUtil.rotationsPerSecSq(0),
                 Units.RotationsPerSecond.of(0),
-                Units.RotationsPerSecond.per(Units.Seconds).per(Units.Seconds).of(0),
+                UnitsUtil.rotationsPerSecCubed(0),
                 false,
                 false,
                 0,
@@ -166,10 +168,6 @@ public class TalonFXWrapper {
         // }
     }
 
-    public void setControl(ControlRequest controlRequest) {
-        talon.setControl(controlRequest);
-    }
-
     public void setPosition(double newPosition) {
         talon.setPosition(newPosition);
     }
@@ -181,5 +179,21 @@ public class TalonFXWrapper {
     // multaplying by 10 to convert duty cycle to voltage
     public void set(double speed) {
         talon.setControl(new VoltageOut(speed * 10));
+    }
+
+    public void setMotionMagicVoltage(double position) {
+        talon.setControl(new MotionMagicVoltage(position));
+    }
+
+    public void setVoltageOut(double voltage) {
+        talon.setControl(new VoltageOut(voltage));
+    }
+
+    public void setDutyCycleOut(double cycle) {
+        talon.setControl(new DutyCycleOut(cycle));
+    }
+
+    public void setMusicTone(double frequency) {
+        talon.setControl(new MusicTone(frequency));
     }
 }
