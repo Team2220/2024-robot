@@ -8,6 +8,7 @@ import frc.lib.MusicToneCommand;
 
 public class RobotSelfCheckCommand extends SequentialCommandGroup {
     public RobotSelfCheckCommand( Command onPassCommand, Command onFailedCommand, CheckableSubsystem... subsystems) {
+        addRequirements(subsystems);
         for (CheckableSubsystem subsystem : subsystems) {
             var commands = subsystem.getCheckCommands();
             for (CheckCommand command : commands) {
@@ -15,7 +16,7 @@ public class RobotSelfCheckCommand extends SequentialCommandGroup {
                     if (interrupted)
                         anyFailed = true;
 
-                    DataLogManager.log(command.getName() + "  " + subsystem.getName());
+                    DataLogManager.log(command.getName() + "  " + subsystem.getName() + interrupted);
                 }).withTimeout(command.getTimeoutSeconds()));
                 
             }

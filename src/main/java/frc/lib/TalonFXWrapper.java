@@ -104,15 +104,15 @@ public class TalonFXWrapper {
             talon.getConfigurator().apply(talonFXConfigs);
         });
 
-        RobotControllerTriggers.isSysActive().debounce(2).onFalse(Commands.runOnce(() -> {
-            talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Coast;
-            talon.getConfigurator().apply(talonFXConfigs);
-        }).ignoringDisable(true));
+        // RobotControllerTriggers.isSysActive().debounce(2).onFalse(Commands.runOnce(() -> {
+        //     talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Coast;
+        //     talon.getConfigurator().apply(talonFXConfigs);
+        // }).ignoringDisable(true));
 
-        RobotControllerTriggers.isSysActive().onTrue(Commands.runOnce(() -> {
-            talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-            talon.getConfigurator().apply(talonFXConfigs);
-        }).ignoringDisable(true));
+        // RobotControllerTriggers.isSysActive().onTrue(Commands.runOnce(() -> {
+        //     talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+        //     talon.getConfigurator().apply(talonFXConfigs);
+        // }).ignoringDisable(true));
     }
 
     public TalonFXWrapper(int id, String name, boolean isInverted) {

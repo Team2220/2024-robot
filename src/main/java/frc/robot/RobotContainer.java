@@ -195,11 +195,11 @@ public class RobotContainer {
   public Command getTestCommand() {
     return new RobotSelfCheckCommand(
         Commands.sequence(
-            new MusicToneCommand(Note.MiddleC, driveTrain).withTimeout(2),
-            new MusicToneCommand(Note.HighC, driveTrain).withTimeout(2)),
+            new MusicToneCommand(Note.MiddleC, driveTrain).withTimeout(0.25),
+            new MusicToneCommand(Note.HighC, driveTrain).withTimeout(0.25)),
         Commands.sequence(
-            new MusicToneCommand(Note.MiddleC, driveTrain).withTimeout(2),
-            new MusicToneCommand(Note.LowC, driveTrain).withTimeout(2)),
+            new MusicToneCommand(Note.MiddleC, driveTrain).withTimeout(0.25),
+            new MusicToneCommand(Note.LowC, driveTrain).withTimeout(0.25)),
         driveTrain,
         intake);
   }

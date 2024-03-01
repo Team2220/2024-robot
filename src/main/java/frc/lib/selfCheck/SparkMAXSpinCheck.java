@@ -22,7 +22,7 @@ public class SparkMAXSpinCheck extends CheckCommand {
     }
     @Override
     public boolean isFinished() {
-        return Math.abs(position - spark.getPosition()) > 10;
+        return Math.abs(position - spark.getPosition()) > 30;
     }
 
 
@@ -31,7 +31,7 @@ public class SparkMAXSpinCheck extends CheckCommand {
      @Override
     public
     double getTimeoutSeconds() {
-        return 3;
+        return 5;
 
     }
     @Override
