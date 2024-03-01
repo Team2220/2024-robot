@@ -28,4 +28,12 @@ public class UnitsUtil<U extends Unit<U>> {
         double velForWheel = vel * ang * Math.PI;
         return Units.MetersPerSecond.of(velForWheel);
     }
+
+    public Measure<Velocity<Velocity<Angle>>> rotationsPerSecSq(double ang) {
+        return Units.RotationsPerSecond.per(Units.Seconds).of(ang);
+    }
+
+    public Measure<Velocity<Velocity<Velocity<Angle>>>> rotationsPerSecCubed(double ang) {
+        return Units.RotationsPerSecond.per(Units.Seconds).per(Units.Seconds).of(ang);
+    }
 }
