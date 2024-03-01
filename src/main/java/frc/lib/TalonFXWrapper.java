@@ -1,7 +1,9 @@
 package frc.lib;
 
 import com.ctre.phoenix6.controls.ControlRequest;
+import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
+import com.ctre.phoenix6.controls.MusicTone;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -9,17 +11,23 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
+import edu.wpi.first.units.Angle;
+import edu.wpi.first.units.Measure;
+import edu.wpi.first.units.Units;
+import edu.wpi.first.units.Velocity;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.lib.faults.Fault;
 import frc.lib.faults.TalonFXLogPowerFaults;
 import frc.lib.tunables.TunableDouble;
+import frc.lib.tunables.TunableMeasure;
+import frc.lib.units.UnitsUtil;
 
 public class TalonFXWrapper {
     private TalonFX talon;
     private String name;
     private TalonFXConfiguration talonFXConfigs;
-    private static Fault fault = new Fault("TalonFX device disconnected");
-    private StatusSignal<Integer> firmwareVersionSignal;
+    // private static Fault fault = new Fault("TalonFX device disconnected");
+    // private StatusSignal<Integer> firmwareVersionSignal;
     private Fault softLimitOverrideFault;
 
     public TalonFXWrapper(
@@ -30,16 +38,16 @@ public class TalonFXWrapper {
             double I,
             double D,
             double G,
-            double Acceleration,
-            double CruiseVelocity,
-            double Jerk,
+            Measure<Velocity<Velocity<Angle>>> Acceleration,
+            Measure<Velocity<Angle>> CruiseVelocity,
+            Measure<Velocity<Velocity<Velocity<Angle>>>> Jerk,
             boolean forwardSoftLimitEnable,
             boolean reverseSoftLimitEnable,
             double forwardSoftLimitTreshold,
             double reverseSoftLimitThreshold) {
         talon = new TalonFX(id);
         this.name = name;
-        firmwareVersionSignal = talon.getVersion();
+        // firmwareVersionSignal = talon.getVersion();
         TalonFXLogPowerFaults.setupChecks(this);
         softLimitOverrideFault = new Fault(getName() + " Device ID: " + id + " Soft Limit Overrided");
 
@@ -89,30 +97,32 @@ public class TalonFXWrapper {
             talon.getConfigurator().apply(talonFXConfigs);
         });
 
-        new TunableDouble("Acceleration", Acceleration, getName(), value -> {
-            talonFXConfigs.MotionMagic.MotionMagicAcceleration = value;
+        new TunableMeasure<>("Acceleration", Acceleration, getName(), value -> {
+            talonFXConfigs.MotionMagic.MotionMagicAcceleration = value.in(Units.RotationsPerSecond.per(Units.Seconds));
             talon.getConfigurator().apply(talonFXConfigs);
         });
 
-        new TunableDouble("CruiseVelocity", CruiseVelocity, getName(), value -> {
-            talonFXConfigs.MotionMagic.MotionMagicCruiseVelocity = value;
+        new TunableMeasure<>("CruiseVelocity", CruiseVelocity, getName(), value -> {
+            talonFXConfigs.MotionMagic.MotionMagicCruiseVelocity = value.in(Units.RotationsPerSecond);
             talon.getConfigurator().apply(talonFXConfigs);
         });
 
-        new TunableDouble("Jerk", Jerk, getName(), value -> {
-            talonFXConfigs.MotionMagic.MotionMagicJerk = value;
+        new TunableMeasure<>("Jerk", Jerk, getName(), value -> {
+            talonFXConfigs.MotionMagic.MotionMagicJerk = value
+                    .in(Units.RotationsPerSecond.per(Units.Seconds).per(Units.Seconds));
             talon.getConfigurator().apply(talonFXConfigs);
         });
 
-        RobotControllerTriggers.isSysActive().debounce(5).onFalse(Commands.runOnce(() -> {
-           talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Coast;
-            talon.getConfigurator().apply(talonFXConfigs);
-        }).ignoringDisable(true));
+        // RobotControllerTriggers.isSysActive().debounce(2).onFalse(Commands.runOnce(()
+        // -> {
+        // talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Coast;
+        // talon.getConfigurator().apply(talonFXConfigs);
+        // }).ignoringDisable(true));
 
-        RobotControllerTriggers.isSysActive().onTrue(Commands.runOnce(() -> {
-            talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-            talon.getConfigurator().apply(talonFXConfigs);
-        }).ignoringDisable(true));
+        // RobotControllerTriggers.isSysActive().onTrue(Commands.runOnce(() -> {
+        // talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+        // talon.getConfigurator().apply(talonFXConfigs);
+        // }).ignoringDisable(true));
     }
 
     public TalonFXWrapper(int id, String name, boolean isInverted) {
@@ -124,9 +134,9 @@ public class TalonFXWrapper {
                 0,
                 0,
                 0,
-                0,
-                0,
-                0,
+                UnitsUtil.rotationsPerSecSq(0),
+                Units.RotationsPerSecond.of(0),
+                UnitsUtil.rotationsPerSecCubed(0),
                 false,
                 false,
                 0,
@@ -160,10 +170,6 @@ public class TalonFXWrapper {
         // }
     }
 
-    public void setControl(ControlRequest controlRequest) {
-        talon.setControl(controlRequest);
-    }
-
     public void setPosition(double newPosition) {
         talon.setPosition(newPosition);
     }
@@ -175,5 +181,21 @@ public class TalonFXWrapper {
     // multaplying by 10 to convert duty cycle to voltage
     public void set(double speed) {
         talon.setControl(new VoltageOut(speed * 10));
+    }
+
+    public void setMotionMagicVoltage(double position) {
+        talon.setControl(new MotionMagicVoltage(position));
+    }
+
+    public void setVoltageOut(double voltage) {
+        talon.setControl(new VoltageOut(voltage));
+    }
+
+    public void setDutyCycleOut(double cycle) {
+        talon.setControl(new DutyCycleOut(cycle));
+    }
+
+    public void setMusicTone(double frequency) {
+        talon.setControl(new MusicTone(frequency));
     }
 }

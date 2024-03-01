@@ -1,4 +1,4 @@
-package frc.lib;
+package frc.lib.units;
 
 import edu.wpi.first.units.Angle;
 import edu.wpi.first.units.Distance;
@@ -27,5 +27,13 @@ public class UnitsUtil<U extends Unit<U>> {
         double ang = rotation.in(Units.Rotations);
         double velForWheel = vel * ang * Math.PI;
         return Units.MetersPerSecond.of(velForWheel);
+    }
+
+    public static Measure<Velocity<Velocity<Angle>>> rotationsPerSecSq(double ang) {
+        return Units.RotationsPerSecond.per(Units.Seconds).of(ang);
+    }
+
+    public static Measure<Velocity<Velocity<Velocity<Angle>>>> rotationsPerSecCubed(double ang) {
+        return Units.RotationsPerSecond.per(Units.Seconds).per(Units.Seconds).of(ang);
     }
 }

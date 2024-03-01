@@ -3,8 +3,8 @@ package frc.robot.subsystems;
 import java.util.function.DoubleSupplier;
 
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
-import com.ctre.phoenix6.controls.VoltageOut;
 
+import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -17,11 +17,12 @@ import frc.robot.Constants;
 public class Arm extends SubsystemBase implements CheckableSubsystem {
     TalonFXWrapper ArmTalonFX;
 
-    final MotionMagicVoltage m_positionDutyCycle = new MotionMagicVoltage(0);
 
     public Arm() {
-        ArmTalonFX = new TalonFXWrapper(Constants.Arm.ARM_TALON, "Arm", false, 15, 0, 0.1, 0, 3000, 3000,
-                3000, true, true, 110.0 / 360.0 * Constants.Arm.ARM_GEAR_RATIO, 0);
+        ArmTalonFX = new TalonFXWrapper(Constants.Arm.ARM_TALON, "Arm", false, 15, 0, 0.1, 0,
+                Units.RotationsPerSecond.per(Units.Seconds).of(3000), Units.RotationsPerSecond.of(3000),
+                Units.RotationsPerSecond.per(Units.Seconds).per(Units.Seconds).of(300), true, true,
+                110.0 / 360.0 * Constants.Arm.ARM_GEAR_RATIO, 0);
         Shuffleboard.getTab("Arm").addDouble("ArmAngle",
                 () -> ArmTalonFX.getRotorPosition().refresh().getValueAsDouble() / Constants.Arm.ARM_GEAR_RATIO * 360);
 
@@ -29,8 +30,7 @@ public class Arm extends SubsystemBase implements CheckableSubsystem {
 
     public Command dutyCycleCommand(DoubleSupplier speed) {
         return this.run(() -> {
-            VoltageOut duty = new VoltageOut(speed.getAsDouble() * 10);
-            ArmTalonFX.setControl(duty);
+            ArmTalonFX.setVoltageOut(speed.getAsDouble() * 10);
         });
     }
 
@@ -52,7 +52,7 @@ public class Arm extends SubsystemBase implements CheckableSubsystem {
 
     public void setPosition(double degrees) {
 
-        ArmTalonFX.setControl(m_positionDutyCycle.withPosition(degrees / 360.0 * Constants.Arm.ARM_GEAR_RATIO));
+        ArmTalonFX.setMotionMagicVoltage(degrees / 360.0 * Constants.Arm.ARM_GEAR_RATIO);
     }
 
     public void setZero() {
