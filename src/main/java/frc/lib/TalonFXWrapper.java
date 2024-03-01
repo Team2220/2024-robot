@@ -1,7 +1,9 @@
 package frc.lib;
 
 import com.ctre.phoenix6.controls.ControlRequest;
+import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
+import com.ctre.phoenix6.controls.MusicTone;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -13,11 +15,13 @@ import edu.wpi.first.units.Angle;
 import edu.wpi.first.units.Measure;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.units.Velocity;
+import edu.wpi.first.units.Voltage;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.lib.faults.Fault;
 import frc.lib.faults.TalonFXLogPowerFaults;
 import frc.lib.tunables.TunableDouble;
 import frc.lib.tunables.TunableMeasure;
+import frc.lib.units.UnitsUtil;
 
 public class TalonFXWrapper {
     private TalonFX talon;
@@ -110,15 +114,16 @@ public class TalonFXWrapper {
             talon.getConfigurator().apply(talonFXConfigs);
         });
 
-        RobotControllerTriggers.isSysActive().debounce(5).onFalse(Commands.runOnce(() -> {
-            talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Coast;
-            talon.getConfigurator().apply(talonFXConfigs);
-        }).ignoringDisable(true));
+        // RobotControllerTriggers.isSysActive().debounce(2).onFalse(Commands.runOnce(()
+        // -> {
+        // talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Coast;
+        // talon.getConfigurator().apply(talonFXConfigs);
+        // }).ignoringDisable(true));
 
-        RobotControllerTriggers.isSysActive().onTrue(Commands.runOnce(() -> {
-            talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-            talon.getConfigurator().apply(talonFXConfigs);
-        }).ignoringDisable(true));
+        // RobotControllerTriggers.isSysActive().onTrue(Commands.runOnce(() -> {
+        // talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+        // talon.getConfigurator().apply(talonFXConfigs);
+        // }).ignoringDisable(true));
     }
 
     public TalonFXWrapper(int id, String name, boolean isInverted) {
@@ -166,10 +171,6 @@ public class TalonFXWrapper {
         // }
     }
 
-    public void setControl(ControlRequest controlRequest) {
-        talon.setControl(controlRequest);
-    }
-
     public void setPosition(double newPosition) {
         talon.setPosition(newPosition);
     }
@@ -181,5 +182,21 @@ public class TalonFXWrapper {
     // multaplying by 10 to convert duty cycle to voltage
     public void set(double speed) {
         talon.setControl(new VoltageOut(speed * 10));
+    }
+
+    public void setMotionMagicVoltage(Measure<Angle> position) {
+        talon.setControl(new MotionMagicVoltage(position.in(Units.Rotations)));
+    }
+
+    public void setVoltageOut(Measure<Voltage> voltage) {
+        talon.setControl(new VoltageOut(voltage.in(Units.Volts)));
+    }
+
+    public void setDutyCycleOut(double cycle) {
+        talon.setControl(new DutyCycleOut(cycle));
+    }
+
+    public void setMusicTone(double frequency) {
+        talon.setControl(new MusicTone(frequency));
     }
 }

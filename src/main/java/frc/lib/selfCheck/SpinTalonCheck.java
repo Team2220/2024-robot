@@ -15,12 +15,16 @@ public class SpinTalonCheck extends CheckCommand {
     @Override
     public void initialize() {
         position = talon.getRotorPosition().getValueAsDouble();
+        System.out.println(position);
+
 
     }
 
     @Override
     public boolean isFinished() {
+        System.out.println(talon.getRotorPosition().getValueAsDouble());
         return Math.abs(position - talon.getRotorPosition().getValueAsDouble()) > 10;
+        
     }
 
     @Override
@@ -31,11 +35,11 @@ public class SpinTalonCheck extends CheckCommand {
 
     @Override
     public void end(boolean interrupted) {
-        talon.setControl(new DutyCycleOut(0));
+        talon.setDutyCycleOut(0);
     }
 
     @Override
     public void execute() {
-        talon.setControl(new DutyCycleOut(0.25));
+        talon.setDutyCycleOut(0.25);
     }
 }

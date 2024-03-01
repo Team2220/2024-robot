@@ -1,4 +1,4 @@
-package frc.lib;
+package frc.lib.units;
 
 import edu.wpi.first.units.Angle;
 import edu.wpi.first.units.Distance;
