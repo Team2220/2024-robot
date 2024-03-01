@@ -5,6 +5,7 @@ import java.util.HashMap;
 import com.revrobotics.CANSparkBase;
 import com.revrobotics.CANSparkMax;
 
+import edu.wpi.first.units.Units;
 import frc.lib.SparkMaxWrapper;
 import frc.lib.eventLoops.EventLoops;
 
@@ -23,8 +24,7 @@ public class SparkMaxLogPowerFaults {
         });
 
         Fault.autoUpdating("SparkMax:" + sparkMax.getName() + "MoterTempToHigh", () -> {
-            var value = sparkMax.getTemperature();
-            return value > 40;
+            return sparkMax.getTemperature().gt(Units.Celsius.of(40));
         });
     }
 }
