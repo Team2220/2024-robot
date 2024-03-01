@@ -18,7 +18,8 @@ public class ObjectTracker extends Command {
   private static TunableDouble p = new TunableDouble("P", .03, true, "limelight");
   private static TunableDouble i = new TunableDouble("I", 0, true, "limelight");
   private static TunableDouble d = new TunableDouble("D", 0, true, "limelight");
-  public ObjectTracker(/*Swerve swerve,*/ DoubleSupplier fwd, DoubleSupplier str) {
+
+  public ObjectTracker(/* Swerve swerve, */ DoubleSupplier fwd, DoubleSupplier str) {
     pid.setTolerance(0.5);
     pid.setSetpoint(0);
   }
@@ -47,7 +48,8 @@ public class ObjectTracker extends Command {
     if (foundCone) {
       System.out.println("out: " + out);
       // out = MathUtil.clamp(out, -1, 1);
-      // swerve.setDrive(new DriveVector(fwd.getAsDouble(), str.getAsDouble(), -out), true);
+      // swerve.setDrive(new DriveVector(fwd.getAsDouble(), str.getAsDouble(), -out),
+      // true);
     } else {
       // swerve.setDrive(new DriveVector(fwd.getAsDouble(), str.getAsDouble(), 0));
     }

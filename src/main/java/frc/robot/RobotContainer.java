@@ -5,6 +5,7 @@
 package frc.robot;
 
 import frc.lib.CommandXBoxWrapper;
+import frc.lib.LimelightPortForwarding;
 import frc.lib.MusicToneCommand;
 import frc.lib.Note;
 import frc.lib.faults.PDHLogPowerFaults;
@@ -12,7 +13,6 @@ import frc.lib.leds.LEDs;
 import frc.lib.leds.LedSignal;
 import frc.lib.selfCheck.RobotSelfCheckCommand;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.ShootCommand;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
@@ -62,6 +62,7 @@ public class RobotContainer {
    */
   public RobotContainer() {
     PDHLogPowerFaults.setPdh(m_PowerDistribution, 8, 12, 13, 14, 15, 16, 17, 22, 23);
+    LimelightPortForwarding.setup();
     Shuffleboard.getTab("can").addDouble("can utilization", () -> RobotController.getCANStatus().percentBusUtilization)
         .withWidget(BuiltInWidgets.kGraph);
     // GetMACAddress.main();
@@ -95,13 +96,13 @@ public class RobotContainer {
     m_operatorController.x().onTrue(m_arm.setPositionCommand(51));
 
     var driveCommand = driveTrain.driveCommand(() -> {
-      double coefficient=m_driverController.getHID().getLeftBumper()? 0.5:1;
+      double coefficient = m_driverController.getHID().getLeftBumper() ? 0.5 : 1;
       return m_driverController.getLeftX() * -1 * coefficient;
     }, () -> {
-      double coefficient=m_driverController.getHID().getLeftBumper()? 0.5:1;
+      double coefficient = m_driverController.getHID().getLeftBumper() ? 0.5 : 1;
       return m_driverController.getLeftY() * coefficient;
     }, () -> {
-      double coefficient=m_driverController.getHID().getLeftBumper()? 0.5:1;
+      double coefficient = m_driverController.getHID().getLeftBumper() ? 0.5 : 1;
       return m_driverController.getRightX() * -1 * coefficient;
     });
     driveTrain.setDefaultCommand(driveCommand);
@@ -114,17 +115,19 @@ public class RobotContainer {
             LedSignal.isDSConnected(),
             // LedSignal.hasTarget(),
             LedSignal.isEndGame(),
+            LedSignal.hasgamepiceLedSignal(intake::getBottomNoteSensor),
             // LedSignal.hasActiveFault(),
             LedSignal.getLowBatteryLedSignal()
         });
     NamedCommands.registerCommand("test print", Commands.print("heloo foortnite"));
     NamedCommands.registerCommand("armSpeakerPos", Commands.run(() -> {
-      m_arm.setPosition(58.8);
-    }, m_arm));
-    NamedCommands.registerCommand("armRest", Commands.run(() -> {
-      m_arm.setPosition(5);
+      m_arm.setPosition(52.3);
+    }, m_arm).withTimeout(2));
+    NamedCommands.registerCommand("armRest", Commands.runOnce(() -> {
+      m_arm.setPosition(20);
     }, m_arm));
     NamedCommands.registerCommand("intake", intake.setIntakeUntilQueued());
+    NamedCommands.registerCommand("intakeShot", intake.setDutyCycleCommand(.75).withTimeout(1));
     NamedCommands.registerCommand("shooter",
         Commands.parallel(
             Commands.sequence(
@@ -133,7 +136,9 @@ public class RobotContainer {
             shooter.setDutyCycleCommand(1).withTimeout(2)));
 
     NamedCommands.registerCommand("conveyor", intake.setDutyCycleCommand(.5).withTimeout(2));
-    NamedCommands.registerCommand("shooter+", shooter.setDutyCycleCommand(.5).withTimeout(15));
+    NamedCommands.registerCommand("shooter+", Commands.run(() -> {
+      shooter.setDefaultSpeed();
+    }, shooter).withTimeout(15));
 
     autoChooser = AutoBuilder.buildAutoChooser();
 
@@ -163,25 +168,39 @@ public class RobotContainer {
     m_driverController.start().onTrue(driveTrain.zeroCommand());
     m_driverController.x().whileTrue((driveTrain.xcommand()));
 
-    // m_driverController.y().whileTrue(shooter.ampShot());
-    m_driverController.b().onTrue(m_arm.setPositionCommand(51.7));
+    m_driverController.y().whileTrue(Commands.run(shooter::setDefaultSpeed, shooter))
+        .onFalse(Commands.startEnd(() -> {
+          if (shooter.isAtSetPoint()) {
+            shooter.setDefaultSpeed();
+            intake.setSpeed(.75);
+          } else {
+            shooter.setDefaultSpeed();
+            intake.setSpeed(0);
+          }
+        }, () -> {
+          shooter.stopShooter();
+          intake.setSpeed(0);
+        }, shooter, intake).withTimeout(2));
+
+    m_driverController.b().onTrue(m_arm.setPositionCommand(52.3));
     m_driverController.a().onTrue(m_arm.setPositionCommand(0));
     // m_driverController.rightTrigger().whileTrue(shooter.shooterReady());
-    // m_driverController.rightBumper().whileTrue(new ShootCommand(shooter, intake));
-    m_driverController.rightTrigger().whileTrue(Commands.run(shooter:: setDefaultSpeed, shooter))
-    .onFalse(Commands.startEnd(()->{
-      if (shooter.isAtSetPoint()) {
-          shooter.setDefaultSpeed();
-          intake.setSpeed(.75);
-      } else {
-          shooter.setDefaultSpeed();
+    // m_driverController.rightBumper().whileTrue(new ShootCommand(shooter,
+    // intake));
+    m_driverController.rightTrigger().whileTrue(Commands.run(shooter::setDefaultSpeed, shooter))
+        .onFalse(Commands.startEnd(() -> {
+          if (shooter.isAtSetPoint()) {
+            shooter.setDefaultSpeed();
+            intake.setSpeed(.75);
+          } else {
+            shooter.setDefaultSpeed();
+            intake.setSpeed(0);
+          }
+        }, () -> {
+          shooter.stopShooter();
           intake.setSpeed(0);
-      }
-    }, ()->{
-      shooter.stopShooter();
-      intake.setSpeed(0);
-    }, shooter, intake).withTimeout(.5));
-    
+        }, shooter, intake).withTimeout(1));
+
     m_driverController.leftTrigger().whileTrue(intake.intakeUntilQueued());
 
     // m_driverController.y().onTrue(new TalonOrchestra(driveTrain));

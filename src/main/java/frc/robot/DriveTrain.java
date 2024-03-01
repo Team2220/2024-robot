@@ -21,7 +21,6 @@ import static edu.wpi.first.math.util.Units.inchesToMeters;
 import java.util.function.DoubleSupplier;
 
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
@@ -30,6 +29,8 @@ import com.pathplanner.lib.util.ReplanningConfig;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.lib.NavXWrapper;
+import frc.lib.LimelightHelpers;
 import frc.lib.RobotInstance;
 import frc.lib.ShuffleBoardTabWrapper;
 import frc.lib.TalonFXSubsystem;
@@ -49,7 +50,9 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem, Check
             .sqrt(Math.pow(DRIVETRAIN_TRACKWIDTH_METERS / 2, 2) + Math.pow(DRIVETRAIN_WHEELBASE_METERS / 2, 2));
 
     public DriveTrain() {
-        Shuffleboard.getTab("field").add("Field", m_field);
+        Shuffleboard.getTab("field").add("Field", m_poseEstimatorField);
+        Shuffleboard.getTab("limeLight").add("limeLight", m_limeLightField);
+        System.out.println("Velocity" + MAX_VELOCITY_METERS_PER_SECOND);
         AutoBuilder.configureHolonomic(
                 this::getPose, // Robot pose supplier
                 this::resetPose, // Method to reset odometry (will be called if your auto has a starting pose)
@@ -79,7 +82,7 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem, Check
         );
         // Set up custom logging to add the current path to a field 2d widget
         PathPlannerLogging.setLogActivePathCallback((poses) -> {
-            m_field.getObject("path").setPoses(poses);
+            m_poseEstimatorField.getObject("path").setPoses(poses);
             for (Pose2d pose : poses) {
                 System.out.println(pose);
             }
@@ -131,7 +134,9 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem, Check
                         speed.omegaRadiansPerSecond));
     }
 
-    private final Field2d m_field = new Field2d();
+    
+private final Field2d m_poseEstimatorField = new Field2d();
+private final Field2d m_limeLightField = new Field2d();
     private final Pose2d m_startPose = new Pose2d(0, 0, Rotation2d.fromDegrees(0));
 
     public void resetPose(Pose2d pose) {
@@ -142,7 +147,7 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem, Check
 
     public Command zeroCommand() {
         return this.runOnce(() -> {
-            navx.reset();
+            navx.zero();
             poseEstimator.resetPosition(getGyroscopeRotation(), getModulePositions(), m_startPose);
         });
     }
@@ -194,11 +199,14 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem, Check
     private final SwerveModule m_backRight = new SwerveModule("backright", 14, 13, 0, DT_BR_SE_OFFSET);
 
     public void periodic() {
-        m_field.setRobotPose(getPose());
+        m_poseEstimatorField.setRobotPose(getPose());
+        LimelightHelpers.PoseEstimate limelightMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight");
+        m_limeLightField.setRobotPose(limelightMeasurement.pose);
         gyroAngle.setDouble(getGyroscopeRotation().getDegrees());
         poseEstimator.update(
                 getGyroscopeRotation(), getModulePositions());
         // System.out.println(MAX_VELOCITY_METERS_PER_SECOND);
+        // System.out.println(LimelightHelpers.getBotPose2d_wpiBlue("limelight-right"));
     }
 
     private Pose2d getPose() {
@@ -206,12 +214,10 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem, Check
         return new Pose2d(pose.getY(), pose.getX() * -1, pose.getRotation());
     }
 
-    AHRS navx = new AHRS();
-    double gyroOffset = 0;
+    NavXWrapper navx = new NavXWrapper();
 
     public Rotation2d getGyroscopeRotation() {
-        var angle = navx.getAngle() + gyroOffset;
-        return Rotation2d.fromDegrees(angle * -1);
+        return navx.getAngle();
     }
 
     public SwerveModulePosition[] getModulePositions() {

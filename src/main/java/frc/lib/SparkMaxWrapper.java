@@ -6,6 +6,9 @@ import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.FaultID;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
+import edu.wpi.first.units.Measure;
+import edu.wpi.first.units.Temperature;
+import edu.wpi.first.units.Units;
 import frc.lib.faults.SparkMaxLogPowerFaults;
 import frc.lib.tunables.TunableDouble;
 
@@ -14,7 +17,8 @@ public class SparkMaxWrapper {
     public CANSparkMax sparkMax;
     public SparkPIDController pidController;
 
-    public SparkMaxWrapper(int id, String name, boolean isInverted, double P, double I, double D, double maxAcceleration,
+    public SparkMaxWrapper(int id, String name, boolean isInverted, double P, double I, double D,
+            double maxAcceleration,
             double maxVelocity, double allowedErr) {
         this.name = name;
 
@@ -66,6 +70,11 @@ public class SparkMaxWrapper {
 
     public String getName() {
         return name + " (" + sparkMax.getDeviceId() + ")";
+    }
+
+    public Measure<Temperature> getTemperature() {
+        var temp = sparkMax.getMotorTemperature();
+        return Units.Celsius.of(temp);
     }
 
     public void set(double speed) {
