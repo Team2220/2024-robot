@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.lib.MusicToneCommand;
 
 public class RobotSelfCheckCommand extends SequentialCommandGroup {
     public RobotSelfCheckCommand( Command onPassCommand, Command onFailedCommand, CheckableSubsystem... subsystems) {
@@ -18,15 +17,14 @@ public class RobotSelfCheckCommand extends SequentialCommandGroup {
 
                     DataLogManager.log(command.getName() + "  " + subsystem.getName() + interrupted);
                 }).withTimeout(command.getTimeoutSeconds()));
-                
+
             }
         }
-        addCommands(Commands.runOnce(()->{
-            DataLogManager.log("anyFailed="+ anyFailed);
-            
+        addCommands(Commands.runOnce(() -> {
+            DataLogManager.log("anyFailed=" + anyFailed);
 
         }));
-        addCommands(Commands.either(onFailedCommand, onPassCommand, ()-> anyFailed));
+        addCommands(Commands.either(onFailedCommand, onPassCommand, () -> anyFailed));
     }
 
     public boolean anyFailed = false;

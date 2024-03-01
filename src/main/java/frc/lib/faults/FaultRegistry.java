@@ -3,7 +3,7 @@ package frc.lib.faults;
 import java.util.ArrayList;
 
 public class FaultRegistry {
-    private static ArrayList<Fault> faults = new ArrayList<>(); 
+    private static ArrayList<Fault> faults = new ArrayList<>();
 
     public static boolean hasAnyActive() {
         for (Fault fault : faults) {
@@ -13,7 +13,7 @@ public class FaultRegistry {
         }
         return false;
     }
-    
+
     public static boolean hasAnyPreviouslyActive() {
         for (Fault fault : faults) {
             if (fault.wasActive()) {

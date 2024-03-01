@@ -33,17 +33,17 @@ public class TunableEnum<V extends Enum<V>> {
     this.defaultValue = defaultValue;
 
     if (tunable) {
-        autoChooser = new SendableChooser<>();
-        shuffleboardWidget = Shuffleboard.getTab(tab).add(name, autoChooser);
-        autoChooser.setDefaultOption(defaultValue.name(), defaultValue);
-        
-        EnumSet<V> myEnums = EnumSet.allOf(klass);
-        for (V value : myEnums) {
-            autoChooser.addOption(value.name(), value);
-        }
+      autoChooser = new SendableChooser<>();
+      shuffleboardWidget = Shuffleboard.getTab(tab).add(name, autoChooser);
+      autoChooser.setDefaultOption(defaultValue.name(), defaultValue);
+
+      EnumSet<V> myEnums = EnumSet.allOf(klass);
+      for (V value : myEnums) {
+        autoChooser.addOption(value.name(), value);
+      }
     } else {
-        shuffleboardWidget = null;
-        autoChooser = null;
+      shuffleboardWidget = null;
+      autoChooser = null;
     }
   }
 
@@ -73,8 +73,8 @@ public class TunableEnum<V extends Enum<V>> {
    * @return Value as a double
    */
   public V getValue() {
-    if (autoChooser!= null) {
-        return autoChooser.getSelected();
+    if (autoChooser != null) {
+      return autoChooser.getSelected();
     }
     return defaultValue;
   }

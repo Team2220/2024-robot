@@ -2,11 +2,12 @@ package frc.robot.subsystems;
 
 import java.util.function.DoubleSupplier;
 
+import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.ShuffleBoardTabWrapper;
 import frc.lib.SparkMaxWrapper;
-import frc.lib.TalonFXWrapper;
+import frc.lib.UnitsUtil;
 import frc.lib.selfCheck.CheckCommand;
 import frc.lib.selfCheck.CheckableSubsystem;
 import frc.lib.tunables.TunableDouble;
@@ -20,9 +21,9 @@ public class Shooter extends SubsystemBase implements CheckableSubsystem, Shuffl
 
     public Shooter() {
         shooterSpeed = addTunableDouble("shooterSpeed", 7000);
-        tolerance = addTunableDouble("tolerance", 100);
-        left = new SparkMaxWrapper(Constants.Shooter.id_left, "leftShooter", true, 0.000115, 0, 0, 0, 0, 0);
-        right = new SparkMaxWrapper(Constants.Shooter.id_right, "rightShooter", false, 0.000115, 0, 0, 0, 0, 0);
+        tolerance = addTunableDouble("tolerance", 300);
+        left = new SparkMaxWrapper(Constants.Shooter.id_left, "leftShooter", true, 0.000115, 0, 0, UnitsUtil.rotationsPerSecSq(0), Units.RotationsPerSecond.of(0), 0);
+        right = new SparkMaxWrapper(Constants.Shooter.id_right, "rightShooter", false, 0.000115, 0, 0, UnitsUtil.rotationsPerSecSq(0), Units.RotationsPerSecond.of(0), 0);
 
         addGraph("ShooterVelocityRight", () -> right.getVelocity() * Constants.Shooter.gear_ratio);
         addGraph("ShooterVelocityLeft", () -> left.getVelocity() * Constants.Shooter.gear_ratio);
@@ -30,7 +31,7 @@ public class Shooter extends SubsystemBase implements CheckableSubsystem, Shuffl
 
     public Command dutyCycleCommand(DoubleSupplier speed) {
         return this.run(() -> {
-            left.set(speed.getAsDouble() * .85);
+            left.set(speed.getAsDouble());
             right.set(speed.getAsDouble());
         });
     }
@@ -39,9 +40,6 @@ public class Shooter extends SubsystemBase implements CheckableSubsystem, Shuffl
         return this.run(() -> {
             left.set(speed);
             right.set(speed);
-        }).finallyDo(() -> {
-            left.set(0);
-            right.set(0);
         });
     }
 
@@ -66,33 +64,32 @@ public class Shooter extends SubsystemBase implements CheckableSubsystem, Shuffl
         left.setReference(speed * Constants.Shooter.gear_ratio);
         right.setReference(speed * Constants.Shooter.gear_ratio);
     }
-    public void stopShooter(){
+
+    public void stopShooter() {
         left.set(0);
         right.set(0);
     }
 
     // public Command shooterReady() {
-    //     return this.run(() -> {
-    //         left.set(1);
-    //         right.set(1);
-    //         if (shooterSpeed.getValue() > 7500) {
-    //             conveyor.set(.5);
-    //         } else {
-    //             conveyor.set(0);
-    //         }
-    //     });
+    // return this.run(() -> {
+    // if (shooterSpeed.getValue() > 7500) {
+    // conveyor.set(.5);
+    // } else {
+    // conveyor.set(0);
+    // }
+    // });
     // }
 
     // public Command ampShot() {
-    //     return this.run(() -> {
-    //         left.set(-1);
-    //         right.set(-1);
-    //         if (shooterSpeed.getValue() < -7500) {
-    //             conveyor.set(1);
-    //         } else {
-    //             conveyor.set(0);
-    //         }
-    //     });
+    // return this.run(() -> {
+    // left.set(-1);
+    // right.set(-1);
+    // if (shooterSpeed.getValue() < -7500) {
+    // conveyor.set(1);
+    // } else {
+    // conveyor.set(0);
+    // }
+    // });
     // }
 
     @Override

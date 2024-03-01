@@ -2,16 +2,27 @@ package frc.lib;
 
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
+import java.util.function.Supplier;
 
+import edu.wpi.first.units.Measure;
+import edu.wpi.first.units.Unit;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.SuppliedValueWidget;
 import frc.lib.tunables.TunableDouble;
 
-public interface ShuffleBoardTabWrapper {
+public interface ShuffleBoardTabWrapper<U extends Unit<U>> {
     default void addGraph(String name, DoubleSupplier supplier) {
         Shuffleboard.getTab(getName())
                 .addDouble(name, supplier)
+                .withWidget(BuiltInWidgets.kGraph);
+    }
+
+    default void addGraph(String name, Supplier<Measure<U>> supplier, Unit<U> unit) {
+        Shuffleboard.getTab(getName())
+                .addDouble(name, () -> {
+                    return supplier.get().in(unit);
+                })
                 .withWidget(BuiltInWidgets.kGraph);
     }
 

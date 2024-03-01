@@ -28,8 +28,7 @@ public final class Constants {
   }
 
   public static class Shooter {
-    public static final int id_left = 4
-    ;
+    public static final int id_left = 4;
     public static final int id_right = 5;
     public static final double gear_ratio = 30.0 / 18.0;
   }
@@ -38,6 +37,7 @@ public final class Constants {
     public static final int id_intake = 3;
     public static final int id_conv = 5;
     public static final int noteSensorId = 0;
+    public static final int bottomNoteSensorID = 1;
   }
 
   public static class Arm {

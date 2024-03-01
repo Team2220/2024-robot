@@ -1,4 +1,5 @@
 package frc.lib;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -11,7 +12,8 @@ public class InstallAlert {
     public static void main(String[] args) throws IOException {
         // checking if alerts exist already
         Path filePathObj = Paths
-                .get(System.getProperty("user.home") + File.separator + "Shuffleboard" + File.separator + "plugins" + File.separator + "NetworkAlerts.jar");
+                .get(System.getProperty("user.home") + File.separator + "Shuffleboard" + File.separator + "plugins"
+                        + File.separator + "NetworkAlerts.jar");
         boolean fileExists = Files.exists(filePathObj);
         if (!fileExists) {
             ReadableByteChannel rbcObj = null;
@@ -21,7 +23,8 @@ public class InstallAlert {
                         "https://github.com/Mechanical-Advantage/NetworkAlerts/releases/download/v1.0.0/NetworkAlerts.jar");
                 rbcObj = Channels.newChannel(urlObj.openStream());
                 fOutStream = new FileOutputStream(
-                        System.getProperty("user.home") + File.separator + "Shuffleboard" + File.separator + "plugins" + File.separator + "NetworkAlerts.jar");
+                        System.getProperty("user.home") + File.separator + "Shuffleboard" + File.separator + "plugins"
+                                + File.separator + "NetworkAlerts.jar");
 
                 fOutStream.getChannel().transferFrom(rbcObj, 0, Long.MAX_VALUE);
                 System.out.println("! Shuffleboard Alerts Succesfully Downloaded !");

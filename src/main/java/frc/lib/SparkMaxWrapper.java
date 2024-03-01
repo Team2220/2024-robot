@@ -6,16 +6,21 @@ import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.FaultID;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
+import edu.wpi.first.units.Angle;
+import edu.wpi.first.units.Measure;
+import edu.wpi.first.units.Temperature;
+import edu.wpi.first.units.Units;
+import edu.wpi.first.units.Velocity;
 import frc.lib.faults.SparkMaxLogPowerFaults;
 import frc.lib.tunables.TunableDouble;
-
+import frc.lib.tunables.TunableMeasure;
 public class SparkMaxWrapper {
     public String name;
     public CANSparkMax sparkMax;
     public SparkPIDController pidController;
 
-    public SparkMaxWrapper(int id, String name, boolean isInverted, double P, double I, double D, double maxAcceleration,
-            double maxVelocity, double allowedErr) {
+    public SparkMaxWrapper(int id, String name, boolean isInverted, double P, double I, double D,
+            Measure<Velocity<Velocity<Angle>>> maxAcceleration, Measure<Velocity<Angle>> maxVelocity, double allowedErr) {
         this.name = name;
 
         sparkMax = new CANSparkMax(id, MotorType.kBrushless);
@@ -36,12 +41,13 @@ public class SparkMaxWrapper {
             pidController.setD(value);
         });
 
-        new TunableDouble("maxAcceleration", maxAcceleration, getName(), value -> {
-            pidController.setSmartMotionMaxAccel(value, 0);
+        new TunableMeasure<>("maxAcceleration", maxAcceleration, getName(), value -> {
+            pidController.setSmartMotionMaxAccel(value.in(Units.RotationsPerSecond.per(Units.Seconds)), 0);
         });
+    
 
-        new TunableDouble("maxVelocity", maxVelocity, getName(), value -> {
-            pidController.setSmartMotionMaxVelocity(value, 0);
+        new TunableMeasure<>("maxVelocity", maxVelocity, getName(), value -> {
+            pidController.setSmartMotionMaxVelocity(value.in(Units.RotationsPerSecond   ), 0);
         });
 
         new TunableDouble("allowedErr", allowedErr, getName(), value -> {
@@ -53,7 +59,7 @@ public class SparkMaxWrapper {
     }
 
     public SparkMaxWrapper(int id, String name, boolean isInverted) {
-        this(id, name, isInverted, 0, 0, 0, 0, 0, 0);
+        this(id, name, isInverted, 0, 0, 0, UnitsUtil.rotationsPerSecSq(0), Units.RotationsPerSecond.of(0), 0);
     }
 
     public boolean getStickyFault(FaultID faultID) {
@@ -66,6 +72,11 @@ public class SparkMaxWrapper {
 
     public String getName() {
         return name + " (" + sparkMax.getDeviceId() + ")";
+    }
+
+    public Measure<Temperature> getTemperature() {
+        var temp = sparkMax.getMotorTemperature();
+        return Units.Celsius.of(temp);
     }
 
     public void set(double speed) {
