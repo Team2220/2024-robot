@@ -1,7 +1,9 @@
 package frc.lib;
 
 import com.ctre.phoenix6.controls.ControlRequest;
+import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
+import com.ctre.phoenix6.controls.MusicTone;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -181,5 +183,21 @@ public class TalonFXWrapper {
     // multaplying by 10 to convert duty cycle to voltage
     public void set(double speed) {
         talon.setControl(new VoltageOut(speed * 10));
+    }
+
+    public void setMotionMagicVoltage(double position) {
+        talon.setControl(new MotionMagicVoltage(position));
+    }
+
+    public void setVoltageOut(double voltage) {
+        talon.setControl(new VoltageOut(voltage));
+    }
+
+    public void setDutyCycleOut(double cycle) {
+        talon.setControl(new DutyCycleOut(cycle));
+    }
+
+    public void setMusicTone(double frequency) {
+        talon.setControl(new MusicTone(frequency));
     }
 }

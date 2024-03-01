@@ -31,11 +31,11 @@ public class SpinTalonCheck extends CheckCommand {
 
     @Override
     public void end(boolean interrupted) {
-        talon.setControl(new DutyCycleOut(0));
+        talon.setDutyCycleOut(0);
     }
 
     @Override
     public void execute() {
-        talon.setControl(new DutyCycleOut(0.25));
+        talon.setDutyCycleOut(0.25);
     }
 }
