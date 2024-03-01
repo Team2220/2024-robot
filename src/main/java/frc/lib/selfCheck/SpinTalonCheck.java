@@ -15,12 +15,16 @@ public class SpinTalonCheck extends CheckCommand {
     @Override
     public void initialize() {
         position = talon.getRotorPosition().getValueAsDouble();
+        System.out.println(position);
+
 
     }
 
     @Override
     public boolean isFinished() {
+        System.out.println(talon.getRotorPosition().getValueAsDouble());
         return Math.abs(position - talon.getRotorPosition().getValueAsDouble()) > 10;
+        
     }
 
     @Override

@@ -200,7 +200,7 @@ private final Field2d m_limeLightField = new Field2d();
 
     public void periodic() {
         m_poseEstimatorField.setRobotPose(getPose());
-        LimelightHelpers.PoseEstimate limelightMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight");
+        LimelightHelpers.PoseEstimate limelightMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight-right");
         m_limeLightField.setRobotPose(limelightMeasurement.pose);
         gyroAngle.setDouble(getGyroscopeRotation().getDegrees());
         poseEstimator.update(
