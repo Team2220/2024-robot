@@ -14,13 +14,16 @@ import edu.wpi.first.units.Velocity;
 import frc.lib.faults.SparkMaxLogPowerFaults;
 import frc.lib.tunables.TunableDouble;
 import frc.lib.tunables.TunableMeasure;
+import frc.lib.units.UnitsUtil;
+
 public class SparkMaxWrapper {
     public String name;
     public CANSparkMax sparkMax;
     public SparkPIDController pidController;
 
     public SparkMaxWrapper(int id, String name, boolean isInverted, double P, double I, double D,
-            Measure<Velocity<Velocity<Angle>>> maxAcceleration, Measure<Velocity<Angle>> maxVelocity, double allowedErr) {
+            Measure<Velocity<Velocity<Angle>>> maxAcceleration, Measure<Velocity<Angle>> maxVelocity,
+            double allowedErr) {
         this.name = name;
 
         sparkMax = new CANSparkMax(id, MotorType.kBrushless);
@@ -44,10 +47,9 @@ public class SparkMaxWrapper {
         new TunableMeasure<>("maxAcceleration", maxAcceleration, getName(), value -> {
             pidController.setSmartMotionMaxAccel(value.in(Units.RotationsPerSecond.per(Units.Seconds)), 0);
         });
-    
 
         new TunableMeasure<>("maxVelocity", maxVelocity, getName(), value -> {
-            pidController.setSmartMotionMaxVelocity(value.in(Units.RotationsPerSecond   ), 0);
+            pidController.setSmartMotionMaxVelocity(value.in(Units.RotationsPerSecond), 0);
         });
 
         new TunableDouble("allowedErr", allowedErr, getName(), value -> {

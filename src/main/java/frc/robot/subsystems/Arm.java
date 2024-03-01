@@ -25,13 +25,19 @@ public class Arm extends SubsystemBase implements CheckableSubsystem {
                 110.0 / 360.0 * Constants.Arm.ARM_GEAR_RATIO, 0);
         Shuffleboard.getTab("Arm").addDouble("ArmAngle",
                 () -> ArmTalonFX.getRotorPosition().refresh().getValueAsDouble() / Constants.Arm.ARM_GEAR_RATIO * 360);
-
     }
 
     public Command dutyCycleCommand(DoubleSupplier speed) {
         return this.run(() -> {
-            ArmTalonFX.setVoltageOut(speed.getAsDouble() * 10);
+            var spd = speed.getAsDouble() * 10;
+            ArmTalonFX.setVoltageOut(Units.Volts.of(spd));
         });
+    }
+
+    public double getCurrentDegreeValue() {
+
+        return ArmTalonFX.getRotorPosition().getValueAsDouble() * 360.0 / Constants.Arm.ARM_GEAR_RATIO;
+
     }
 
     public Command overrideSoftLimits() {
@@ -46,13 +52,19 @@ public class Arm extends SubsystemBase implements CheckableSubsystem {
         ArmTalonFX.holdPosition();
     }
 
+    public boolean atPosition(double degrees, double tolarance){
+return Math.abs((degrees)-(getCurrentDegreeValue())) <= tolarance;
+
+
+    }
+
     public void setDutyCycle(double value) {
         ArmTalonFX.set(value);
     }
 
     public void setPosition(double degrees) {
-
-        ArmTalonFX.setMotionMagicVoltage(degrees / 360.0 * Constants.Arm.ARM_GEAR_RATIO);
+        var deg = degrees / 360.0 * Constants.Arm.ARM_GEAR_RATIO;
+        ArmTalonFX.setMotionMagicVoltage(Units.Degrees.of(deg));
     }
 
     public void setZero() {
@@ -62,7 +74,7 @@ public class Arm extends SubsystemBase implements CheckableSubsystem {
     public Command setPositionCommand(double degrees) {
         return this.run(() -> {
             this.setPosition(degrees);
-        });
+        }).until(() -> atPosition(degrees, 2));
     }
 
     @Override

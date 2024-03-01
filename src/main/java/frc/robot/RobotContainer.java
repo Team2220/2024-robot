@@ -86,14 +86,17 @@ public class RobotContainer {
         m_arm.holdPosition();
       }
     }, m_arm);
+    m_operatorController.leftTrigger().whileTrue(intake.setDutyCycleCommand(.75));
+    m_operatorController.leftBumper().whileTrue(intake.setDutyCycleCommand(-.75));
     m_operatorController.leftYTrigger().onTrue(armCommand);
     m_arm.setDefaultCommand(armCommand);
-    m_operatorController.rightBumper().whileTrue(shooter.velocityCommand());
-    m_operatorController.a().onTrue(Commands.runOnce(m_arm::setZero, m_arm));
+    m_operatorController.rightTrigger().whileTrue(shooter.velocityCommand());
+    m_operatorController.rightBumper().whileTrue(shooter.velocityCommandy());
+    m_operatorController.start().onTrue(Commands.runOnce(m_arm::setZero, m_arm));
     m_operatorController.y().onTrue(m_arm.setPositionCommand(90));
-    m_operatorController.b().onTrue(m_arm.setPositionCommand(45));
+    m_operatorController.b().onTrue(m_arm.setPositionCommand(32));
     m_operatorController.leftStick().whileTrue(m_arm.overrideSoftLimits());
-    m_operatorController.x().onTrue(m_arm.setPositionCommand(51));
+    m_operatorController.x().onTrue(m_arm.setPositionCommand(51.7));
 
     var driveCommand = driveTrain.driveCommand(() -> {
       double coefficient = m_driverController.getHID().getLeftBumper() ? 0.5 : 1;
@@ -125,6 +128,15 @@ public class RobotContainer {
     }, m_arm).withTimeout(2));
     NamedCommands.registerCommand("armRest", Commands.runOnce(() -> {
       m_arm.setPosition(20);
+    }, m_arm));
+    NamedCommands.registerCommand("3.1", Commands.runOnce(() -> {
+      m_arm.setPosition(32);
+    }, m_arm));
+    NamedCommands.registerCommand("3.2", Commands.runOnce(() -> {
+      m_arm.setPosition(34);
+    }, m_arm));
+    NamedCommands.registerCommand("3.2", Commands.runOnce(() -> {
+      m_arm.setPosition(28);
     }, m_arm));
     NamedCommands.registerCommand("intake", intake.setIntakeUntilQueued());
     NamedCommands.registerCommand("intakeShot", intake.setDutyCycleCommand(.75).withTimeout(1));
