@@ -30,7 +30,8 @@ public class Arm extends SubsystemBase implements CheckableSubsystem {
 
     public Command dutyCycleCommand(DoubleSupplier speed) {
         return this.run(() -> {
-            ArmTalonFX.setVoltageOut(speed.getAsDouble() * 10);
+            var spd = speed.getAsDouble() * 10;
+            ArmTalonFX.setVoltageOut(Units.Volts.of(spd));
         });
     }
 
@@ -51,8 +52,8 @@ public class Arm extends SubsystemBase implements CheckableSubsystem {
     }
 
     public void setPosition(double degrees) {
-
-        ArmTalonFX.setMotionMagicVoltage(degrees / 360.0 * Constants.Arm.ARM_GEAR_RATIO);
+        var deg = degrees / 360.0 * Constants.Arm.ARM_GEAR_RATIO;
+        ArmTalonFX.setMotionMagicVoltage(Units.Degrees.of(deg));
     }
 
     public void setZero() {

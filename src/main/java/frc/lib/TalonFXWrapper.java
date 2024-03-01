@@ -15,6 +15,7 @@ import edu.wpi.first.units.Angle;
 import edu.wpi.first.units.Measure;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.units.Velocity;
+import edu.wpi.first.units.Voltage;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.lib.faults.Fault;
 import frc.lib.faults.TalonFXLogPowerFaults;
@@ -181,12 +182,12 @@ public class TalonFXWrapper {
         talon.setControl(new VoltageOut(speed * 10));
     }
 
-    public void setMotionMagicVoltage(double position) {
-        talon.setControl(new MotionMagicVoltage(position));
+    public void setMotionMagicVoltage(Measure<Angle> position) {
+        talon.setControl(new MotionMagicVoltage(position.in(Units.Rotations)));
     }
 
-    public void setVoltageOut(double voltage) {
-        talon.setControl(new VoltageOut(voltage));
+    public void setVoltageOut(Measure<Voltage> voltage) {
+        talon.setControl(new VoltageOut(voltage.in(Units.Volts)));
     }
 
     public void setDutyCycleOut(double cycle) {
