@@ -13,6 +13,7 @@ import frc.lib.leds.LEDs;
 import frc.lib.leds.LedSignal;
 import frc.lib.selfCheck.RobotSelfCheckCommand;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.ShootCommand;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
@@ -135,7 +136,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("3.2", Commands.runOnce(() -> {
       m_arm.setPosition(34);
     }, m_arm));
-    NamedCommands.registerCommand("3.2", Commands.runOnce(() -> {
+    NamedCommands.registerCommand("3.3", Commands.runOnce(() -> {
       m_arm.setPosition(28);
     }, m_arm));
     NamedCommands.registerCommand("intake", intake.setIntakeUntilQueued());
@@ -149,7 +150,7 @@ public class RobotContainer {
 
     NamedCommands.registerCommand("conveyor", intake.setDutyCycleCommand(.5).withTimeout(2));
     NamedCommands.registerCommand("shooter+", Commands.run(() -> {
-      shooter.setDefaultSpeed();
+      shooter.setDefaultSpeed(true);
     }, shooter).withTimeout(15));
 
     autoChooser = AutoBuilder.buildAutoChooser();
@@ -180,38 +181,16 @@ public class RobotContainer {
     m_driverController.start().onTrue(driveTrain.zeroCommand());
     m_driverController.x().whileTrue((driveTrain.xcommand()));
 
-    // m_driverController.y().whileTrue(Commands.run(shooter::setDefaultSpeed, shooter))
-    //     .onFalse(Commands.startEnd(() -> {
-    //       if (shooter.isAtSetPoint()) {
-    //         shooter.setDefaultSpeed();
-    //         intake.setSpeed(.75);
-    //       } else {
-    //         shooter.setDefaultSpeed();
-    //         intake.setSpeed(0);
-    //       }
-    //     }, () -> {
-    //       shooter.stopShooter();
-    //       intake.setSpeed(0);
-    //     }, shooter, intake).withTimeout(2));
+    m_driverController.y().whileTrue(Commands.run(()->{shooter.setDefaultSpeed(false);}, shooter))
+        .onFalse(new ShootCommand(false, shooter, intake).withTimeout(2));
 
     m_driverController.b().onTrue(m_arm.setPositionCommand(55));
     m_driverController.a().onTrue(m_arm.setPositionCommand(0));
     // m_driverController.rightTrigger().whileTrue(shooter.shooterReady());
     // m_driverController.rightBumper().whileTrue(new ShootCommand(shooter,
     // intake));
-    m_driverController.rightTrigger().whileTrue(Commands.run(shooter::setDefaultSpeed, shooter))
-        .onFalse(Commands.startEnd(() -> {
-          if (shooter.isAtSetPoint()) {
-            shooter.setDefaultSpeed();
-            intake.setSpeed(.75);
-          } else {
-            shooter.setDefaultSpeed();
-            intake.setSpeed(0);
-          }
-        }, () -> {
-          shooter.stopShooter();
-          intake.setSpeed(0);
-        }, shooter, intake).withTimeout(1));
+    m_driverController.y().whileTrue(Commands.run(()->{shooter.setDefaultSpeed(true);}, shooter))
+    .onFalse(new ShootCommand(true, shooter, intake).withTimeout(2));
 
     m_driverController.rightBumper().onTrue(shooter.setDutyCycleCommand(0));
 

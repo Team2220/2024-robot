@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.0,
-        "y": 0.0
+        "x": 0.7802128811804795,
+        "y": 6.472823778055991
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.0,
-        "y": 0.0
+        "x": 1.9275847652694196,
+        "y": 5.720147822093647
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.0,
-        "y": 0.0
+        "x": 8.297793465731218,
+        "y": 7.436616160690702
       },
       "prevControl": {
-        "x": 1.0,
-        "y": 0.0
+        "x": 7.370716983387354,
+        "y": 7.4274371856179915
       },
       "nextControl": null,
       "isLocked": false,
@@ -32,8 +32,8 @@
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "New Event Marker",
-      "waypointRelativePos": 0.4,
+      "name": "jil",
+      "waypointRelativePos": 0.5,
       "command": {
         "type": "parallel",
         "data": {
@@ -42,6 +42,12 @@
               "type": "named",
               "data": {
                 "name": "intake"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "3.1"
               }
             }
           ]
@@ -57,13 +63,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
+    "rotation": 0.0,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "Sectret",
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": 61.389540334034564,
     "velocity": 0
   },
   "useDefaultConstraints": true

@@ -7,17 +7,21 @@ import frc.robot.subsystems.Shooter;
 public class ShootCommand extends Command {
     Shooter shooter;
     Intake intake;
+    boolean forward;
 
-    public ShootCommand(Shooter shooter, Intake intake) {
+    public ShootCommand(boolean forward, Shooter shooter, Intake intake) {
         this.shooter = shooter;
         this.intake = intake;
+        this.forward = forward;
     }
 
     @Override
-    public void execute() {
-        shooter.setDefaultSpeed();
+    public void initialize() {
+        shooter.setDefaultSpeed(forward);
         if (shooter.isAtSetPoint()) {
             intake.setSpeed(.75);
+        } else {
+            intake.setSpeed(0);
         }
     }
 

@@ -40,13 +40,13 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "path 1"
+                        "pathName": null
                       }
                     },
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "path 2"
+                        "pathName": null
                       }
                     },
                     {
