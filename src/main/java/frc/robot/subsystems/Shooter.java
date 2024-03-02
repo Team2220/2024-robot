@@ -1,8 +1,5 @@
 package frc.robot.subsystems;
 
-import static edu.wpi.first.units.Units.RPM;
-import static edu.wpi.first.units.Units.Seconds;
-
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.units.Angle;
@@ -16,7 +13,6 @@ import frc.lib.SparkMaxWrapper;
 import frc.lib.selfCheck.CheckCommand;
 import frc.lib.selfCheck.CheckableSubsystem;
 import frc.lib.selfCheck.SparkMAXSpinCheck;
-import frc.lib.tunables.TunableDouble;
 import frc.lib.tunables.TunableMeasure;
 import frc.lib.units.UnitsUtil;
 import frc.robot.Constants;

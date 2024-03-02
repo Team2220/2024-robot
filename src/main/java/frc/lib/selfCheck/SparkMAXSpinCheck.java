@@ -1,13 +1,9 @@
 package frc.lib.selfCheck;
 
-import com.ctre.phoenix6.controls.DutyCycleOut;
-
 import edu.wpi.first.units.Angle;
 import edu.wpi.first.units.Measure;
 import edu.wpi.first.units.Units;
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import frc.lib.SparkMaxWrapper;
-import frc.lib.TalonFXWrapper;
 import frc.lib.units.UnitsUtil;
 
 public class SparkMAXSpinCheck extends CheckCommand {

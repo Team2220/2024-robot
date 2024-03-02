@@ -80,6 +80,13 @@ public class Arm extends SubsystemBase implements CheckableSubsystem {
         // .until(() -> atPosition(degrees, 2));
     }
 
+      public Command setPositionOnceCommand(double degrees) {
+        return this.run(() -> {
+            this.setPosition(degrees);
+        }).until(() -> atPosition(degrees,2));
+    }
+
+
     @Override
     public CheckCommand[] getCheckCommands() {
         return new CheckCommand[] {};

@@ -128,7 +128,8 @@ public class RobotContainer {
             LedSignal.isEndGame(),
             LedSignal.hasgamepiceLedSignal(intake::getBottomNoteSensor),
             // LedSignal.hasActiveFault(),
-            LedSignal.getLowBatteryLedSignal()
+            LedSignal.getLowBatteryLedSignal(),
+            LedSignal.shooterAtSetPoint(()-> shooter.isAtSetPoint())
         });
     NamedCommands.registerCommand("test print", Commands.print("heloo foortnite"));
     NamedCommands.registerCommand("armSpeakerPos", Commands.run(() -> {
