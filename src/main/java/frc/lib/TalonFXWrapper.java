@@ -42,8 +42,8 @@ public class TalonFXWrapper {
             Measure<Velocity<Velocity<Velocity<Angle>>>> Jerk,
             boolean forwardSoftLimitEnable,
             boolean reverseSoftLimitEnable,
-            double forwardSoftLimitTreshold,
-            double reverseSoftLimitThreshold) {
+            Measure<Angle> forwardSoftLimitTreshold,
+            Measure<Angle> reverseSoftLimitThreshold) {
         talon = new TalonFX(id);
         this.name = name;
         // firmwareVersionSignal = talon.getVersion();
@@ -68,8 +68,8 @@ public class TalonFXWrapper {
 
         talonFXConfigs.SoftwareLimitSwitch.ForwardSoftLimitEnable = forwardSoftLimitEnable;
         talonFXConfigs.SoftwareLimitSwitch.ReverseSoftLimitEnable = reverseSoftLimitEnable;
-        talonFXConfigs.SoftwareLimitSwitch.ForwardSoftLimitThreshold = forwardSoftLimitTreshold;
-        talonFXConfigs.SoftwareLimitSwitch.ReverseSoftLimitThreshold = reverseSoftLimitThreshold;
+        talonFXConfigs.SoftwareLimitSwitch.ForwardSoftLimitThreshold = forwardSoftLimitTreshold.in(Units.Rotations);
+        talonFXConfigs.SoftwareLimitSwitch.ReverseSoftLimitThreshold = reverseSoftLimitThreshold.in(Units.Rotations);
 
         talonFXConfigs.Voltage.PeakForwardVoltage = 10;
         talonFXConfigs.Voltage.PeakReverseVoltage = -10;
@@ -138,8 +138,8 @@ public class TalonFXWrapper {
                 UnitsUtil.rotationsPerSecCubed(0),
                 false,
                 false,
-                0,
-                0);
+                Units.Rotations.of(0),
+                Units.Rotations.of(0));
     }
 
     public void setSoftLimitsEnabled(boolean enabled) {
