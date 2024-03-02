@@ -126,7 +126,8 @@ public class RobotContainer {
             LedSignal.isDSConnected(),
             // LedSignal.hasTarget(),
             LedSignal.isEndGame(),
-            LedSignal.hasgamepiceLedSignal(intake::getBottomNoteSensor),
+            LedSignal.hasgamepiceBottomLedSignal(intake::getBottomNoteSensor),
+            LedSignal.hasgamepiceTopLedSignal(intake::getTopNoteSensor),
             // LedSignal.hasActiveFault(),
             LedSignal.getLowBatteryLedSignal(),
             LedSignal.shooterAtSetPoint(()-> shooter.isAtSetPoint())
