@@ -20,6 +20,8 @@ import frc.robot.subsystems.Shooter;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
+
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
@@ -153,8 +155,14 @@ public class RobotContainer {
       shooter.setDefaultSpeed(true);
     }, shooter).withTimeout(15));
 
-    autoChooser = AutoBuilder.buildAutoChooser();
+    try {
+      autoChooser = AutoBuilder.buildAutoChooser();
+      SmartDashboard.putData("Auto Chooser", autoChooser);
 
+    } catch (Exception exception) {
+      DriverStation.reportError(exception.toString(), exception.getStackTrace());
+
+    }
     // Another option that allows you to specify the default auto by its name
     // autoChooser = AutoBuilder.buildAutoChooser("My Default Auto");
 
@@ -181,7 +189,9 @@ public class RobotContainer {
     m_driverController.start().onTrue(driveTrain.zeroCommand());
     m_driverController.x().whileTrue((driveTrain.xcommand()));
 
-    m_driverController.y().whileTrue(Commands.run(()->{shooter.setDefaultSpeed(false);}, shooter))
+    m_driverController.y().whileTrue(Commands.run(() -> {
+      shooter.setDefaultSpeed(false);
+    }, shooter))
         .onFalse(new ShootCommand(false, shooter, intake).withTimeout(2));
 
     m_driverController.b().onTrue(m_arm.setPositionCommand(55));
@@ -189,8 +199,10 @@ public class RobotContainer {
     // m_driverController.rightTrigger().whileTrue(shooter.shooterReady());
     // m_driverController.rightBumper().whileTrue(new ShootCommand(shooter,
     // intake));
-    m_driverController.y().whileTrue(Commands.run(()->{shooter.setDefaultSpeed(true);}, shooter))
-    .onFalse(new ShootCommand(true, shooter, intake).withTimeout(2));
+    m_driverController.y().whileTrue(Commands.run(() -> {
+      shooter.setDefaultSpeed(true);
+    }, shooter))
+        .onFalse(new ShootCommand(true, shooter, intake).withTimeout(2));
 
     m_driverController.rightBumper().onTrue(shooter.setDutyCycleCommand(0));
 
