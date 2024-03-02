@@ -20,8 +20,6 @@ public class ShootCommand extends Command {
         shooter.setDefaultSpeed(forward);
         if (shooter.isAtSetPoint()) {
             intake.setSpeed(.75);
-        } else {
-            intake.setSpeed(0);
         }
     }
 

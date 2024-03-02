@@ -138,7 +138,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("3.2", Commands.runOnce(() -> {
       m_arm.setPosition(34);
     }, m_arm));
-    NamedCommands.registerCommand("3.3", Commands.runOnce(() -> {
+    NamedCommands.registerCommand("3.2", Commands.runOnce(() -> {
       m_arm.setPosition(28);
     }, m_arm));
     NamedCommands.registerCommand("intake", intake.setIntakeUntilQueued());
