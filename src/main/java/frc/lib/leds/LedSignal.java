@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotController;
 import frc.lib.faults.FaultRegistry;
 import frc.lib.tunables.TunableDouble;
-import frc.robot.Constants.Shooter;
 
 public class LedSignal {
     String name;
