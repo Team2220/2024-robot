@@ -98,7 +98,7 @@ public class RobotContainer {
     m_operatorController.rightBumper().whileTrue(shooter.velocityCommandy());
     m_operatorController.start().onTrue(Commands.runOnce(m_arm::setZero, m_arm));
     m_operatorController.y().onTrue(m_arm.setPositionCommand(90));
-    m_operatorController.b().onTrue(m_arm.setPositionCommand(32));
+    m_operatorController.b().onTrue(m_arm.setPositionCommand(55));
     m_operatorController.leftStick().whileTrue(m_arm.overrideSoftLimits());
     m_operatorController.x().onTrue(m_arm.setPositionCommand(51.7));
     m_operatorController.povUp().onTrue(Commands.runOnce(()->{
