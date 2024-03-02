@@ -23,6 +23,7 @@ import edu.wpi.first.units.Angle;
 import edu.wpi.first.units.Measure;
 import edu.wpi.first.units.Velocity;
 import edu.wpi.first.units.Voltage;
+import edu.wpi.first.wpilibj2.command.Commands;
 import frc.lib.faults.Fault;
 import frc.lib.faults.TalonFXLogPowerFaults;
 import frc.lib.tunables.TunableDouble;
@@ -122,16 +123,17 @@ public class TalonFXWrapper {
             talon.getConfigurator().apply(talonFXConfigs);
         });
 
-        // RobotControllerTriggers.isSysActive().debounce(2).onFalse(Commands.runOnce(()
-        // -> {
-        // talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Coast;
-        // talon.getConfigurator().apply(talonFXConfigs);
-        // }).ignoringDisable(true));
+        RobotControllerTriggers.isSysActive().onFalse(
+                Commands.waitSeconds(2)
+                        .andThen(Commands.runOnce(() -> {
+                            talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Coast;
+                            talon.getConfigurator().apply(talonFXConfigs);
+                        }).ignoringDisable(true)));
 
-        // RobotControllerTriggers.isSysActive().onTrue(Commands.runOnce(() -> {
-        // talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-        // talon.getConfigurator().apply(talonFXConfigs);
-        // }).ignoringDisable(true));
+        RobotControllerTriggers.isSysActive().onTrue(Commands.runOnce(() -> {
+            talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+            talon.getConfigurator().apply(talonFXConfigs);
+        }).ignoringDisable(true));
     }
 
     public TalonFXWrapper(int id, String name, boolean isInverted) {
