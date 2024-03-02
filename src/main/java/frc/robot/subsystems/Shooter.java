@@ -73,8 +73,8 @@ public class Shooter extends SubsystemBase implements CheckableSubsystem, Shuffl
         });
     }
 
-    public void setDefaultSpeed(boolean forward) {
-        double speed = shooterSpeed.getValue() * (forward ? 1 : -1);
+    public void setDefaultSpeed() {
+        double speed = shooterSpeed.getValue();
         left.setReference(speed * Constants.Shooter.gear_ratio);
         right.setReference(speed * Constants.Shooter.gear_ratio);
     }

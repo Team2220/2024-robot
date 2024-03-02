@@ -36,7 +36,7 @@ public final class Constants {
   public static class Intake {
     public static final int id_intake = 3;
     public static final int id_conv = 5;
-    public static final int noteSensorId = 56;
+    public static final int noteSensorId = 0;
     public static final int bottomNoteSensorID = 1;
   }
 
