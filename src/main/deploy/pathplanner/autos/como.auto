@@ -1,12 +1,6 @@
 {
   "version": 1.0,
-  "startingPose": {
-    "position": {
-      "x": 0.76,
-      "y": 6.5
-    },
-    "rotation": 59.74
-  },
+  "startingPose": null,
   "command": {
     "type": "sequential",
     "data": {
@@ -28,19 +22,13 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "armSpeakerPos"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
                         "name": "intakeShot"
                       }
                     },
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "3.1 left"
+                        "pathName": "3.1 middle"
                       }
                     },
                     {

@@ -28,7 +28,7 @@ public class Shooter extends SubsystemBase implements CheckableSubsystem, Shuffl
     private TunableMeasure<Velocity<Angle>> tolerance;
 
     public Shooter() {
-        shooterSpeed = new TunableMeasure<>("shooterSpeed", Units.RPM.of(700), "Shooter");
+        shooterSpeed = new TunableMeasure<>("shooterSpeed", Units.RPM.of(7000), "Shooter");
         tolerance = new TunableMeasure<>("tolerance", Units.RPM.of(300), "Shooter");
         left = new SparkMaxWrapper(Constants.Shooter.id_left, "leftShooter", true, 0.000115, 0, 0, UnitsUtil.rotationsPerSecSq(0), Units.RotationsPerSecond.of(0), 0);
         right = new SparkMaxWrapper(Constants.Shooter.id_right, "rightShooter", false, 0.000115, 0, 0, UnitsUtil.rotationsPerSecSq(0), Units.RotationsPerSecond.of(0), 0);
