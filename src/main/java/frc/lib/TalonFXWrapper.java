@@ -160,7 +160,7 @@ public class TalonFXWrapper {
     }
 
     public String getName() {
-        return name + " (" + talon.getDeviceID() + ")";
+        return name + " (TalonFX " + talon.getDeviceID() + ")";
     }
 
     public TalonFX getTalon() {

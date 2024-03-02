@@ -72,7 +72,7 @@ public class SparkMaxWrapper {
     }
 
     public String getName() {
-        return name + " (" + sparkMax.getDeviceId() + ")";
+        return name + " (SparkMax" + sparkMax.getDeviceId() + ")";
     }
 
     public Measure<Temperature> getTemperature() {
