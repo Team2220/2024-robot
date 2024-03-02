@@ -12,6 +12,12 @@ public class UnitsUtil<U extends Unit<U>> {
         // hi - dont make instances
     }
 
+    public static final Frequency hertz = new Frequency(1, "Hertz", "Hz");
+    public static final Frequency megaHertz = Units.derive(hertz).aggregate(1000).named("Mega Hertz").symbol("Mhz")
+            .make();
+    public static final Frequency gigaHertz = Units.derive(megaHertz).aggregate(1000).named("Giga Hertz").symbol("Ghz")
+            .make();
+
     public Measure<U> abs(Measure<U> measure) {
         double dMeasure = measure.in(measure.unit());
         return measure.unit().of(Math.abs(dMeasure));
