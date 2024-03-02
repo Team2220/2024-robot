@@ -1,10 +1,15 @@
 package frc.lib.selfCheck;
 
+import static edu.wpi.first.units.Units.Rotations;
+import static frc.lib.units.UnitsUtil.abs;
+
+import edu.wpi.first.units.Angle;
+import edu.wpi.first.units.Measure;
 import frc.lib.TalonFXWrapper;
 
 public class SpinTalonCheck extends CheckCommand {
     TalonFXWrapper talon;
-    double position;
+    Measure<Angle> position;
 
     public SpinTalonCheck(TalonFXWrapper talon) {
         this.talon = talon;
@@ -12,17 +17,16 @@ public class SpinTalonCheck extends CheckCommand {
 
     @Override
     public void initialize() {
-        position = talon.getPosition().getValueAsDouble();
+        position = talon.getPosition();
         System.out.println(position);
-
 
     }
 
     @Override
     public boolean isFinished() {
-        System.out.println(talon.getPosition().getValueAsDouble());
-        return Math.abs(position - talon.getPosition().getValueAsDouble()) > 10;
-        
+        System.out.println(talon.getPosition());
+        return abs(position.minus(talon.getPosition())).gt(Rotations.of(10));
+
     }
 
     @Override
