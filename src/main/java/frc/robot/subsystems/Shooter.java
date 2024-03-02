@@ -10,7 +10,6 @@ import frc.lib.SparkMaxWrapper;
 import frc.lib.selfCheck.CheckCommand;
 import frc.lib.selfCheck.CheckableSubsystem;
 import frc.lib.tunables.TunableDouble;
-import frc.lib.units.UnitsUtil;
 import frc.robot.Constants;
 
 public class Shooter extends SubsystemBase implements CheckableSubsystem, ShuffleBoardTabWrapper {
@@ -23,9 +22,9 @@ public class Shooter extends SubsystemBase implements CheckableSubsystem, Shuffl
         shooterSpeed = addTunableDouble("shooterSpeed", 7000);
         tolerance = addTunableDouble("tolerance", 300);
         left = new SparkMaxWrapper(Constants.Shooter.id_left, "leftShooter", true, 0.000115, 0, 0,
-                UnitsUtil.rotationsPerSecSq(0), Units.RotationsPerSecond.of(0), 0);
+                Units.RPM.per(Units.Seconds).of(0), Units.RPM.of(0), 0);
         right = new SparkMaxWrapper(Constants.Shooter.id_right, "rightShooter", false, 0.000115, 0, 0,
-                UnitsUtil.rotationsPerSecSq(0), Units.RotationsPerSecond.of(0), 0);
+                Units.RPM.per(Units.Seconds).of(0), Units.RPM.of(0), 0);
 
         addGraph("ShooterVelocityRight", () -> right.getVelocity() * Constants.Shooter.gear_ratio);
         addGraph("ShooterVelocityLeft", () -> left.getVelocity() * Constants.Shooter.gear_ratio);
@@ -60,6 +59,7 @@ public class Shooter extends SubsystemBase implements CheckableSubsystem, Shuffl
             right.setReference(0);
         });
     }
+
     public Command velocityCommandy() {
         return this.run(() -> {
             double speed = shooterSpeed.getValue();

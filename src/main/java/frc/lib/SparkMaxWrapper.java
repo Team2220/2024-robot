@@ -14,7 +14,6 @@ import edu.wpi.first.units.Velocity;
 import frc.lib.faults.SparkMaxLogPowerFaults;
 import frc.lib.tunables.TunableDouble;
 import frc.lib.tunables.TunableMeasure;
-import frc.lib.units.UnitsUtil;
 
 public class SparkMaxWrapper {
     public String name;
@@ -45,11 +44,11 @@ public class SparkMaxWrapper {
         });
 
         new TunableMeasure<>("maxAcceleration", maxAcceleration, getName(), value -> {
-            pidController.setSmartMotionMaxAccel(value.in(Units.RotationsPerSecond.per(Units.Seconds)), 0);
+            pidController.setSmartMotionMaxAccel(value.in(Units.RPM.per(Units.Seconds)), 0);
         });
 
         new TunableMeasure<>("maxVelocity", maxVelocity, getName(), value -> {
-            pidController.setSmartMotionMaxVelocity(value.in(Units.RotationsPerSecond), 0);
+            pidController.setSmartMotionMaxVelocity(value.in(Units.RPM), 0);
         });
 
         new TunableDouble("allowedErr", allowedErr, getName(), value -> {
@@ -61,7 +60,7 @@ public class SparkMaxWrapper {
     }
 
     public SparkMaxWrapper(int id, String name, boolean isInverted) {
-        this(id, name, isInverted, 0, 0, 0, UnitsUtil.rotationsPerSecSq(0), Units.RotationsPerSecond.of(0), 0);
+        this(id, name, isInverted, 0, 0, 0, Units.RPM.per(Units.Second).of(0), Units.RPM.of(0), 0);
     }
 
     public boolean getStickyFault(FaultID faultID) {
