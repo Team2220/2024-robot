@@ -36,7 +36,7 @@ public final class Constants {
   public static class Intake {
     public static final int id_intake = 3;
     public static final int id_conv = 5;
-    public static final int noteSensorId = 0;
+    public static final int noteSensorId = 56;
     public static final int bottomNoteSensorID = 1;
   }
 
@@ -49,6 +49,6 @@ public final class Constants {
     public static final String LEFT_NAME = "limelight-left";
     public static final String RIGHT_NAME = "limelight-right";
     public static final String LEFT_URL = "http://10.22.20.10:5800/stream.mjpg";
-    public static final String RIGHT_URL = "http://10.22.20.11:5800/stream.mjpg";
+    public static final String RIGHT_URL = "http://10.22.20.22:5801/stream.mjpg";
   }
 }

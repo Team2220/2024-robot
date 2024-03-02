@@ -1,143 +1,178 @@
 package frc.lib.faults;
 
+import java.util.List;
+import java.util.function.Supplier;
+
+import com.ctre.phoenix6.StatusCode;
+import com.ctre.phoenix6.StatusSignal;
+
 import frc.lib.TalonFXWrapper;
+import frc.lib.eventLoops.EventLoops;
 
 public class TalonFXLogPowerFaults {
 
+    static class StickyFaults {
+        private Supplier<StatusSignal<Boolean>> stickyFaultSignal;
+        private Supplier<StatusCode> stickyFaultyCode;
+        private Fault fault;
+
+        StickyFaults(String stickyFaultName, Supplier<StatusSignal<Boolean>> stickyFaultSignal, Supplier<StatusCode> stickyFaultyCode) {
+            this.fault = new Fault(stickyFaultName);
+            this.stickyFaultSignal = stickyFaultSignal;
+            this.stickyFaultyCode = stickyFaultyCode;
+        }
+
+        void update() {
+            var hasFault = stickyFaultSignal.get().getValue();
+            fault.setIsActive(hasFault);
+            stickyFaultyCode.get();
+        }
+
+        
+    }
     public static void setupChecks(TalonFXWrapper wrapper) {
         var talonFX = wrapper.getTalon();
-        var bootDuringEnable = talonFX.getStickyFault_BootDuringEnable();
-        Fault.autoUpdating("TalonFX:" + wrapper.getName() + "bootDuringEnable", () -> {
-            var value = bootDuringEnable.refresh().getValue();
-            talonFX.clearStickyFault_BootDuringEnable();
-            return value;
-        });
-        var bridgeBrownout = talonFX.getStickyFault_BridgeBrownout();
-        Fault.autoUpdating("TalonFX:" + wrapper.getName() + "bridgeBrownout", () -> {
-            var value = bridgeBrownout.refresh().getValue();
-            talonFX.clearStickyFault_BridgeBrownout();
-            return value;
-        });
-        var deviceTemp = talonFX.getStickyFault_DeviceTemp();
-        Fault.autoUpdating("TalonFX:" + wrapper.getName() + "deviceTemp", () -> {
-            var value = deviceTemp.refresh().getValue();
-            talonFX.clearStickyFault_DeviceTemp();
-            return value;
-        });
-        var forwardHardLimit = talonFX.getStickyFault_ForwardHardLimit();
-        Fault.autoUpdating("TalonFX:" + wrapper.getName() + "forwardHardLimit", () -> {
-            var value = forwardHardLimit.refresh().getValue();
-            talonFX.clearStickyFault_ForwardHardLimit();
-            return value;
-        });
-        var forwardSoftLimit = talonFX.getStickyFault_ForwardSoftLimit();
-        Fault.autoUpdating("TalonFX:" + wrapper.getName() + "forwardSoftLimit", () -> {
-            var value = forwardSoftLimit.refresh().getValue();
-            talonFX.clearStickyFault_ForwardSoftLimit();
-            return value;
-        });
-        var fusedSensorOutOfSync = talonFX.getStickyFault_FusedSensorOutOfSync();
-        Fault.autoUpdating("TalonFX:" + wrapper.getName() + "fusedSensorOutOfSync", () -> {
-            var value = fusedSensorOutOfSync.refresh().getValue();
-            talonFX.clearStickyFault_FusedSensorOutOfSync();
-            return value;
-        });
-        var hardware = talonFX.getStickyFault_Hardware();
-        Fault.autoUpdating("TalonFX:" + wrapper.getName() + "hardware", () -> {
-            var value = hardware.refresh().getValue();
-            talonFX.clearStickyFault_Hardware();
-            return value;
-        });
-        var missingDifferentialFX = talonFX.getStickyFault_MissingDifferentialFX();
-        Fault.autoUpdating("TalonFX:" + wrapper.getName() + "missingDifferentialFX", () -> {
-            var value = missingDifferentialFX.refresh().getValue();
-            talonFX.clearStickyFault_MissingDifferentialFX();
-            return value;
-        });
-        var overSupplyV = talonFX.getStickyFault_OverSupplyV();
-        Fault.autoUpdating("TalonFX:" + wrapper.getName() + "overSupplyV", () -> {
-            var value = overSupplyV.refresh().getValue();
-            talonFX.clearStickyFault_OverSupplyV();
-            return value;
-        });
-        var procTemp = talonFX.getStickyFault_ProcTemp();
-        Fault.autoUpdating("TalonFX:" + wrapper.getName() + "procTemp", () -> {
-            var value = procTemp.refresh().refresh().getValue();
-            talonFX.clearStickyFault_ProcTemp();
-            return value;
-        });
-        var remoteSensorDataInvalid = talonFX.getStickyFault_RemoteSensorDataInvalid();
-        Fault.autoUpdating("TalonFX:" + wrapper.getName() + "remoteSensorDataInvalid", () -> {
-            var value = remoteSensorDataInvalid.refresh().getValue();
-            talonFX.clearStickyFault_RemoteSensorDataInvalid();
-            return value;
-        });
-        var remoteSensorPosOverflow = talonFX.getStickyFault_RemoteSensorPosOverflow();
-        Fault.autoUpdating("TalonFX:" + wrapper.getName() + "remoteSensorPosOverflow", () -> {
-            var value = remoteSensorPosOverflow.refresh().getValue();
-            talonFX.clearStickyFault_RemoteSensorPosOverflow();
-            return value;
-        });
-        var remoteSensorReset = talonFX.getStickyFault_RemoteSensorReset();
-        Fault.autoUpdating("TalonFX:" + wrapper.getName() + "remoteSensorReset", () -> {
-            var value = remoteSensorReset.refresh().getValue();
-            talonFX.clearStickyFault_RemoteSensorReset();
-            return value;
-        });
-        var reverseHardLimit = talonFX.getStickyFault_ReverseHardLimit();
-        Fault.autoUpdating("TalonFX:" + wrapper.getName() + "reverseHardLimit", () -> {
-            var value = reverseHardLimit.refresh().getValue();
-            talonFX.clearStickyFault_ReverseHardLimit();
-            return value;
-        });
-        var reverseSoftLimit = talonFX.getStickyFault_ReverseSoftLimit();
-        Fault.autoUpdating("TalonFX:" + wrapper.getName() + "reverseSoftLimit", () -> {
-            var value = reverseSoftLimit.refresh().getValue();
-            talonFX.clearStickyFault_ReverseSoftLimit();
-            return value;
-        });
-        var statorCurrLimit = talonFX.getStickyFault_StatorCurrLimit();
-        Fault.autoUpdating("TalonFX:" + wrapper.getName() + "statorCurrLimit", () -> {
-            var value = statorCurrLimit.refresh().getValue();
-            talonFX.clearStickyFault_StatorCurrLimit();
-            return value;
-        });
-        var supplyCurrLimit = talonFX.getStickyFault_SupplyCurrLimit();
-        Fault.autoUpdating("TalonFX:" + wrapper.getName() + "supplyCurrLimit", () -> {
-            var value = supplyCurrLimit.refresh().getValue();
-            talonFX.clearStickyFault_SupplyCurrLimit();
-            return value;
-        });
-        var undervoltage = talonFX.getStickyFault_Undervoltage();
-        Fault.autoUpdating("TalonFX:" + wrapper.getName() + "undervoltage", () -> {
-            var value = undervoltage.refresh().getValue();
-            talonFX.clearStickyFault_Undervoltage();
-            return value;
-        });
-        var unlicensedFeatureInUse = talonFX.getStickyFault_UnlicensedFeatureInUse();
-        Fault.autoUpdating("TalonFX:" + wrapper.getName() + "unlicensedFeatureInUse", () -> {
-            var value = unlicensedFeatureInUse.refresh().getValue();
-            // unable to find clearStickyFault for UnlicensedFeatureInUse
-            return value;
-        });
-        var unstableSupplyV = talonFX.getStickyFault_UnstableSupplyV();
-        Fault.autoUpdating("TalonFX:" + wrapper.getName() + "unstableSupplyV", () -> {
-            var value = unstableSupplyV.refresh().getValue();
-            talonFX.clearStickyFault_UnstableSupplyV();
-            return value;
-        });
-        var usingFusedCANcoderWhileUnlicensed = talonFX.getStickyFault_UsingFusedCANcoderWhileUnlicensed();
-        Fault.autoUpdating("TalonFX:" + wrapper.getName() + "usingFusedCANcoderWhileUnlicensed", () -> {
-            var value = usingFusedCANcoderWhileUnlicensed.refresh().getValue();
-            // unable to find clearStickyFault for UsingFusedCANcoderWhileUnlicensed
-            return value;
-        });
+        var stickyFaults = List.of(
+            new StickyFaults(
+                "TalonFX:" + wrapper.getName() + "bootDuringEnable", 
+                talonFX::getStickyFault_BootDuringEnable, 
+                talonFX::clearStickyFault_BootDuringEnable
+            ),
+
+            new StickyFaults(
+                "TalonFX:" + wrapper.getName() + "bridgeBrownout", 
+                talonFX::getStickyFault_BridgeBrownout, 
+                talonFX::clearStickyFault_BridgeBrownout
+            ),
+
+            new StickyFaults(
+                "TalonFX:" + wrapper.getName() + "deviceTemp", 
+                talonFX::getStickyFault_DeviceTemp, 
+                talonFX::clearStickyFault_DeviceTemp
+            ),
+
+            new StickyFaults(
+                "TalonFX:" + wrapper.getName() + "forwardHardLimit", 
+                talonFX::getStickyFault_ForwardHardLimit, 
+                talonFX::clearStickyFault_ForwardHardLimit
+            ),
+
+            new StickyFaults(
+                "TalonFX:" + wrapper.getName() + "forwardSoftLimit", 
+                talonFX::getStickyFault_ForwardSoftLimit, 
+                talonFX::clearStickyFault_ForwardSoftLimit
+            ),
+
+            new StickyFaults(
+                "TalonFX:" + wrapper.getName() + "fusedSensorOutOfSync", 
+                talonFX::getStickyFault_FusedSensorOutOfSync, 
+                talonFX::clearStickyFault_FusedSensorOutOfSync
+            ),
+
+            new StickyFaults(
+                "TalonFX:" + wrapper.getName() + "hardware", 
+                talonFX::getStickyFault_Hardware, 
+                talonFX::clearStickyFault_Hardware
+            ),
+
+            new StickyFaults(
+                "TalonFX:" + wrapper.getName() + "missingDifferentialFX", 
+                talonFX::getStickyFault_MissingDifferentialFX, 
+                talonFX::clearStickyFault_MissingDifferentialFX
+            ),
+
+            new StickyFaults(
+                "TalonFX:" + wrapper.getName() + "overSupplyV", 
+                talonFX::getStickyFault_OverSupplyV, 
+                talonFX::clearStickyFault_OverSupplyV
+            ),
+
+            new StickyFaults(
+                "TalonFX:" + wrapper.getName() + "procTemp", 
+                talonFX::getStickyFault_ProcTemp, 
+                talonFX::clearStickyFault_ProcTemp
+            ),
+
+            new StickyFaults(
+                "TalonFX:" + wrapper.getName() + "remoteSensorDataInvalid", 
+                talonFX::getStickyFault_RemoteSensorDataInvalid, 
+                talonFX::clearStickyFault_RemoteSensorDataInvalid
+            ),
+
+            new StickyFaults(
+                "TalonFX:" + wrapper.getName() + "remoteSensorPosOverflow", 
+                talonFX::getStickyFault_RemoteSensorPosOverflow, 
+                talonFX::clearStickyFault_RemoteSensorPosOverflow
+            ),
+
+            new StickyFaults(
+                "TalonFX:" + wrapper.getName() + "remoteSensorReset", 
+                talonFX::getStickyFault_RemoteSensorReset, 
+                talonFX::clearStickyFault_RemoteSensorReset
+            ),
+
+            new StickyFaults(
+                "TalonFX:" + wrapper.getName() + "reverseHardLimit", 
+                talonFX::getStickyFault_ReverseHardLimit, 
+                talonFX::clearStickyFault_ReverseHardLimit
+            ),
+
+            new StickyFaults(
+                "TalonFX:" + wrapper.getName() + "reverseSoftLimit", 
+                talonFX::getStickyFault_ReverseSoftLimit, 
+                talonFX::clearStickyFault_ReverseSoftLimit
+            ),
+
+            new StickyFaults(
+                "TalonFX:" + wrapper.getName() + "statorCurrLimit", 
+                talonFX::getStickyFault_StatorCurrLimit, 
+                talonFX::clearStickyFault_StatorCurrLimit
+            ),
+
+            new StickyFaults(
+                "TalonFX:" + wrapper.getName() + "supplyCurrLimit", 
+                talonFX::getStickyFault_SupplyCurrLimit, 
+                talonFX::clearStickyFault_SupplyCurrLimit
+            ),
+
+            new StickyFaults(
+                "TalonFX:" + wrapper.getName() + "undervoltage", 
+                talonFX::getStickyFault_Undervoltage, 
+                talonFX::clearStickyFault_Undervoltage
+            ),
+
+            new StickyFaults(
+                "TalonFX:" + wrapper.getName() + "unlicensedFeatureInUse", 
+                talonFX::getStickyFault_UnlicensedFeatureInUse,
+                // unable to find clearStickyFault for UnlicensedFeatureInUse
+                () -> StatusCode.OK
+            ),
+
+            new StickyFaults(
+                "TalonFX:" + wrapper.getName() + "unstableSupplyV", 
+                talonFX::getStickyFault_UnstableSupplyV, 
+                talonFX::clearStickyFault_UnstableSupplyV
+            ),
+
+            new StickyFaults(
+                "TalonFX:" + wrapper.getName() + "usingFusedCANcoderWhileUnlicensed", 
+                talonFX::getStickyFault_UsingFusedCANcoderWhileUnlicensed, 
+                // unable to find clearStickyFault for UsingFusedCANcoderWhileUnlicensed
+                () -> StatusCode.OK
+            )
+        );
+
+        EventLoops.oncePerSec.bind(() -> {
+            for (StickyFaults faults: stickyFaults) {
+                faults.update();
+            }
+            });
+
         var device_temp = talonFX.getDeviceTemp();
         Fault.autoUpdating("TalonFX:" + wrapper.getName() + "MoterTempToHigh", () -> {
             var value = device_temp.refresh().getValue();
-            // unable to find clearStickyFault for UsingFusedCANcoderWhileUnlicensed
+            // unable to find clearStickyFault for device_temp
             return value > 100;
-
         });
 
     }
