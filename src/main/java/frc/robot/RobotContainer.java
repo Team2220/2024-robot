@@ -195,7 +195,7 @@ public class RobotContainer {
     }, shooter))
         .onFalse(new ShootCommand(false, shooter, intake).withTimeout(2));
 
-    m_driverController.b().onTrue(m_arm.setPositionCommand(55));
+    m_driverController.b().onTrue(m_arm.setPositionCommand(52.3));
     m_driverController.a().onTrue(m_arm.setPositionCommand(0));
     // m_driverController.rightTrigger().whileTrue(shooter.shooterReady());
     // m_driverController.rightBumper().whileTrue(new ShootCommand(shooter,
