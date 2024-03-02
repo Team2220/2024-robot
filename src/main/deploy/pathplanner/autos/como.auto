@@ -22,6 +22,12 @@
                     {
                       "type": "named",
                       "data": {
+                        "name": "armSpeakerPos"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
                         "name": "intakeShot"
                       }
                     },
