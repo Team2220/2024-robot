@@ -20,7 +20,7 @@ public class Arm extends SubsystemBase implements CheckableSubsystem {
                 0,
                 Units.RotationsPerSecond.per(Units.Seconds).of(3000), Units.RotationsPerSecond.of(3000),
                 Units.RotationsPerSecond.per(Units.Seconds).per(Units.Seconds).of(300), true, true,
-                Units.Rotations.of(110.0 / 360.0 * Constants.Arm.ARM_GEAR_RATIO), Units.Rotations.of(0));
+                Units.Rotations.of(110.0 / 360.0), Units.Rotations.of(0));
         Shuffleboard.getTab("Arm").addDouble("ArmAngle",
                 () -> ArmTalonFX.getRotorPosition().refresh().getValueAsDouble() * 360);
     }
