@@ -5,6 +5,7 @@
 package frc.robot;
 
 import frc.lib.CommandXBoxWrapper;
+import frc.lib.LimelightHelpers;
 import frc.lib.LimelightPortForwarding;
 import frc.lib.MusicToneCommand;
 import frc.lib.Note;
@@ -100,6 +101,9 @@ public class RobotContainer {
     m_operatorController.b().onTrue(m_arm.setPositionCommand(32));
     m_operatorController.leftStick().whileTrue(m_arm.overrideSoftLimits());
     m_operatorController.x().onTrue(m_arm.setPositionCommand(51.7));
+    m_operatorController.povUp().onTrue(Commands.runOnce(()->{
+      LimelightHelpers.setPipelineIndex("limelight-right", 2);
+    }));
 
     var driveCommand = driveTrain.driveCommand(() -> {
       double coefficient = m_driverController.getHID().getLeftBumper() ? 0.5 : 1;
