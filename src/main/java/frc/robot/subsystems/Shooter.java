@@ -1,8 +1,10 @@
 package frc.robot.subsystems;
 
+import static edu.wpi.first.units.Units.RPM;
+import static edu.wpi.first.units.Units.Seconds;
+
 import java.util.function.DoubleSupplier;
 
-import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.ShuffleBoardTabWrapper;
@@ -22,9 +24,9 @@ public class Shooter extends SubsystemBase implements CheckableSubsystem, Shuffl
         shooterSpeed = addTunableDouble("shooterSpeed", 7000);
         tolerance = addTunableDouble("tolerance", 300);
         left = new SparkMaxWrapper(Constants.Shooter.id_left, "leftShooter", true, 0.000115, 0, 0,
-                Units.RPM.per(Units.Seconds).of(0), Units.RPM.of(0), 0);
+                RPM.per(Seconds).of(0), RPM.of(0), 0);
         right = new SparkMaxWrapper(Constants.Shooter.id_right, "rightShooter", false, 0.000115, 0, 0,
-                Units.RPM.per(Units.Seconds).of(0), Units.RPM.of(0), 0);
+                RPM.per(Seconds).of(0), RPM.of(0), 0);
 
         addGraph("ShooterVelocityRight", () -> right.getVelocity() * Constants.Shooter.gear_ratio);
         addGraph("ShooterVelocityLeft", () -> left.getVelocity() * Constants.Shooter.gear_ratio);
