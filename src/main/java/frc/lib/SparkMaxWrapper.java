@@ -4,6 +4,7 @@ import static edu.wpi.first.units.Units.Celsius;
 import static edu.wpi.first.units.Units.RPM;
 import static edu.wpi.first.units.Units.Second;
 import static edu.wpi.first.units.Units.Seconds;
+import static edu.wpi.first.units.Units.Rotations;
 
 import com.revrobotics.CANSparkBase;
 import com.revrobotics.CANSparkMax;
@@ -90,15 +91,15 @@ public class SparkMaxWrapper {
     }
 
     public Measure<Velocity<Angle>> getVelocity() {
-        return Units.RPM.of( sparkMax.getEncoder().getVelocity());
+        return RPM.of( sparkMax.getEncoder().getVelocity());
     }
 
     public Measure<Angle> getPosition() {
-        return Units.Rotations.of( sparkMax.getEncoder().getPosition());
+        return Rotations.of( sparkMax.getEncoder().getPosition());
     }
 
     public void setReference(Measure<Velocity<Angle>> speed) {
-        pidController.setReference(speed.in(Units.RPM), CANSparkBase.ControlType.kVelocity);
+        pidController.setReference(speed.in(RPM), CANSparkBase.ControlType.kVelocity);
     }
 
     public boolean isAtReference(Measure<Velocity<Angle>> speed, Measure<Velocity<Angle>> tolerance) {
