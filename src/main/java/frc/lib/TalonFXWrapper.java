@@ -33,6 +33,7 @@ public class TalonFXWrapper {
             int id,
             String name,
             boolean isInverted,
+            double gearRatio,
             double P,
             double I,
             double D,
@@ -70,6 +71,8 @@ public class TalonFXWrapper {
         talonFXConfigs.SoftwareLimitSwitch.ReverseSoftLimitEnable = reverseSoftLimitEnable;
         talonFXConfigs.SoftwareLimitSwitch.ForwardSoftLimitThreshold = forwardSoftLimitTreshold.in(Units.Rotations);
         talonFXConfigs.SoftwareLimitSwitch.ReverseSoftLimitThreshold = reverseSoftLimitThreshold.in(Units.Rotations);
+
+        talonFXConfigs.Feedback.SensorToMechanismRatio = gearRatio;
 
         talonFXConfigs.Voltage.PeakForwardVoltage = 10;
         talonFXConfigs.Voltage.PeakReverseVoltage = -10;
@@ -129,6 +132,7 @@ public class TalonFXWrapper {
                 id,
                 name,
                 isInverted,
+                1,
                 0,
                 0,
                 0,
