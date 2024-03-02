@@ -72,7 +72,8 @@ public class Arm extends SubsystemBase implements CheckableSubsystem {
     public Command setPositionCommand(double degrees) {
         return this.run(() -> {
             this.setPosition(degrees);
-        }).until(() -> atPosition(degrees, 2));
+        });
+        // .until(() -> atPosition(degrees, 2));
     }
 
     @Override
