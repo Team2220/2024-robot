@@ -14,6 +14,7 @@ import edu.wpi.first.units.Velocity;
 import frc.lib.faults.SparkMaxLogPowerFaults;
 import frc.lib.tunables.TunableDouble;
 import frc.lib.tunables.TunableMeasure;
+import frc.lib.units.UnitsUtil;
 
 public class SparkMaxWrapper {
     public String name;
