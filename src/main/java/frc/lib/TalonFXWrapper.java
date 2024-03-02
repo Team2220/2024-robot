@@ -123,9 +123,8 @@ public class TalonFXWrapper {
             talon.getConfigurator().apply(talonFXConfigs);
         });
 
-        //tell griffin if this works
         RobotControllerTriggers.isSysActive().onFalse(
-                Commands.waitSeconds(2)
+                Commands.waitSeconds(5)
                         .andThen(Commands.runOnce(() -> {
                             talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Coast;
                             talon.getConfigurator().apply(talonFXConfigs);
