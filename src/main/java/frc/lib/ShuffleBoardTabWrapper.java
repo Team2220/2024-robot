@@ -11,14 +11,14 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.SuppliedValueWidget;
 import frc.lib.tunables.TunableDouble;
 
-public interface ShuffleBoardTabWrapper<U extends Unit<U>> {
+public interface ShuffleBoardTabWrapper{
     default void addGraph(String name, DoubleSupplier supplier) {
         Shuffleboard.getTab(getName())
                 .addDouble(name, supplier)
                 .withWidget(BuiltInWidgets.kGraph);
     }
 
-    default void addGraph(String name, Supplier<Measure<U>> supplier, Unit<U> unit) {
+    default<U extends Unit<U>> void addGraph(String name, Supplier<Measure<U>> supplier, Unit<U> unit) {
         Shuffleboard.getTab(getName())
                 .addDouble(name, () -> {
                     return supplier.get().in(unit);

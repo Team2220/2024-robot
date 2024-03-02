@@ -13,7 +13,7 @@ import edu.wpi.first.units.Measure;
 import edu.wpi.first.units.Unit;
 import edu.wpi.first.units.Velocity;
 
-public class UnitsUtil<U extends Unit<U>> {
+public class UnitsUtil {
     private UnitsUtil() {
         // hi - dont make instances
     }
@@ -24,7 +24,7 @@ public class UnitsUtil<U extends Unit<U>> {
     public static final Frequency gigaHertz = derive(megaHertz).aggregate(1000).named("Giga Hertz").symbol("Ghz")
             .make();
 
-    public Measure<U> abs(Measure<U> measure) {
+    public static <U extends Unit<U>> Measure<U> abs(Measure<U> measure) {
         double dMeasure = measure.in(measure.unit());
         return measure.unit().of(Math.abs(dMeasure));
     }

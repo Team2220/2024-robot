@@ -1,14 +1,22 @@
 package frc.lib.selfCheck;
 
+import com.ctre.phoenix6.controls.DutyCycleOut;
+
+import edu.wpi.first.units.Angle;
+import edu.wpi.first.units.Measure;
+import edu.wpi.first.units.Units;
+import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import frc.lib.SparkMaxWrapper;
+import frc.lib.TalonFXWrapper;
+import frc.lib.units.UnitsUtil;
 
 public class SparkMAXSpinCheck extends CheckCommand {
     SparkMaxWrapper spark;
-    double position;
+    Measure<Angle> position;
 
     public SparkMAXSpinCheck(SparkMaxWrapper spark) {
         this.spark = spark;
-
+         
     }
 
     @Override
@@ -16,10 +24,9 @@ public class SparkMAXSpinCheck extends CheckCommand {
         position = spark.getPosition();
 
     }
-
     @Override
     public boolean isFinished() {
-        return Math.abs(position - spark.getPosition()) > 30;
+        return UnitsUtil.abs(position.minus(spark.getPosition())).gt(Units.Rotations.of(30));
     }
 
 
@@ -31,14 +38,14 @@ public class SparkMAXSpinCheck extends CheckCommand {
         return 5;
 
     }
-
     @Override
     public void end(boolean interrupted) {
         spark.set(0);
     }
-
     @Override
     public void execute() {
         spark.set(0.25);
     }
 }
+
+   
