@@ -5,6 +5,14 @@ import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.MusicTone;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
+
+import static edu.wpi.first.units.Units.Rotations;
+import static edu.wpi.first.units.Units.RotationsPerSecond;
+import static edu.wpi.first.units.Units.Seconds;
+import static edu.wpi.first.units.Units.Volts;
+import static frc.lib.units.UnitsUtil.rotationsPerSecCubed;
+import static frc.lib.units.UnitsUtil.rotationsPerSecSq;
+
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -13,14 +21,12 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.units.Angle;
 import edu.wpi.first.units.Measure;
-import edu.wpi.first.units.Units;
 import edu.wpi.first.units.Velocity;
 import edu.wpi.first.units.Voltage;
 import frc.lib.faults.Fault;
 import frc.lib.faults.TalonFXLogPowerFaults;
 import frc.lib.tunables.TunableDouble;
 import frc.lib.tunables.TunableMeasure;
-import frc.lib.units.UnitsUtil;
 
 public class TalonFXWrapper {
     private TalonFX talon;
@@ -70,8 +76,8 @@ public class TalonFXWrapper {
 
         talonFXConfigs.SoftwareLimitSwitch.ForwardSoftLimitEnable = forwardSoftLimitEnable;
         talonFXConfigs.SoftwareLimitSwitch.ReverseSoftLimitEnable = reverseSoftLimitEnable;
-        talonFXConfigs.SoftwareLimitSwitch.ForwardSoftLimitThreshold = forwardSoftLimitTreshold.in(Units.Rotations);
-        talonFXConfigs.SoftwareLimitSwitch.ReverseSoftLimitThreshold = reverseSoftLimitThreshold.in(Units.Rotations);
+        talonFXConfigs.SoftwareLimitSwitch.ForwardSoftLimitThreshold = forwardSoftLimitTreshold.in(Rotations);
+        talonFXConfigs.SoftwareLimitSwitch.ReverseSoftLimitThreshold = reverseSoftLimitThreshold.in(Rotations);
 
         talonFXConfigs.Feedback.SensorToMechanismRatio = gearRatio;
 
@@ -101,18 +107,18 @@ public class TalonFXWrapper {
         });
 
         new TunableMeasure<>("Acceleration", Acceleration, getName(), value -> {
-            talonFXConfigs.MotionMagic.MotionMagicAcceleration = value.in(Units.RotationsPerSecond.per(Units.Seconds));
+            talonFXConfigs.MotionMagic.MotionMagicAcceleration = value.in(RotationsPerSecond.per(Seconds));
             talon.getConfigurator().apply(talonFXConfigs);
         });
 
         new TunableMeasure<>("CruiseVelocity", CruiseVelocity, getName(), value -> {
-            talonFXConfigs.MotionMagic.MotionMagicCruiseVelocity = value.in(Units.RotationsPerSecond);
+            talonFXConfigs.MotionMagic.MotionMagicCruiseVelocity = value.in(RotationsPerSecond);
             talon.getConfigurator().apply(talonFXConfigs);
         });
 
         new TunableMeasure<>("Jerk", Jerk, getName(), value -> {
             talonFXConfigs.MotionMagic.MotionMagicJerk = value
-                    .in(Units.RotationsPerSecond.per(Units.Seconds).per(Units.Seconds));
+                    .in(RotationsPerSecond.per(Seconds).per(Seconds));
             talon.getConfigurator().apply(talonFXConfigs);
         });
 
@@ -138,13 +144,13 @@ public class TalonFXWrapper {
                 0,
                 0,
                 0,
-                UnitsUtil.rotationsPerSecSq(0),
-                Units.RotationsPerSecond.of(0),
-                UnitsUtil.rotationsPerSecCubed(0),
+                rotationsPerSecSq(0),
+                RotationsPerSecond.of(0),
+                rotationsPerSecCubed(0),
                 false,
                 false,
-                Units.Rotations.of(0),
-                Units.Rotations.of(0));
+                Rotations.of(0),
+                Rotations.of(0));
     }
 
     public void setSoftLimitsEnabled(boolean enabled) {
@@ -188,11 +194,11 @@ public class TalonFXWrapper {
     }
 
     public void setMotionMagicVoltage(Measure<Angle> position) {
-        talon.setControl(new PositionVoltage(position.in(Units.Rotations)));
+        talon.setControl(new PositionVoltage(position.in(Rotations)));
     }
 
     public void setVoltageOut(Measure<Voltage> voltage) {
-        talon.setControl(new VoltageOut(voltage.in(Units.Volts)));
+        talon.setControl(new VoltageOut(voltage.in(Volts)));
     }
 
     public void setDutyCycleOut(double cycle) {
