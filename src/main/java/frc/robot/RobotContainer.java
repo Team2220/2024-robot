@@ -51,7 +51,7 @@ public class RobotContainer {
   private final PowerDistribution m_PowerDistribution = new PowerDistribution();
   @SuppressWarnings("unused")
   public static final DriverTab drivertab = new DriverTab();
-  private final SendableChooser<Command> autoChooser;
+  private SendableChooser<Command> autoChooser;
   private final CommandXBoxWrapper m_driverController = new CommandXBoxWrapper(OperatorConstants.kDriverControllerPort);
   private final CommandXBoxWrapper m_operatorController = new CommandXBoxWrapper(
       OperatorConstants.kOperatorControllerPort);
@@ -160,13 +160,14 @@ public class RobotContainer {
       SmartDashboard.putData("Auto Chooser", autoChooser);
 
     } catch (Exception exception) {
+      autoChooser = new SendableChooser<>();
       DriverStation.reportError(exception.toString(), exception.getStackTrace());
 
     }
     // Another option that allows you to specify the default auto by its name
     // autoChooser = AutoBuilder.buildAutoChooser("My Default Auto");
 
-    SmartDashboard.putData("Auto Chooser", autoChooser);
+    // SmartDashboard.putData("Auto Chooser", autoChooser);
 
   }
 
