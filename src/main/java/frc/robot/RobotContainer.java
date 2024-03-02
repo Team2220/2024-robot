@@ -89,7 +89,7 @@ public class RobotContainer {
         m_arm.holdPosition();
       }
     }, m_arm);
-    m_operatorController.leftTrigger().whileTrue(intake.setDutyCycleCommand(.75));
+    m_operatorController.leftTrigger().whileTrue(intake.setIntakeUntilQueued());
     m_operatorController.leftBumper().whileTrue(intake.setDutyCycleCommand(-.75));
     m_operatorController.leftYTrigger().onTrue(armCommand);
     m_arm.setDefaultCommand(armCommand);
@@ -99,7 +99,7 @@ public class RobotContainer {
     m_operatorController.y().onTrue(m_arm.setPositionCommand(90));
     m_operatorController.b().onTrue(m_arm.setPositionCommand(32));
     m_operatorController.leftStick().whileTrue(m_arm.overrideSoftLimits());
-    m_operatorController.x().onTrue(m_arm.setPositionCommand(51.7));
+    m_operatorController.x().onTrue(m_arm.setPositionCommand(55));
 
     var driveCommand = driveTrain.driveCommand(() -> {
       double coefficient = m_driverController.getHID().getLeftBumper() ? 0.5 : 1;
@@ -195,7 +195,7 @@ public class RobotContainer {
     }, shooter))
         .onFalse(new ShootCommand(false, shooter, intake).withTimeout(2));
 
-    m_driverController.b().onTrue(m_arm.setPositionCommand(52.3));
+    m_driverController.b().onTrue(m_arm.setPositionCommand(55));
     m_driverController.a().onTrue(m_arm.setPositionCommand(0));
     // m_driverController.rightTrigger().whileTrue(shooter.shooterReady());
     // m_driverController.rightBumper().whileTrue(new ShootCommand(shooter,

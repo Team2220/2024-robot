@@ -23,7 +23,7 @@ public class Arm extends SubsystemBase implements CheckableSubsystem {
                 Units.RotationsPerSecond.per(Units.Seconds).per(Units.Seconds).of(3000), true, true,
                 Units.Rotations.of(110.0 / 360.0), Units.Rotations.of(0));
         Shuffleboard.getTab("Arm").addDouble("ArmAngle",
-                () -> ArmTalonFX.getRotorPosition().refresh().getValueAsDouble() * 360);
+                () -> ArmTalonFX.getPosition().refresh().getValueAsDouble() * 360);
     }
 
     public Command dutyCycleCommand(DoubleSupplier speed) {
@@ -35,7 +35,7 @@ public class Arm extends SubsystemBase implements CheckableSubsystem {
 
     public double getCurrentDegreeValue() {
 
-        return ArmTalonFX.getRotorPosition().getValueAsDouble() * 360.0;
+        return ArmTalonFX.getPosition().getValueAsDouble() * 360.0;
 
     }
 

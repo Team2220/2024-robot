@@ -178,8 +178,8 @@ public class TalonFXWrapper {
         talon.setPosition(newPosition);
     }
 
-    public StatusSignal<Double> getRotorPosition() {
-        return talon.getRotorPosition();
+    public StatusSignal<Double> getPosition() {
+        return talon.getPosition();
     }
 
     // multaplying by 10 to convert duty cycle to voltage
