@@ -17,7 +17,6 @@ import frc.robot.Constants;
 public class Arm extends SubsystemBase implements CheckableSubsystem {
     TalonFXWrapper ArmTalonFX;
 
-
     public Arm() {
         ArmTalonFX = new TalonFXWrapper(Constants.Arm.ARM_TALON, "Arm", false, 15, 0, 0.1, 0,
                 Units.RotationsPerSecond.per(Units.Seconds).of(3000), Units.RotationsPerSecond.of(3000),
@@ -52,9 +51,8 @@ public class Arm extends SubsystemBase implements CheckableSubsystem {
         ArmTalonFX.holdPosition();
     }
 
-    public boolean atPosition(double degrees, double tolarance){
-return Math.abs((degrees)-(getCurrentDegreeValue())) <= tolarance;
-
+    public boolean atPosition(double degrees, double tolarance) {
+        return Math.abs((degrees) - (getCurrentDegreeValue())) <= tolarance;
 
     }
 
@@ -64,7 +62,7 @@ return Math.abs((degrees)-(getCurrentDegreeValue())) <= tolarance;
 
     public void setPosition(double degrees) {
         var deg = degrees / 360.0 * Constants.Arm.ARM_GEAR_RATIO;
-        ArmTalonFX.setMotionMagicVoltage(Units.Degrees.of(deg));
+        ArmTalonFX.setMotionMagicVoltage(Units.Rotations.of(deg));
     }
 
     public void setZero() {
