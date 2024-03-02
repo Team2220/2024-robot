@@ -26,11 +26,11 @@ public class Shooter extends SubsystemBase implements CheckableSubsystem, Shuffl
     public Shooter() {
         shooterSpeed = new TunableMeasure<>("shooterSpeed", Units.RPM.of(7000), "Shooter");
         tolerance = new TunableMeasure<>("tolerance", Units.RPM.of(300), "Shooter");
-        left = new SparkMaxWrapper(Constants.Shooter.id_left, "leftShooter", true, 0.000115, 0, 0, UnitsUtil.rotationsPerSecSq(0), Units.RotationsPerSecond.of(0), 0);
-        right = new SparkMaxWrapper(Constants.Shooter.id_right, "rightShooter", false, 0.000115, 0, 0, UnitsUtil.rotationsPerSecSq(0), Units.RotationsPerSecond.of(0), 0);
+        left = new SparkMaxWrapper(Constants.Shooter.id_left, "leftShooter", true, Constants.Shooter.gear_ratio, 0.000115, 0, 0, UnitsUtil.rotationsPerSecSq(0), Units.RotationsPerSecond.of(0), 0);
+        right = new SparkMaxWrapper(Constants.Shooter.id_right, "rightShooter", false, Constants.Shooter.gear_ratio, 0.000115, 0, 0, UnitsUtil.rotationsPerSecSq(0), Units.RotationsPerSecond.of(0), 0);
 
-        addGraph("ShooterVelocityRight", () -> right.getVelocity().times(Constants.Shooter.gear_ratio),Units.RPM);
-        addGraph("ShooterVelocityLeft", () -> left.getVelocity().times(Constants.Shooter.gear_ratio),Units.RPM);
+        addGraph("ShooterVelocityRight", () -> right.getVelocity(),Units.RPM);
+        addGraph("ShooterVelocityLeft", () -> left.getVelocity(),Units.RPM);
     }
 
     public Command dutyCycleCommand(DoubleSupplier speed) {
@@ -48,15 +48,15 @@ public class Shooter extends SubsystemBase implements CheckableSubsystem, Shuffl
     }
 
     public boolean isAtSetPoint() {
-        return left.isAtReference(shooterSpeed.getValue().divide( Constants.Shooter.gear_ratio), tolerance.getValue())
-                && right.isAtReference(shooterSpeed.getValue().divide( Constants.Shooter.gear_ratio), tolerance.getValue());
+        return left.isAtReference(shooterSpeed.getValue(), tolerance.getValue())
+                && right.isAtReference(shooterSpeed.getValue(), tolerance.getValue());
     }
 
     public Command velocityCommand() {
         return this.run(() -> {
             var speed = shooterSpeed.getValue();
-            left.setReference(speed.times( Constants.Shooter.gear_ratio));
-            right.setReference(speed.times(Constants.Shooter.gear_ratio));
+            left.setReference(speed);
+            right.setReference(speed);
         }).finallyDo(() -> {
             left.setReference(Units.RPM.of(0));
             right.setReference(Units.RPM.of(0));
@@ -65,15 +65,15 @@ public class Shooter extends SubsystemBase implements CheckableSubsystem, Shuffl
 
     public void setDefaultSpeed() {
         Measure<Velocity<Angle>> speed = shooterSpeed.getValue();
-        left.setReference(speed.times(Constants.Shooter.gear_ratio));
-        right.setReference(speed.times(Constants.Shooter.gear_ratio));
+        left.setReference(speed);
+        right.setReference(speed);
     }
 
     public Command velocityCommandy() {
         return this.run(() -> {
             var speed = shooterSpeed.getValue();
-            left.setReference(speed.times(Constants.Shooter.gear_ratio).times(-1));
-            right.setReference(speed.times(Constants.Shooter.gear_ratio).times(-1));
+            left.setReference(speed.times(-1));
+            right.setReference(speed.times(-1));
         }).finallyDo(() -> {
             left.setReference(Units.RPM.of(0));
             right.setReference(Units.RPM.of(0));
