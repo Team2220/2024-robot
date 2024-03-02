@@ -10,12 +10,12 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.ShuffleBoardTabWrapper;
 import frc.lib.SparkMaxWrapper;
-import frc.lib.UnitsUtil;
 import frc.lib.selfCheck.CheckCommand;
 import frc.lib.selfCheck.CheckableSubsystem;
 import frc.lib.selfCheck.SparkMAXSpinCheck;
 import frc.lib.tunables.TunableDouble;
 import frc.lib.tunables.TunableMeasure;
+import frc.lib.units.UnitsUtil;
 import frc.robot.Constants;
 
 public class Shooter extends SubsystemBase implements CheckableSubsystem, ShuffleBoardTabWrapper {
@@ -64,10 +64,21 @@ public class Shooter extends SubsystemBase implements CheckableSubsystem, Shuffl
         });
     }
 
-    public void setDefaultSpeed() {
-        Measure<Velocity<Angle>> speed = shooterSpeed.getValue();
+    public void setDefaultSpeed(boolean forward) {
+        Measure<Velocity<Angle>> speed = shooterSpeed.getValue().times(forward ? 1 : -1);
         left.setReference(speed.times(Constants.Shooter.gear_ratio));
         right.setReference(speed.times(Constants.Shooter.gear_ratio));
+    }
+
+    public Command velocityCommandy() {
+        return this.run(() -> {
+            var speed = shooterSpeed.getValue();
+            left.setReference(speed.times(Constants.Shooter.gear_ratio).times(-1));
+            right.setReference(speed.times(Constants.Shooter.gear_ratio).times(-1));
+        }).finallyDo(() -> {
+            left.setReference(Units.RPM.of(0));
+            right.setReference(Units.RPM.of(0));
+        });
     }
 
     public void stopShooter() {

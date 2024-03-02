@@ -1,4 +1,4 @@
-package frc.lib;
+package frc.lib.units;
 
 import edu.wpi.first.units.Angle;
 import edu.wpi.first.units.Distance;
@@ -11,6 +11,12 @@ public class UnitsUtil {
     private UnitsUtil() {
         // hi - dont make instances
     }
+
+    public static final Frequency hertz = new Frequency(1, "Hertz", "Hz");
+    public static final Frequency megaHertz = Units.derive(hertz).aggregate(1000).named("Mega Hertz").symbol("Mhz")
+            .make();
+    public static final Frequency gigaHertz = Units.derive(megaHertz).aggregate(1000).named("Giga Hertz").symbol("Ghz")
+            .make();
 
     public static <U extends Unit<U>> Measure<U> abs(Measure<U> measure) {
         double dMeasure = measure.in(measure.unit());

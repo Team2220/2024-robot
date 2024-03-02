@@ -134,9 +134,9 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem, Check
                         speed.omegaRadiansPerSecond));
     }
 
-    
-private final Field2d m_poseEstimatorField = new Field2d();
-private final Field2d m_limeLightField = new Field2d();
+
+    private final Field2d m_poseEstimatorField = new Field2d();
+    private final Field2d m_limeLightField = new Field2d();
     private final Pose2d m_startPose = new Pose2d(0, 0, Rotation2d.fromDegrees(0));
 
     public void resetPose(Pose2d pose) {
@@ -200,7 +200,15 @@ private final Field2d m_limeLightField = new Field2d();
 
     public void periodic() {
         m_poseEstimatorField.setRobotPose(getPose());
+
         LimelightHelpers.PoseEstimate limelightMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight");
+        if (limelightMeasurement.tagCount >= 2) {
+            poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.7, .7, 9999999));
+            poseEstimator.addVisionMeasurement(
+                    limelightMeasurement.pose,
+                    limelightMeasurement.timestampSeconds);
+        }
+
         m_limeLightField.setRobotPose(limelightMeasurement.pose);
         gyroAngle.setDouble(getGyroscopeRotation().getDegrees());
         poseEstimator.update(

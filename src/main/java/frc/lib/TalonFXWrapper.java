@@ -1,6 +1,5 @@
 package frc.lib;
 
-import com.ctre.phoenix6.controls.ControlRequest;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.MusicTone;
@@ -15,11 +14,12 @@ import edu.wpi.first.units.Angle;
 import edu.wpi.first.units.Measure;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.units.Velocity;
-import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.units.Voltage;
 import frc.lib.faults.Fault;
 import frc.lib.faults.TalonFXLogPowerFaults;
 import frc.lib.tunables.TunableDouble;
 import frc.lib.tunables.TunableMeasure;
+import frc.lib.units.UnitsUtil;
 
 public class TalonFXWrapper {
     private TalonFX talon;
@@ -33,6 +33,7 @@ public class TalonFXWrapper {
             int id,
             String name,
             boolean isInverted,
+            double gearRatio,
             double P,
             double I,
             double D,
@@ -42,8 +43,8 @@ public class TalonFXWrapper {
             Measure<Velocity<Velocity<Velocity<Angle>>>> Jerk,
             boolean forwardSoftLimitEnable,
             boolean reverseSoftLimitEnable,
-            double forwardSoftLimitTreshold,
-            double reverseSoftLimitThreshold) {
+            Measure<Angle> forwardSoftLimitTreshold,
+            Measure<Angle> reverseSoftLimitThreshold) {
         talon = new TalonFX(id);
         this.name = name;
         // firmwareVersionSignal = talon.getVersion();
@@ -68,8 +69,10 @@ public class TalonFXWrapper {
 
         talonFXConfigs.SoftwareLimitSwitch.ForwardSoftLimitEnable = forwardSoftLimitEnable;
         talonFXConfigs.SoftwareLimitSwitch.ReverseSoftLimitEnable = reverseSoftLimitEnable;
-        talonFXConfigs.SoftwareLimitSwitch.ForwardSoftLimitThreshold = forwardSoftLimitTreshold;
-        talonFXConfigs.SoftwareLimitSwitch.ReverseSoftLimitThreshold = reverseSoftLimitThreshold;
+        talonFXConfigs.SoftwareLimitSwitch.ForwardSoftLimitThreshold = forwardSoftLimitTreshold.in(Units.Rotations);
+        talonFXConfigs.SoftwareLimitSwitch.ReverseSoftLimitThreshold = reverseSoftLimitThreshold.in(Units.Rotations);
+
+        talonFXConfigs.Feedback.SensorToMechanismRatio = gearRatio;
 
         talonFXConfigs.Voltage.PeakForwardVoltage = 10;
         talonFXConfigs.Voltage.PeakReverseVoltage = -10;
@@ -112,14 +115,15 @@ public class TalonFXWrapper {
             talon.getConfigurator().apply(talonFXConfigs);
         });
 
-        // RobotControllerTriggers.isSysActive().debounce(2).onFalse(Commands.runOnce(() -> {
-        //     talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Coast;
-        //     talon.getConfigurator().apply(talonFXConfigs);
+        // RobotControllerTriggers.isSysActive().debounce(2).onFalse(Commands.runOnce(()
+        // -> {
+        // talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Coast;
+        // talon.getConfigurator().apply(talonFXConfigs);
         // }).ignoringDisable(true));
 
         // RobotControllerTriggers.isSysActive().onTrue(Commands.runOnce(() -> {
-        //     talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-        //     talon.getConfigurator().apply(talonFXConfigs);
+        // talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+        // talon.getConfigurator().apply(talonFXConfigs);
         // }).ignoringDisable(true));
     }
 
@@ -128,6 +132,7 @@ public class TalonFXWrapper {
                 id,
                 name,
                 isInverted,
+                1,
                 0,
                 0,
                 0,
@@ -137,8 +142,8 @@ public class TalonFXWrapper {
                 UnitsUtil.rotationsPerSecCubed(0),
                 false,
                 false,
-                0,
-                0);
+                Units.Rotations.of(0),
+                Units.Rotations.of(0));
     }
 
     public void setSoftLimitsEnabled(boolean enabled) {
@@ -155,7 +160,7 @@ public class TalonFXWrapper {
     }
 
     public String getName() {
-        return name + " (" + talon.getDeviceID() + ")";
+        return name + " (TalonFX " + talon.getDeviceID() + ")";
     }
 
     public TalonFX getTalon() {
@@ -181,12 +186,12 @@ public class TalonFXWrapper {
         talon.setControl(new VoltageOut(speed * 10));
     }
 
-    public void setMotionMagicVoltage(double position) {
-        talon.setControl(new MotionMagicVoltage(position));
+    public void setMotionMagicVoltage(Measure<Angle> position) {
+        talon.setControl(new MotionMagicVoltage(position.in(Units.Rotations)));
     }
 
-    public void setVoltageOut(double voltage) {
-        talon.setControl(new VoltageOut(voltage));
+    public void setVoltageOut(Measure<Voltage> voltage) {
+        talon.setControl(new VoltageOut(voltage.in(Units.Volts)));
     }
 
     public void setDutyCycleOut(double cycle) {

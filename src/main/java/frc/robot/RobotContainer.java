@@ -13,12 +13,15 @@ import frc.lib.leds.LEDs;
 import frc.lib.leds.LedSignal;
 import frc.lib.selfCheck.RobotSelfCheckCommand;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.ShootCommand;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
+
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
@@ -48,7 +51,7 @@ public class RobotContainer {
   private final PowerDistribution m_PowerDistribution = new PowerDistribution();
   @SuppressWarnings("unused")
   public static final DriverTab drivertab = new DriverTab();
-  private final SendableChooser<Command> autoChooser;
+  private SendableChooser<Command> autoChooser;
   private final CommandXBoxWrapper m_driverController = new CommandXBoxWrapper(OperatorConstants.kDriverControllerPort);
   private final CommandXBoxWrapper m_operatorController = new CommandXBoxWrapper(
       OperatorConstants.kOperatorControllerPort);
@@ -86,14 +89,17 @@ public class RobotContainer {
         m_arm.holdPosition();
       }
     }, m_arm);
+    m_operatorController.leftTrigger().whileTrue(intake.setDutyCycleCommand(.75));
+    m_operatorController.leftBumper().whileTrue(intake.setDutyCycleCommand(-.75));
     m_operatorController.leftYTrigger().onTrue(armCommand);
     m_arm.setDefaultCommand(armCommand);
-    m_operatorController.rightBumper().whileTrue(shooter.velocityCommand());
-    m_operatorController.a().onTrue(Commands.runOnce(m_arm::setZero, m_arm));
+    m_operatorController.rightTrigger().whileTrue(shooter.velocityCommand());
+    m_operatorController.rightBumper().whileTrue(shooter.velocityCommandy());
+    m_operatorController.start().onTrue(Commands.runOnce(m_arm::setZero, m_arm));
     m_operatorController.y().onTrue(m_arm.setPositionCommand(90));
-    m_operatorController.b().onTrue(m_arm.setPositionCommand(45));
+    m_operatorController.b().onTrue(m_arm.setPositionCommand(32));
     m_operatorController.leftStick().whileTrue(m_arm.overrideSoftLimits());
-    m_operatorController.x().onTrue(m_arm.setPositionCommand(51));
+    m_operatorController.x().onTrue(m_arm.setPositionCommand(51.7));
 
     var driveCommand = driveTrain.driveCommand(() -> {
       double coefficient = m_driverController.getHID().getLeftBumper() ? 0.5 : 1;
@@ -126,6 +132,15 @@ public class RobotContainer {
     NamedCommands.registerCommand("armRest", Commands.runOnce(() -> {
       m_arm.setPosition(20);
     }, m_arm));
+    NamedCommands.registerCommand("3.1", Commands.runOnce(() -> {
+      m_arm.setPosition(32);
+    }, m_arm));
+    NamedCommands.registerCommand("3.2", Commands.runOnce(() -> {
+      m_arm.setPosition(34);
+    }, m_arm));
+    NamedCommands.registerCommand("3.3", Commands.runOnce(() -> {
+      m_arm.setPosition(28);
+    }, m_arm));
     NamedCommands.registerCommand("intake", intake.setIntakeUntilQueued());
     NamedCommands.registerCommand("intakeShot", intake.setDutyCycleCommand(.75).withTimeout(1));
     NamedCommands.registerCommand("shooter",
@@ -137,15 +152,22 @@ public class RobotContainer {
 
     NamedCommands.registerCommand("conveyor", intake.setDutyCycleCommand(.5).withTimeout(2));
     NamedCommands.registerCommand("shooter+", Commands.run(() -> {
-      shooter.setDefaultSpeed();
+      shooter.setDefaultSpeed(true);
     }, shooter).withTimeout(15));
 
-    autoChooser = AutoBuilder.buildAutoChooser();
+    try {
+      autoChooser = AutoBuilder.buildAutoChooser();
+      SmartDashboard.putData("Auto Chooser", autoChooser);
 
+    } catch (Exception exception) {
+      autoChooser = new SendableChooser<>();
+      DriverStation.reportError(exception.toString(), exception.getStackTrace());
+
+    }
     // Another option that allows you to specify the default auto by its name
     // autoChooser = AutoBuilder.buildAutoChooser("My Default Auto");
 
-    SmartDashboard.putData("Auto Chooser", autoChooser);
+    // SmartDashboard.putData("Auto Chooser", autoChooser);
 
   }
 
@@ -168,38 +190,22 @@ public class RobotContainer {
     m_driverController.start().onTrue(driveTrain.zeroCommand());
     m_driverController.x().whileTrue((driveTrain.xcommand()));
 
-    m_driverController.y().whileTrue(Commands.run(shooter::setDefaultSpeed, shooter))
-        .onFalse(Commands.startEnd(() -> {
-          if (shooter.isAtSetPoint()) {
-            shooter.setDefaultSpeed();
-            intake.setSpeed(.75);
-          } else {
-            shooter.setDefaultSpeed();
-            intake.setSpeed(0);
-          }
-        }, () -> {
-          shooter.stopShooter();
-          intake.setSpeed(0);
-        }, shooter, intake).withTimeout(2));
+    m_driverController.y().whileTrue(Commands.run(() -> {
+      shooter.setDefaultSpeed(false);
+    }, shooter))
+        .onFalse(new ShootCommand(false, shooter, intake).withTimeout(2));
 
     m_driverController.b().onTrue(m_arm.setPositionCommand(52.3));
     m_driverController.a().onTrue(m_arm.setPositionCommand(0));
     // m_driverController.rightTrigger().whileTrue(shooter.shooterReady());
     // m_driverController.rightBumper().whileTrue(new ShootCommand(shooter,
     // intake));
-    m_driverController.rightTrigger().whileTrue(Commands.run(shooter::setDefaultSpeed, shooter))
-        .onFalse(Commands.startEnd(() -> {
-          if (shooter.isAtSetPoint()) {
-            shooter.setDefaultSpeed();
-            intake.setSpeed(.75);
-          } else {
-            shooter.setDefaultSpeed();
-            intake.setSpeed(0);
-          }
-        }, () -> {
-          shooter.stopShooter();
-          intake.setSpeed(0);
-        }, shooter, intake).withTimeout(1));
+    m_driverController.y().whileTrue(Commands.run(() -> {
+      shooter.setDefaultSpeed(true);
+    }, shooter))
+        .onFalse(new ShootCommand(true, shooter, intake).withTimeout(2));
+
+    m_driverController.rightBumper().onTrue(shooter.setDutyCycleCommand(0));
 
     m_driverController.leftTrigger().whileTrue(intake.intakeUntilQueued());
 
