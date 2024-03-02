@@ -5,6 +5,7 @@
 package frc.robot;
 
 import frc.lib.CommandXBoxWrapper;
+import frc.lib.LimelightHelpers;
 import frc.lib.LimelightPortForwarding;
 import frc.lib.MusicToneCommand;
 import frc.lib.Note;
@@ -89,7 +90,7 @@ public class RobotContainer {
         m_arm.holdPosition();
       }
     }, m_arm);
-    m_operatorController.leftTrigger().whileTrue(intake.setDutyCycleCommand(.75));
+    m_operatorController.leftTrigger().whileTrue(intake.intakeUntilQueued());
     m_operatorController.leftBumper().whileTrue(intake.setDutyCycleCommand(-.75));
     m_operatorController.leftYTrigger().onTrue(armCommand);
     m_arm.setDefaultCommand(armCommand);
@@ -100,6 +101,9 @@ public class RobotContainer {
     m_operatorController.b().onTrue(m_arm.setPositionCommand(32));
     m_operatorController.leftStick().whileTrue(m_arm.overrideSoftLimits());
     m_operatorController.x().onTrue(m_arm.setPositionCommand(51.7));
+    m_operatorController.povUp().onTrue(Commands.runOnce(()->{
+      LimelightHelpers.setPipelineIndex("limelight-right", 2);
+    }));
 
     var driveCommand = driveTrain.driveCommand(() -> {
       double coefficient = m_driverController.getHID().getLeftBumper() ? 0.5 : 1;
@@ -138,7 +142,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("3.2", Commands.runOnce(() -> {
       m_arm.setPosition(34);
     }, m_arm));
-    NamedCommands.registerCommand("3.3", Commands.runOnce(() -> {
+    NamedCommands.registerCommand("3.2", Commands.runOnce(() -> {
       m_arm.setPosition(28);
     }, m_arm));
     NamedCommands.registerCommand("intake", intake.setIntakeUntilQueued());
@@ -195,12 +199,12 @@ public class RobotContainer {
     }, shooter))
         .onFalse(new ShootCommand(false, shooter, intake).withTimeout(2));
 
-    m_driverController.b().onTrue(m_arm.setPositionCommand(52.3));
+    m_driverController.b().onTrue(m_arm.setPositionCommand(55));
     m_driverController.a().onTrue(m_arm.setPositionCommand(0));
     // m_driverController.rightTrigger().whileTrue(shooter.shooterReady());
     // m_driverController.rightBumper().whileTrue(new ShootCommand(shooter,
     // intake));
-    m_driverController.y().whileTrue(Commands.run(() -> {
+    m_driverController.rightTrigger().whileTrue(Commands.run(() -> {
       shooter.setDefaultSpeed(true);
     }, shooter))
         .onFalse(new ShootCommand(true, shooter, intake).withTimeout(2));
@@ -209,16 +213,12 @@ public class RobotContainer {
 
     m_driverController.leftTrigger().whileTrue(intake.intakeUntilQueued());
 
-    // m_driverController.y().onTrue(new TalonOrchestra(driveTrain));
-    // m_driverController.b().whileTrue((driveTrain.));
-
     m_driverController.back().whileTrue(new MusicToneCommand(256, driveTrain));
-    // // 256 Hz is middle C
+    //  256 Hz is middle C
     // m_driverController.start().onTrue(new
     // TalonOrchestra("despaceto.chrp",driveTrain));
 
     // m_driverController.leftTrigger().whileTrue(intake.intakeUntilQueued());
-    m_operatorController.leftBumper().whileTrue(shooter.setDutyCycleCommand(-1));
   }
 
   /**

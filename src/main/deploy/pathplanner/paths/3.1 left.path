@@ -3,37 +3,43 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.771033906107768,
-        "y": 2.2872111448995365
+        "x": 0.7802128811804795,
+        "y": 6.500360703274127
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.7710339061077685,
-        "y": 2.2872111448995365
+        "x": 1.7802128811804794,
+        "y": 6.500360703274127
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 6.067302523062316,
-        "y": 2.2872111448995365
+        "x": 2.909735098049553,
+        "y": 6.996025357200549
       },
       "prevControl": {
-        "x": 4.387550084756108,
-        "y": 2.3055690950449605
+        "x": 1.9097350980495529,
+        "y": 6.996025357200549
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.85,
+      "rotationDegrees": 0.0,
+      "rotateFast": false
+    }
+  ],
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "move",
-      "waypointRelativePos": 0,
+      "name": "yelow",
+      "waypointRelativePos": 0.55,
       "command": {
         "type": "parallel",
         "data": {
@@ -41,13 +47,13 @@
             {
               "type": "named",
               "data": {
-                "name": "sucky"
+                "name": "intake"
               }
             },
             {
               "type": "named",
               "data": {
-                "name": "themo"
+                "name": "3.1"
               }
             }
           ]
@@ -56,20 +62,20 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 4.0,
+    "maxVelocity": 3.0,
     "maxAcceleration": 1.0,
     "maxAngularVelocity": 360.0,
     "maxAngularAcceleration": 360.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0,
+    "rotation": 25.0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "PathPlanner",
+  "folder": "Sectret",
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": 59.74356283647066,
     "velocity": 0
   },
   "useDefaultConstraints": true

@@ -17,7 +17,7 @@ public class TunableMeasure<U extends Unit<U>> {
         this.tab = tab;
 
         unit = defaultValue.unit();
-        tunable = new TunableDouble(name + " (" + unit.symbol() + ")", defaultValue.in(unit), tab);
+        tunable = new TunableDouble(name, defaultValue.in(unit), tab);
     }
 
     public TunableMeasure(String name, Measure<U> defaultValue, String tab, Consumer<Measure<U>> onChange) {
@@ -34,5 +34,4 @@ public class TunableMeasure<U extends Unit<U>> {
             onChange.accept(unit.of(value));
         });
     }
-
 }

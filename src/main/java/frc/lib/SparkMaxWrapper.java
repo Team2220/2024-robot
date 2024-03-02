@@ -1,5 +1,10 @@
 package frc.lib;
 
+import static edu.wpi.first.units.Units.Celsius;
+import static edu.wpi.first.units.Units.RPM;
+import static edu.wpi.first.units.Units.Second;
+import static edu.wpi.first.units.Units.Seconds;
+
 import com.revrobotics.CANSparkBase;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkPIDController;
@@ -9,7 +14,6 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.units.Angle;
 import edu.wpi.first.units.Measure;
 import edu.wpi.first.units.Temperature;
-import edu.wpi.first.units.Units;
 import edu.wpi.first.units.Velocity;
 import frc.lib.faults.SparkMaxLogPowerFaults;
 import frc.lib.tunables.TunableDouble;
@@ -45,11 +49,11 @@ public class SparkMaxWrapper {
         });
 
         new TunableMeasure<>("maxAcceleration", maxAcceleration, getName(), value -> {
-            pidController.setSmartMotionMaxAccel(value.in(Units.RPM.per(Units.Seconds)), 0);
+            pidController.setSmartMotionMaxAccel(value.in(RPM.per(Seconds)), 0);
         });
 
         new TunableMeasure<>("maxVelocity", maxVelocity, getName(), value -> {
-            pidController.setSmartMotionMaxVelocity(value.in(Units.RPM), 0);
+            pidController.setSmartMotionMaxVelocity(value.in(RPM), 0);
         });
 
         new TunableDouble("allowedErr", allowedErr, getName(), value -> {
@@ -61,7 +65,7 @@ public class SparkMaxWrapper {
     }
 
     public SparkMaxWrapper(int id, String name, boolean isInverted) {
-        this(id, name, isInverted, 0, 0, 0, Units.RPM.per(Units.Second).of(0), Units.RPM.of(0), 0);
+        this(id, name, isInverted, 0, 0, 0, RPM.per(Second).of(0), RPM.of(0), 0);
     }
 
     public boolean getStickyFault(FaultID faultID) {
@@ -78,7 +82,7 @@ public class SparkMaxWrapper {
 
     public Measure<Temperature> getTemperature() {
         var temp = sparkMax.getMotorTemperature();
-        return Units.Celsius.of(temp);
+        return Celsius.of(temp);
     }
 
     public void set(double speed) {

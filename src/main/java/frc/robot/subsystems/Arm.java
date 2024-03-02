@@ -1,8 +1,12 @@
 package frc.robot.subsystems;
 
+import static edu.wpi.first.units.Units.Rotations;
+import static edu.wpi.first.units.Units.RotationsPerSecond;
+import static edu.wpi.first.units.Units.Seconds;
+import static edu.wpi.first.units.Units.Volts;
+
 import java.util.function.DoubleSupplier;
 
-import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -16,25 +20,26 @@ public class Arm extends SubsystemBase implements CheckableSubsystem {
     TalonFXWrapper ArmTalonFX;
 
     public Arm() {
-        ArmTalonFX = new TalonFXWrapper(Constants.Arm.ARM_TALON, "Arm", false, Constants.Arm.ARM_GEAR_RATIO, 15, 0, 0.1,
+        ArmTalonFX = new TalonFXWrapper(Constants.Arm.ARM_TALON, "Arm", false, Constants.Arm.ARM_GEAR_RATIO, 150, 0, 0.1,
                 0,
-                Units.RotationsPerSecond.per(Units.Seconds).of(3000), Units.RotationsPerSecond.of(3000),
-                Units.RotationsPerSecond.per(Units.Seconds).per(Units.Seconds).of(3000), true, true,
-                Units.Rotations.of(110.0 / 360.0), Units.Rotations.of(0));
+                RotationsPerSecond.per(Seconds).of(3000), 
+                RotationsPerSecond.of(3000),
+                RotationsPerSecond.per(Seconds).per(Seconds).of(3000), true, true,
+                Rotations.of(110.0 / 360.0), Rotations.of(0));
         Shuffleboard.getTab("Arm").addDouble("ArmAngle",
-                () -> ArmTalonFX.getRotorPosition().refresh().getValueAsDouble() * 360);
+                () -> ArmTalonFX.getPosition().refresh().getValueAsDouble() * 360);
     }
 
     public Command dutyCycleCommand(DoubleSupplier speed) {
         return this.run(() -> {
             var spd = speed.getAsDouble() * 10;
-            ArmTalonFX.setVoltageOut(Units.Volts.of(spd));
+            ArmTalonFX.setVoltageOut(Volts.of(spd));
         });
     }
 
     public double getCurrentDegreeValue() {
 
-        return ArmTalonFX.getRotorPosition().getValueAsDouble() * 360.0;
+        return ArmTalonFX.getPosition().getValueAsDouble() * 360.0;
 
     }
 
@@ -61,7 +66,7 @@ public class Arm extends SubsystemBase implements CheckableSubsystem {
 
     public void setPosition(double degrees) {
         var deg = degrees / 360.0;
-        ArmTalonFX.setMotionMagicVoltage(Units.Rotations.of(deg));
+        ArmTalonFX.setMotionMagicVoltage(Rotations.of(deg));
     }
 
     public void setZero() {
@@ -71,7 +76,8 @@ public class Arm extends SubsystemBase implements CheckableSubsystem {
     public Command setPositionCommand(double degrees) {
         return this.run(() -> {
             this.setPosition(degrees);
-        }).until(() -> atPosition(degrees, 2));
+        });
+        // .until(() -> atPosition(degrees, 2));
     }
 
     @Override
