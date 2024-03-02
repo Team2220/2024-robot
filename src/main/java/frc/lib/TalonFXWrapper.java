@@ -123,6 +123,7 @@ public class TalonFXWrapper {
             talon.getConfigurator().apply(talonFXConfigs);
         });
 
+        //tell griffin if this works
         RobotControllerTriggers.isSysActive().onFalse(
                 Commands.waitSeconds(2)
                         .andThen(Commands.runOnce(() -> {
