@@ -18,9 +18,12 @@ public class UnitsUtil {
         // hi - dont make instances
     }
 
+    /* Standard unit of measurement for frequency, hertz */
     public static final Frequency hertz = new Frequency(1, "Hertz", "Hz");
+    /* Standard unit of measurement for frequency, mega hertz */
     public static final Frequency megaHertz = derive(hertz).aggregate(1000).named("Mega Hertz").symbol("Mhz")
             .make();
+    /* Standard unit of measurement for frequency, giga hertz */
     public static final Frequency gigaHertz = derive(megaHertz).aggregate(1000).named("Giga Hertz").symbol("Ghz")
             .make();
 
