@@ -3,6 +3,7 @@ package frc.lib;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.MusicTone;
+import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -187,7 +188,7 @@ public class TalonFXWrapper {
     }
 
     public void setMotionMagicVoltage(Measure<Angle> position) {
-        talon.setControl(new MotionMagicVoltage(position.in(Units.Rotations)));
+        talon.setControl(new PositionVoltage(position.in(Units.Rotations)));
     }
 
     public void setVoltageOut(Measure<Voltage> voltage) {

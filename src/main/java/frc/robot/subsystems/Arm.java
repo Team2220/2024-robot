@@ -16,9 +16,10 @@ public class Arm extends SubsystemBase implements CheckableSubsystem {
     TalonFXWrapper ArmTalonFX;
 
     public Arm() {
-        ArmTalonFX = new TalonFXWrapper(Constants.Arm.ARM_TALON, "Arm", false, Constants.Arm.ARM_GEAR_RATIO, 15, 0, 0.1,
+        ArmTalonFX = new TalonFXWrapper(Constants.Arm.ARM_TALON, "Arm", false, Constants.Arm.ARM_GEAR_RATIO, 150, 0, 0.1,
                 0,
-                Units.RotationsPerSecond.per(Units.Seconds).of(3000), Units.RotationsPerSecond.of(3000),
+                Units.RotationsPerSecond.per(Units.Seconds).of(3000), 
+                Units.RotationsPerSecond.of(3000),
                 Units.RotationsPerSecond.per(Units.Seconds).per(Units.Seconds).of(3000), true, true,
                 Units.Rotations.of(110.0 / 360.0), Units.Rotations.of(0));
         Shuffleboard.getTab("Arm").addDouble("ArmAngle",
