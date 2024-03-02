@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotController;
 import frc.lib.faults.FaultRegistry;
 import frc.lib.tunables.TunableDouble;
+import frc.robot.Constants.Shooter;
 
 public class LedSignal {
     String name;
@@ -71,6 +72,12 @@ public class LedSignal {
         // blink red
         StrobeAnimation strobeAnimation = new StrobeAnimation(64, 0, 0, 0, 0.1, 164);
         return new LedSignal("isBrownedOut", RobotController::isBrownedOut, strobeAnimation, 0);
+    }
+    public static LedSignal shooterAtSetPoint(BooleanSupplier supplier){
+// blink black
+
+        StrobeAnimation strobeAnimation = new StrobeAnimation(0, 0, 20, 0, 0.1, 164);
+        return new LedSignal("shooterAtSetPoint", supplier, strobeAnimation, 0);
     }
 
     public static LedSignal hasActiveFault() {
