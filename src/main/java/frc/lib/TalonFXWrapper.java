@@ -13,7 +13,6 @@ import static edu.wpi.first.units.Units.Volts;
 import static frc.lib.units.UnitsUtil.rotationsPerSecCubed;
 import static frc.lib.units.UnitsUtil.rotationsPerSecSq;
 
-import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
@@ -21,6 +20,7 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.units.Angle;
 import edu.wpi.first.units.Measure;
+import edu.wpi.first.units.Units;
 import edu.wpi.first.units.Velocity;
 import edu.wpi.first.units.Voltage;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -186,8 +186,8 @@ public class TalonFXWrapper {
         talon.setPosition(newPosition);
     }
 
-    public StatusSignal<Double> getPosition() {
-        return talon.getPosition();
+    public Measure<Angle> getPosition() {
+        return Units.Rotations.of(talon.getPosition().getValueAsDouble());
     }
 
     // multaplying by 10 to convert duty cycle to voltage
