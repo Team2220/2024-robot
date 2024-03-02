@@ -89,7 +89,7 @@ public class RobotContainer {
         m_arm.holdPosition();
       }
     }, m_arm);
-    m_operatorController.leftTrigger().whileTrue(intake.setDutyCycleCommand(.75));
+    m_operatorController.leftTrigger().whileTrue(intake.intakeUntilQueued());
     m_operatorController.leftBumper().whileTrue(intake.setDutyCycleCommand(-.75));
     m_operatorController.leftYTrigger().onTrue(armCommand);
     m_arm.setDefaultCommand(armCommand);
