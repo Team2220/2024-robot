@@ -83,21 +83,20 @@ public class SparkMaxWrapper {
         sparkMax.set(speed);
     }
 
-    public double getVelocity() {
-        return sparkMax.getEncoder().getVelocity();
+    public Measure<Velocity<Angle>> getVelocity() {
+        return Units.RPM.of( sparkMax.getEncoder().getVelocity());
     }
 
-    public double getPosition() {
-        return sparkMax.getEncoder().getPosition();
+    public Measure<Angle> getPosition() {
+        return Units.Rotations.of( sparkMax.getEncoder().getPosition());
     }
 
-    public void setReference(double speed) {
-        pidController.setReference(speed, CANSparkBase.ControlType.kVelocity);
+    public void setReference(Measure<Velocity<Angle>> speed) {
+        pidController.setReference(speed.in(Units.RPM), CANSparkBase.ControlType.kVelocity);
     }
 
-    public boolean isAtReference(double speed, double tolerance) {
-        double diff = (getVelocity() - speed);
-        System.out.println("hedskb :" + diff);
-        return Math.abs(diff) <= tolerance;
+    public boolean isAtReference(Measure<Velocity<Angle>> speed, Measure<Velocity<Angle>> tolerance) {
+        var diff = (getVelocity().minus(speed));
+        return UnitsUtil.abs(diff).lte(tolerance);
     }
 }
