@@ -180,19 +180,19 @@ public class RobotContainer {
     m_driverController.start().onTrue(driveTrain.zeroCommand());
     m_driverController.x().whileTrue((driveTrain.xcommand()));
 
-    m_driverController.y().whileTrue(Commands.run(shooter::setDefaultSpeed, shooter))
-        .onFalse(Commands.startEnd(() -> {
-          if (shooter.isAtSetPoint()) {
-            shooter.setDefaultSpeed();
-            intake.setSpeed(.75);
-          } else {
-            shooter.setDefaultSpeed();
-            intake.setSpeed(0);
-          }
-        }, () -> {
-          shooter.stopShooter();
-          intake.setSpeed(0);
-        }, shooter, intake).withTimeout(2));
+    // m_driverController.y().whileTrue(Commands.run(shooter::setDefaultSpeed, shooter))
+    //     .onFalse(Commands.startEnd(() -> {
+    //       if (shooter.isAtSetPoint()) {
+    //         shooter.setDefaultSpeed();
+    //         intake.setSpeed(.75);
+    //       } else {
+    //         shooter.setDefaultSpeed();
+    //         intake.setSpeed(0);
+    //       }
+    //     }, () -> {
+    //       shooter.stopShooter();
+    //       intake.setSpeed(0);
+    //     }, shooter, intake).withTimeout(2));
 
     m_driverController.b().onTrue(m_arm.setPositionCommand(52.3));
     m_driverController.a().onTrue(m_arm.setPositionCommand(0));
@@ -212,6 +212,8 @@ public class RobotContainer {
           shooter.stopShooter();
           intake.setSpeed(0);
         }, shooter, intake).withTimeout(1));
+
+    m_driverController.rightBumper().onTrue(shooter.setDutyCycleCommand(0));
 
     m_driverController.leftTrigger().whileTrue(intake.intakeUntilQueued());
 
