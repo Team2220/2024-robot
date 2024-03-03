@@ -56,12 +56,12 @@ public class TalonFXLogPowerFaults {
                 talonFX::getStickyFault_ForwardHardLimit, 
                 talonFX::clearStickyFault_ForwardHardLimit
             ),
-
-            new StickyFaults(
-                "TalonFX:" + wrapper.getName() + "forwardSoftLimit", 
-                talonFX::getStickyFault_ForwardSoftLimit, 
-                talonFX::clearStickyFault_ForwardSoftLimit
-            ),
+            // too noisy
+            // new StickyFaults(
+            //     "TalonFX:" + wrapper.getName() + "forwardSoftLimit", 
+            //     talonFX::getStickyFault_ForwardSoftLimit, 
+            //     talonFX::clearStickyFault_ForwardSoftLimit
+            // ),
 
             new StickyFaults(
                 "TalonFX:" + wrapper.getName() + "fusedSensorOutOfSync", 
@@ -116,12 +116,12 @@ public class TalonFXLogPowerFaults {
                 talonFX::getStickyFault_ReverseHardLimit, 
                 talonFX::clearStickyFault_ReverseHardLimit
             ),
-
-            new StickyFaults(
-                "TalonFX:" + wrapper.getName() + "reverseSoftLimit", 
-                talonFX::getStickyFault_ReverseSoftLimit, 
-                talonFX::clearStickyFault_ReverseSoftLimit
-            ),
+            // too noisy
+            // new StickyFaults(
+            //     "TalonFX:" + wrapper.getName() + "reverseSoftLimit", 
+            //     talonFX::getStickyFault_ReverseSoftLimit, 
+            //     talonFX::clearStickyFault_ReverseSoftLimit
+            // ),
 
             new StickyFaults(
                 "TalonFX:" + wrapper.getName() + "statorCurrLimit", 
