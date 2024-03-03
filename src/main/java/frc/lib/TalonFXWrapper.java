@@ -124,7 +124,7 @@ public class TalonFXWrapper {
         });
 
         RobotControllerTriggers.isSysActive().onFalse(
-                Commands.waitSeconds(3)
+                Commands.waitSeconds(7)
                         .andThen(Commands.runOnce(() -> {
                             talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Coast;
                             talon.getConfigurator().apply(talonFXConfigs);

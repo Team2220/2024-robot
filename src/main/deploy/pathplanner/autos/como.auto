@@ -1,49 +1,42 @@
 {
   "version": 1.0,
-  "startingPose": null,
+  "startingPose": {
+    "position": {
+      "x": 2.89,
+      "y": 6.99
+    },
+    "rotation": 0
+  },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "parallel",
+          "type": "sequential",
           "data": {
             "commands": [
               {
-                "type": "named",
+                "type": "path",
                 "data": {
-                  "name": "shooter+"
+                  "pathName": "note to note"
                 }
               },
               {
-                "type": "sequential",
+                "type": "named",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "armSpeakerPos"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "intakeShot"
-                      }
-                    },
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "3.1 middle"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "intakeShot"
-                      }
-                    }
-                  ]
+                  "name": "shooter"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "note to note 2"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "shooter"
                 }
               }
             ]

@@ -49,8 +49,9 @@ public class Shooter extends SubsystemBase implements CheckableSubsystem, Shuffl
     }
 
     public boolean isAtSetPoint() {
-        return left.isAtReference(shooterSpeed.getValue(), tolerance.getValue())
-                && right.isAtReference(shooterSpeed.getValue(), tolerance.getValue());
+        return //left.isAtReference(shooterSpeed.getValue(), tolerance.getValue())
+                //&& 
+                right.isAtReference(shooterSpeed.getValue(), tolerance.getValue());
     }
 
     public Command velocityCommand() {
