@@ -3,6 +3,7 @@ package frc.lib;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.event.EventLoop;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -595,5 +596,8 @@ public class CommandXBoxWrapper {
    */
   public Trigger povCenter() {
     return pov(-1);
+  }
+  public void setRumble(double value){
+    xbox.getHID().setRumble(RumbleType.kBothRumble, value);
   }
 }

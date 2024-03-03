@@ -25,6 +25,7 @@ import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -196,6 +197,15 @@ public class RobotContainer {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     m_driverController.start().onTrue(driveTrain.zeroCommand());
     m_driverController.x().whileTrue((driveTrain.xcommand()));
+    new Trigger(shooter::isAtSetPoint)
+    .onTrue(Commands.runOnce(()->{
+      m_driverController.setRumble(.5);
+      m_operatorController.setRumble(.5);
+    }))
+    .onFalse(Commands.runOnce(()->{
+      m_driverController.setRumble(0);
+      m_operatorController.setRumble(0);
+    }));
 
     // m_driverController.y().whileTrue(Commands.run(() -> {
     //   shooter.setDefaultSpeed(false);

@@ -29,7 +29,7 @@ public class Arm extends SubsystemBase implements CheckableSubsystem, ShuffleBoa
                 RotationsPerSecond.per(Seconds).per(Seconds).of(3000), true, true,
                 Rotations.of(110.0 / 360.0), Rotations.of(0));
         addMeasure("ArmAngle",
-                () -> ArmTalonFX.getPosition());
+                () -> ArmTalonFX.getPosition(), Degrees);
     }
 
     public Command dutyCycleCommand(DoubleSupplier speed) {

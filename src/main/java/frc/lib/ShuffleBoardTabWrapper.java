@@ -26,10 +26,10 @@ public interface ShuffleBoardTabWrapper {
                 .withWidget(BuiltInWidgets.kGraph);
     }
 
-    default <U extends Unit<U>> void addMeasure(String name, Supplier<Measure<U>> supplier) {
+    default <U extends Unit<U>> void addMeasure(String name, Supplier<Measure<U>> supplier, Unit<U> unit) {
         Shuffleboard.getTab(getName())
-                .addString(name, () -> {
-                    return supplier.get().toLongString();
+                .addDouble(name, () -> {
+                    return supplier.get().in(unit);
                 });
     }
 
