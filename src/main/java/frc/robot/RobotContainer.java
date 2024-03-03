@@ -59,52 +59,7 @@ public class RobotContainer {
 
     configureBindings();
 
-    shooter.setDefaultCommand(shooter.dutyCycleCommand(() -> {
-      return m_operatorController.getRightTriggerAxis();
-    }));
-
-    intake.setDefaultCommand(intake.dutyCycleCommand(() -> {
-      return m_operatorController.getRightY();
-    }));
-
-    var armCommand = Commands.run(() -> {
-      var joyStickPosition = m_operatorController.getLeftY() * 0.55;
-      if (joyStickPosition > 0.01 || joyStickPosition < -0.01) {
-
-        m_arm.setDutyCycle(joyStickPosition);
-      } else {
-        m_arm.holdPosition();
-      }
-    }, m_arm);
-    m_operatorController.leftTrigger().whileTrue(intake.intakeUntilQueued());
-    m_operatorController.leftBumper().whileTrue(intake.setDutyCycleCommand(-.75));
-    m_operatorController.leftYTrigger().onTrue(armCommand);
-    m_arm.setDefaultCommand(armCommand);
-    m_operatorController.rightTrigger().whileTrue(shooter.velocityCommand());
-    m_operatorController.rightBumper().whileTrue(shooter.velocityCommandy());
-    m_operatorController.start().onTrue(Commands.runOnce(m_arm::setZero, m_arm));
-    m_operatorController.y().onTrue(m_arm.setPositionCommand(90));
-    m_operatorController.a().onTrue(m_arm.setPositionCommand(0));
-    m_operatorController.b().onTrue(m_arm.setPositionCommand(32));
-    m_operatorController.leftStick().whileTrue(m_arm.overrideSoftLimits());
-    m_operatorController.x().onTrue(m_arm.setPositionCommand(55));
-    m_operatorController.povUp().onTrue(Commands.runOnce(()->{
-      LimelightHelpers.setPipelineIndex("limelight-right", 2);
-    }));
-
-    var driveCommand = driveTrain.driveCommand(() -> {
-      double coefficient = m_driverController.getHID().getLeftBumper() ? 0.5 : 1;
-      return m_driverController.getLeftX() * -1 * coefficient;
-    }, () -> {
-      double coefficient = m_driverController.getHID().getLeftBumper() ? 0.5 : 1;
-      return m_driverController.getLeftY() * coefficient;
-    }, () -> {
-      double coefficient = m_driverController.getHID().getLeftBumper() ? 0.5 : 1;
-      return m_driverController.getRightX() * -1 * coefficient;
-    });
-    driveTrain.setDefaultCommand(driveCommand);
-    m_driverController.joysticksTrigger().onTrue(driveCommand);
-
+   
     m_leds = new LEDs(
         new int[] {},
         new LedSignal[] {
@@ -162,6 +117,19 @@ public class RobotContainer {
 
   
   private void configureBindings() {
+// driver controls
+    var driveCommand = driveTrain.driveCommand(() -> {
+      double coefficient = m_driverController.getHID().getLeftBumper() ? 0.5 : 1;
+      return m_driverController.getLeftX() * -1 * coefficient;
+    }, () -> {
+      double coefficient = m_driverController.getHID().getLeftBumper() ? 0.5 : 1;
+      return m_driverController.getLeftY() * coefficient;
+    }, () -> {
+      double coefficient = m_driverController.getHID().getLeftBumper() ? 0.5 : 1;
+      return m_driverController.getRightX() * -1 * coefficient;
+    });
+    driveTrain.setDefaultCommand(driveCommand);
+    m_driverController.joysticksTrigger().onTrue(driveCommand);
 
     m_driverController.start().onTrue(driveTrain.zeroCommand());
 
@@ -200,6 +168,53 @@ public class RobotContainer {
     m_driverController.leftTrigger().whileTrue(intake.intakeUntilQueued());
 
     m_driverController.back().whileTrue(new MusicToneCommand(256, driveTrain));
+
+    // operator controls
+    shooter.setDefaultCommand(shooter.dutyCycleCommand(() -> {
+      return m_operatorController.getRightTriggerAxis();
+    }));
+
+    intake.setDefaultCommand(intake.dutyCycleCommand(() -> {
+      return m_operatorController.getRightY();
+    }));
+
+    var armCommand = Commands.run(() -> {
+      var joyStickPosition = m_operatorController.getLeftY() * 0.55;
+      if (joyStickPosition > 0.01 || joyStickPosition < -0.01) {
+
+        m_arm.setDutyCycle(joyStickPosition);
+      } else {
+        m_arm.holdPosition();
+      }
+    }, m_arm);
+    
+    m_operatorController.leftYTrigger().onTrue(armCommand);
+    m_arm.setDefaultCommand(armCommand);
+
+    m_operatorController.leftTrigger().whileTrue(intake.intakeUntilQueued());
+
+    m_operatorController.leftBumper().whileTrue(intake.setDutyCycleCommand(-.75));
+    
+    m_operatorController.rightTrigger().whileTrue(shooter.velocityCommand());
+    
+    m_operatorController.rightBumper().whileTrue(shooter.velocityCommandy());
+    
+    m_operatorController.start().onTrue(Commands.runOnce(m_arm::setZero, m_arm));
+    
+    m_operatorController.y().onTrue(m_arm.setPositionCommand(90));
+    
+    m_operatorController.a().onTrue(m_arm.setPositionCommand(0));
+    
+    m_operatorController.b().onTrue(m_arm.setPositionCommand(32));
+    
+    m_operatorController.leftStick().whileTrue(m_arm.overrideSoftLimits());
+    
+    m_operatorController.x().onTrue(m_arm.setPositionCommand(55));
+    
+    m_operatorController.povUp().onTrue(Commands.runOnce(()->{
+      LimelightHelpers.setPipelineIndex("limelight-right", 2);
+    }));
+
   }
 
   public Command getAutonomousCommand() {
