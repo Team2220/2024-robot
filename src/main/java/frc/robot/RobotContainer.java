@@ -73,22 +73,12 @@ public class RobotContainer {
             LedSignal.getLowBatteryLedSignal(),
             LedSignal.shooterAtSetPoint(()-> shooter.isAtSetPoint())
         });
-    NamedCommands.registerCommand("test print", Commands.print("heloo foortnite"));
-    NamedCommands.registerCommand("armSpeakerPos", Commands.run(() -> {
-      m_arm.setPosition(52.3);
-    }, m_arm).withTimeout(2));
-    NamedCommands.registerCommand("armRest", Commands.runOnce(() -> {
-      m_arm.setPosition(20);
-    }, m_arm));
-    NamedCommands.registerCommand("3.1", Commands.runOnce(() -> {
-      m_arm.setPosition(32);
-    }, m_arm));
-    NamedCommands.registerCommand("3.2", Commands.runOnce(() -> {
-      m_arm.setPosition(34);
-    }, m_arm));
-    NamedCommands.registerCommand("3.2", Commands.runOnce(() -> {
-      m_arm.setPosition(28);
-    }, m_arm));
+
+    NamedCommands.registerCommand("armSpeakerPos", m_arm.setPositionOnceCommand(55));
+    NamedCommands.registerCommand("armRest", m_arm.setPositionOnceCommand(0));
+    NamedCommands.registerCommand("3.1", m_arm.setPositionOnceCommand(32));
+    NamedCommands.registerCommand("3.2", m_arm.setPositionOnceCommand(34));
+    NamedCommands.registerCommand("3.2", m_arm.setPositionOnceCommand(28));
     NamedCommands.registerCommand("intake", intake.setIntakeUntilQueued());
     NamedCommands.registerCommand("intakeShot", intake.setDutyCycleCommand(.75).withTimeout(1));
     NamedCommands.registerCommand("shooter",
