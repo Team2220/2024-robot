@@ -153,9 +153,9 @@ public class RobotContainer {
     m_driverController.back().whileTrue(new MusicToneCommand(256, driveTrain));
 
     // operator controls
-    shooter.setDefaultCommand(shooter.dutyCycleCommand(() -> {
-      return m_operatorController.getRightTriggerAxis();
-    }));
+    // shooter.setDefaultCommand(shooter.dutyCycleCommand(() -> {
+    //   return m_operatorController.getRightTriggerAxis();
+    // }));
 
     intake.setDefaultCommand(intake.dutyCycleCommand(() -> {
       return m_operatorController.getRightY() * .75;
@@ -180,19 +180,19 @@ public class RobotContainer {
     
     m_operatorController.rightTrigger().whileTrue(shooter.velocityCommand());
     
-    m_operatorController.rightBumper().whileTrue(shooter.velocityCommandy());
+    m_operatorController.rightBumper().whileTrue(intake.setDutyCycleCommand(.75));
     
     m_operatorController.start().onTrue(Commands.runOnce(m_arm::setZero, m_arm));
     
-    m_operatorController.y().onTrue(m_arm.setPositionCommand(90));
+    m_operatorController.y().onTrue(m_arm.setPositionCommand(100));
     
     m_operatorController.a().onTrue(m_arm.setPositionCommand(0));
     
     m_operatorController.b().onTrue(m_arm.setPositionCommand(32));
     
-    m_operatorController.leftStick().whileTrue(m_arm.overrideSoftLimits());
-    
     m_operatorController.x().onTrue(m_arm.setPositionCommand(55));
+    
+    m_operatorController.leftStick().whileTrue(m_arm.overrideSoftLimits());
     
     m_operatorController.povUp().onTrue(Commands.runOnce(()->{
       LimelightHelpers.setPipelineIndex("limelight-right", 2);
