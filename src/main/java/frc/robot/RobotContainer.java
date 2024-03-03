@@ -13,8 +13,7 @@ import frc.lib.faults.PDHLogPowerFaults;
 import frc.lib.leds.LEDs;
 import frc.lib.leds.LedSignal;
 import frc.lib.selfCheck.RobotSelfCheckCommand;
-import frc.robot.Constants.OperatorConstants;
-// import frc.robot.commands.ShootCommand;                            
+import frc.robot.Constants.OperatorConstants;                           
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
@@ -35,21 +34,11 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
-/**
- * This class is where the bulk of the robot should be declared. Since
- * Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in
- * the {@link Robot}
- * periodic methods (other than the scheduler calls). Instead, the structure of
- * the robot (including
- * subsystems, commands, and trigger mappings) should be declared here.
- */
 public class RobotContainer {
 
   @SuppressWarnings("unused")
   private final LEDs m_leds;
   private final DriveTrain driveTrain = new DriveTrain();
-  // The robot's subsystems and commands are defined here...
   private final PowerDistribution m_PowerDistribution = new PowerDistribution();
   @SuppressWarnings("unused")
   public static final DriverTab drivertab = new DriverTab();
@@ -62,16 +51,12 @@ public class RobotContainer {
   private final Arm m_arm = new Arm();
   private final Intake intake = new Intake();
 
-  /**
-   * The container for the robot. Contains subsystems, OI devices, and commands.
-   */
   public RobotContainer() {
     PDHLogPowerFaults.setPdh(m_PowerDistribution, 8, 12, 13, 14, 15, 16, 17, 22, 23);
     LimelightPortForwarding.setup();
     Shuffleboard.getTab("can").addDouble("can utilization", () -> RobotController.getCANStatus().percentBusUtilization)
         .withWidget(BuiltInWidgets.kGraph);
-    // GetMACAddress.main();
-    // Configure the trigger bindings
+
     configureBindings();
 
     shooter.setDefaultCommand(shooter.dutyCycleCommand(() -> {
@@ -172,31 +157,16 @@ public class RobotContainer {
       DriverStation.reportError(exception.toString(), exception.getStackTrace());
 
     }
-    // Another option that allows you to specify the default auto by its name
-    // autoChooser = AutoBuilder.buildAutoChooser("My Default Auto");
-
-    // SmartDashboard.putData("Auto Chooser", autoChooser);
 
   }
 
-  /**
-   * Use this method to define your trigger->command mappings. Triggers can be
-   * created via the
-   * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with
-   * an arbitrary
-   * predicate, or via the named factories in {@link
-   * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for
-   * {@link
-   * CommandXboxController
-   * Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
-   * PS4} controllers or
-   * {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
-   * joysticks}.
-   */
+  
   private void configureBindings() {
-    // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
+
     m_driverController.start().onTrue(driveTrain.zeroCommand());
+
     m_driverController.x().whileTrue((driveTrain.xcommand()));
+
     new Trigger(shooter::isAtSetPoint)
     .onTrue(Commands.runOnce(()->{
       m_driverController.setRumble(1);
@@ -207,13 +177,11 @@ public class RobotContainer {
       m_operatorController.setRumble(0);
     }));
 
-    // m_driverController.y().whileTrue(Commands.run(() -> {
-    //   shooter.setDefaultSpeed(false);
-    // }, shooter))
-    //     .onFalse(new ShootCommand(false, shooter, intake).withTimeout(2));
 
     m_driverController.b().onTrue(m_arm.setPositionCommand(55));
+
     m_driverController.a().onTrue(m_arm.setPositionCommand(0));
+
     m_driverController.rightTrigger()
         .whileTrue(Commands.run(shooter::setDefaultSpeed, shooter))
         .onFalse(Commands.startEnd(() -> {
@@ -228,28 +196,13 @@ public class RobotContainer {
           shooter.stopShooter();
           intake.setSpeed(0);
         }, shooter, intake).withTimeout(1));
-    // m_driverController.rightTrigger().whileTrue(Commands.run(() -> {
-    //   shooter.setDefaultSpeed(true);
-    // }, shooter))
-    //     .onFalse(new ShootCommand(true, shooter, intake).withTimeout(2));
 
     m_driverController.leftTrigger().whileTrue(intake.intakeUntilQueued());
 
     m_driverController.back().whileTrue(new MusicToneCommand(256, driveTrain));
-    //  256 Hz is middle C
-    // m_driverController.start().onTrue(new
-    // TalonOrchestra("despaceto.chrp",driveTrain));
-
-    // m_driverController.leftTrigger().whileTrue(intake.intakeUntilQueued());
   }
 
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
   public Command getAutonomousCommand() {
-    // An example command will be run in autonomous
     return autoChooser.getSelected();
   }
 
