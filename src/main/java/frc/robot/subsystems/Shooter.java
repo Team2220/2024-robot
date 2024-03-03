@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import static frc.lib.units.UnitsUtil.RotationsPerSecSquared;
+
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.units.Angle;
@@ -14,7 +16,6 @@ import frc.lib.selfCheck.CheckCommand;
 import frc.lib.selfCheck.CheckableSubsystem;
 import frc.lib.selfCheck.SparkMAXSpinCheck;
 import frc.lib.tunables.TunableMeasure;
-import frc.lib.units.UnitsUtil;
 import frc.robot.Constants;
 
 public class Shooter extends SubsystemBase implements CheckableSubsystem, ShuffleBoardTabWrapper {
@@ -26,8 +27,8 @@ public class Shooter extends SubsystemBase implements CheckableSubsystem, Shuffl
     public Shooter() {
         shooterSpeed = new TunableMeasure<>("shooterSpeed", Units.RPM.of(7000), "Shooter");
         tolerance = new TunableMeasure<>("tolerance", Units.RPM.of(300), "Shooter");
-        left = new SparkMaxWrapper(Constants.Shooter.id_left, "leftShooter", true, Constants.Shooter.gear_ratio, 0.000115, 0, 0, UnitsUtil.rotationsPerSecSq(0), Units.RotationsPerSecond.of(0), 0);
-        right = new SparkMaxWrapper(Constants.Shooter.id_right, "rightShooter", false, Constants.Shooter.gear_ratio, 0.000115, 0, 0, UnitsUtil.rotationsPerSecSq(0), Units.RotationsPerSecond.of(0), 0);
+        left = new SparkMaxWrapper(Constants.Shooter.id_left, "leftShooter", true, Constants.Shooter.gear_ratio, 0.000115, 0, 0, RotationsPerSecSquared.of(0), Units.RotationsPerSecond.of(0), 0);
+        right = new SparkMaxWrapper(Constants.Shooter.id_right, "rightShooter", false, Constants.Shooter.gear_ratio, 0.000115, 0, 0, RotationsPerSecSquared.of(0), Units.RotationsPerSecond.of(0), 0);
 
         addGraph("ShooterVelocityRight", () -> right.getVelocity(),Units.RPM);
         addGraph("ShooterVelocityLeft", () -> left.getVelocity(),Units.RPM);

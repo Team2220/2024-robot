@@ -136,15 +136,8 @@ public class RobotContainer {
     m_driverController.x().whileTrue((driveTrain.xcommand()));
 
     new Trigger(shooter::isAtSetPoint)
-    .onTrue(Commands.runOnce(()->{
-      m_driverController.setRumble(1);
-      m_operatorController.setRumble(1);
-    }))
-    .onFalse(Commands.runOnce(()->{
-      m_driverController.setRumble(0);
-      m_operatorController.setRumble(0);
-    }));
-
+    .whileTrue(m_driverController.rumbleCommand(.75))
+    .whileTrue(m_operatorController.rumbleCommand(.74));
 
     m_driverController.b().onTrue(m_arm.setPositionCommand(55));
 
@@ -155,10 +148,10 @@ public class RobotContainer {
         .onFalse(Commands.startEnd(() -> {
           if (m_driverController.getHID().getRightBumper()) {
             shooter.setDefaultSpeed();
-            intake.setSpeed(.75);
+            intake.setSpeed(0);
           } else {
             shooter.setDefaultSpeed();
-            intake.setSpeed(0);
+            intake.setSpeed(.75);
           }
         }, () -> {
           shooter.stopShooter();
@@ -175,7 +168,7 @@ public class RobotContainer {
     }));
 
     intake.setDefaultCommand(intake.dutyCycleCommand(() -> {
-      return m_operatorController.getRightY();
+      return m_operatorController.getRightY() * .75;
     }));
 
     var armCommand = Commands.run(() -> {

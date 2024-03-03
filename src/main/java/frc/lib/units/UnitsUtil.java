@@ -44,11 +44,8 @@ public class UnitsUtil {
         return MetersPerSecond.of(velForWheel);
     }
 
-    public static Measure<Velocity<Velocity<Angle>>> rotationsPerSecSq(double ang) {
-        return RotationsPerSecond.per(Seconds).of(ang);
-    }
-
-    public static Measure<Velocity<Velocity<Velocity<Angle>>>> rotationsPerSecCubed(double ang) {
-        return RotationsPerSecond.per(Seconds).per(Seconds).of(ang);
-    }
+    public static final Velocity<Velocity<Angle>> RotationsPerSecSquared = RotationsPerSecond.per(Seconds);
+    
+    public static final Velocity<Velocity<Velocity<Angle>>> RotationsPerSecCubed = RotationsPerSecSquared.per(Seconds);
+    
 }

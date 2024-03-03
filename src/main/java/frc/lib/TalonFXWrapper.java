@@ -10,8 +10,8 @@ import static edu.wpi.first.units.Units.Rotations;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
 import static edu.wpi.first.units.Units.Seconds;
 import static edu.wpi.first.units.Units.Volts;
-import static frc.lib.units.UnitsUtil.rotationsPerSecCubed;
-import static frc.lib.units.UnitsUtil.rotationsPerSecSq;
+import static frc.lib.units.UnitsUtil.RotationsPerSecCubed;
+import static frc.lib.units.UnitsUtil.RotationsPerSecSquared;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -146,9 +146,9 @@ public class TalonFXWrapper {
                 0,
                 0,
                 0,
-                rotationsPerSecSq(0),
+                RotationsPerSecSquared.of(0),
                 RotationsPerSecond.of(0),
-                rotationsPerSecCubed(0),
+                RotationsPerSecCubed.of(0),
                 false,
                 false,
                 Rotations.of(0),
