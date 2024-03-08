@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class RobotSelfCheckCommand extends SequentialCommandGroup {
-    public RobotSelfCheckCommand( Command onPassCommand, Command onFailedCommand, CheckableSubsystem... subsystems) {
+    public RobotSelfCheckCommand(Command onPassCommand, Command onFailedCommand, CheckableSubsystem... subsystems) {
         addRequirements(subsystems);
         for (CheckableSubsystem subsystem : subsystems) {
             var commands = subsystem.getCheckCommands();
