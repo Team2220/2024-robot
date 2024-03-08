@@ -8,6 +8,7 @@ import static edu.wpi.first.units.Units.Volts;
 
 import java.util.function.DoubleSupplier;
 
+import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -28,8 +29,8 @@ public class Arm extends SubsystemBase implements CheckableSubsystem, ShuffleBoa
                 RotationsPerSecond.of(3000),
                 RotationsPerSecond.per(Seconds).per(Seconds).of(3000), true, true,
                 Rotations.of(110.0 / 360.0), Rotations.of(0));
-        addMeasure("ArmAngle",
-                () -> ArmTalonFX.getPosition(), Degrees);
+        addDouble("ArmAngle",
+                () -> ArmTalonFX.getPosition().in(Units.Degrees));
     }
 
     public Command dutyCycleCommand(DoubleSupplier speed) {
