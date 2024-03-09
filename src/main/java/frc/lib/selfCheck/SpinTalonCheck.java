@@ -30,7 +30,6 @@ public class SpinTalonCheck extends CheckCommand {
     @Override
     public double getTimeoutSeconds() {
         return 3;
-
     }
 
     @Override
