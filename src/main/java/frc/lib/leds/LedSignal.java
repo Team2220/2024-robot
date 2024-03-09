@@ -72,8 +72,9 @@ public class LedSignal {
         StrobeAnimation strobeAnimation = new StrobeAnimation(64, 0, 0, 0, 0.1, 164);
         return new LedSignal("isBrownedOut", RobotController::isBrownedOut, strobeAnimation, 0);
     }
-    public static LedSignal shooterAtSetPoint(BooleanSupplier supplier){
-// blink black-9
+
+    public static LedSignal shooterAtSetPoint(BooleanSupplier supplier) {
+        // blink black-9
 
         StrobeAnimation strobeAnimation = new StrobeAnimation(0, 0, 20, 0, 0.1, 164);
         return new LedSignal("shooterAtSetPoint", supplier, strobeAnimation, 0);
@@ -121,15 +122,15 @@ public class LedSignal {
         }, singleFadeAnimation, 0);
     }
 
-     public static LedSignal hasgamepiceBottomLedSignal(BooleanSupplier supplier) {
+    public static LedSignal hasgamepiceBottomLedSignal(BooleanSupplier supplier) {
         // blink red
-        StrobeAnimation singleFadeAnimation = new StrobeAnimation (0, 255, 0, 0, 0.5, 164, 0);
+        StrobeAnimation singleFadeAnimation = new StrobeAnimation(0, 255, 0, 0, 0.5, 164, 0);
         return new LedSignal("HasGamepice", supplier, singleFadeAnimation, 0);
     }
 
     public static LedSignal hasgamepiceTopLedSignal(BooleanSupplier supplier) {
         // blink red
-        StrobeAnimation singleFadeAnimation = new StrobeAnimation (0, 255, 0, 0, 0.5, 164, 0);
+        StrobeAnimation singleFadeAnimation = new StrobeAnimation(0, 255, 0, 0, 0.5, 164, 0);
         return new LedSignal("HasGamepice", supplier, singleFadeAnimation, 0);
     }
 
