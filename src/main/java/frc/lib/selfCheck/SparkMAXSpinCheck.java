@@ -38,4 +38,9 @@ public class SparkMAXSpinCheck extends CheckCommand {
     public void execute() {
         spark.set(0.25);
     }
+
+    @Override
+    public String getDescription() {
+        return "spin " + spark.getName() + "forward";
+    }
 }

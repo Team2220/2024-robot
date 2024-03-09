@@ -44,5 +44,10 @@ public class SpinTalonCheck extends CheckCommand {
         talon.setDutyCycleOut(0.25);
     }
 
+    @Override
+    public String getDescription() {
+        return "spin " + talon.getName() + "forward";
+    }
+
 
 }
