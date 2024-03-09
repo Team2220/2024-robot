@@ -2,8 +2,8 @@ package frc.robot;
 
 public class BuildConstToString {
     public String toString() {
-        String buildConstantsString = "MAVEN GROUP: " 
-                   + BuildConstants.MAVEN_GROUP + "\nMAVEN NAME: "
+        String buildConstantsString = "MAVEN GROUP: "
+                + BuildConstants.MAVEN_GROUP + "\nMAVEN NAME: "
                 + BuildConstants.MAVEN_NAME + "\nVERSION: " + BuildConstants.VERSION + "\nGIT REVISION: "
                 + BuildConstants.GIT_REVISION + "\nGIT SHA: " + BuildConstants.GIT_SHA + "\n GIT DATE: "
                 + BuildConstants.GIT_DATE + "\nGIT BRANCH: " + BuildConstants.GIT_BRANCH + "\nBUILD DATE: "
