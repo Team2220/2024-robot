@@ -12,13 +12,11 @@ public class SparkMAXSpinCheck extends CheckCommand {
 
     public SparkMAXSpinCheck(SparkMaxWrapper spark) {
         this.spark = spark;
-
     }
 
     @Override
     public void initialize() {
         position = spark.getPosition();
-
     }
 
     @Override
@@ -29,7 +27,6 @@ public class SparkMAXSpinCheck extends CheckCommand {
     @Override
     public double getTimeoutSeconds() {
         return 5;
-
     }
 
     @Override
