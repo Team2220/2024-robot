@@ -9,8 +9,9 @@ import frc.lib.units.UnitsUtil;
 public class SparkMAXSpinCheck extends CheckCommand {
     SparkMaxWrapper spark;
     Measure<Angle> position;
+    boolean isForward;
 
-    public SparkMAXSpinCheck(SparkMaxWrapper spark) {
+    public SparkMAXSpinCheck(SparkMaxWrapper spark, boolean isForward) {
         this.spark = spark;
     }
 
@@ -36,6 +37,11 @@ public class SparkMAXSpinCheck extends CheckCommand {
 
     @Override
     public void execute() {
-        spark.set(0.25);
+        spark.set(isForward? 0.25:-0.25);
+    }
+
+    @Override
+    public String getDescription() {
+        return "spin " + spark.getName() + (isForward? "forward":"backward");
     }
 }
