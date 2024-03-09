@@ -22,7 +22,7 @@ public class Arm extends SubsystemBase implements CheckableSubsystem, ShuffleBoa
     TalonFXWrapper ArmTalonFX;
 
     public Arm() {
-        ArmTalonFX = new TalonFXWrapper(Constants.Arm.ARM_TALON, "Arm", false, Constants.Arm.ARM_GEAR_RATIO, 150, 0,
+        ArmTalonFX = new TalonFXWrapper(Constants.Arm.ARM_TALON_LEFT, "Arm", false, Constants.Arm.ARM_GEAR_RATIO, 150, 0,
                 0.1,
                 0,
                 RotationsPerSecond.per(Seconds).of(3000),
