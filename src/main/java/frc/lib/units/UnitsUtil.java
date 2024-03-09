@@ -45,7 +45,7 @@ public class UnitsUtil {
     }
 
     public static final Velocity<Velocity<Angle>> RotationsPerSecSquared = RotationsPerSecond.per(Seconds);
-    
+
     public static final Velocity<Velocity<Velocity<Angle>>> RotationsPerSecCubed = RotationsPerSecSquared.per(Seconds);
-    
+
 }
