@@ -21,20 +21,17 @@ public class SpinTalonCheck extends CheckCommand {
     public void initialize() {
         position = talon.getPosition();
         System.out.println(position);
-
     }
 
     @Override
     public boolean isFinished() {
         System.out.println(talon.getPosition());
         return abs(position.minus(talon.getPosition())).gt(Rotations.of(10));
-
     }
 
     @Override
     public double getTimeoutSeconds() {
         return 3;
-
     }
 
     @Override

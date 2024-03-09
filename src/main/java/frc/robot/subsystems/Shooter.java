@@ -27,11 +27,13 @@ public class Shooter extends SubsystemBase implements CheckableSubsystem, Shuffl
     public Shooter() {
         shooterSpeed = new TunableMeasure<>("shooterSpeed", Units.RPM.of(7000), "Shooter");
         tolerance = new TunableMeasure<>("tolerance", Units.RPM.of(300), "Shooter");
-        left = new SparkMaxWrapper(Constants.Shooter.id_left, "leftShooter", true, Constants.Shooter.gear_ratio, 0.000115, 0, 0, RotationsPerSecSquared.of(0), Units.RotationsPerSecond.of(0), 0);
-        right = new SparkMaxWrapper(Constants.Shooter.id_right, "rightShooter", false, Constants.Shooter.gear_ratio, 0.000115, 0, 0, RotationsPerSecSquared.of(0), Units.RotationsPerSecond.of(0), 0);
+        left = new SparkMaxWrapper(Constants.Shooter.id_left, "leftShooter", true, Constants.Shooter.gear_ratio,
+                0.000115, 0, 0, RotationsPerSecSquared.of(0), Units.RotationsPerSecond.of(0), 0);
+        right = new SparkMaxWrapper(Constants.Shooter.id_right, "rightShooter", false, Constants.Shooter.gear_ratio,
+                0.000115, 0, 0, RotationsPerSecSquared.of(0), Units.RotationsPerSecond.of(0), 0);
 
-        addGraph("ShooterVelocityRight", () -> right.getVelocity(),Units.RPM);
-        addGraph("ShooterVelocityLeft", () -> left.getVelocity(),Units.RPM);
+        addGraph("ShooterVelocityRight", () -> right.getVelocity(), Units.RPM);
+        addGraph("ShooterVelocityLeft", () -> left.getVelocity(), Units.RPM);
     }
 
     public Command dutyCycleCommand(DoubleSupplier speed) {
@@ -49,9 +51,9 @@ public class Shooter extends SubsystemBase implements CheckableSubsystem, Shuffl
     }
 
     public boolean isAtSetPoint() {
-        return //left.isAtReference(shooterSpeed.getValue(), tolerance.getValue())
-                //&& 
-                right.isAtReference(shooterSpeed.getValue(), tolerance.getValue());
+        return // left.isAtReference(shooterSpeed.getValue(), tolerance.getValue())
+               // &&
+        right.isAtReference(shooterSpeed.getValue(), tolerance.getValue());
     }
 
     public Command velocityCommand() {
@@ -90,8 +92,8 @@ public class Shooter extends SubsystemBase implements CheckableSubsystem, Shuffl
     @Override
     public CheckCommand[] getCheckCommands() {
         return new CheckCommand[] {
-            new SparkMAXSpinCheck(left),
-            new SparkMAXSpinCheck(right),
+                new SparkMAXSpinCheck(left),
+                new SparkMAXSpinCheck(right),
         };
     }
 

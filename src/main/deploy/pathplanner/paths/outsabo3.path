@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.1969112668610487,
-        "y": 5.53
+        "x": 6.11,
+        "y": 4.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.196911266861051,
-        "y": 5.53
+        "x": 7.11,
+        "y": 4.0
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.9,
-        "y": 5.55
+        "x": 8.132571914422408,
+        "y": 4.123006159441842
       },
       "prevControl": {
-        "x": 1.9,
-        "y": 5.55
+        "x": 7.1325719144224085,
+        "y": 4.123006159441842
       },
       "nextControl": null,
       "isLocked": false,
@@ -32,8 +32,8 @@
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "intake prep",
-      "waypointRelativePos": 0.8,
+      "name": "New Event Marker",
+      "waypointRelativePos": 0.7,
       "command": {
         "type": "parallel",
         "data": {
@@ -42,12 +42,6 @@
               "type": "named",
               "data": {
                 "name": "intake"
-              }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "3.2"
               }
             }
           ]

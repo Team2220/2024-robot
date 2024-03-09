@@ -42,6 +42,8 @@ public class Robot extends TimedRobot {
     SignalLogger.start();
     // Starts recording to data log
     DataLogManager.start();
+    BuildConstToString buildConst = new BuildConstToString();
+    DataLogManager.log(buildConst.toString());
 
     // Record both DS control and joystick data
     DriverStation.startDataLog(DataLogManager.getLog());
