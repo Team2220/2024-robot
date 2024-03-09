@@ -3,68 +3,56 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.4410990864157092,
-        "y": 4.123006159441842
+        "x": 0.7893918562531909,
+        "y": 4.59113388815013
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.3957124939777077,
-        "y": 3.6456994556608433
+        "x": 1.615499612797228,
+        "y": 3.7466681814606693
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 8.12,
-        "y": 0.7726802579021355
+        "x": 8.150929864567832,
+        "y": 0.7910382080475593
       },
       "prevControl": {
-        "x": 7.127492245333688,
-        "y": 0.8948619133469548
+        "x": 7.167185491776568,
+        "y": 1.138242104326829
       },
       "nextControl": {
-        "x": 8.343688341094774,
-        "y": 0.7451433326840008
+        "x": 8.619057593276121,
+        "y": 0.6258166567387514
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 6.11,
-        "y": 1.98
+        "x": 3.148388449940052,
+        "y": 3.2785404527523823
       },
       "prevControl": {
-        "x": 6.646715900290846,
-        "y": 1.975410512463644
+        "x": 3.2585361508125907,
+        "y": 2.929739399989343
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [],
-  "constraintZones": [],
-  "eventMarkers": [
+  "rotationTargets": [
     {
-      "name": "r",
-      "waypointRelativePos": 0.75,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "intake"
-              }
-            }
-          ]
-        }
-      }
+      "waypointRelativePos": 1.05,
+      "rotationDegrees": -15.0,
+      "rotateFast": false
     }
   ],
+  "constraintZones": [],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 6.0,
     "maxAcceleration": 4.0,
@@ -73,13 +61,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -14.0,
+    "rotation": -30.0,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "Sectret",
   "previewStartingState": {
-    "rotation": -46.00508600525419,
+    "rotation": -59.74356283647074,
     "velocity": 0
   },
   "useDefaultConstraints": true
