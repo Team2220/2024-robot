@@ -36,8 +36,8 @@ public class SparkMaxWrapper {
         sparkMax.restoreFactoryDefaults();
         sparkMax.enableVoltageCompensation(10);
         sparkMax.setInverted(isInverted);
-        sparkMax.getEncoder().setPositionConversionFactor(1.0/gearRatio);
-        sparkMax.getEncoder().setVelocityConversionFactor(1.0/gearRatio);
+        sparkMax.getEncoder().setPositionConversionFactor(1.0 / gearRatio);
+        sparkMax.getEncoder().setVelocityConversionFactor(1.0 / gearRatio);
         pidController = sparkMax.getPIDController();
 
         new TunableDouble("P", P, getName(), value -> {
