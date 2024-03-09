@@ -13,7 +13,7 @@ import frc.lib.faults.PDHLogPowerFaults;
 import frc.lib.leds.LEDs;
 import frc.lib.leds.LedSignal;
 import frc.lib.selfCheck.RobotSelfCheckCommand;
-import frc.robot.Constants.OperatorConstants;                           
+import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
@@ -21,7 +21,6 @@ import frc.robot.subsystems.Shooter;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
-import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.RobotController;
@@ -58,7 +57,6 @@ public class RobotContainer {
 
     configureBindings();
 
-   
     m_leds = new LEDs(
         new int[] {},
         new LedSignal[] {
@@ -70,7 +68,7 @@ public class RobotContainer {
             LedSignal.hasgamepiceTopLedSignal(intake::getTopNoteSensor),
             // LedSignal.hasActiveFault(),
             LedSignal.getLowBatteryLedSignal(),
-            LedSignal.shooterAtSetPoint(()-> shooter.isAtSetPoint())
+            LedSignal.shooterAtSetPoint(() -> shooter.isAtSetPoint())
         });
 
     NamedCommands.registerCommand("armSpeakerPos", m_arm.setPositionOnceCommand(55));
@@ -107,9 +105,8 @@ public class RobotContainer {
 
   }
 
-  
   private void configureBindings() {
-// driver controls
+    // driver controls
     var driveCommand = driveTrain.driveCommand(() -> {
       double coefficient = m_driverController.getHID().getLeftBumper() ? 0.5 : 1;
       return m_driverController.getLeftX() * -1 * coefficient;
@@ -128,8 +125,8 @@ public class RobotContainer {
     m_driverController.x().whileTrue((driveTrain.xcommand()));
 
     new Trigger(shooter::isAtSetPoint)
-    .whileTrue(m_driverController.rumbleCommand(.75))
-    .whileTrue(m_operatorController.rumbleCommand(.74));
+        .whileTrue(m_driverController.rumbleCommand(.75))
+        .whileTrue(m_operatorController.rumbleCommand(.74));
 
     m_driverController.b().onTrue(m_arm.setPositionCommand(55));
 
@@ -156,7 +153,7 @@ public class RobotContainer {
 
     // operator controls
     // shooter.setDefaultCommand(shooter.dutyCycleCommand(() -> {
-    //   return m_operatorController.getRightTriggerAxis();
+    // return m_operatorController.getRightTriggerAxis();
     // }));
 
     intake.setDefaultCommand(intake.dutyCycleCommand(() -> {
@@ -172,31 +169,31 @@ public class RobotContainer {
         m_arm.holdPosition();
       }
     }, m_arm);
-    
+
     m_operatorController.leftYTrigger().onTrue(armCommand);
     m_arm.setDefaultCommand(armCommand);
 
     m_operatorController.leftTrigger().whileTrue(intake.intakeUntilQueued());
 
     m_operatorController.leftBumper().whileTrue(intake.setDutyCycleCommand(-.75));
-    
+
     m_operatorController.rightTrigger().whileTrue(shooter.velocityCommand());
-    
+
     m_operatorController.rightBumper().whileTrue(intake.setDutyCycleCommand(.75));
-    
+
     m_operatorController.start().onTrue(Commands.runOnce(m_arm::setZero, m_arm));
-    
+
     m_operatorController.y().onTrue(m_arm.setPositionCommand(100));
-    
+
     m_operatorController.a().onTrue(m_arm.setPositionCommand(0));
-    
+
     m_operatorController.b().onTrue(m_arm.setPositionCommand(32));
-    
+
     m_operatorController.x().onTrue(m_arm.setPositionCommand(55));
-    
+
     m_operatorController.leftStick().whileTrue(m_arm.overrideSoftLimits());
-    
-    m_operatorController.povUp().onTrue(Commands.runOnce(()->{
+
+    m_operatorController.povUp().onTrue(Commands.runOnce(() -> {
       LimelightHelpers.setPipelineIndex("limelight-right", 2);
     }));
 
