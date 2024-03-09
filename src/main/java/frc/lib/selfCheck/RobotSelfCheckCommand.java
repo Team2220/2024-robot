@@ -11,12 +11,16 @@ public class RobotSelfCheckCommand extends SequentialCommandGroup {
         for (CheckableSubsystem subsystem : subsystems) {
             var commands = subsystem.getCheckCommands();
             for (CheckCommand command : commands) {
-                addCommands(command.finallyDo((interrupted) -> {
-                    if (interrupted)
-                        anyFailed = true;
+                addCommands(
+                    Commands.print(command.getDescription())
+                    .andThen(command)
+                    .finallyDo((interrupted) -> {
+                        if (interrupted)
+                            anyFailed = true;
 
-                    DataLogManager.log(command.getName() + "  " + subsystem.getName() + interrupted);
-                }).withTimeout(command.getTimeoutSeconds()));
+                        DataLogManager.log(command.getName() + "  " + subsystem.getName() + interrupted);
+                    })
+                    .withTimeout(command.getTimeoutSeconds()));
 
             }
         }
