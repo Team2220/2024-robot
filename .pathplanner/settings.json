@@ -1,6 +1,6 @@
 {
-  "robotWidth": 0.6223,
-  "robotLength": 0.6223,
+  "robotWidth": 0.83,
+  "robotLength": 0.99,
   "holonomicMode": true,
   "pathFolders": [
     "Sectret",

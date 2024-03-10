@@ -58,13 +58,13 @@ public class RobotContainer {
     configureBindings();
 
     m_leds = new LEDs(
-        new int[] {},
+        new int[] {1, 2},
         new LedSignal[] {
             LedSignal.isBrownedOut(),
             LedSignal.isDSConnected(),
             LedSignal.isEndGame(),
-            LedSignal.hasgamepiceBottomLedSignal(intake::getBottomNoteSensor),
-            LedSignal.hasgamepiceTopLedSignal(intake::getTopNoteSensor),
+            // LedSignal.hasgamepiceBottomLedSignal(intake::getBottomNoteSensor),
+            // LedSignal.hasgamepiceTopLedSignal(intake::getTopNoteSensor),
             LedSignal.getLowBatteryLedSignal(),
             LedSignal.shooterAtSetPoint(() -> shooter.isAtSetPoint())
         });
