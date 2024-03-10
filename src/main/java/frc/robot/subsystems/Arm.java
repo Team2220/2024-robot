@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.ShuffleBoardTabWrapper;
 import frc.lib.TalonFXWrapper;
+import frc.lib.TalonFXWrapper.FollowerConfig;
 import frc.lib.selfCheck.CheckCommand;
 import frc.lib.selfCheck.CheckableSubsystem;
 import frc.robot.Constants;
@@ -22,14 +23,20 @@ public class Arm extends SubsystemBase implements CheckableSubsystem, ShuffleBoa
     TalonFXWrapper ArmTalonFX;
 
     public Arm() {
-        ArmTalonFX = new TalonFXWrapper(Constants.Arm.ARM_TALON_LEFT, "Arm", false, Constants.Arm.ARM_GEAR_RATIO, 150,
+        ArmTalonFX = new TalonFXWrapper(
+                Constants.Arm.ARM_TALON_LEFT,
+                "Arm",
+                false,
+                Constants.Arm.ARM_GEAR_RATIO,
+                150,
                 0,
                 0.1,
-                0,
                 RotationsPerSecond.per(Seconds).of(3000),
                 RotationsPerSecond.of(3000),
                 RotationsPerSecond.per(Seconds).per(Seconds).of(3000), true, true,
-                Rotations.of(110.0 / 360.0), Rotations.of(0));
+                Rotations.of(110.0 / 360.0), Rotations.of(0),
+                new FollowerConfig(Constants.Arm.ARM_TALON_RIGHT, true)
+                );
         addDouble("ArmAngle",
                 () -> ArmTalonFX.getPosition().in(Units.Degrees));
     }

@@ -1,9 +1,11 @@
 package frc.lib;
 
 import com.ctre.phoenix6.controls.DutyCycleOut;
+import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.MusicTone;
 import com.ctre.phoenix6.controls.PositionVoltage;
+import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 
 import static edu.wpi.first.units.Units.Rotations;
@@ -28,9 +30,11 @@ import frc.lib.faults.Fault;
 import frc.lib.faults.TalonFXLogPowerFaults;
 import frc.lib.tunables.TunableDouble;
 import frc.lib.tunables.TunableMeasure;
+import frc.lib.units.UnitsUtil;
 
 public class TalonFXWrapper {
     private TalonFX talon;
+    private TalonFX followerFx;
     private String name;
     private TalonFXConfiguration talonFXConfigs;
     // private static Fault fault = new Fault("TalonFX device disconnected");
@@ -45,14 +49,14 @@ public class TalonFXWrapper {
             double P,
             double I,
             double D,
-            double G,
             Measure<Velocity<Velocity<Angle>>> Acceleration,
             Measure<Velocity<Angle>> CruiseVelocity,
             Measure<Velocity<Velocity<Velocity<Angle>>>> Jerk,
             boolean forwardSoftLimitEnable,
             boolean reverseSoftLimitEnable,
             Measure<Angle> forwardSoftLimitTreshold,
-            Measure<Angle> reverseSoftLimitThreshold) {
+            Measure<Angle> reverseSoftLimitThreshold,
+            FollowerConfig followerConfig) {
         talon = new TalonFX(id);
         this.name = name;
         // firmwareVersionSignal = talon.getVersion();
@@ -86,6 +90,11 @@ public class TalonFXWrapper {
         talonFXConfigs.Voltage.PeakReverseVoltage = -10;
 
         talon.getConfigurator().apply(talonFXConfigs);
+        if(followerConfig != null){
+            followerFx = new TalonFX(followerConfig.id);
+            followerFx.getConfigurator().apply(talonFXConfigs);
+            followerFx.setControl(new Follower(id, followerConfig.isInverted));
+        }
 
         new TunableDouble("P", P, getName(), value -> {
             talonFXConfigs.Slot0.kP = value;
@@ -102,10 +111,10 @@ public class TalonFXWrapper {
             talon.getConfigurator().apply(talonFXConfigs);
         });
 
-        new TunableDouble("G", G, getName(), value -> {
-            talonFXConfigs.Slot0.kG = value;
-            talon.getConfigurator().apply(talonFXConfigs);
-        });
+        // new TunableDouble("G", G, getName(), value -> {
+        //     talonFXConfigs.Slot0.kG = value;
+        //     talon.getConfigurator().apply(talonFXConfigs);
+        // });
 
         new TunableMeasure<>("Acceleration", Acceleration, getName(), value -> {
             talonFXConfigs.MotionMagic.MotionMagicAcceleration = value.in(RotationsPerSecond.per(Seconds));
@@ -145,14 +154,14 @@ public class TalonFXWrapper {
                 0,
                 0,
                 0,
-                0,
                 RotationsPerSecSquared.of(0),
                 RotationsPerSecond.of(0),
                 RotationsPerSecCubed.of(0),
                 false,
                 false,
                 Rotations.of(0),
-                Rotations.of(0));
+                Rotations.of(0),
+                null);
     }
 
     public void setSoftLimitsEnabled(boolean enabled) {
@@ -186,8 +195,23 @@ public class TalonFXWrapper {
         talon.setPosition(newPosition);
     }
 
+    
+
     public Measure<Angle> getPosition() {
         return Units.Rotations.of(talon.getPosition().getValueAsDouble());
+    }
+
+    public void setVelocity(Measure<Velocity<Angle>> speed) {
+        talon.setControl(new VelocityVoltage(speed.in(RotationsPerSecond)));
+    }
+
+    public Measure<Velocity<Angle>> getVelocity(){
+        return Units.RotationsPerSecond.of(talon.getVelocity().getValueAsDouble());
+    }
+    
+    public boolean isAtReference(Measure<Velocity<Angle>> speed, Measure<Velocity<Angle>> tolerance) {
+        var diff = (getVelocity().minus(speed));
+        return UnitsUtil.abs(diff).lte(tolerance);
     }
 
     // multaplying by 10 to convert duty cycle to voltage
@@ -209,5 +233,8 @@ public class TalonFXWrapper {
 
     public void setMusicTone(double frequency) {
         talon.setControl(new MusicTone(frequency));
+    }
+
+    public static record FollowerConfig(int id, boolean isInverted) {
     }
 }

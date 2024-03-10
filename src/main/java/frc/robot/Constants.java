@@ -23,13 +23,13 @@ public final class Constants {
   }
 
   public static class LEDS {
-    public static final int LEFT = 1;
-    public static final int RIGHT = 2;
+    public static final int LEFT = 2;
+    public static final int RIGHT = 1;
   }
 
   public static class Shooter {
-    public static final int id_left = 4;
-    public static final int id_right = 5;
+    public static final int id_left = 23;
+    public static final int id_right = 24;
     public static final double gear_ratio = 30.0 / 18.0;
   }
 
@@ -41,7 +41,7 @@ public final class Constants {
   }
 
   public static class Arm {
-    public static final int ARM_TALON_LEFT = 20;
+    public static final int ARM_TALON_LEFT = 27;
     public static final int ARM_TALON_RIGHT = 21;
     public static final double ARM_GEAR_RATIO = (5.0 / 1.0) * (4.0 / 1.0) * (3.0 / 1.0) * (58.0 / 18.0);
   }

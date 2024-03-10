@@ -101,7 +101,7 @@ public class SparkMaxWrapper {
         return Rotations.of(sparkMax.getEncoder().getPosition());
     }
 
-    public void setReference(Measure<Velocity<Angle>> speed) {
+    public void setVelocity(Measure<Velocity<Angle>> speed) {
         pidController.setReference(speed.in(RPM), CANSparkBase.ControlType.kVelocity);
     }
 
