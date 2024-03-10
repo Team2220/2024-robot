@@ -92,8 +92,10 @@ public class Shooter extends SubsystemBase implements CheckableSubsystem, Shuffl
     @Override
     public CheckCommand[] getCheckCommands() {
         return new CheckCommand[] {
-                new SparkMAXSpinCheck(left),
-                new SparkMAXSpinCheck(right),
+                new SparkMAXSpinCheck(left, true),
+                new SparkMAXSpinCheck(left, false),
+                new SparkMAXSpinCheck(right, true),
+                new SparkMAXSpinCheck(right, false),
         };
     }
 
