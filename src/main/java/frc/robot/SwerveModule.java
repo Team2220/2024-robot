@@ -57,17 +57,6 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
   private double offset;
   private String name;
 
-  /**
-   * Constructs a SwerveModule with a drive motor, turning motor, drive encoder
-   * and turning encoder.
-   *
-   * @param driveMotorChannel      PWM output for the drive motor.
-   * @param turningMotorChannel    PWM output for the turning motor.
-   * @param driveEncoderChannelA   DIO input for the drive encoder channel A
-   * @param driveEncoderChannelB   DIO input for the drive encoder channel B
-   * @param turningEncoderChannelA DIO input for the turning encoder channel A
-   * @param turningEncoderChannelB DIO input for the turning encoder channel B
-   */
   public SwerveModule(
       String name, int driveMotorChannel,
       int turningMotorChannel,
@@ -140,19 +129,6 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
       m_turningMotor.getConfigurator().apply(steerConfigs);
     });
 
-    // Set the distance per pulse for the drive encoder. We can simply use the
-    // distance traveled for one rotation of the wheel divided by the encoder
-    // resolution.
-
-    // Set the distance (in this case, angle) in radians per pulse for the turning
-    // encoder.
-    // This is the the angle through an entire rotation (2 * pi) divided by the
-    // encoder resolution.
-    // m_turningEncoder.setDistancePerPulse(2 * Math.PI / kEncoderResolution);
-
-    // Limit the PID Controller's input range between -pi and pi and set the input
-    // to be continuous.
-    // m_turningPIDController.enableContinuousInput(-Math.PI, Math.PI);
     m_turningMotor.setPosition(-angleToEncoderTicks(getAngle().getDegrees()));
 
     Shuffleboard.getTab("swerve")
@@ -160,11 +136,6 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
         .withWidget(BuiltInWidgets.kGraph).withSize(1, 1);
   }
 
-  /**
-   * Returns the current state of the module.
-   *
-   * @return The current state of the module.
-   */
   public SwerveModuleState getState() {
     return new SwerveModuleState(
         getDriveVelocity(), getAngle());
@@ -217,11 +188,6 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
     return angle;
   }
 
-  /**
-   * Returns the current position of the module.
-   *
-   * @return The current position of the module.
-   */
   public SwerveModulePosition getPosition() {
     return new SwerveModulePosition(
         getDrivePosition(), getAngle());
@@ -232,48 +198,17 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
     return Rotation2d.fromDegrees(MathUtil.inputModulus(rAngle.getDegrees(), 0, 360));
   }
 
-  /**
-   * Sets the desired state for the module.
-   *
-   * @param desiredState Desired state with speed and angle.
-   */
   public void setDesiredState(SwerveModuleState desiredState) {
     drivePositionEntry.setDouble(getDrivePosition());
 
     Rotation2d rotation2d = Rotation2d
         .fromDegrees(steerEncoderTicksToAngle(-m_turningMotor.getPosition().getValueAsDouble()));
-    // System.out.println("endoder:" + getAngle().getDegrees() + " | motor:" +
-    // rotation2d.getDegrees() + " | " + convertAngle( rotation2d.getDegrees(),
-    // 90));
     SwerveModuleState state = SwerveModuleState.optimize(desiredState, rotation2d);
-    // System.out.println(String.format("joystick:%.2f ", state.angle.getDegrees())
-    // + String.format(" motor: %.2f ", rotation2d.getDegrees()) + String.format("
-    // output: %.2f", convertAngle(rotation2d.getDegrees(),
-    // state.angle.getDegrees())));
     speed.setDouble(mpsToEncoderTicks(state.speedMetersPerSecond));
-    // angle.setDouble(angleToEncoderTicks(state.angle.getDegrees()));
     m_driveMotor.setControl(new VelocityDutyCycle(mpsToEncoderTicks(state.speedMetersPerSecond) * -1));
     m_turningMotor.setControl(new PositionDutyCycle(
         angleToEncoderTicks(convertAngle(rotation2d.getDegrees(), state.angle.getDegrees()) * -1)));
 
-    // Calculate the drive output from the drive PID controller.
-    // final double driveOutput =
-    // m_drivePIDController.calculate(m_driveEncoder.getRate(),
-    // state.speedMetersPerSecond);
-
-    // final double driveFeedforward =
-    // m_driveFeedforward.calculate(state.speedMetersPerSecond);
-
-    // // Calculate the turning motor output from the turning PID controller.
-    // final double turnOutput =
-    // m_turningPIDController.calculate(m_turningEncoder.getDistance(),
-    // state.angle.getRadians());
-
-    // final double turnFeedforward =
-    // m_turnFeedforward.calculate(m_turningPIDController.getSetpoint().velocity);
-
-    // m_driveMotor.setVoltage(driveOutput + driveFeedforward);
-    // m_turningMotor.setVoltage(turnOutput + turnFeedforward);
   }
 
   public static double convertAngle(double start, double end) {
@@ -300,7 +235,6 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
 
   @Override
   public String getName() {
-    // TODO Auto-generated method stub
     return name;
   }
 }

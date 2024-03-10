@@ -62,11 +62,9 @@ public class RobotContainer {
         new LedSignal[] {
             LedSignal.isBrownedOut(),
             LedSignal.isDSConnected(),
-            // LedSignal.hasTarget(),
             LedSignal.isEndGame(),
             LedSignal.hasgamepiceBottomLedSignal(intake::getBottomNoteSensor),
             LedSignal.hasgamepiceTopLedSignal(intake::getTopNoteSensor),
-            // LedSignal.hasActiveFault(),
             LedSignal.getLowBatteryLedSignal(),
             LedSignal.shooterAtSetPoint(() -> shooter.isAtSetPoint())
         });
@@ -150,11 +148,6 @@ public class RobotContainer {
     m_driverController.leftTrigger().whileTrue(intake.intakeUntilQueued());
 
     m_driverController.back().whileTrue(new MusicToneCommand(256, driveTrain));
-
-    // operator controls
-    // shooter.setDefaultCommand(shooter.dutyCycleCommand(() -> {
-    // return m_operatorController.getRightTriggerAxis();
-    // }));
 
     intake.setDefaultCommand(intake.dutyCycleCommand(() -> {
       return m_operatorController.getRightY() * .75;
