@@ -14,7 +14,7 @@ public class IsolatedEventLoop {
         eventLoop.bind(() -> {
             try {
                 action.run();
-            } catch(Exception e) {
+            } catch (Exception e) {
                 DriverStation.reportError("ISOLATED EVENT LOOP ERROR", e.getStackTrace());
             }
         });

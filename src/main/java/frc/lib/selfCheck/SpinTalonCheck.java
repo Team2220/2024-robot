@@ -10,29 +10,28 @@ import frc.lib.TalonFXWrapper;
 public class SpinTalonCheck extends CheckCommand {
     TalonFXWrapper talon;
     Measure<Angle> position;
+    boolean isForward;
 
-    public SpinTalonCheck(TalonFXWrapper talon) {
+    public SpinTalonCheck(TalonFXWrapper talon, boolean isForward) {
         this.talon = talon;
+        this.isForward = isForward;
     }
 
     @Override
     public void initialize() {
         position = talon.getPosition();
         System.out.println(position);
-
     }
 
     @Override
     public boolean isFinished() {
         System.out.println(talon.getPosition());
         return abs(position.minus(talon.getPosition())).gt(Rotations.of(10));
-
     }
 
     @Override
     public double getTimeoutSeconds() {
         return 3;
-
     }
 
     @Override
@@ -42,6 +41,13 @@ public class SpinTalonCheck extends CheckCommand {
 
     @Override
     public void execute() {
-        talon.setDutyCycleOut(0.25);
+        talon.setDutyCycleOut(isForward? 0.25 : -0.25);
     }
+
+    @Override
+    public String getDescription() {
+        return "spin " + talon.getName() + (isForward? "forward":"backward");
+    }
+
+
 }

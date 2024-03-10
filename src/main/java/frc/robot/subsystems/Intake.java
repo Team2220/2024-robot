@@ -107,15 +107,16 @@ public class Intake extends SubsystemBase implements CheckableSubsystem, Shuffle
     @Override
     public CheckCommand[] getCheckCommands() {
         return new CheckCommand[] {
-                new SpinTalonCheck(conveyor),
+                new SpinTalonCheck(conveyor, true),
                 new SparkMAXSpinCheck(intake),
         };
     }
+
     public boolean getBottomNoteSensor() {
         return bottomNoteSensor.get();
     }
 
-    public boolean getTopNoteSensor(){
+    public boolean getTopNoteSensor() {
         return topNoteSensor.get();
     }
 }
