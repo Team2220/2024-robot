@@ -39,7 +39,7 @@ public class ObjectTracker extends Command {
     for (LimelightTarget_Detector target : results.targetingResults.targets_Detector) {
       if (target.className.equals("cone")) {
         out = target.tx;
-        foundCone = true;
+        foundCone = false;
       }
     }
 
