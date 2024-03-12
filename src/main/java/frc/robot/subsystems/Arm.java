@@ -8,7 +8,6 @@ import static edu.wpi.first.units.Units.Volts;
 
 import java.util.function.DoubleSupplier;
 
-import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -17,6 +16,7 @@ import frc.lib.TalonFXWrapper;
 import frc.lib.TalonFXWrapper.FollowerConfig;
 import frc.lib.selfCheck.CheckCommand;
 import frc.lib.selfCheck.CheckableSubsystem;
+import frc.lib.selfCheck.PositionTalonCheck;
 import frc.robot.Constants;
 
 public class Arm extends SubsystemBase implements CheckableSubsystem, ShuffleBoardTabWrapper {
@@ -37,7 +37,7 @@ public class Arm extends SubsystemBase implements CheckableSubsystem, ShuffleBoa
                 Rotations.of(110.0 / 360.0), Rotations.of(0),
                 new FollowerConfig(Constants.Arm.ARM_TALON_RIGHT, true));
         addDouble("ArmAngle",
-                () -> ArmTalonFX.getPosition().in(Units.Degrees));
+                () -> ArmTalonFX.getPosition().in(Degrees));
     }
 
     public Command dutyCycleCommand(DoubleSupplier speed) {
@@ -91,7 +91,11 @@ public class Arm extends SubsystemBase implements CheckableSubsystem, ShuffleBoa
 
     @Override
     public CheckCommand[] getCheckCommands() {
-        return new CheckCommand[] {};
+        return new CheckCommand[] {
+            new PositionTalonCheck(ArmTalonFX, Degrees.of(90), Degrees.of(5)),
+            new PositionTalonCheck(ArmTalonFX, Degrees.of(0), Degrees.of(5))
+        
+        };
     }
 
 }

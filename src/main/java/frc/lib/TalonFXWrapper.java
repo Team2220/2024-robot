@@ -237,4 +237,9 @@ public class TalonFXWrapper {
 
     public static record FollowerConfig(int id, boolean isInverted) {
     }
+    
+    public boolean isAtPositionReference(Measure<Angle> speed, Measure<Angle>tolerance) {
+        var diff = (getPosition().minus(speed));
+        return UnitsUtil.abs(diff).lte(tolerance);
+    }
 }
