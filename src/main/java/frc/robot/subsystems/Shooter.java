@@ -29,41 +29,38 @@ public class Shooter extends SubsystemBase implements CheckableSubsystem, Shuffl
         shooterSpeed = new TunableMeasure<>("shooterSpeed", Units.RPM.of(7000), "Shooter");
         tolerance = new TunableMeasure<>("tolerance", Units.RPM.of(300), "Shooter");
         left = new TalonFXWrapper(
-            Constants.Shooter.id_left,
-            "leftShooter",
-            true,
-            Constants.Shooter.gear_ratio,
-            0.000115,
-            0,
-            0,
-            RotationsPerSecSquared.of(0),
-            Units.RotationsPerSecond.of(0), 
-            UnitsUtil.RotationsPerSecCubed.of(0),
-            false,
-            false,
-            Units.Rotations.of(0),
-            Units.Rotations.of(0),
-            null
-        );
+                Constants.Shooter.id_left,
+                "leftShooter",
+                true,
+                Constants.Shooter.gear_ratio,
+                1,
+                0,
+                0,
+                RotationsPerSecSquared.of(0),
+                Units.RotationsPerSecond.of(0),
+                UnitsUtil.RotationsPerSecCubed.of(0),
+                false,
+                false,
+                Units.Rotations.of(0),
+                Units.Rotations.of(0),
+                null);
 
         right = new TalonFXWrapper(
-            Constants.Shooter.id_right,
-            "rightShooter",
-            false,
-            Constants.Shooter.gear_ratio,
-            0.000115,
-            0,
-            0,
-            RotationsPerSecSquared.of(0),
-            Units.RotationsPerSecond.of(0), 
-            UnitsUtil.RotationsPerSecCubed.of(0),
-            false,
-            false,
-            Units.Rotations.of(0),
-            Units.Rotations.of(0),
-            null
-        );
-
+                Constants.Shooter.id_right,
+                "rightShooter",
+                false,
+                Constants.Shooter.gear_ratio,
+                1,
+                0,
+                0,
+                RotationsPerSecSquared.of(0),
+                Units.RotationsPerSecond.of(0),
+                UnitsUtil.RotationsPerSecCubed.of(0),
+                false,
+                false,
+                Units.Rotations.of(0),
+                Units.Rotations.of(0),
+                null);
 
         addGraph("ShooterVelocityRight", () -> right.getVelocity(), Units.RPM);
         addGraph("ShooterVelocityLeft", () -> left.getVelocity(), Units.RPM);
