@@ -50,7 +50,7 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem, Check
             .sqrt(Math.pow(DRIVETRAIN_TRACKWIDTH_METERS / 2, 2) + Math.pow(DRIVETRAIN_WHEELBASE_METERS / 2, 2));
 
     public DriveTrain() {
-        Shuffleboard.getTab("field").add("Field", m_poseEstimatorField);
+        Shuffleboard.getTab("field").add("Field", m_poseEstimatorField).withSize(4, 3);
         Shuffleboard.getTab("limeLight").add("limeLight", m_limeLightField);
         System.out.println("Velocity" + MAX_VELOCITY_METERS_PER_SECOND);
         AutoBuilder.configureHolonomic(
