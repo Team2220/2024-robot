@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.lib.CommandObserver;
+import frc.lib.LoopTime;
 import frc.lib.eventLoops.EventLoops;
 import frc.lib.faults.Fault;
 
@@ -36,8 +37,8 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     SignalLogger.start();
     DataLogManager.start();
-     BuildConstToString buildConst = new BuildConstToString();
-     DataLogManager.log(buildConst.toString());
+    BuildConstToString buildConst = new BuildConstToString();
+    DataLogManager.log(buildConst.toString());
 
     DriverStation.startDataLog(DataLogManager.getLog());
 
@@ -45,16 +46,20 @@ public class Robot extends TimedRobot {
     addPeriodic(EventLoops.oncePerSec::poll, 1);
     addPeriodic(EventLoops.oncePerMin::poll, 60);
     Fault.setupDefaultFaults();
-  
+
     DriverStation.silenceJoystickConnectionWarning(true);
 
     m_robotContainer = new RobotContainer();
     Shuffleboard.getTab("Scheduler").add("Scheduler", CommandScheduler.getInstance()).withSize(3, 2);
   }
 
+  LoopTime loopTimer = new LoopTime("Robot Periodic");
+
   @Override
   public void robotPeriodic() {
-    CommandScheduler.getInstance().run();
+    loopTimer.measure(() -> {
+      CommandScheduler.getInstance().run();
+    });
   }
 
   @Override
@@ -109,7 +114,7 @@ public class Robot extends TimedRobot {
   @Override
   public void simulationInit() {
   }
-  
+
   @Override
   public void simulationPeriodic() {
   }
