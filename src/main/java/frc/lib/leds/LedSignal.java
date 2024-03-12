@@ -45,6 +45,8 @@ public class LedSignal {
         }
     }
 
+    LedSignal[] leds = new LedSignal[]{isDSConnected(), previouslyHadFault(), isBrownedOut(), shooterAtSetPoint(isActive), hasActiveFault(), isEndGame(), getLowBatteryLedSignal(), hasgamepiceBottomLedSignal(isActive), hasgamepiceTopLedSignal(isActive)};
+
     // starter signals
     public static LedSignal isDSConnected() {
         // fade blue
