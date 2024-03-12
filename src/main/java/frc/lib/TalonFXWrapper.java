@@ -90,7 +90,7 @@ public class TalonFXWrapper {
         talonFXConfigs.Voltage.PeakReverseVoltage = -10;
 
         talon.getConfigurator().apply(talonFXConfigs);
-        if(followerConfig != null){
+        if (followerConfig != null) {
             followerFx = new TalonFX(followerConfig.id);
             followerFx.getConfigurator().apply(talonFXConfigs);
             followerFx.setControl(new Follower(id, followerConfig.isInverted));
@@ -112,8 +112,8 @@ public class TalonFXWrapper {
         });
 
         // new TunableDouble("G", G, getName(), value -> {
-        //     talonFXConfigs.Slot0.kG = value;
-        //     talon.getConfigurator().apply(talonFXConfigs);
+        // talonFXConfigs.Slot0.kG = value;
+        // talon.getConfigurator().apply(talonFXConfigs);
         // });
 
         new TunableMeasure<>("Acceleration", Acceleration, getName(), value -> {
@@ -195,8 +195,6 @@ public class TalonFXWrapper {
         talon.setPosition(newPosition);
     }
 
-    
-
     public Measure<Angle> getPosition() {
         return Units.Rotations.of(talon.getPosition().getValueAsDouble());
     }
@@ -205,10 +203,10 @@ public class TalonFXWrapper {
         talon.setControl(new VelocityVoltage(speed.in(RotationsPerSecond)));
     }
 
-    public Measure<Velocity<Angle>> getVelocity(){
+    public Measure<Velocity<Angle>> getVelocity() {
         return Units.RotationsPerSecond.of(talon.getVelocity().getValueAsDouble());
     }
-    
+
     public boolean isAtReference(Measure<Velocity<Angle>> speed, Measure<Velocity<Angle>> tolerance) {
         var diff = (getVelocity().minus(speed));
         return UnitsUtil.abs(diff).lte(tolerance);
@@ -236,5 +234,10 @@ public class TalonFXWrapper {
     }
 
     public static record FollowerConfig(int id, boolean isInverted) {
+    }
+
+    public boolean isAtPositionReference(Measure<Angle> speed, Measure<Angle> tolerance) {
+        var diff = (getPosition().minus(speed));
+        return UnitsUtil.abs(diff).lte(tolerance);
     }
 }
