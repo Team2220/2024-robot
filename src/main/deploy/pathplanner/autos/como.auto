@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.41,
-      "y": 5.55
+      "x": 2.89,
+      "y": 6.99
     },
     "rotation": 0
   },
@@ -12,9 +12,34 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "sequential",
           "data": {
-            "pathName": "3.1 middle"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "note to note"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "shooter"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "note to note 2"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "shooter"
+                }
+              }
+            ]
           }
         }
       ]
