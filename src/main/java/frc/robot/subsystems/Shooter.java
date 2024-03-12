@@ -4,7 +4,6 @@ import static frc.lib.units.UnitsUtil.RotationsPerSecSquared;
 
 import java.util.function.DoubleSupplier;
 
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.units.Angle;
 import edu.wpi.first.units.Measure;
 import edu.wpi.first.units.Units;
@@ -12,11 +11,9 @@ import edu.wpi.first.units.Velocity;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.ShuffleBoardTabWrapper;
-import frc.lib.SparkMaxWrapper;
 import frc.lib.TalonFXWrapper;
 import frc.lib.selfCheck.CheckCommand;
 import frc.lib.selfCheck.CheckableSubsystem;
-import frc.lib.selfCheck.SparkMAXSpinCheck;
 import frc.lib.selfCheck.SpinTalonCheck;
 import frc.lib.tunables.TunableMeasure;
 import frc.lib.units.UnitsUtil;

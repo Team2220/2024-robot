@@ -28,15 +28,14 @@ public class Arm extends SubsystemBase implements CheckableSubsystem, ShuffleBoa
                 "Arm",
                 false,
                 Constants.Arm.ARM_GEAR_RATIO,
-                150,
+                175,
                 0,
                 0.1,
                 RotationsPerSecond.per(Seconds).of(3000),
                 RotationsPerSecond.of(3000),
                 RotationsPerSecond.per(Seconds).per(Seconds).of(3000), true, true,
                 Rotations.of(110.0 / 360.0), Rotations.of(0),
-                new FollowerConfig(Constants.Arm.ARM_TALON_RIGHT, true)
-                );
+                new FollowerConfig(Constants.Arm.ARM_TALON_RIGHT, true));
         addDouble("ArmAngle",
                 () -> ArmTalonFX.getPosition().in(Degrees));
     }
