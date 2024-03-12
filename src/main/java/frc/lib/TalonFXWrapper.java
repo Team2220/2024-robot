@@ -132,17 +132,19 @@ public class TalonFXWrapper {
             talon.getConfigurator().apply(talonFXConfigs);
         });
 
-        RobotControllerTriggers.isSysActive().onFalse(
-                Commands.waitSeconds(7)
-                        .andThen(Commands.runOnce(() -> {
-                            talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Coast;
-                            talon.getConfigurator().apply(talonFXConfigs);
-                        }).ignoringDisable(true)));
+        // fix this eventualy plz ###############################################################################################
+        // -griffin
+        // RobotControllerTriggers.isSysActive().onFalse(
+        //         Commands.waitSeconds(7)
+        //                 .andThen(Commands.runOnce(() -> {
+        //                     talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Coast;
+        //                     talon.getConfigurator().apply(talonFXConfigs);
+        //                 }).ignoringDisable(true)));
 
-        RobotControllerTriggers.isSysActive().onTrue(Commands.runOnce(() -> {
-            talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-            talon.getConfigurator().apply(talonFXConfigs);
-        }).ignoringDisable(true));
+        // RobotControllerTriggers.isSysActive().onTrue(Commands.runOnce(() -> {
+        //     talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+        //     talon.getConfigurator().apply(talonFXConfigs);
+        // }).ignoringDisable(true));
     }
 
     public TalonFXWrapper(int id, String name, boolean isInverted) {
