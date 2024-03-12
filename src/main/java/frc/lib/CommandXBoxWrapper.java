@@ -458,16 +458,16 @@ public class CommandXBoxWrapper {
 
     public Trigger joysticksTrigger() {
         return new Trigger(() -> {
-            return getLeftX() > 0
-                    || getLeftY() > 0
-                    || getRightX() > 0
-                    || getRightY() > 0;
+            return Math.abs(getLeftX()) > 0
+                    || Math.abs(getLeftY()) > 0
+                    || Math.abs(getRightX()) > 0
+                    || Math.abs(getRightY()) > 0;
         });
     }
 
     public Trigger leftYTrigger() {
         return new Trigger(() -> {
-            return getLeftY() > 0;
+            return  Math.abs(getLeftY()) > 0;
         });
     }
 
