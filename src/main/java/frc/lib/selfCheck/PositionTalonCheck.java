@@ -1,7 +1,5 @@
 package frc.lib.selfCheck;
 
-import java.util.function.DoubleConsumer;
-
 import edu.wpi.first.units.Angle;
 import edu.wpi.first.units.Measure;
 import frc.lib.TalonFXWrapper;
