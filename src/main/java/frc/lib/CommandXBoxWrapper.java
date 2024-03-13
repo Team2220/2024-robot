@@ -470,6 +470,38 @@ public class CommandXBoxWrapper {
             return  Math.abs(getLeftY()) > 0;
         });
     }
+    
+    public Trigger leftXTrigger() {
+        return new Trigger(() -> {
+            return  Math.abs(getLeftX()) > 0;
+        });
+    }
+
+       public Trigger rightYTrigger() {
+        return new Trigger(() -> {
+            return  Math.abs(getRightY()) > 0;
+        });
+    } 
+
+    public Trigger rightXTrigger() {
+        return new Trigger(() -> {
+            return  Math.abs(getRightX()) > 0;
+        });
+    }
+
+    public Trigger joysticksTriggerLeft() {
+        return new Trigger(() -> {
+            return Math.abs(getLeftX()) > 0
+                    || Math.abs(getLeftY()) > 0;
+        });
+    }
+
+    public Trigger joysticksTriggerRight() {
+        return new Trigger(() -> {
+            return Math.abs(getRightX()) > 0
+                    || Math.abs(getRightY()) > 0;
+        });
+    }
 
     /**
      * Constructs a Trigger instance based around this angle of the default (index
