@@ -167,28 +167,28 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem, Check
     public static final double DT_BL_SE_OFFSET = RobotInstance.config((robot) -> {
         return switch (robot) {
             case Robot23 -> 8.96484375 - 90;
-            case Robot24 -> 356.83640625 - 90;
+            case Robot24 -> 222.275 - 270;
         };
     });
 
     public static final double DT_FR_SE_OFFSET = RobotInstance.config((robot) -> {
         return switch (robot) {
             case Robot23 -> 124.98046875 - 90;
-            case Robot24 -> 158.02859375 - 90;
+            case Robot24 -> 340.901 - 90;
         };
     });
 
     public static final double DT_FL_SE_OFFSET = RobotInstance.config((robot) -> {
         return switch (robot) {
             case Robot23 -> 155.302734375 - 90;
-            case Robot24 -> 223.412357357 - 270;
+            case Robot24 -> 172.58 - 270;
         };
     });
 
     public static final double DT_BR_SE_OFFSET = RobotInstance.config((robot) -> {
         return switch (robot) {
             case Robot23 -> 247.5 - 90;
-            case Robot24 -> 359.912109375 - 90;
+            case Robot24 -> 177.85 - 90;
         };
     });
 
