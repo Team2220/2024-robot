@@ -176,6 +176,7 @@ public class TalonFXWrapper {
 
     public void holdPosition() {
         if (!isPositionBeingHeld) {
+            isPositionBeingHeld = true;
             double position = talon.getPosition().getValueAsDouble();
             talon.setControl(new MotionMagicVoltage(position));
         }
@@ -205,6 +206,7 @@ public class TalonFXWrapper {
 
     public void setVelocity(Measure<Velocity<Angle>> speed) {
         talon.setControl(new VelocityVoltage(speed.in(RotationsPerSecond)));
+        isPositionBeingHeld = false;
     }
 
     public Measure<Velocity<Angle>> getVelocity() {

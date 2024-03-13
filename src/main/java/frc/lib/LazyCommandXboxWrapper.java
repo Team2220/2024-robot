@@ -1,32 +1,20 @@
 package frc.lib;
 
-import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.event.EventLoop;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.lib.faults.Fault;
 
-public class CommandXBoxWrapper {
+public class LazyCommandXboxWrapper {
 
-    CommandXboxController xbox;
-    double joystickDeadband;
-    double triggerDeadZone;
+    CommandXBoxWrapper xbox;
 
-    public CommandXBoxWrapper(int inPort, double joystickDeadband, double triggerDeadZone) {
-        xbox = new CommandXboxController(inPort);
-        this.joystickDeadband = joystickDeadband;
-        this.triggerDeadZone = triggerDeadZone;
-
-        Fault.autoUpdating("Controller " + inPort + " is disconnected.", this::isConnected);
+    public LazyCommandXboxWrapper(int inPort, double joystickDeadband, double triggerDeadZone) {
+        xbox = new CommandXBoxWrapper(inPort, joystickDeadband, triggerDeadZone);
     }
 
-    public CommandXBoxWrapper(int inPort) {
+    public LazyCommandXboxWrapper(int inPort) {
         this(inPort, .15, .1);
     }
 
@@ -53,8 +41,7 @@ public class CommandXBoxWrapper {
     }
 
     public boolean isConnected() {
-        return !DriverStation.isJoystickConnected(xbox.getHID().getPort())
-                || !DriverStation.getJoystickIsXbox(xbox.getHID().getPort());
+        return xbox.isConnected();
     }
 
     /**
@@ -82,8 +69,6 @@ public class CommandXBoxWrapper {
         return xbox.rightBumper();
     }
 
-    
-
     /**
      * Constructs an event instance around the left stick button's digital signal.
      *
@@ -96,8 +81,6 @@ public class CommandXBoxWrapper {
     public Trigger leftStick() {
         return xbox.leftStick();
     }
-
-    
 
     /**
      * Constructs an event instance around the right stick button's digital signal.
@@ -112,9 +95,6 @@ public class CommandXBoxWrapper {
         return xbox.rightStick();
     }
 
-
-    
-
     /**
      * Constructs an event instance around the A button's digital signal.
      *
@@ -128,7 +108,6 @@ public class CommandXBoxWrapper {
         return xbox.a();
     }
 
-    
     /**
      * Constructs an event instance around the B button's digital signal.
      *
@@ -141,8 +120,6 @@ public class CommandXBoxWrapper {
     public Trigger b() {
         return xbox.b();
     }
-
-    
 
     /**
      * Constructs an event instance around the X button's digital signal.
@@ -157,8 +134,6 @@ public class CommandXBoxWrapper {
         return xbox.x();
     }
 
-    
-
     /**
      * Constructs an event instance around the Y button's digital signal.
      *
@@ -171,8 +146,6 @@ public class CommandXBoxWrapper {
     public Trigger y() {
         return xbox.y();
     }
-
-    
 
     /**
      * Constructs an event instance around the start button's digital signal.
@@ -187,8 +160,6 @@ public class CommandXBoxWrapper {
         return xbox.start();
     }
 
-    
-
     /**
      * Constructs an event instance around the back button's digital signal.
      *
@@ -201,7 +172,6 @@ public class CommandXBoxWrapper {
     public Trigger back() {
         return xbox.back();
     }
-
 
     /**
      * Constructs a Trigger instance around the axis value of the left trigger. The
@@ -216,7 +186,6 @@ public class CommandXBoxWrapper {
     public Trigger leftTrigger() {
         return xbox.leftTrigger();
     }
-
 
     /**
      * Constructs a Trigger instance around the axis value of the right trigger. The
@@ -238,7 +207,7 @@ public class CommandXBoxWrapper {
      * @return The axis value.
      */
     public double getLeftX() {
-        return MathUtil.applyDeadband(xbox.getLeftX(), joystickDeadband);
+        return xbox.getLeftX();
     }
 
     /**
@@ -247,7 +216,7 @@ public class CommandXBoxWrapper {
      * @return The axis value.
      */
     public double getRightX() {
-        return MathUtil.applyDeadband(xbox.getRightX(), joystickDeadband);
+        return xbox.getRightX();
     }
 
     /**
@@ -256,8 +225,7 @@ public class CommandXBoxWrapper {
      * @return The axis value.
      */
     public double getLeftY() {
-        // flip y axis so that up is positive
-        return MathUtil.applyDeadband(xbox.getLeftY(), joystickDeadband) * -1;
+        return xbox.getLeftY();
     }
 
     /**
@@ -266,8 +234,7 @@ public class CommandXBoxWrapper {
      * @return The axis value.
      */
     public double getRightY() {
-        // flip y axis so that up is positive
-        return MathUtil.applyDeadband(xbox.getRightY(), joystickDeadband) * -1;
+        return xbox.getRightY();
     }
 
     /**
@@ -278,7 +245,7 @@ public class CommandXBoxWrapper {
      * @return The axis value.
      */
     public double getLeftTriggerAxis() {
-        return MathUtil.applyDeadband(xbox.getLeftTriggerAxis(), triggerDeadZone);
+        return xbox.getLeftTriggerAxis();
     }
 
     /**
@@ -289,54 +256,35 @@ public class CommandXBoxWrapper {
      * @return The axis value.
      */
     public double getRightTriggerAxis() {
-        return MathUtil.applyDeadband(xbox.getRightTriggerAxis(), triggerDeadZone);
+        return xbox.getRightTriggerAxis();
     }
 
     public Trigger joysticksTrigger() {
-        return new Trigger(() -> {
-            return Math.abs(getLeftX()) > 0
-                    || Math.abs(getLeftY()) > 0
-                    || Math.abs(getRightX()) > 0
-                    || Math.abs(getRightY()) > 0;
-        });
+        return xbox.joysticksTrigger();
     }
 
     public Trigger leftYTrigger() {
-        return new Trigger(() -> {
-            return  Math.abs(getLeftY()) > 0;
-        });
-    }
-    
-    public Trigger leftXTrigger() {
-        return new Trigger(() -> {
-            return  Math.abs(getLeftX()) > 0;
-        });
+        return xbox.leftYTrigger();
     }
 
-       public Trigger rightYTrigger() {
-        return new Trigger(() -> {
-            return  Math.abs(getRightY()) > 0;
-        });
-    } 
+    public Trigger leftXTrigger() {
+        return xbox.leftXTrigger();
+    }
+
+    public Trigger rightYTrigger() {
+        return xbox.rightYTrigger();
+    }
 
     public Trigger rightXTrigger() {
-        return new Trigger(() -> {
-            return  Math.abs(getRightX()) > 0;
-        });
+        return xbox.rightXTrigger();
     }
 
     public Trigger joysticksTriggerLeft() {
-        return new Trigger(() -> {
-            return Math.abs(getLeftX()) > 0
-                    || Math.abs(getLeftY()) > 0;
-        });
+        return xbox.joysticksTriggerLeft();
     }
 
     public Trigger joysticksTriggerRight() {
-        return new Trigger(() -> {
-            return Math.abs(getRightX()) > 0
-                    || Math.abs(getRightY()) > 0;
-        });
+        return xbox.joysticksTriggerRight();
     }
 
     /**
@@ -355,7 +303,7 @@ public class CommandXBoxWrapper {
      * @return a Trigger instance based around this angle of a POV on the HID.
      */
     public Trigger pov(int angle) {
-        return pov(0, angle, CommandScheduler.getInstance().getDefaultButtonLoop());
+        return xbox.pov(angle);
     }
 
     /**
@@ -375,7 +323,7 @@ public class CommandXBoxWrapper {
      * @return a Trigger instance based around this angle of a POV on the HID.
      */
     public Trigger pov(int pov, int angle, EventLoop loop) {
-        return new Trigger(loop, () -> xbox.getHID().getPOV(pov) == angle);
+        return xbox.pov(pov, angle, loop);
     }
 
     /**
@@ -389,7 +337,7 @@ public class CommandXBoxWrapper {
      *         HID.
      */
     public Trigger povUp() {
-        return pov(0);
+        return xbox.povUp();
     }
 
     /**
@@ -403,7 +351,7 @@ public class CommandXBoxWrapper {
      *         HID.
      */
     public Trigger povUpRight() {
-        return pov(45);
+        return xbox.povUpRight();
     }
 
     /**
@@ -417,7 +365,7 @@ public class CommandXBoxWrapper {
      *         HID.
      */
     public Trigger povRight() {
-        return pov(90);
+        return xbox.povRight();
     }
 
     /**
@@ -431,7 +379,7 @@ public class CommandXBoxWrapper {
      *         HID.
      */
     public Trigger povDownRight() {
-        return pov(135);
+        return xbox.povDownRight();
     }
 
     /**
@@ -445,7 +393,7 @@ public class CommandXBoxWrapper {
      *         HID.
      */
     public Trigger povDown() {
-        return pov(180);
+        return xbox.povDown();
     }
 
     /**
@@ -459,7 +407,7 @@ public class CommandXBoxWrapper {
      *         HID.
      */
     public Trigger povDownLeft() {
-        return pov(225);
+        return xbox.povDownLeft();
     }
 
     /**
@@ -473,7 +421,7 @@ public class CommandXBoxWrapper {
      *         HID.
      */
     public Trigger povLeft() {
-        return pov(270);
+        return xbox.povLeft();
     }
 
     /**
@@ -487,7 +435,7 @@ public class CommandXBoxWrapper {
      *         HID.
      */
     public Trigger povUpLeft() {
-        return pov(315);
+        return xbox.povUpLeft();
     }
 
     /**
@@ -501,16 +449,14 @@ public class CommandXBoxWrapper {
      *         HID.
      */
     public Trigger povCenter() {
-        return pov(-1);
+        return xbox.povCenter();
     }
 
     public void setRumble(double value) {
-        xbox.getHID().setRumble(RumbleType.kBothRumble, value);
+        xbox.setRumble(value);
     }
 
     public Command rumbleCommand(double value) {
-        return Commands.startEnd(
-                () -> setRumble(value),
-                () -> setRumble(0));
+        return xbox.rumbleCommand(value);
     }
 }
