@@ -1,52 +1,20 @@
 {
   "version": 1.0,
-  "startingPose": null,
+  "startingPose": {
+    "position": {
+      "x": 0.79,
+      "y": 6.48
+    },
+    "rotation": 0
+  },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "parallel",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "shooter+"
-                }
-              },
-              {
-                "type": "sequential",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "armSpeakerPos"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "intakeShot"
-                      }
-                    },
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "out shot"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "intakeShot"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
+            "pathName": "ping pong"
           }
         }
       ]
