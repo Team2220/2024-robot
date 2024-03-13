@@ -172,9 +172,13 @@ public class TalonFXWrapper {
         softLimitOverrideFault.setIsActive(enabled);
     }
 
+    boolean isPositionBeingHeld = false;
+
     public void holdPosition() {
-        double position = talon.getPosition().getValueAsDouble();
-        talon.setControl(new MotionMagicVoltage(position));
+        if (!isPositionBeingHeld) {
+            double position = talon.getPosition().getValueAsDouble();
+            talon.setControl(new MotionMagicVoltage(position));
+        }
     }
 
     public String getName() {
@@ -215,22 +219,27 @@ public class TalonFXWrapper {
     // multaplying by 10 to convert duty cycle to voltage
     public void set(double speed) {
         talon.setControl(new VoltageOut(speed * 10));
+        isPositionBeingHeld = false;
     }
 
     public void setMotionMagicVoltage(Measure<Angle> position) {
         talon.setControl(new PositionVoltage(position.in(Rotations)));
+        isPositionBeingHeld = false;
     }
 
     public void setVoltageOut(Measure<Voltage> voltage) {
         talon.setControl(new VoltageOut(voltage.in(Volts)));
+        isPositionBeingHeld = false;
     }
 
     public void setDutyCycleOut(double cycle) {
         talon.setControl(new DutyCycleOut(cycle));
+        isPositionBeingHeld = false;
     }
 
     public void setMusicTone(double frequency) {
         talon.setControl(new MusicTone(frequency));
+        isPositionBeingHeld = false;
     }
 
     public static record FollowerConfig(int id, boolean isInverted) {
