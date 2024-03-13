@@ -15,6 +15,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.units.Angle;
 import edu.wpi.first.units.Measure;
 import edu.wpi.first.units.Temperature;
+import edu.wpi.first.units.Units;
 import edu.wpi.first.units.Velocity;
 import frc.lib.faults.SparkMaxLogPowerFaults;
 import frc.lib.tunables.TunableDouble;
@@ -25,11 +26,13 @@ public class SparkMaxWrapper {
     public String name;
     public CANSparkMax sparkMax;
     public SparkPIDController pidController;
-    private CANSparkMax m_motor;
 
     public SparkMaxWrapper(int id, String name, boolean isInverted, double gearRatio, double P, double I, double D,
             Measure<Velocity<Velocity<Angle>>> maxAcceleration, Measure<Velocity<Angle>> maxVelocity,
-            double allowedErr) {
+            double allowedErr, boolean forwardSoftLimitEnable,
+            boolean reverseSoftLimitEnable,
+            Measure<Angle> forwardSoftLimitTreshold,
+            Measure<Angle> reverseSoftLimitThreshold) {
         this.name = name;
 
         sparkMax = new CANSparkMax(id, MotorType.kBrushless);
@@ -39,6 +42,13 @@ public class SparkMaxWrapper {
         sparkMax.getEncoder().setPositionConversionFactor(1.0 / gearRatio);
         sparkMax.getEncoder().setVelocityConversionFactor(1.0 / gearRatio);
         pidController = sparkMax.getPIDController();
+
+        sparkMax.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, reverseSoftLimitEnable);
+        sparkMax.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, forwardSoftLimitEnable);
+        sparkMax.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse,
+                (float) forwardSoftLimitTreshold.in(Units.Rotations));
+        sparkMax.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward,
+                (float) reverseSoftLimitThreshold.in(Units.Rotations));
 
         new TunableDouble("P", P, getName(), value -> {
             pidController.setP(value);
@@ -69,7 +79,8 @@ public class SparkMaxWrapper {
     }
 
     public SparkMaxWrapper(int id, String name, boolean isInverted) {
-        this(id, name, isInverted, 1, 0, 0, 0, RPM.per(Second).of(0), RPM.of(0), 0);
+        this(id, name, isInverted, 1, 0, 0, 0, RPM.per(Second).of(0), RPM.of(0), 0, false, false, Units.Rotations.of(0),
+                Units.Rotations.of(0));
     }
 
     public boolean getStickyFault(FaultID faultID) {
@@ -108,12 +119,5 @@ public class SparkMaxWrapper {
     public boolean isAtReference(Measure<Velocity<Angle>> speed, Measure<Velocity<Angle>> tolerance) {
         var diff = (getVelocity().minus(speed));
         return UnitsUtil.abs(diff).lte(tolerance);
-    }
-
-    public void robotInit() {
-        m_motor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, true);
-        m_motor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, true);
-        m_motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, 15);
-        m_motor.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, 0);
     }
 }

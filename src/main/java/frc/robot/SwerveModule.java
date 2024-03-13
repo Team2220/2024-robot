@@ -131,9 +131,9 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
 
     m_turningMotor.setPosition(-angleToEncoderTicks(getAngle().getDegrees()));
 
-    Shuffleboard.getTab("swerve")
-        .addDouble(name, this::getDriveVelocity)
-        .withWidget(BuiltInWidgets.kGraph).withSize(1, 1);
+  //   Shuffleboard.getTab("swerve")
+  //       .addDouble(name, this::getDriveVelocity)
+  //       .withWidget(BuiltInWidgets.kGraph).withSize(1, 1);
   }
 
   public SwerveModuleState getState() {
@@ -149,7 +149,7 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
     return ticks * revolutionsMotorToRevolutionsWheel;
   }
 
-  public static final TunableDouble DT_DRIVE_P = new TunableDouble("DT_DRIVE_P", 0.03, "swerve").setSpot(0, 0);
+  public static final TunableDouble DT_DRIVE_P = new TunableDouble("DT_DRIVE_P", 0.025, "swerve").setSpot(0, 0);
   public static final TunableDouble DT_DRIVE_I = new TunableDouble("DT_DRIVE_I", 0, "swerve").setSpot(1, 0);
   public static final TunableDouble DT_DRIVE_D = new TunableDouble("DT_DRIVE_D", 0.00001, "swerve").setSpot(2, 0);
   public static final TunableDouble DT_DRIVE_F = new TunableDouble("DT_DRIVE_F", 0, "swerve").setSpot(3, 0);

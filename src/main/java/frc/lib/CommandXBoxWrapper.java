@@ -82,17 +82,7 @@ public class CommandXBoxWrapper {
         return xbox.rightBumper();
     }
 
-    /**
-     * Constructs an event instance around the right bumper's digital signal.
-     *
-     * @param loop the event loop instance to attach the event to.
-     * @return an event instance representing the left bumper's digital signal
-     *         attached to the given
-     *         loop.
-     */
-    public Trigger rightBumper(EventLoop loop) {
-        return xbox.rightBumper(loop);
-    }
+    
 
     /**
      * Constructs an event instance around the left stick button's digital signal.
@@ -107,17 +97,7 @@ public class CommandXBoxWrapper {
         return xbox.leftStick();
     }
 
-    /**
-     * Constructs an event instance around the left stick button's digital signal.
-     *
-     * @param loop the event loop instance to attach the event to.
-     * @return an event instance representing the left stick button's digital signal
-     *         attached to the
-     *         given loop.
-     */
-    public Trigger leftStick(EventLoop loop) {
-        return xbox.leftStick(loop);
-    }
+    
 
     /**
      * Constructs an event instance around the right stick button's digital signal.
@@ -132,17 +112,8 @@ public class CommandXBoxWrapper {
         return xbox.rightStick();
     }
 
-    /**
-     * Constructs an event instance around the right stick button's digital signal.
-     *
-     * @param loop the event loop instance to attach the event to.
-     * @return an event instance representing the right stick button's digital
-     *         signal attached to the
-     *         given loop.
-     */
-    public Trigger rightStick(EventLoop loop) {
-        return xbox.rightStick(loop);
-    }
+
+    
 
     /**
      * Constructs an event instance around the A button's digital signal.
@@ -157,18 +128,7 @@ public class CommandXBoxWrapper {
         return xbox.a();
     }
 
-    /**
-     * Constructs an event instance around the A button's digital signal.
-     *
-     * @param loop the event loop instance to attach the event to.
-     * @return an event instance representing the A button's digital signal attached
-     *         to the given
-     *         loop.
-     */
-    public Trigger a(EventLoop loop) {
-        return xbox.a(loop);
-    }
-
+    
     /**
      * Constructs an event instance around the B button's digital signal.
      *
@@ -182,17 +142,7 @@ public class CommandXBoxWrapper {
         return xbox.b();
     }
 
-    /**
-     * Constructs an event instance around the B button's digital signal.
-     *
-     * @param loop the event loop instance to attach the event to.
-     * @return an event instance representing the B button's digital signal attached
-     *         to the given
-     *         loop.
-     */
-    public Trigger b(EventLoop loop) {
-        return xbox.b(loop);
-    }
+    
 
     /**
      * Constructs an event instance around the X button's digital signal.
@@ -207,17 +157,7 @@ public class CommandXBoxWrapper {
         return xbox.x();
     }
 
-    /**
-     * Constructs an event instance around the X button's digital signal.
-     *
-     * @param loop the event loop instance to attach the event to.
-     * @return an event instance representing the X button's digital signal attached
-     *         to the given
-     *         loop.
-     */
-    public Trigger x(EventLoop loop) {
-        return xbox.x(loop);
-    }
+    
 
     /**
      * Constructs an event instance around the Y button's digital signal.
@@ -232,17 +172,7 @@ public class CommandXBoxWrapper {
         return xbox.y();
     }
 
-    /**
-     * Constructs an event instance around the Y button's digital signal.
-     *
-     * @param loop the event loop instance to attach the event to.
-     * @return an event instance representing the Y button's digital signal attached
-     *         to the given
-     *         loop.
-     */
-    public Trigger y(EventLoop loop) {
-        return xbox.y(loop);
-    }
+    
 
     /**
      * Constructs an event instance around the start button's digital signal.
@@ -257,17 +187,7 @@ public class CommandXBoxWrapper {
         return xbox.start();
     }
 
-    /**
-     * Constructs an event instance around the start button's digital signal.
-     *
-     * @param loop the event loop instance to attach the event to.
-     * @return an event instance representing the start button's digital signal
-     *         attached to the given
-     *         loop.
-     */
-    public Trigger start(EventLoop loop) {
-        return xbox.start(loop);
-    }
+    
 
     /**
      * Constructs an event instance around the back button's digital signal.
@@ -282,36 +202,9 @@ public class CommandXBoxWrapper {
         return xbox.back();
     }
 
-    /**
-     * Constructs an event instance around the back button's digital signal.
-     *
-     * @param loop the event loop instance to attach the event to.
-     * @return an event instance representing the back button's digital signal
-     *         attached to the given
-     *         loop.
-     */
-    public Trigger back(EventLoop loop) {
-        return xbox.back(loop);
-    }
+   
 
-    /**
-     * Constructs a Trigger instance around the axis value of the left trigger. The
-     * returned trigger
-     * will be true when the axis value is greater than {@code threshold}.
-     *
-     * @param threshold the minimum axis value for the returned {@link Trigger} to
-     *                  be true. This value
-     *                  should be in the range [0, 1] where 0 is the unpressed state
-     *                  of the axis.
-     * @param loop      the event loop instance to attach the Trigger to.
-     * @return a Trigger instance that is true when the left trigger's axis exceeds
-     *         the provided
-     *         threshold, attached to the given event loop
-     */
-    public Trigger leftTrigger(double threshold, EventLoop loop) {
-        return xbox.leftTrigger(threshold, loop);
-    }
-
+    
     /**
      * Constructs a Trigger instance around the axis value of the left trigger. The
      * returned trigger
@@ -345,23 +238,7 @@ public class CommandXBoxWrapper {
         return xbox.leftTrigger();
     }
 
-    /**
-     * Constructs a Trigger instance around the axis value of the right trigger. The
-     * returned trigger
-     * will be true when the axis value is greater than {@code threshold}.
-     *
-     * @param threshold the minimum axis value for the returned {@link Trigger} to
-     *                  be true. This value
-     *                  should be in the range [0, 1] where 0 is the unpressed state
-     *                  of the axis.
-     * @param loop      the event loop instance to attach the Trigger to.
-     * @return a Trigger instance that is true when the right trigger's axis exceeds
-     *         the provided
-     *         threshold, attached to the given event loop
-     */
-    public Trigger rightTrigger(double threshold, EventLoop loop) {
-        return xbox.rightTrigger(threshold, loop);
-    }
+
 
     /**
      * Constructs a Trigger instance around the axis value of the right trigger. The
@@ -458,16 +335,48 @@ public class CommandXBoxWrapper {
 
     public Trigger joysticksTrigger() {
         return new Trigger(() -> {
-            return getLeftX() > 0
-                    || getLeftY() > 0
-                    || getRightX() > 0
-                    || getRightY() > 0;
+            return Math.abs(getLeftX()) > 0
+                    || Math.abs(getLeftY()) > 0
+                    || Math.abs(getRightX()) > 0
+                    || Math.abs(getRightY()) > 0;
         });
     }
 
     public Trigger leftYTrigger() {
         return new Trigger(() -> {
-            return getLeftY() > 0;
+            return  Math.abs(getLeftY()) > 0;
+        });
+    }
+    
+    public Trigger leftXTrigger() {
+        return new Trigger(() -> {
+            return  Math.abs(getLeftX()) > 0;
+        });
+    }
+
+       public Trigger rightYTrigger() {
+        return new Trigger(() -> {
+            return  Math.abs(getRightY()) > 0;
+        });
+    } 
+
+    public Trigger rightXTrigger() {
+        return new Trigger(() -> {
+            return  Math.abs(getRightX()) > 0;
+        });
+    }
+
+    public Trigger joysticksTriggerLeft() {
+        return new Trigger(() -> {
+            return Math.abs(getLeftX()) > 0
+                    || Math.abs(getLeftY()) > 0;
+        });
+    }
+
+    public Trigger joysticksTriggerRight() {
+        return new Trigger(() -> {
+            return Math.abs(getRightX()) > 0
+                    || Math.abs(getRightY()) > 0;
         });
     }
 

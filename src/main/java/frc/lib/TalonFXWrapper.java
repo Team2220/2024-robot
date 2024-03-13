@@ -25,9 +25,7 @@ import edu.wpi.first.units.Measure;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.units.Velocity;
 import edu.wpi.first.units.Voltage;
-import edu.wpi.first.wpilibj2.command.Commands;
 import frc.lib.faults.Fault;
-import frc.lib.faults.TalonFXLogPowerFaults;
 import frc.lib.tunables.TunableDouble;
 import frc.lib.tunables.TunableMeasure;
 import frc.lib.units.UnitsUtil;
@@ -60,7 +58,7 @@ public class TalonFXWrapper {
         talon = new TalonFX(id);
         this.name = name;
         // firmwareVersionSignal = talon.getVersion();
-        TalonFXLogPowerFaults.setupChecks(this);
+        // TalonFXLogPowerFaults.setupChecks(this);
         softLimitOverrideFault = new Fault(getName() + " Device ID: " + id + " Soft Limit Overrided");
 
         talonFXConfigs = new TalonFXConfiguration();
@@ -90,7 +88,7 @@ public class TalonFXWrapper {
         talonFXConfigs.Voltage.PeakReverseVoltage = -10;
 
         talon.getConfigurator().apply(talonFXConfigs);
-        if(followerConfig != null){
+        if (followerConfig != null) {
             followerFx = new TalonFX(followerConfig.id);
             followerFx.getConfigurator().apply(talonFXConfigs);
             followerFx.setControl(new Follower(id, followerConfig.isInverted));
@@ -112,8 +110,8 @@ public class TalonFXWrapper {
         });
 
         // new TunableDouble("G", G, getName(), value -> {
-        //     talonFXConfigs.Slot0.kG = value;
-        //     talon.getConfigurator().apply(talonFXConfigs);
+        // talonFXConfigs.Slot0.kG = value;
+        // talon.getConfigurator().apply(talonFXConfigs);
         // });
 
         new TunableMeasure<>("Acceleration", Acceleration, getName(), value -> {
@@ -132,17 +130,19 @@ public class TalonFXWrapper {
             talon.getConfigurator().apply(talonFXConfigs);
         });
 
-        RobotControllerTriggers.isSysActive().onFalse(
-                Commands.waitSeconds(7)
-                        .andThen(Commands.runOnce(() -> {
-                            talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Coast;
-                            talon.getConfigurator().apply(talonFXConfigs);
-                        }).ignoringDisable(true)));
+        // fix this eventualy plz ###############################################################################################
+        // -griffin
+        // RobotControllerTriggers.isSysActive().onFalse(
+        //         Commands.waitSeconds(7)
+        //                 .andThen(Commands.runOnce(() -> {
+        //                     talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Coast;
+        //                     talon.getConfigurator().apply(talonFXConfigs);
+        //                 }).ignoringDisable(true)));
 
-        RobotControllerTriggers.isSysActive().onTrue(Commands.runOnce(() -> {
-            talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-            talon.getConfigurator().apply(talonFXConfigs);
-        }).ignoringDisable(true));
+        // RobotControllerTriggers.isSysActive().onTrue(Commands.runOnce(() -> {
+        //     talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+        //     talon.getConfigurator().apply(talonFXConfigs);
+        // }).ignoringDisable(true));
     }
 
     public TalonFXWrapper(int id, String name, boolean isInverted) {
@@ -172,9 +172,13 @@ public class TalonFXWrapper {
         softLimitOverrideFault.setIsActive(enabled);
     }
 
+    boolean isPositionBeingHeld = false;
+
     public void holdPosition() {
-        double position = talon.getPosition().getValueAsDouble();
-        talon.setControl(new MotionMagicVoltage(position));
+        if (!isPositionBeingHeld) {
+            double position = talon.getPosition().getValueAsDouble();
+            talon.setControl(new MotionMagicVoltage(position));
+        }
     }
 
     public String getName() {
@@ -195,8 +199,6 @@ public class TalonFXWrapper {
         talon.setPosition(newPosition);
     }
 
-    
-
     public Measure<Angle> getPosition() {
         return Units.Rotations.of(talon.getPosition().getValueAsDouble());
     }
@@ -205,10 +207,10 @@ public class TalonFXWrapper {
         talon.setControl(new VelocityVoltage(speed.in(RotationsPerSecond)));
     }
 
-    public Measure<Velocity<Angle>> getVelocity(){
+    public Measure<Velocity<Angle>> getVelocity() {
         return Units.RotationsPerSecond.of(talon.getVelocity().getValueAsDouble());
     }
-    
+
     public boolean isAtReference(Measure<Velocity<Angle>> speed, Measure<Velocity<Angle>> tolerance) {
         var diff = (getVelocity().minus(speed));
         return UnitsUtil.abs(diff).lte(tolerance);
@@ -217,28 +219,33 @@ public class TalonFXWrapper {
     // multaplying by 10 to convert duty cycle to voltage
     public void set(double speed) {
         talon.setControl(new VoltageOut(speed * 10));
+        isPositionBeingHeld = false;
     }
 
     public void setMotionMagicVoltage(Measure<Angle> position) {
         talon.setControl(new PositionVoltage(position.in(Rotations)));
+        isPositionBeingHeld = false;
     }
 
     public void setVoltageOut(Measure<Voltage> voltage) {
         talon.setControl(new VoltageOut(voltage.in(Volts)));
+        isPositionBeingHeld = false;
     }
 
     public void setDutyCycleOut(double cycle) {
         talon.setControl(new DutyCycleOut(cycle));
+        isPositionBeingHeld = false;
     }
 
     public void setMusicTone(double frequency) {
         talon.setControl(new MusicTone(frequency));
+        isPositionBeingHeld = false;
     }
 
     public static record FollowerConfig(int id, boolean isInverted) {
     }
-    
-    public boolean isAtPositionReference(Measure<Angle> speed, Measure<Angle>tolerance) {
+
+    public boolean isAtPositionReference(Measure<Angle> speed, Measure<Angle> tolerance) {
         var diff = (getPosition().minus(speed));
         return UnitsUtil.abs(diff).lte(tolerance);
     }

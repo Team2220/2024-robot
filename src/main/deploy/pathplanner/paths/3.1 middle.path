@@ -23,6 +23,22 @@
         "x": 1.9,
         "y": 5.55
       },
+      "nextControl": {
+        "x": 3.9,
+        "y": 5.55
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.9,
+        "y": 7.014383307345971
+      },
+      "prevControl": {
+        "x": 3.399721938511579,
+        "y": 6.998151709344484
+      },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
@@ -30,25 +46,7 @@
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "eventMarkers": [
-    {
-      "name": "intake prep",
-      "waypointRelativePos": 0.8,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "intake"
-              }
-            }
-          ]
-        }
-      }
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 6.0,
     "maxAcceleration": 4.0,
