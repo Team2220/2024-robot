@@ -22,6 +22,7 @@ import frc.robot.subsystems.Shooter;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.RobotController;
@@ -124,7 +125,7 @@ public class RobotContainer {
 
     m_driverController.x().whileTrue((driveTrain.xcommand()));
 
-    m_driverController.povRight().whileTrue(System.out.println());
+    m_driverController.povRight().whileTrue(new Angles(m_arm));
 
     new Trigger(shooter::isAtSetPoint)
         .whileTrue(m_driverController.rumbleCommand(.75))
@@ -173,13 +174,11 @@ public class RobotContainer {
     m_operatorController.leftYTrigger().onTrue(armCommand);
     m_arm.setDefaultCommand(armCommand);
 
-    m_operatorController.povUp().whileTrue(shooter.setDutyCycleCommand(-1));
-
     m_operatorController.leftTrigger().whileTrue(intake.intakeUntilQueued());
 
     m_operatorController.leftBumper().whileTrue(intake.setDutyCycleCommand(-.75));
 
-    m_operatorController.rightTrigger().whileTrue(shooter.velocityCommand());
+    m_operatorController.rightTrigger().whileTrue(shooter.setDutyCycleCommand(-1));
 
     m_operatorController.rightBumper().whileTrue(intake.setDutyCycleCommand(.75));
 
