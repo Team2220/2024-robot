@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.lib.CommandObserver;
-import frc.lib.LoopTime;
+import frc.lib.LoopTimer;
 import frc.lib.eventLoops.EventLoops;
 import frc.lib.faults.Fault;
 
@@ -53,7 +53,7 @@ public class Robot extends TimedRobot {
     Shuffleboard.getTab("Scheduler").add("Scheduler", CommandScheduler.getInstance()).withSize(3, 2);
   }
 
-  LoopTime loopTimer = new LoopTime("Robot Periodic");
+  LoopTimer loopTimer = new LoopTimer("Robot Periodic", 15);
 
   @Override
   public void robotPeriodic() {
