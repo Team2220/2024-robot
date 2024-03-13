@@ -60,7 +60,7 @@ public class TalonFXWrapper {
         talon = new TalonFX(id);
         this.name = name;
         // firmwareVersionSignal = talon.getVersion();
-        TalonFXLogPowerFaults.setupChecks(this);
+        // TalonFXLogPowerFaults.setupChecks(this);
         softLimitOverrideFault = new Fault(getName() + " Device ID: " + id + " Soft Limit Overrided");
 
         talonFXConfigs = new TalonFXConfiguration();
@@ -132,17 +132,19 @@ public class TalonFXWrapper {
             talon.getConfigurator().apply(talonFXConfigs);
         });
 
-        RobotControllerTriggers.isSysActive().onFalse(
-                Commands.waitSeconds(7)
-                        .andThen(Commands.runOnce(() -> {
-                            talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Coast;
-                            talon.getConfigurator().apply(talonFXConfigs);
-                        }).ignoringDisable(true)));
+        // fix this eventualy plz ###############################################################################################
+        // -griffin
+        // RobotControllerTriggers.isSysActive().onFalse(
+        //         Commands.waitSeconds(7)
+        //                 .andThen(Commands.runOnce(() -> {
+        //                     talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Coast;
+        //                     talon.getConfigurator().apply(talonFXConfigs);
+        //                 }).ignoringDisable(true)));
 
-        RobotControllerTriggers.isSysActive().onTrue(Commands.runOnce(() -> {
-            talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-            talon.getConfigurator().apply(talonFXConfigs);
-        }).ignoringDisable(true));
+        // RobotControllerTriggers.isSysActive().onTrue(Commands.runOnce(() -> {
+        //     talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+        //     talon.getConfigurator().apply(talonFXConfigs);
+        // }).ignoringDisable(true));
     }
 
     public TalonFXWrapper(int id, String name, boolean isInverted) {

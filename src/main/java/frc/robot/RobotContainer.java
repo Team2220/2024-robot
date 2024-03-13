@@ -102,6 +102,7 @@ public class RobotContainer {
     }
 
   }
+  boolean isArmHeld = false;
 
   private void configureBindings() {
     // driver controls
@@ -156,10 +157,13 @@ public class RobotContainer {
     var armCommand = Commands.run(() -> {
       var joyStickPosition = m_operatorController.getLeftY() * 0.55;
       if (joyStickPosition > 0.01 || joyStickPosition < -0.01) {
-
+        isArmHeld = false;
         m_arm.setDutyCycle(joyStickPosition);
       } else {
-        m_arm.holdPosition();
+        if(isArmHeld == false){
+          m_arm.holdPosition();
+        }
+        isArmHeld = true;
       }
     }, m_arm);
 
@@ -170,7 +174,7 @@ public class RobotContainer {
 
     m_operatorController.leftBumper().whileTrue(intake.setDutyCycleCommand(-.75));
 
-    m_operatorController.rightTrigger().whileTrue(shooter.velocityCommand());
+    m_operatorController.rightTrigger().whileTrue(shooter.setDutyCycleCommand(-1));
 
     m_operatorController.rightBumper().whileTrue(intake.setDutyCycleCommand(.75));
 
