@@ -9,9 +9,9 @@
   "autoFolders": [
     "sectret"
   ],
-  "defaultMaxVel": 6.0,
-  "defaultMaxAccel": 4.0,
+  "defaultMaxVel": 3.0,
+  "defaultMaxAccel": 2.0,
   "defaultMaxAngVel": 360.0,
   "defaultMaxAngAccel": 180.0,
-  "maxModuleSpeed": 6.0
+  "maxModuleSpeed": 4.0
 }
