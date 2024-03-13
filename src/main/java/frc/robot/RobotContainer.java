@@ -14,6 +14,7 @@ import frc.lib.leds.LEDs;
 import frc.lib.leds.LedSignal;
 import frc.lib.selfCheck.RobotSelfCheckCommand;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.Angles;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
@@ -122,6 +123,8 @@ public class RobotContainer {
     m_driverController.start().onTrue(driveTrain.zeroCommand());
 
     m_driverController.x().whileTrue((driveTrain.xcommand()));
+
+    m_driverController.povRight().whileTrue(System.out.println());
 
     new Trigger(shooter::isAtSetPoint)
         .whileTrue(m_driverController.rumbleCommand(.75))
