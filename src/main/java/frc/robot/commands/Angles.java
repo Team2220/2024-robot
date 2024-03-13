@@ -1,10 +1,8 @@
 package frc.robot.commands;
 
-import edu.wpi.first.apriltag.AprilTag;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.units.Distance;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Arm;
@@ -24,20 +22,19 @@ public class Angles extends Command {
         Pose2d pose = LimelightHelpers.getBotPose2d("limelight-right");
         double Botpose = pose.getTranslation().getDistance(goal.toPose2d().getTranslation());
         double speakerhight = 6.6;
-        double armAngle = java.lang.Math.atan2(speakerhight/Botpose);
-        
+        double armAngle = java.lang.Math.atan2(speakerhight, Botpose);
+
     }
 
     @Override
     public void execute() {
         Pose2d pose = LimelightHelpers.getBotPose2d("limelight");
-        
+
     }
 
     @Override
     public void initialize() {
         botPose = LimelightHelpers.getBotPose2d("limelight");
-        
 
     }
 }
