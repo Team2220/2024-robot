@@ -10,7 +10,9 @@ import frc.lib.LimelightHelpers;
 
 public class Angles extends Command {
     Arm arm;
-    Pose2d botPose;
+    private AprilTagFieldLayout layout = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
+    Pose3d RED = layout.getTagPose(4).get();
+    Pose3d BLUE = layout.getTagPose(7).get();
 
     public Angles(Arm arm) {
         this.arm = arm;
@@ -38,3 +40,4 @@ public class Angles extends Command {
 
     }
 }
+    
