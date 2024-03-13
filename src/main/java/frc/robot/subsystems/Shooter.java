@@ -77,6 +77,10 @@ public class Shooter extends SubsystemBase implements CheckableSubsystem, Shuffl
         return this.run(() -> {
             left.set(speed);
             right.set(speed);
+        })
+        .finallyDo(() -> {
+            left.set(0);
+            right.set(0);
         });
     }
 

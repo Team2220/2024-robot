@@ -170,11 +170,13 @@ public class RobotContainer {
     m_operatorController.leftYTrigger().onTrue(armCommand);
     m_arm.setDefaultCommand(armCommand);
 
+    m_operatorController.povUp().whileTrue(shooter.setDutyCycleCommand(-1));
+
     m_operatorController.leftTrigger().whileTrue(intake.intakeUntilQueued());
 
     m_operatorController.leftBumper().whileTrue(intake.setDutyCycleCommand(-.75));
 
-    m_operatorController.rightTrigger().whileTrue(shooter.setDutyCycleCommand(-1));
+    m_operatorController.rightTrigger().whileTrue(shooter.velocityCommand());
 
     m_operatorController.rightBumper().whileTrue(intake.setDutyCycleCommand(.75));
 
