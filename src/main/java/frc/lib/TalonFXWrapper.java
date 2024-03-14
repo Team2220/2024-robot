@@ -133,6 +133,7 @@ public class TalonFXWrapper {
 
         // DriverStationTriggers.isDisabled().debounce(7).onFalse(
         // Commands.runOnce(() -> {
+        // this.setVoltageOut(Units.Volts.of(0));
         // talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Coast;
         // talon.getConfigurator().apply(talonFXConfigs, 0);
         // }).ignoringDisable(true));
@@ -142,8 +143,6 @@ public class TalonFXWrapper {
         // talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
         // talon.getConfigurator().apply(talonFXConfigs, 0);
         // }).ignoringDisable(true));
-
-        // this.setVoltageOut(Units.Volts.of(0));
     }
 
     public TalonFXWrapper(int id, String name, boolean isInverted) {
