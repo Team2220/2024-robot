@@ -16,28 +16,60 @@
     },
     {
       "anchor": {
-        "x": 8.169287814713256,
-        "y": 7.436616160690702
+        "x": 3.960668691665485,
+        "y": 7.131899456380939
       },
       "prevControl": {
-        "x": 7.177009937999592,
-        "y": 7.312581426101496
+        "x": 2.968390814951821,
+        "y": 7.007864721791733
       },
       "nextControl": {
-        "x": 8.31615141587664,
-        "y": 7.454974110836125
+        "x": 4.107532292828868,
+        "y": 7.150257406526362
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 5.947975847117067,
-        "y": 6.151559650511089
+        "x": 4.089487893669082,
+        "y": 6.148189186535292
       },
       "prevControl": {
-        "x": 6.443386359580713,
-        "y": 6.128612212829311
+        "x": 4.584898406132728,
+        "y": 6.125241748853513
+      },
+      "nextControl": {
+        "x": 3.5940773812054356,
+        "y": 6.17113662421707
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 5.202017365518325,
+        "y": 7.014791090923124
+      },
+      "prevControl": {
+        "x": 4.952544580620865,
+        "y": 7.045516296570584
+      },
+      "nextControl": {
+        "x": 5.451490150415784,
+        "y": 6.984065885275664
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 7.227992087938526,
+        "y": 6.476092609817173
+      },
+      "prevControl": {
+        "x": 7.352728480387256,
+        "y": 6.460730006993443
       },
       "nextControl": null,
       "isLocked": false,
@@ -46,28 +78,10 @@
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "eventMarkers": [
-    {
-      "name": "New Event Marker",
-      "waypointRelativePos": 0.7,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "intake"
-              }
-            }
-          ]
-        }
-      }
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 2.0,
+    "maxVelocity": 4.0,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 360.0,
     "maxAngularAcceleration": 180.0
   },
@@ -79,7 +93,7 @@
   "reversed": false,
   "folder": "Sectret",
   "previewStartingState": {
-    "rotation": 57.99461679191656,
+    "rotation": 0.0,
     "velocity": 0
   },
   "useDefaultConstraints": true
