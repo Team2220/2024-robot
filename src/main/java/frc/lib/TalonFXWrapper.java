@@ -25,6 +25,7 @@ import edu.wpi.first.units.Measure;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.units.Velocity;
 import edu.wpi.first.units.Voltage;
+import edu.wpi.first.wpilibj2.command.Commands;
 import frc.lib.faults.Fault;
 import frc.lib.tunables.TunableDouble;
 import frc.lib.tunables.TunableMeasure;
@@ -130,18 +131,16 @@ public class TalonFXWrapper {
             talon.getConfigurator().apply(talonFXConfigs);
         });
 
-        // fix this eventualy plz ###############################################################################################
-        // -griffin
-        // RobotControllerTriggers.isSysActive().onFalse(
-        //         Commands.waitSeconds(7)
-        //                 .andThen(Commands.runOnce(() -> {
-        //                     talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Coast;
-        //                     talon.getConfigurator().apply(talonFXConfigs);
-        //                 }).ignoringDisable(true)));
+        // DriverStationTriggers.isDisabled().debounce(7).onFalse(
+        // Commands.runOnce(() -> {
+        // talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Coast;
+        // talon.getConfigurator().apply(talonFXConfigs, 0);
+        // }).ignoringDisable(true));
 
-        // RobotControllerTriggers.isSysActive().onTrue(Commands.runOnce(() -> {
-        //     talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-        //     talon.getConfigurator().apply(talonFXConfigs);
+        // DriverStationTriggers.isDisabled().debounce(7).onTrue(Commands.runOnce(() ->
+        // {
+        // talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+        // talon.getConfigurator().apply(talonFXConfigs, 0);
         // }).ignoringDisable(true));
     }
 
