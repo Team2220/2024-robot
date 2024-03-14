@@ -142,6 +142,8 @@ public class TalonFXWrapper {
         // talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
         // talon.getConfigurator().apply(talonFXConfigs, 0);
         // }).ignoringDisable(true));
+
+        // this.setVoltageOut(Units.Volts.of(0));
     }
 
     public TalonFXWrapper(int id, String name, boolean isInverted) {
