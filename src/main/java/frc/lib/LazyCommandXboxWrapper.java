@@ -12,13 +12,13 @@ public class LazyCommandXboxWrapper {
 
     CommandXBoxWrapper xbox;
 
-    public LazyCommandXboxWrapper(int inPort, double joystickDeadband, double triggerDeadZone,
+    public LazyCommandXboxWrapper(String name, int inPort, double joystickDeadband, double triggerDeadZone,
             boolean faultsWhenDisconnected) {
-        xbox = new CommandXBoxWrapper(inPort, joystickDeadband, triggerDeadZone, false);
+        xbox = new CommandXBoxWrapper(name, inPort, joystickDeadband, triggerDeadZone, false);
     }
 
-    public LazyCommandXboxWrapper(int inPort) {
-        this(inPort, .15, .1, false);
+    public LazyCommandXboxWrapper(String name, int inPort) {
+        this(name, inPort, .15, .1, false);
     }
 
     public Trigger lazyTrigger(Trigger trigger) {

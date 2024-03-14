@@ -22,7 +22,6 @@ import frc.robot.subsystems.Shooter;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.RobotController;
@@ -43,8 +42,9 @@ public class RobotContainer {
   @SuppressWarnings("unused")
   public static final DriverTab drivertab = new DriverTab();
   private SendableChooser<Command> autoChooser;
-  private final CommandXBoxWrapper m_driverController = new CommandXBoxWrapper(OperatorConstants.kDriverControllerPort);
-  private final CommandXBoxWrapper m_operatorController = new CommandXBoxWrapper(
+  private final CommandXBoxWrapper m_driverController = new CommandXBoxWrapper("Driver Controller",
+      OperatorConstants.kDriverControllerPort);
+  private final CommandXBoxWrapper m_operatorController = new CommandXBoxWrapper("Operator Controller",
       OperatorConstants.kOperatorControllerPort);
 
   private final Shooter shooter = new Shooter();
@@ -60,7 +60,7 @@ public class RobotContainer {
     configureBindings();
 
     m_leds = new LEDs(
-        new int[] {1, 2},
+        new int[] { 1, 2 },
         new LedSignal[] {
             LedSignal.isBrownedOut(),
             LedSignal.isDSConnected(),
@@ -104,6 +104,7 @@ public class RobotContainer {
     }
 
   }
+
   boolean isArmHeld = false;
 
   private void configureBindings() {
@@ -164,7 +165,7 @@ public class RobotContainer {
         isArmHeld = false;
         m_arm.setDutyCycle(joyStickPosition);
       } else {
-        if(isArmHeld == false){
+        if (isArmHeld == false) {
           m_arm.holdPosition();
         }
         isArmHeld = true;

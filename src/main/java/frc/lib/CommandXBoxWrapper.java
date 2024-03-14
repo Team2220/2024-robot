@@ -18,19 +18,21 @@ public class CommandXBoxWrapper {
     double joystickDeadband;
     double triggerDeadZone;
     boolean faultsWhenDisconnected;
+    String name;
 
-    public CommandXBoxWrapper(int inPort, double joystickDeadband, double triggerDeadZone,
+    public CommandXBoxWrapper(String name, int inPort, double joystickDeadband, double triggerDeadZone,
             boolean faultsWhenDisconnected) {
         xbox = new CommandXboxController(inPort);
+        this.name = name;
         this.faultsWhenDisconnected = faultsWhenDisconnected;
         this.joystickDeadband = joystickDeadband;
         this.triggerDeadZone = triggerDeadZone;
 
-        Fault.autoUpdating("Controller " + inPort + " is disconnected.", this::isConnected);
+        Fault.autoUpdating("Controller " + name + " (Port: " + inPort + ") is disconnected.", this::isConnected);
     }
 
-    public CommandXBoxWrapper(int inPort) {
-        this(inPort, .15, .1, true);
+    public CommandXBoxWrapper(String name, int inPort) {
+        this(name, inPort, .15, .1, true);
     }
 
     /**
