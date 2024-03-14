@@ -4,6 +4,7 @@
       "/FMSInfo": "FMSInfo",
       "/Shuffleboard/Scheduler/Scheduler": "Scheduler",
       "/Shuffleboard/field/Field": "Field2d",
+      "/Shuffleboard/limeLight/limeLight": "Field2d",
       "/SmartDashboard/Auto Chooser": "String Chooser"
     }
   },

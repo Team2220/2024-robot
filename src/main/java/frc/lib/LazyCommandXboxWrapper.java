@@ -1,5 +1,7 @@
 package frc.lib;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.event.EventLoop;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -10,12 +12,31 @@ public class LazyCommandXboxWrapper {
 
     CommandXBoxWrapper xbox;
 
-    public LazyCommandXboxWrapper(int inPort, double joystickDeadband, double triggerDeadZone) {
-        xbox = new CommandXBoxWrapper(inPort, joystickDeadband, triggerDeadZone);
+    public LazyCommandXboxWrapper(int inPort, double joystickDeadband, double triggerDeadZone,
+            boolean faultsWhenDisconnected) {
+        xbox = new CommandXBoxWrapper(inPort, joystickDeadband, triggerDeadZone, false);
     }
 
     public LazyCommandXboxWrapper(int inPort) {
-        this(inPort, .15, .1);
+        this(inPort, .15, .1, false);
+    }
+
+    public Trigger lazyTrigger(Trigger trigger) {
+        return new Trigger(() -> {
+            if (xbox.isConnected()) {
+                return trigger.getAsBoolean();
+            } else {
+                return false;
+            }
+        });
+    }
+
+    public double lazyDouble(DoubleSupplier doubleSup) {
+        if (xbox.isConnected()) {
+            return doubleSup.getAsDouble();
+        } else {
+            return 0.0;
+        }
     }
 
     /**
@@ -37,7 +58,7 @@ public class LazyCommandXboxWrapper {
      * @see #leftBumper(EventLoop)
      */
     public Trigger leftBumper() {
-        return xbox.leftBumper();
+        return lazyTrigger(xbox.leftBumper());
     }
 
     public boolean isConnected() {
@@ -53,7 +74,7 @@ public class LazyCommandXboxWrapper {
      *         loop.
      */
     public Trigger leftBumper(EventLoop loop) {
-        return xbox.leftBumper(loop);
+        return lazyTrigger(xbox.leftBumper(loop));
     }
 
     /**
@@ -66,7 +87,7 @@ public class LazyCommandXboxWrapper {
      * @see #rightBumper(EventLoop)
      */
     public Trigger rightBumper() {
-        return xbox.rightBumper();
+        return lazyTrigger(xbox.rightBumper());
     }
 
     /**
@@ -79,7 +100,7 @@ public class LazyCommandXboxWrapper {
      * @see #leftStick(EventLoop)
      */
     public Trigger leftStick() {
-        return xbox.leftStick();
+        return lazyTrigger(xbox.leftStick());
     }
 
     /**
@@ -92,7 +113,7 @@ public class LazyCommandXboxWrapper {
      * @see #rightStick(EventLoop)
      */
     public Trigger rightStick() {
-        return xbox.rightStick();
+        return lazyTrigger(xbox.rightStick());
     }
 
     /**
@@ -105,7 +126,7 @@ public class LazyCommandXboxWrapper {
      * @see #a(EventLoop)
      */
     public Trigger a() {
-        return xbox.a();
+        return lazyTrigger(xbox.a());
     }
 
     /**
@@ -118,7 +139,7 @@ public class LazyCommandXboxWrapper {
      * @see #b(EventLoop)
      */
     public Trigger b() {
-        return xbox.b();
+        return lazyTrigger(xbox.b());
     }
 
     /**
@@ -131,7 +152,7 @@ public class LazyCommandXboxWrapper {
      * @see #x(EventLoop)
      */
     public Trigger x() {
-        return xbox.x();
+        return lazyTrigger(xbox.x());
     }
 
     /**
@@ -144,7 +165,7 @@ public class LazyCommandXboxWrapper {
      * @see #y(EventLoop)
      */
     public Trigger y() {
-        return xbox.y();
+        return lazyTrigger(xbox.y());
     }
 
     /**
@@ -157,7 +178,7 @@ public class LazyCommandXboxWrapper {
      * @see #start(EventLoop)
      */
     public Trigger start() {
-        return xbox.start();
+        return lazyTrigger(xbox.start());
     }
 
     /**
@@ -170,7 +191,7 @@ public class LazyCommandXboxWrapper {
      * @see #back(EventLoop)
      */
     public Trigger back() {
-        return xbox.back();
+        return lazyTrigger(xbox.back());
     }
 
     /**
@@ -184,7 +205,7 @@ public class LazyCommandXboxWrapper {
      *         button loop}.
      */
     public Trigger leftTrigger() {
-        return xbox.leftTrigger();
+        return lazyTrigger(xbox.leftTrigger());
     }
 
     /**
@@ -198,7 +219,7 @@ public class LazyCommandXboxWrapper {
      *         button loop}.
      */
     public Trigger rightTrigger() {
-        return xbox.rightTrigger();
+        return lazyTrigger(xbox.rightTrigger());
     }
 
     /**
@@ -207,7 +228,7 @@ public class LazyCommandXboxWrapper {
      * @return The axis value.
      */
     public double getLeftX() {
-        return xbox.getLeftX();
+        return lazyDouble(xbox::getLeftX);
     }
 
     /**
@@ -216,7 +237,7 @@ public class LazyCommandXboxWrapper {
      * @return The axis value.
      */
     public double getRightX() {
-        return xbox.getRightX();
+        return lazyDouble(xbox::getRightX);
     }
 
     /**
@@ -225,7 +246,7 @@ public class LazyCommandXboxWrapper {
      * @return The axis value.
      */
     public double getLeftY() {
-        return xbox.getLeftY();
+        return lazyDouble(xbox::getLeftY);
     }
 
     /**
@@ -234,7 +255,7 @@ public class LazyCommandXboxWrapper {
      * @return The axis value.
      */
     public double getRightY() {
-        return xbox.getRightY();
+        return lazyDouble(xbox::getRightY);
     }
 
     /**
@@ -245,7 +266,7 @@ public class LazyCommandXboxWrapper {
      * @return The axis value.
      */
     public double getLeftTriggerAxis() {
-        return xbox.getLeftTriggerAxis();
+        return lazyDouble(xbox::getLeftTriggerAxis);
     }
 
     /**
@@ -256,35 +277,35 @@ public class LazyCommandXboxWrapper {
      * @return The axis value.
      */
     public double getRightTriggerAxis() {
-        return xbox.getRightTriggerAxis();
+        return lazyDouble(xbox::getRightTriggerAxis);
     }
 
     public Trigger joysticksTrigger() {
-        return xbox.joysticksTrigger();
+        return lazyTrigger(xbox.joysticksTrigger());
     }
 
     public Trigger leftYTrigger() {
-        return xbox.leftYTrigger();
+        return lazyTrigger(xbox.leftYTrigger());
     }
 
     public Trigger leftXTrigger() {
-        return xbox.leftXTrigger();
+        return lazyTrigger(xbox.leftXTrigger());
     }
 
     public Trigger rightYTrigger() {
-        return xbox.rightYTrigger();
+        return lazyTrigger(xbox.rightYTrigger());
     }
 
     public Trigger rightXTrigger() {
-        return xbox.rightXTrigger();
+        return lazyTrigger(xbox.rightXTrigger());
     }
 
     public Trigger joysticksTriggerLeft() {
-        return xbox.joysticksTriggerLeft();
+        return lazyTrigger(xbox.joysticksTriggerLeft());
     }
 
     public Trigger joysticksTriggerRight() {
-        return xbox.joysticksTriggerRight();
+        return lazyTrigger(xbox.joysticksTriggerRight());
     }
 
     /**
@@ -303,7 +324,7 @@ public class LazyCommandXboxWrapper {
      * @return a Trigger instance based around this angle of a POV on the HID.
      */
     public Trigger pov(int angle) {
-        return xbox.pov(angle);
+        return lazyTrigger(xbox.pov(angle));
     }
 
     /**
@@ -323,7 +344,7 @@ public class LazyCommandXboxWrapper {
      * @return a Trigger instance based around this angle of a POV on the HID.
      */
     public Trigger pov(int pov, int angle, EventLoop loop) {
-        return xbox.pov(pov, angle, loop);
+        return lazyTrigger(xbox.pov(pov, angle, loop));
     }
 
     /**
@@ -337,7 +358,7 @@ public class LazyCommandXboxWrapper {
      *         HID.
      */
     public Trigger povUp() {
-        return xbox.povUp();
+        return lazyTrigger(xbox.povUp());
     }
 
     /**
@@ -351,7 +372,7 @@ public class LazyCommandXboxWrapper {
      *         HID.
      */
     public Trigger povUpRight() {
-        return xbox.povUpRight();
+        return lazyTrigger(xbox.povUpRight());
     }
 
     /**
@@ -365,7 +386,7 @@ public class LazyCommandXboxWrapper {
      *         HID.
      */
     public Trigger povRight() {
-        return xbox.povRight();
+        return lazyTrigger(xbox.povRight());
     }
 
     /**
@@ -379,7 +400,7 @@ public class LazyCommandXboxWrapper {
      *         HID.
      */
     public Trigger povDownRight() {
-        return xbox.povDownRight();
+        return lazyTrigger(xbox.povDownRight());
     }
 
     /**
@@ -393,7 +414,7 @@ public class LazyCommandXboxWrapper {
      *         HID.
      */
     public Trigger povDown() {
-        return xbox.povDown();
+        return lazyTrigger(xbox.povDown());
     }
 
     /**
@@ -407,7 +428,7 @@ public class LazyCommandXboxWrapper {
      *         HID.
      */
     public Trigger povDownLeft() {
-        return xbox.povDownLeft();
+        return lazyTrigger(xbox.povDownLeft());
     }
 
     /**
@@ -421,7 +442,7 @@ public class LazyCommandXboxWrapper {
      *         HID.
      */
     public Trigger povLeft() {
-        return xbox.povLeft();
+        return lazyTrigger(xbox.povLeft());
     }
 
     /**
@@ -435,7 +456,7 @@ public class LazyCommandXboxWrapper {
      *         HID.
      */
     public Trigger povUpLeft() {
-        return xbox.povUpLeft();
+        return lazyTrigger(xbox.povUpLeft());
     }
 
     /**
@@ -449,7 +470,7 @@ public class LazyCommandXboxWrapper {
      *         HID.
      */
     public Trigger povCenter() {
-        return xbox.povCenter();
+        return lazyTrigger(xbox.povCenter());
     }
 
     public void setRumble(double value) {
