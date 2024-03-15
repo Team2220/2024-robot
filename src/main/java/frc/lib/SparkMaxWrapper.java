@@ -50,6 +50,8 @@ public class SparkMaxWrapper {
         sparkMax.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward,
                 (float) reverseSoftLimitThreshold.in(Units.Rotations));
 
+        sparkMax.setSmartCurrentLimit(60);
+
         new TunableDouble("P", P, getName(), value -> {
             pidController.setP(value);
         });
