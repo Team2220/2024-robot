@@ -201,6 +201,9 @@ public class RobotContainer {
       LimelightHelpers.setPipelineIndex("limelight-right", 2);
     }));
 
+    
+    m_operatorController.povDown().whileTrue(shooter.setDutyCycleCommand(-1));
+
   }
 
   public Command getAutonomousCommand() {
