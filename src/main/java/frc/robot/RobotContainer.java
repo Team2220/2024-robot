@@ -54,8 +54,11 @@ public class RobotContainer {
   public RobotContainer() {
     PDHLogPowerFaults.setPdh(m_PowerDistribution, 8, 12, 13, 14, 15, 16, 17, 22, 23);
     LimelightPortForwarding.setup();
-    Shuffleboard.getTab("can").addDouble("can utilization", () -> RobotController.getCANStatus().percentBusUtilization)
-        .withWidget(BuiltInWidgets.kGraph);
+    if (Constants.isGraphsEnabled) {
+      Shuffleboard.getTab("can")
+          .addDouble("can utilization", () -> RobotController.getCANStatus().percentBusUtilization)
+          .withWidget(BuiltInWidgets.kGraph);
+    }
 
     configureBindings();
 
@@ -201,7 +204,6 @@ public class RobotContainer {
       LimelightHelpers.setPipelineIndex("limelight-right", 2);
     }));
 
-    
     m_operatorController.povDown().whileTrue(shooter.setDutyCycleCommand(-1));
 
   }

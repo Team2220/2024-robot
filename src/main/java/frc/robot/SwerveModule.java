@@ -130,9 +130,11 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
 
     m_turningMotor.setPosition(-angleToEncoderTicks(getAngle().getDegrees()));
 
-  //   Shuffleboard.getTab("swerve")
-  //       .addDouble(name, this::getDriveVelocity)
-  //       .withWidget(BuiltInWidgets.kGraph).withSize(1, 1);
+    // if (Constants.isGraphsEnabled) {
+    // Shuffleboard.getTab("swerve")
+    // .addDouble(name, this::getDriveVelocity)
+    // .withWidget(BuiltInWidgets.kGraph).withSize(1, 1);
+    // }
   }
 
   public SwerveModuleState getState() {
