@@ -180,7 +180,7 @@ public class RobotContainer {
     m_operatorController.leftYTrigger().onTrue(armCommand);
     m_arm.setDefaultCommand(armCommand);
 
-    m_operatorController.leftTrigger().whileTrue(intake.intakeUntilQueued());
+    m_operatorController.leftTrigger().whileTrue(m_arm.setPositionOnceCommand(0).andThen(intake.intakeUntilQueued()));
 
     m_operatorController.leftBumper().whileTrue(intake.setDutyCycleCommand(-.75));
 
@@ -194,15 +194,17 @@ public class RobotContainer {
 
     m_operatorController.a().onTrue(m_arm.setPositionCommand(0));
 
-    m_operatorController.b().onTrue(m_arm.setPositionCommand(32));
+    m_operatorController.b().onTrue(shooter.setDutyCycleCommand(-1));
 
     m_operatorController.x().onTrue(m_arm.setPositionCommand(55));
 
     m_operatorController.leftStick().whileTrue(m_arm.overrideSoftLimits());
 
-    m_operatorController.povUp().onTrue(Commands.runOnce(() -> {
+    m_operatorController.povLeft().onTrue(Commands.runOnce(() -> {
       LimelightHelpers.setPipelineIndex("limelight-right", 2);
     }));
+
+    m_operatorController.povUp().onTrue(m_arm.setPositionCommand(94.3));
 
     m_operatorController.povDown().whileTrue(shooter.setDutyCycleCommand(-1));
 
