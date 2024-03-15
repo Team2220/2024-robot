@@ -4,6 +4,8 @@ import static frc.lib.units.UnitsUtil.RotationsPerSecSquared;
 
 import java.util.function.DoubleSupplier;
 
+import com.ctre.phoenix6.signals.NeutralModeValue;
+
 import edu.wpi.first.units.Angle;
 import edu.wpi.first.units.Measure;
 import edu.wpi.first.units.Units;
@@ -32,6 +34,7 @@ public class Shooter extends SubsystemBase implements CheckableSubsystem, Shuffl
                 Constants.Shooter.id_left,
                 "leftShooter",
                 true,
+                NeutralModeValue.Coast,
                 Constants.Shooter.gear_ratio,
                 1,
                 0,
@@ -49,6 +52,7 @@ public class Shooter extends SubsystemBase implements CheckableSubsystem, Shuffl
                 Constants.Shooter.id_right,
                 "rightShooter",
                 false,
+                NeutralModeValue.Coast,
                 Constants.Shooter.gear_ratio,
                 1,
                 0,
@@ -78,10 +82,10 @@ public class Shooter extends SubsystemBase implements CheckableSubsystem, Shuffl
             left.set(speed);
             right.set(speed);
         })
-        .finallyDo(() -> {
-            left.set(0);
-            right.set(0);
-        });
+                .finallyDo(() -> {
+                    left.set(0);
+                    right.set(0);
+                });
     }
 
     public boolean isAtSetPoint() {

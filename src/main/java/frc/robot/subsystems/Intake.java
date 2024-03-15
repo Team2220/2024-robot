@@ -2,6 +2,8 @@ package frc.robot.subsystems;
 
 import java.util.function.DoubleSupplier;
 
+import com.ctre.phoenix6.signals.NeutralModeValue;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.DigitalInputWrapper;
@@ -28,7 +30,7 @@ public class Intake extends SubsystemBase implements CheckableSubsystem, Shuffle
     public Intake() {
         intakeSpeed = addTunableDouble("intakeSpeed", .75);
         intake = new SparkMaxWrapper(Constants.Intake.id_intake, "intake", false);
-        conveyor = new TalonFXWrapper(Constants.Intake.id_conv, "conveyor", true);
+        conveyor = new TalonFXWrapper(Constants.Intake.id_conv, "conveyor", true, NeutralModeValue.Brake);
     }
 
     public Command dutyCycleCommand(DoubleSupplier speed) {

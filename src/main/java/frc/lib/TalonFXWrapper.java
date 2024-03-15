@@ -44,6 +44,7 @@ public class TalonFXWrapper {
             int id,
             String name,
             boolean isInverted,
+            NeutralModeValue neutralMode,
             double gearRatio,
             double P,
             double I,
@@ -64,7 +65,7 @@ public class TalonFXWrapper {
 
         talonFXConfigs = new TalonFXConfiguration();
 
-        talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+        talonFXConfigs.MotorOutput.NeutralMode = neutralMode;
 
         talonFXConfigs.MotorOutput.Inverted = isInverted ? InvertedValue.Clockwise_Positive
                 : InvertedValue.CounterClockwise_Positive;
@@ -145,11 +146,12 @@ public class TalonFXWrapper {
         // }).ignoringDisable(true));
     }
 
-    public TalonFXWrapper(int id, String name, boolean isInverted) {
+    public TalonFXWrapper(int id, String name, boolean isInverted, NeutralModeValue neutralMode) {
         this(
                 id,
                 name,
                 isInverted,
+                neutralMode,
                 1,
                 0,
                 0,

@@ -8,6 +8,8 @@ import static edu.wpi.first.units.Units.Volts;
 
 import java.util.function.DoubleSupplier;
 
+import com.ctre.phoenix6.signals.NeutralModeValue;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -27,6 +29,7 @@ public class Arm extends SubsystemBase implements CheckableSubsystem, ShuffleBoa
                 Constants.Arm.ARM_TALON_LEFT,
                 "Arm",
                 false,
+                NeutralModeValue.Coast,
                 Constants.Arm.ARM_GEAR_RATIO,
                 175,
                 0,
@@ -92,9 +95,9 @@ public class Arm extends SubsystemBase implements CheckableSubsystem, ShuffleBoa
     @Override
     public CheckCommand[] getCheckCommands() {
         return new CheckCommand[] {
-            new PositionTalonCheck(ArmTalonFX, Degrees.of(90), Degrees.of(5)),
-            new PositionTalonCheck(ArmTalonFX, Degrees.of(0), Degrees.of(5))
-        
+                new PositionTalonCheck(ArmTalonFX, Degrees.of(90), Degrees.of(5)),
+                new PositionTalonCheck(ArmTalonFX, Degrees.of(0), Degrees.of(5))
+
         };
     }
 
