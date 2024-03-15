@@ -20,24 +20,24 @@
         "y": 5.55
       },
       "prevControl": {
-        "x": 1.9,
-        "y": 5.55
+        "x": 1.9007960883276838,
+        "y": 5.510105853828689
       },
       "nextControl": {
-        "x": 3.9,
-        "y": 5.55
+        "x": 3.148775024822777,
+        "y": 5.559932574410603
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.9,
-        "y": 7.014383307345971
+        "x": 1.4135621611975744,
+        "y": 5.55
       },
       "prevControl": {
-        "x": 3.399721938511579,
-        "y": 6.998151709344484
+        "x": 1.9384345836696917,
+        "y": 5.493725610178493
       },
       "nextControl": null,
       "isLocked": false,
@@ -46,7 +46,48 @@
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "vent Marker",
+      "waypointRelativePos": 0.4,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "intake"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "armRest"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "i",
+      "waypointRelativePos": 1.75,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "armSpeakerPos"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 4.0,
     "maxAcceleration": 3.0,

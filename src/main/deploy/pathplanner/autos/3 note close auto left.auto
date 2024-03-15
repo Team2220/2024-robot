@@ -1,6 +1,12 @@
 {
   "version": 1.0,
-  "startingPose": null,
+  "startingPose": {
+    "position": {
+      "x": 0.77,
+      "y": 6.7
+    },
+    "rotation": 60.0
+  },
   "command": {
     "type": "sequential",
     "data": {
@@ -22,7 +28,7 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "armSpeakerPos"
+                        "name": "firstArmSpeakerPos"
                       }
                     },
                     {
@@ -34,7 +40,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "nepal"
+                        "pathName": "3.1 left"
                       }
                     },
                     {
@@ -46,7 +52,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "south korea"
+                        "pathName": "japan"
                       }
                     },
                     {
@@ -58,13 +64,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "north korea"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "intakeShot"
+                        "pathName": "china"
                       }
                     }
                   ]

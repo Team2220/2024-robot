@@ -1,6 +1,12 @@
 {
   "version": 1.0,
-  "startingPose": null,
+  "startingPose": {
+    "position": {
+      "x": 0.78,
+      "y": 4.39
+    },
+    "rotation": -60.0
+  },
   "command": {
     "type": "sequential",
     "data": {
@@ -22,7 +28,7 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "saboStart"
+                        "name": "firstArmSpeakerPos"
                       }
                     },
                     {
@@ -34,7 +40,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "outsabo"
+                        "pathName": "lebanon"
                       }
                     },
                     {
@@ -46,19 +52,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "outsabo2"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "intakeShot"
-                      }
-                    },
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "outsabo3"
+                        "pathName": "righty'h"
                       }
                     }
                   ]

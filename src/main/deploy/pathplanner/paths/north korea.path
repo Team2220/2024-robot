@@ -20,8 +20,8 @@
         "y": 6.812445855746319
       },
       "prevControl": {
-        "x": 1.8068767607013576,
-        "y": 6.46364480298328
+        "x": 1.5628882166855242,
+        "y": 6.45549218371164
       },
       "nextControl": null,
       "isLocked": false,
@@ -30,7 +30,31 @@
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "shooter",
+      "waypointRelativePos": 0.5,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "intake"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "3.1"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 4.0,
     "maxAcceleration": 3.0,
