@@ -8,6 +8,7 @@ import java.util.function.BooleanSupplier;
 
 import edu.wpi.first.util.datalog.BooleanLogEntry;
 import edu.wpi.first.wpilibj.DataLogManager;
+import edu.wpi.first.wpilibj.RobotBase;
 import frc.lib.Alert;
 import frc.lib.eventLoops.EventLoops;
 import frc.lib.eventLoops.IsolatedEventLoop;
@@ -66,18 +67,21 @@ public final class Fault {
         // });
 
         autoUpdating("No usb connected into roboreo", () -> {
-            try {
-                // prefer a mounted USB drive if one is accessible
-                Path usbDir = Paths.get("/u").toRealPath();
-                if (Files.isWritable(usbDir)) {
-                    return false;
-                } else {
+            if (RobotBase.isSimulation()) {
+                return false;
+            } else {
+                try {
+                    // prefer a mounted USB drive if one is accessible
+                    Path usbDir = Paths.get("/u").toRealPath();
+                    if (Files.isWritable(usbDir)) {
+                        return false;
+                    } else {
+                        return true;
+                    }
+                } catch (IOException ex) {
                     return true;
                 }
-            } catch (IOException ex) {
-                return true;
             }
-
         });
     }
 

@@ -17,17 +17,22 @@ public class CommandXBoxWrapper {
     CommandXboxController xbox;
     double joystickDeadband;
     double triggerDeadZone;
+    boolean faultsWhenDisconnected;
+    String name;
 
-    public CommandXBoxWrapper(int inPort, double joystickDeadband, double triggerDeadZone) {
+    public CommandXBoxWrapper(String name, int inPort, double joystickDeadband, double triggerDeadZone,
+            boolean faultsWhenDisconnected) {
         xbox = new CommandXboxController(inPort);
+        this.name = name;
+        this.faultsWhenDisconnected = faultsWhenDisconnected;
         this.joystickDeadband = joystickDeadband;
         this.triggerDeadZone = triggerDeadZone;
 
-        Fault.autoUpdating("Controller " + inPort + " is disconnected.", this::isConnected);
+        Fault.autoUpdating("Controller " + name + " (Port: " + inPort + ") is disconnected.", this::isConnected);
     }
 
-    public CommandXBoxWrapper(int inPort) {
-        this(inPort, .15, .1);
+    public CommandXBoxWrapper(String name, int inPort) {
+        this(name, inPort, .15, .1, true);
     }
 
     /**
@@ -82,8 +87,6 @@ public class CommandXBoxWrapper {
         return xbox.rightBumper();
     }
 
-    
-
     /**
      * Constructs an event instance around the left stick button's digital signal.
      *
@@ -96,8 +99,6 @@ public class CommandXBoxWrapper {
     public Trigger leftStick() {
         return xbox.leftStick();
     }
-
-    
 
     /**
      * Constructs an event instance around the right stick button's digital signal.
@@ -112,9 +113,6 @@ public class CommandXBoxWrapper {
         return xbox.rightStick();
     }
 
-
-    
-
     /**
      * Constructs an event instance around the A button's digital signal.
      *
@@ -128,7 +126,6 @@ public class CommandXBoxWrapper {
         return xbox.a();
     }
 
-    
     /**
      * Constructs an event instance around the B button's digital signal.
      *
@@ -141,8 +138,6 @@ public class CommandXBoxWrapper {
     public Trigger b() {
         return xbox.b();
     }
-
-    
 
     /**
      * Constructs an event instance around the X button's digital signal.
@@ -157,8 +152,6 @@ public class CommandXBoxWrapper {
         return xbox.x();
     }
 
-    
-
     /**
      * Constructs an event instance around the Y button's digital signal.
      *
@@ -171,8 +164,6 @@ public class CommandXBoxWrapper {
     public Trigger y() {
         return xbox.y();
     }
-
-    
 
     /**
      * Constructs an event instance around the start button's digital signal.
@@ -187,8 +178,6 @@ public class CommandXBoxWrapper {
         return xbox.start();
     }
 
-    
-
     /**
      * Constructs an event instance around the back button's digital signal.
      *
@@ -201,7 +190,6 @@ public class CommandXBoxWrapper {
     public Trigger back() {
         return xbox.back();
     }
-
 
     /**
      * Constructs a Trigger instance around the axis value of the left trigger. The
@@ -216,7 +204,6 @@ public class CommandXBoxWrapper {
     public Trigger leftTrigger() {
         return xbox.leftTrigger();
     }
-
 
     /**
      * Constructs a Trigger instance around the axis value of the right trigger. The
@@ -303,25 +290,25 @@ public class CommandXBoxWrapper {
 
     public Trigger leftYTrigger() {
         return new Trigger(() -> {
-            return  Math.abs(getLeftY()) > 0;
-        });
-    }
-    
-    public Trigger leftXTrigger() {
-        return new Trigger(() -> {
-            return  Math.abs(getLeftX()) > 0;
+            return Math.abs(getLeftY()) > 0;
         });
     }
 
-       public Trigger rightYTrigger() {
+    public Trigger leftXTrigger() {
         return new Trigger(() -> {
-            return  Math.abs(getRightY()) > 0;
+            return Math.abs(getLeftX()) > 0;
         });
-    } 
+    }
+
+    public Trigger rightYTrigger() {
+        return new Trigger(() -> {
+            return Math.abs(getRightY()) > 0;
+        });
+    }
 
     public Trigger rightXTrigger() {
         return new Trigger(() -> {
-            return  Math.abs(getRightX()) > 0;
+            return Math.abs(getRightX()) > 0;
         });
     }
 

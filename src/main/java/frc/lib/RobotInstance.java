@@ -7,6 +7,7 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.util.function.Function;
 
+import edu.wpi.first.wpilibj.RobotBase;
 import frc.lib.faults.Fault;
 
 public enum RobotInstance {
@@ -54,16 +55,20 @@ public enum RobotInstance {
     }
 
     public static RobotInstance getMacAddress() {
-        var check = fromString(getMacAddressStr());
-        if (check == null) {
-            if (fault == null) {
-                fault = new Fault("Unknown Robot MAC Address: " + getMacAddressStr());
-                fault.setIsActive(true);
-                System.out.println("Unknown Robot MAC Address: " + getMacAddressStr());
-            }
+        if (RobotBase.isSimulation()) {
             return Robot24;
         } else {
-            return check;
+            var check = fromString(getMacAddressStr());
+            if (check == null) {
+                if (fault == null) {
+                    fault = new Fault("Unknown Robot MAC Address: " + getMacAddressStr());
+                    fault.setIsActive(true);
+                    System.out.println("Unknown Robot MAC Address: " + getMacAddressStr());
+                }
+                return Robot24;
+            } else {
+                return check;
+            }
         }
     }
 
