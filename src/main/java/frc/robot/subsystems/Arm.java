@@ -50,6 +50,10 @@ public class Arm extends SubsystemBase implements CheckableSubsystem, ShuffleBoa
         });
     }
 
+    public void setNeturalMode(NeutralModeValue value) {
+        ArmTalonFX.setNeutralMode(value);
+    }
+
     public Command overrideSoftLimits() {
         return Commands.startEnd(() -> {
             ArmTalonFX.setSoftLimitsEnabled(false);

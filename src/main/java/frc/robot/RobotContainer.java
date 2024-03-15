@@ -48,7 +48,7 @@ public class RobotContainer {
       OperatorConstants.kOperatorControllerPort);
 
   private final Shooter shooter = new Shooter();
-  private final Arm m_arm = new Arm();
+  final Arm m_arm = new Arm();
   private final Intake intake = new Intake();
 
   public RobotContainer() {

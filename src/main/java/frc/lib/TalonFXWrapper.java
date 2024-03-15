@@ -174,6 +174,11 @@ public class TalonFXWrapper {
         softLimitOverrideFault.setIsActive(enabled);
     }
 
+    public void setNeutralMode(NeutralModeValue value) {
+        talonFXConfigs.MotorOutput.NeutralMode = value;
+        talon.getConfigurator().apply(talonFXConfigs, 0);
+    }
+
     boolean isPositionBeingHeld = false;
 
     public void holdPosition() {
