@@ -9,6 +9,7 @@ import frc.lib.LimelightHelpers;
 import frc.lib.LimelightPortForwarding;
 import frc.lib.MusicToneCommand;
 import frc.lib.Note;
+import frc.lib.faults.Fault;
 import frc.lib.faults.PDHLogPowerFaults;
 import frc.lib.leds.LEDs;
 import frc.lib.leds.LedSignal;
@@ -100,12 +101,11 @@ public class RobotContainer {
 
     try {
       autoChooser = AutoBuilder.buildAutoChooser();
-      SmartDashboard.putData("Auto Chooser", autoChooser);
-
     } catch (Exception exception) {
       autoChooser = new SendableChooser<>();
+      SmartDashboard.putData("Auto Chooser", autoChooser);
       DriverStation.reportError(exception.toString(), exception.getStackTrace());
-
+      new Fault("Failed to set up Auto Chooser.").setIsActive(true);
     }
 
   }
