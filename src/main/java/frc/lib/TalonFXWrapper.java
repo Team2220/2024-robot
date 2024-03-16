@@ -176,7 +176,10 @@ public class TalonFXWrapper {
 
     public void setNeutralMode(NeutralModeValue value) {
         talonFXConfigs.MotorOutput.NeutralMode = value;
-        talon.getConfigurator().apply(talonFXConfigs, 0);
+        talon.getConfigurator().apply(talonFXConfigs, 0.000001);
+        if (followerFx != null) {
+            followerFx.getConfigurator().apply(talonFXConfigs, 0.000001);
+        }
     }
 
     boolean isPositionBeingHeld = false;
