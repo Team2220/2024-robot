@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import java.util.function.DoubleSupplier;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj2.command.Command;
@@ -18,7 +19,7 @@ import frc.lib.tunables.TunableDouble;
 import frc.robot.Constants;
 
 public class Intake extends SubsystemBase implements CheckableSubsystem, ShuffleBoardTabWrapper {
-    private SparkMaxWrapper intake;
+    private TalonFXWrapper intake;
     private TunableDouble intakeSpeed;
     private TalonFXWrapper conveyor;
 
@@ -29,7 +30,7 @@ public class Intake extends SubsystemBase implements CheckableSubsystem, Shuffle
 
     public Intake() {
         intakeSpeed = addTunableDouble("intakeSpeed", .75);
-        intake = new SparkMaxWrapper(Constants.Intake.id_intake, "intake", false);
+        intake = new TalonFXWrapper(Constants.Intake.id_intake, "intake", false, NeutralModeValue.Brake);
         conveyor = new TalonFXWrapper(Constants.Intake.id_conv, "conveyor", true, NeutralModeValue.Brake);
     }
 
@@ -111,8 +112,8 @@ public class Intake extends SubsystemBase implements CheckableSubsystem, Shuffle
         return new CheckCommand[] {
                 new SpinTalonCheck(conveyor, true),
                 new SpinTalonCheck(conveyor, false),
-                new SparkMAXSpinCheck(intake, true),
-                new SparkMAXSpinCheck(intake, false),
+                new SpinTalonCheck(intake, true),
+                new SpinTalonCheck(intake, false),
         };
     }
 

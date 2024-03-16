@@ -128,6 +128,8 @@ public class RobotContainer {
     m_driverController.joysticksTrigger().onTrue(driveCommand);
 
     m_driverController.start().onTrue(driveTrain.zeroCommand());
+    // duplacates on purpos
+    m_driverController.back().onTrue(driveTrain.zeroCommand());
 
     m_driverController.x().whileTrue((driveTrain.xcommand()));
 
@@ -158,8 +160,6 @@ public class RobotContainer {
 
     m_driverController.leftTrigger().whileTrue(intake.intakeUntilQueued());
 
-    m_driverController.back().whileTrue(new MusicToneCommand(256, driveTrain));
-
     intake.setDefaultCommand(intake.dutyCycleCommand(() -> {
       return m_operatorController.getRightY() * .75;
     }));
@@ -189,6 +189,8 @@ public class RobotContainer {
     m_operatorController.rightBumper().whileTrue(intake.setDutyCycleCommand(.75));
 
     m_operatorController.start().onTrue(Commands.runOnce(m_arm::setZero, m_arm));
+//duplicates on purpos
+    m_operatorController.back().onTrue(Commands.runOnce(m_arm::setZero, m_arm));
 
     m_operatorController.y().onTrue(m_arm.setPositionCommand(100));
 
@@ -207,6 +209,7 @@ public class RobotContainer {
     m_operatorController.povUp().onTrue(m_arm.setPositionCommand(94.3));
 
     m_operatorController.povDown().whileTrue(shooter.setDutyCycleCommand(-1));
+
 
   }
 
