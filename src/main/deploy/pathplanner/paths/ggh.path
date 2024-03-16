@@ -4,12 +4,28 @@
     {
       "anchor": {
         "x": 2.9,
-        "y": 5.55
+        "y": 7.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.8802607212317644,
-        "y": 5.784400647602627
+        "x": 3.503267370171104,
+        "y": 7.071189415106104
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 8.2795852864433,
+        "y": 7.444339252314869
+      },
+      "prevControl": {
+        "x": 7.878449211443877,
+        "y": 7.435010506384649
+      },
+      "nextControl": {
+        "x": 8.49429109378045,
+        "y": 7.449332410625035
       },
       "isLocked": false,
       "linkedName": null
@@ -17,23 +33,29 @@
     {
       "anchor": {
         "x": 2.9,
-        "y": 6.99655944766435
+        "y": 7.0
       },
       "prevControl": {
-        "x": 1.5162444870344285,
-        "y": 6.548779643013831
+        "x": 3.5499110998221997,
+        "y": 7.127161890687418
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1.05,
+      "rotationDegrees": 0,
+      "rotateFast": false
+    }
+  ],
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "shooter",
-      "waypointRelativePos": 0.45,
+      "name": "New Event Marker",
+      "waypointRelativePos": 0.4,
       "command": {
         "type": "parallel",
         "data": {
@@ -44,6 +66,23 @@
                 "name": "intake"
               }
             },
+            {
+              "type": "named",
+              "data": {
+                "name": "armRest"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "New Event Marker",
+      "waypointRelativePos": 1.5,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
             {
               "type": "named",
               "data": {
@@ -64,12 +103,12 @@
   "goalEndState": {
     "velocity": 0,
     "rotation": 31.0,
-    "rotateFast": true
+    "rotateFast": false
   },
   "reversed": false,
   "folder": "Sectret",
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": 31.0,
     "velocity": 0
   },
   "useDefaultConstraints": true
