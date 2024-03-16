@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.77,
-      "y": 6.7
+      "x": 0.78,
+      "y": 4.39
     },
-    "rotation": 60.0
+    "rotation": -60.0
   },
   "command": {
     "type": "sequential",
@@ -40,7 +40,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "3.1 left"
+                        "pathName": "lebanon"
                       }
                     },
                     {
@@ -52,25 +52,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "japan"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "intakeShot"
-                      }
-                    },
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "china"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "intakeShot"
+                        "pathName": "righty'h"
                       }
                     }
                   ]
@@ -82,6 +64,6 @@
       ]
     }
   },
-  "folder": "sectret",
+  "folder": "[FIXED] sectret autos",
   "choreoAuto": false
 }

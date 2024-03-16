@@ -69,8 +69,7 @@ public class RobotContainer {
             LedSignal.isBrownedOut(),
             LedSignal.isDSConnected(),
             LedSignal.isEndGame(),
-            // LedSignal.hasgamepiceBottomLedSignal(intake::getBottomNoteSensor),
-            // LedSignal.hasgamepiceTopLedSignal(intake::getTopNoteSensor),
+            LedSignal.hasgamepiceTopLedSignal(intake::getTopNoteSensor),
             LedSignal.getLowBatteryLedSignal(),
             LedSignal.shooterAtSetPoint(() -> shooter.isAtSetPoint())
         });

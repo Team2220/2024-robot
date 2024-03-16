@@ -1,12 +1,6 @@
 {
   "version": 1.0,
-  "startingPose": {
-    "position": {
-      "x": 1.41,
-      "y": 5.55
-    },
-    "rotation": 0
-  },
+  "startingPose": null,
   "command": {
     "type": "sequential",
     "data": {
@@ -40,19 +34,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "3.1 middle"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "intakeShot"
-                      }
-                    },
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "middle 2"
+                        "pathName": "vietnam"
                       }
                     }
                   ]
@@ -64,6 +46,6 @@
       ]
     }
   },
-  "folder": "sectret",
+  "folder": "[FIXED] sectret autos",
   "choreoAuto": false
 }

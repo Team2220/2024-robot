@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.78,
-      "y": 4.39
+      "x": 0.77,
+      "y": 6.7
     },
-    "rotation": -60.0
+    "rotation": 60.0
   },
   "command": {
     "type": "sequential",
@@ -28,7 +28,7 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "armSpeakerPos"
+                        "name": "firstArmSpeakerPos"
                       }
                     },
                     {
@@ -40,7 +40,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "nepal"
+                        "pathName": " 3.1 left mobility"
                       }
                     },
                     {
@@ -52,25 +52,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "south korea"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "intakeShot"
-                      }
-                    },
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "north korea"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "intakeShot"
+                        "pathName": "newnewnenw"
                       }
                     }
                   ]
@@ -82,6 +64,6 @@
       ]
     }
   },
-  "folder": "sectret",
+  "folder": "[FIXED] sectret autos",
   "choreoAuto": false
 }
