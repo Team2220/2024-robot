@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.78,
-        "y": 4.39
+        "x": 8.27998319503869,
+        "y": 0.7197724348076647
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.0433522288845523,
-        "y": 0.07781323619519048
+        "x": 6.98633814329361,
+        "y": 1.5368114148571885
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 8.40642970385467,
-        "y": 0.7878590164763261
+        "x": 3.1345829516315686,
+        "y": 2.120410686321134
       },
       "prevControl": {
-        "x": 7.40642970385467,
-        "y": 0.7878590164763261
+        "x": 2.1345829516315686,
+        "y": 2.120410686321134
       },
       "nextControl": null,
       "isLocked": false,
@@ -32,8 +32,8 @@
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "New  Marke",
-      "waypointRelativePos": 0.15,
+      "name": "New Event Marker",
+      "waypointRelativePos": 0.3,
       "command": {
         "type": "parallel",
         "data": {
@@ -43,18 +43,7 @@
               "data": {
                 "name": "armRestFull"
               }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "New Event Marker",
-      "waypointRelativePos": 0.85,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
+            },
             {
               "type": "named",
               "data": {
@@ -80,8 +69,8 @@
   "reversed": false,
   "folder": "Sectret",
   "previewStartingState": {
-    "rotation": -60.0,
-    "velocity": 0.0
+    "rotation": 0,
+    "velocity": 0
   },
   "useDefaultConstraints": true
 }

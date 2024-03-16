@@ -28,7 +28,7 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "firstArmSpeakerPos"
+                        "name": "armSpeakerPos"
                       }
                     },
                     {
@@ -40,7 +40,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "lebanon"
+                        "pathName": "nepal"
                       }
                     },
                     {
@@ -52,7 +52,25 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "righty'h"
+                        "pathName": "south korea"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "intakeShot"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "armRestFull"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "New Path 4"
                       }
                     }
                   ]

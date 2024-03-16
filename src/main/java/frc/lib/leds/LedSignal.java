@@ -3,6 +3,7 @@ package frc.lib.leds;
 import java.util.function.BooleanSupplier;
 
 import com.ctre.phoenix.led.Animation;
+import com.ctre.phoenix.led.RainbowAnimation;
 import com.ctre.phoenix.led.SingleFadeAnimation;
 import com.ctre.phoenix.led.StrobeAnimation;
 
@@ -134,10 +135,14 @@ public class LedSignal {
     }
 
     public static LedSignal hasgamepiceTopLedSignal(BooleanSupplier supplier) {
-        // blink red
         StrobeAnimation singleFadeAnimation = new StrobeAnimation(0, 255, 0, 0, 0.5, 164, 0);
         return new LedSignal("HasGamepice", supplier, singleFadeAnimation, 0);
     }
+    
+    //   public static LedSignal seansLight(BooleanSupplier supplier) {
+    //     RainbowAnimation;
+    //     return new LedSignal("seansLight", supplier, SingleFadeAnimation, 0);
+    // }
 
     // public static LedSignal hasTarget() {
     // // private final CANdle left = new CANdle(Constants.LEDS.LEFT);
