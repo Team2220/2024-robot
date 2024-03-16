@@ -66,6 +66,12 @@
                       "data": {
                         "pathName": "china"
                       }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "intakeShot"
+                      }
                     }
                   ]
                 }
