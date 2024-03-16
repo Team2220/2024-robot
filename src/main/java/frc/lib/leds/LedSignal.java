@@ -133,6 +133,7 @@ public class LedSignal {
         StrobeAnimation singleFadeAnimation = new StrobeAnimation(160, 32, 240, 0, 0.5, 164, 0);
         return new LedSignal("HasGamepice", supplier, singleFadeAnimation, 0);
     }
+    
 
     public static LedSignal hasgamepiceTopLedSignal(BooleanSupplier supplier) {
         StrobeAnimation singleFadeAnimation = new StrobeAnimation(0, 255, 0, 0, 0.5, 164, 0);
@@ -151,4 +152,9 @@ public class LedSignal {
     // // left.setLEDs(0, 0, 225, 0, 0, 164);
     // // right.setLEDs(0, 0, 225, 0, 0, 164);
     // }
+
+     public static LedSignal erolsPurpleLight(BooleanSupplier supplier) {
+        SingleFadeAnimation singleFadeAnimation = new SingleFadeAnimation(155, 0, 165, 0, .6, 164);
+        return new LedSignal("erolsPurpleLight", supplier, singleFadeAnimation, 0);
+    }
 }
