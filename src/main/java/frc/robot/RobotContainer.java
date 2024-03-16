@@ -96,7 +96,7 @@ public class RobotContainer {
 
     NamedCommands.registerCommand("conveyor", intake.setDutyCycleCommand(.5).withTimeout(2));
     NamedCommands.registerCommand("shooter+", Commands.run(() -> {
-      shooter.setDefaultSpeed();
+      shooter.setDutyCycleCommand(1);
     }, shooter).withTimeout(15));
 
     try {
