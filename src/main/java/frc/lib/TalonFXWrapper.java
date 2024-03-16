@@ -61,7 +61,7 @@ public class TalonFXWrapper {
         talon = new TalonFX(id);
         this.name = name;
         // firmwareVersionSignal = talon.getVersion();
-        TalonFXLogPowerFaults.setupChecks(this);
+        // TalonFXLogPowerFaults.setupChecks(this);
         softLimitOverrideFault = new Fault(getName() + " Device ID: " + id + " Soft Limit Overrided");
 
         talonFXConfigs = new TalonFXConfiguration();
