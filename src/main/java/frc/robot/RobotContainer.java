@@ -20,6 +20,7 @@ import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 
+import com.ctre.phoenix.led.StrobeAnimation;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
@@ -69,10 +70,18 @@ public class RobotContainer {
             LedSignal.isBrownedOut(),
             LedSignal.isDSConnected(),
             LedSignal.isEndGame(),
+<<<<<<< Updated upstream
             LedSignal.hasgamepiceTopLedSignal(intake::getTopNoteSensor),
+=======
+            // LedSignal.hasgamepiceBottomLedSignal(intake::getBottomNoteSensor),
+            // LedSignal.hasgamepiceTopLedSignal(intake::getTopNotem),
+            LedSignal.erolsPurpleLight(()-> m_operatorController.getHID().getBackButton()),
+>>>>>>> Stashed changes
             LedSignal.getLowBatteryLedSignal(),
             LedSignal.shooterAtSetPoint(() -> shooter.isAtSetPoint())
         });
+
+
 
     NamedCommands.registerCommand("armSpeakerPos", m_arm.setPositionOnceCommand(55));
     NamedCommands.registerCommand("firstArmSpeakerPos", m_arm.setPositionOnceCommand(55).withTimeout(2));
@@ -193,21 +202,33 @@ public class RobotContainer {
     m_operatorController.back().onTrue(Commands.runOnce(m_arm::setZero, m_arm));
 
     m_operatorController.y().onTrue(m_arm.setPositionCommand(100));
+    //amp
 
     m_operatorController.a().onTrue(m_arm.setPositionCommand(0));
+    //down
 
+<<<<<<< Updated upstream
     m_operatorController.b().whileTrue(shooter.setDutyCycleCommand(-1));
+=======
+    m_operatorController.b().onTrue(m_arm.setPositionCommand(32));
+    //stage shot
+>>>>>>> Stashed changes
 
     m_operatorController.x().onTrue(m_arm.setPositionCommand(55));
+    //subwoffer shot
 
     m_operatorController.leftStick().whileTrue(m_arm.overrideSoftLimits());
 
     m_operatorController.povLeft().onTrue(Commands.runOnce(() -> {
       LimelightHelpers.setPipelineIndex("limelight-right", 2);
     }));
+<<<<<<< Updated upstream
 
     m_operatorController.povUp().onTrue(m_arm.setPositionCommand(94.3));
 
+=======
+    
+>>>>>>> Stashed changes
     m_operatorController.povDown().whileTrue(shooter.setDutyCycleCommand(-1));
 
 
