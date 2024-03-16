@@ -101,6 +101,7 @@ public class RobotContainer {
 
     try {
       autoChooser = AutoBuilder.buildAutoChooser();
+      SmartDashboard.putData("Auto Chooser", autoChooser);
     } catch (Exception exception) {
       autoChooser = new SendableChooser<>();
       SmartDashboard.putData("Auto Chooser", autoChooser);
