@@ -45,7 +45,10 @@ public class LedSignal {
         }
     }
 
-    // static LedSignal[] leds = new LedSignal[]{isDSConnected(), previouslyHadFault(), isBrownedOut(), shooterAtSetPoint(isActive), hasActiveFault(), isEndGame(), getLowBatteryLedSignal(), hasgamepiceBottomLedSignal(isActive), hasgamepiceTopLedSignal(isActive)};
+    // static LedSignal[] leds = new LedSignal[]{isDSConnected(),
+    // previouslyHadFault(), isBrownedOut(), shooterAtSetPoint(isActive),
+    // hasActiveFault(), isEndGame(), getLowBatteryLedSignal(),
+    // hasgamepiceBottomLedSignal(isActive), hasgamepiceTopLedSignal(isActive)};
 
     // starter signals
     public static LedSignal isDSConnected() {
@@ -126,7 +129,7 @@ public class LedSignal {
 
     public static LedSignal hasgamepiceBottomLedSignal(BooleanSupplier supplier) {
         // blink red
-        StrobeAnimation singleFadeAnimation = new StrobeAnimation(0, 255, 0, 0, 0.5, 164, 0);
+        StrobeAnimation singleFadeAnimation = new StrobeAnimation(160, 32, 240, 0, 0.5, 164, 0);
         return new LedSignal("HasGamepice", supplier, singleFadeAnimation, 0);
     }
 

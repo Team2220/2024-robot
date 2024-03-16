@@ -184,7 +184,7 @@ public class RobotContainer {
 
     m_operatorController.leftBumper().whileTrue(intake.setDutyCycleCommand(-.75));
 
-    m_operatorController.rightTrigger().whileTrue(shooter.velocityCommand());
+    m_operatorController.rightTrigger().whileTrue(shooter.setDutyCycleCommand(1));
 
     m_operatorController.rightBumper().whileTrue(intake.setDutyCycleCommand(.75));
 
@@ -194,7 +194,7 @@ public class RobotContainer {
 
     m_operatorController.a().onTrue(m_arm.setPositionCommand(0));
 
-    m_operatorController.b().onTrue(shooter.setDutyCycleCommand(-1));
+    m_operatorController.b().whileTrue(shooter.setDutyCycleCommand(-1));
 
     m_operatorController.x().onTrue(m_arm.setPositionCommand(55));
 
