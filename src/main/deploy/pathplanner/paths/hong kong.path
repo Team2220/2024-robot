@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 2.799587397177732,
-        "y": 6.931772531689193
+        "x": 2.8968988847068604,
+        "y": 6.9872307017341315
       },
       "prevControl": {
-        "x": 2.4783232696328286,
-        "y": 6.6380453293624235
+        "x": 2.575634757161957,
+        "y": 6.693503499407362
       },
       "nextControl": null,
       "isLocked": false,
@@ -40,7 +40,7 @@
   "goalEndState": {
     "velocity": 0.0,
     "rotation": 30.0,
-    "rotateFast": false
+    "rotateFast": true
   },
   "reversed": false,
   "folder": "Sectret",

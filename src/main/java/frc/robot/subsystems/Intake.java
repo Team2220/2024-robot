@@ -81,8 +81,8 @@ public class Intake extends SubsystemBase implements CheckableSubsystem, Shuffle
                 intake.set(0);
                 conveyor.set(0);
             } else {
-                intake.set(.5);
-                conveyor.set(.5);
+                intake.set(.75);
+                conveyor.set(.75);
             }
         });
     }

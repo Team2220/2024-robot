@@ -49,7 +49,7 @@
   "eventMarkers": [
     {
       "name": "vent Marker",
-      "waypointRelativePos": 0.4,
+      "waypointRelativePos": 0.2,
       "command": {
         "type": "parallel",
         "data": {

@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.579291995431938,
-        "y": 5.55492627078484
+        "x": 2.9,
+        "y": 5.55
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.5595527166637027,
-        "y": 5.789326918387467
+        "x": 2.8802607212317644,
+        "y": 5.784400647602627
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.579291995431938,
-        "y": 6.812445855746319
+        "x": 2.9,
+        "y": 6.99655944766435
       },
       "prevControl": {
-        "x": 1.5628882166855242,
-        "y": 6.45549218371164
+        "x": 1.5162444870344285,
+        "y": 6.548779643013831
       },
       "nextControl": null,
       "isLocked": false,
@@ -33,7 +33,7 @@
   "eventMarkers": [
     {
       "name": "shooter",
-      "waypointRelativePos": 0.5,
+      "waypointRelativePos": 0.45,
       "command": {
         "type": "parallel",
         "data": {
@@ -64,7 +64,7 @@
   "goalEndState": {
     "velocity": 0,
     "rotation": 31.040004754019442,
-    "rotateFast": false
+    "rotateFast": true
   },
   "reversed": false,
   "folder": "Sectret",
