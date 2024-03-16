@@ -86,7 +86,7 @@ public class RobotContainer {
 
     NamedCommands.registerCommand("intake", intake.setIntakeUntilQueued());
     NamedCommands.registerCommand("intake+", intake.setDutyCycleCommand(.75).withTimeout(15));
-    NamedCommands.registerCommand("intakeShot", intake.setDutyCycleCommand(.75).withTimeout(1.5));
+    NamedCommands.registerCommand("intakeShot", intake.setDutyCycleCommand(.75).withTimeout(1));
     NamedCommands.registerCommand("shooter",
         Commands.parallel(
             Commands.sequence(
