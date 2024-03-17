@@ -260,4 +260,24 @@ public class TalonFXWrapper {
         var diff = (getPosition().minus(speed));
         return UnitsUtil.abs(diff).lte(tolerance);
     }
+
+//     TunableDouble deTime = new TunableDouble("debounceTime", 0.1, true);
+//   private double oldDeTime = deTime.getValue();
+
+//   Debouncer debouncer = new Debouncer(deTime.getValue(), Debouncer.DebounceType.kBoth);
+  
+
+  // From: https://www.chiefdelphi.com/t/falcon-500-detecting-motor-stalls/428106
+  private boolean isStalledInternal() {
+    if (talon.getTorqueCurrent().getValueAsDouble() >= 75) {
+   return getVelocity().lte(Units.RotationsPerSecond.of(1));
+    
+    } else {
+        return false;
+    }
+  }
+
+//   public boolean isStalled() {
+//     return debouncer.calculate(isStalledInternal());
+//   }
 }
