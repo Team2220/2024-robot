@@ -24,6 +24,7 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.units.Angle;
+import edu.wpi.first.units.Current;
 import edu.wpi.first.units.Measure;
 import edu.wpi.first.units.Time;
 import edu.wpi.first.units.Units;
@@ -47,6 +48,8 @@ public class TalonFXWrapper {
     // private static Fault fault = new Fault("TalonFX device disconnected");
     // private StatusSignal<Integer> firmwareVersionSignal;
     private Fault softLimitOverrideFault;
+    private TunableMeasure<Current> stallCurrentLimit;
+    private TunableMeasure<Velocity<Angle>> stallRotationLimit;
 
     public TalonFXWrapper(
             int id,
@@ -65,7 +68,9 @@ public class TalonFXWrapper {
             Measure<Angle> forwardSoftLimitTreshold,
             Measure<Angle> reverseSoftLimitThreshold,
             FollowerConfig followerConfig,
-            Measure<Time> debounceTime) {
+            Measure<Time> debounceTime,
+            Measure<Current> stallCurrentThreshold,
+            Measure<Velocity<Angle>> stallRotationThreshold) {
         talon = new TalonFX(id);
         this.name = name;
         // firmwareVersionSignal = talon.getVersion();
@@ -145,6 +150,8 @@ public class TalonFXWrapper {
         });
         
 
+        this.stallCurrentLimit = new TunableMeasure<>("Stall Current Threshold", stallCurrentThreshold, getName());
+        this.stallRotationLimit = new TunableMeasure<>("Stall Rotation Threshold", stallRotationThreshold, getName());
         // DriverStationTriggers.isDisabled().debounce(15).onTrue(
         // Commands.runOnce(() -> {
         // this.setVoltageOut(Units.Volts.of(0));
@@ -178,7 +185,8 @@ public class TalonFXWrapper {
                 Rotations.of(0),
                 Rotations.of(0),
                 null,
-                Units.Seconds.of(1));
+                Units.Seconds.of(1),
+                Units.Amps.of(75), Units.RotationsPerSecond.of(1));
     }
 
     public void setSoftLimitsEnabled(boolean enabled) {
@@ -278,11 +286,14 @@ public class TalonFXWrapper {
         return UnitsUtil.abs(diff).lte(tolerance);
     }
 
+    public Measure<Current> getTorqueCurrent() {
+        return Units.Amps.of(talon.getTorqueCurrent().getValueAsDouble());
+    }
+
     // From: https://www.chiefdelphi.com/t/falcon-500-detecting-motor-stalls/428106
     private boolean isStalledInternal() {
-        if (talon.getTorqueCurrent().getValueAsDouble() >= 75) {
-            return getVelocity().lte(Units.RotationsPerSecond.of(1));
-
+        if (getTorqueCurrent().gte(stallCurrentLimit.getValue())) {
+            return getVelocity().lte(stallRotationLimit.getValue());
         } else {
             return false;
         }
