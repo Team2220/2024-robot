@@ -46,7 +46,7 @@ public class Shooter extends SubsystemBase implements CheckableSubsystem, Shuffl
                 false,
                 Units.Rotations.of(0),
                 Units.Rotations.of(0),
-                null, Units.Seconds.of(3));
+                null, Units.Seconds.of(3), Units.Amps.of(75), Units.RotationsPerSecond.of(1));
 
         right = new TalonFXWrapper(
                 Constants.Shooter.id_right,
@@ -64,7 +64,7 @@ public class Shooter extends SubsystemBase implements CheckableSubsystem, Shuffl
                 false,
                 Units.Rotations.of(0),
                 Units.Rotations.of(0),
-                null, Units.Seconds.of(3));
+                null, Units.Seconds.of(3), Units.Amps.of(75), Units.RotationsPerSecond.of(1));
 
         addGraph("ShooterVelocityRight", () -> right.getVelocity(), Units.RPM);
         addGraph("ShooterVelocityLeft", () -> left.getVelocity(), Units.RPM);
