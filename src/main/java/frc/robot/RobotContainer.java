@@ -72,7 +72,7 @@ public class RobotContainer {
             LedSignal.hasgamepiceTopLedSignal(intake::getTopNoteSensor),
             LedSignal.getLowBatteryLedSignal(),
             LedSignal.erolsPurpleLight(() -> m_operatorController.getHID().getPOV() == 90),
-            LedSignal.seanscolors(() -> m_operatorController.getHID().getPOV() != -1),
+            LedSignal.seanscolors(() -> m_driverController.getHID().getPOV() != -1),
             LedSignal.shooterAtSetPoint(() -> shooter.isAtSetPoint()),
         });
 
@@ -96,9 +96,8 @@ public class RobotContainer {
             shooter.setDutyCycleCommand(1).withTimeout(2)));
 
     NamedCommands.registerCommand("conveyor", intake.setDutyCycleCommand(.5).withTimeout(2));
-    NamedCommands.registerCommand("shooter+", Commands.run(() -> {
-      shooter.setDutyCycleCommand(1);
-    }, shooter).withTimeout(15));
+    NamedCommands.registerCommand("shooter+",
+        shooter.setDutyCycleCommand(1).withTimeout(15));
 
     try {
       autoChooser = AutoBuilder.buildAutoChooser();
@@ -135,7 +134,7 @@ public class RobotContainer {
 
     m_driverController.x().whileTrue((driveTrain.xcommand()));
 
-   // m_driverController.povRight().whileTrue(new Angles(m_arm));
+    // m_driverController.povRight().whileTrue(new Angles(m_arm));
 
     new Trigger(shooter::isAtSetPoint)
         .whileTrue(m_driverController.rumbleCommand(.75))
@@ -191,7 +190,7 @@ public class RobotContainer {
     m_operatorController.rightBumper().whileTrue(intake.setDutyCycleCommand(.75));
 
     m_operatorController.start().onTrue(Commands.runOnce(m_arm::setZero, m_arm));
-//duplicates on purpos
+    // duplicates on purpos
     m_operatorController.back().onTrue(Commands.runOnce(m_arm::setZero, m_arm));
 
     m_operatorController.y().onTrue(m_arm.setPositionCommand(100));
@@ -205,7 +204,7 @@ public class RobotContainer {
     m_operatorController.leftStick().whileTrue(m_arm.overrideSoftLimits());
 
     // m_operatorController.povLeft().onTrue(Commands.runOnce(() -> {
-    //   LimelightHelpers.setPipelineIndex("limelight-right", 2);
+    // LimelightHelpers.setPipelineIndex("limelight-right", 2);
     // }));
 
     m_operatorController.povUp().onTrue(m_arm.setPositionCommand(43.7));
