@@ -63,7 +63,6 @@ public enum RobotInstance {
                 if (fault == null) {
                     fault = new Fault("Unknown Robot MAC Address: " + getMacAddressStr());
                     fault.setIsActive(true);
-                    System.out.println("Unknown Robot MAC Address: " + getMacAddressStr());
                 }
                 return Robot24;
             } else {
