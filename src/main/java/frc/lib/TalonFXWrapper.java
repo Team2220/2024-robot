@@ -133,17 +133,15 @@ public class TalonFXWrapper {
             talon.getConfigurator().apply(talonFXConfigs);
         });
 
-        // DriverStationTriggers.isDisabled().debounce(7).onFalse(
+        // DriverStationTriggers.isDisabled().debounce(15).onFalse(
         // Commands.runOnce(() -> {
         // this.setVoltageOut(Units.Volts.of(0));
-        // talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Coast;
-        // talon.getConfigurator().apply(talonFXConfigs, 0);
+        // setNeutralMode(NeutralModeValue.Coast);
         // }).ignoringDisable(true));
 
         // DriverStationTriggers.isDisabled().debounce(7).onTrue(Commands.runOnce(() ->
         // {
-        // talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-        // talon.getConfigurator().apply(talonFXConfigs, 0);
+        // setNeutralMode(NeutralModeValue.Brake);
         // }).ignoringDisable(true));
     }
 
@@ -170,17 +168,21 @@ public class TalonFXWrapper {
     public void setSoftLimitsEnabled(boolean enabled) {
         talonFXConfigs.SoftwareLimitSwitch.ForwardSoftLimitEnable = enabled;
         talonFXConfigs.SoftwareLimitSwitch.ReverseSoftLimitEnable = enabled;
-        talon.getConfigurator().apply(talonFXConfigs);
+        configureTalons();
 
         softLimitOverrideFault.setIsActive(enabled);
     }
 
-    public void setNeutralMode(NeutralModeValue value) {
-        talonFXConfigs.MotorOutput.NeutralMode = value;
+    private void configureTalons() {
         talon.getConfigurator().apply(talonFXConfigs, 0.000001);
         if (followerFx != null) {
             followerFx.getConfigurator().apply(talonFXConfigs, 0.000001);
         }
+    }
+
+    public void setNeutralMode(NeutralModeValue value) {
+        talonFXConfigs.MotorOutput.NeutralMode = value;
+        configureTalons();
     }
 
     boolean isPositionBeingHeld = false;
@@ -201,14 +203,11 @@ public class TalonFXWrapper {
         return talon;
     }
 
-    public void checkFault() {
-        // if (firmwareVersionSignal.refresh().getError() != StatusCode.OK) {
-        // fault.setIsActive(true);
-        // }
-    }
-
     public void setPosition(double newPosition) {
-        talon.setPosition(newPosition);
+        talon.setPosition(newPosition, 0.00000000000001);
+        if (followerFx != null) {
+            followerFx.setPosition(newPosition, 0.00000000000001);
+        }
     }
 
     public Measure<Angle> getPosition() {

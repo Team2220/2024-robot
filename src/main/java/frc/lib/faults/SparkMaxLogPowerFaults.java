@@ -24,7 +24,7 @@ public class SparkMaxLogPowerFaults {
         });
 
         Fault.autoUpdating("SparkMax:" + sparkMax.getName() + "MoterTempToHigh", () -> {
-            return sparkMax.getTemperature().gt(Units.Celsius.of(40));
+            return sparkMax.getTemperature().gt(Units.Celsius.of(65));
         });
     }
 }

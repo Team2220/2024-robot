@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.9,
-        "y": 5.55
+        "x": 8.416156358379068,
+        "y": 0.7392257438543298
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.8802607212317644,
-        "y": 5.784400647602627
+        "x": 7.122511306633987,
+        "y": 1.5562647239038536
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.192942878776753,
-        "y": 7.129637766384538
+        "x": 2.5218037165932152,
+        "y": 2.0134174865506123
       },
       "prevControl": {
-        "x": 1.0628055379333503,
-        "y": 5.972165877981045
+        "x": 1.5218037165932152,
+        "y": 2.0134174865506123
       },
       "nextControl": null,
       "isLocked": false,
@@ -32,8 +32,8 @@
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "shooter",
-      "waypointRelativePos": 0.45,
+      "name": "New Event Marker",
+      "waypointRelativePos": 0.3,
       "command": {
         "type": "parallel",
         "data": {
@@ -41,13 +41,7 @@
             {
               "type": "named",
               "data": {
-                "name": "intake"
-              }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "3.1"
+                "name": "armRestFull"
               }
             }
           ]
@@ -63,8 +57,8 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 31.0,
-    "rotateFast": true
+    "rotation": 0,
+    "rotateFast": false
   },
   "reversed": false,
   "folder": "Sectret",

@@ -57,13 +57,7 @@
             {
               "type": "named",
               "data": {
-                "name": "intake"
-              }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "armRest"
+                "name": "armIntake"
               }
             }
           ]

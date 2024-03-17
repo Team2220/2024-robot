@@ -1,6 +1,12 @@
 {
   "version": 1.0,
-  "startingPose": null,
+  "startingPose": {
+    "position": {
+      "x": 0.77,
+      "y": 6.7
+    },
+    "rotation": 60.0
+  },
   "command": {
     "type": "sequential",
     "data": {
@@ -34,7 +40,19 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "vietnam"
+                        "pathName": " 3.1 left mobility"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "intakeShot"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "newnewnenw"
                       }
                     }
                   ]
@@ -46,6 +64,6 @@
       ]
     }
   },
-  "folder": "sectret",
+  "folder": "[FIXED] autos",
   "choreoAuto": false
 }

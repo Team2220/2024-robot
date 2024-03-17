@@ -48,9 +48,8 @@ public enum RobotInstance {
             }
             return stringBuilder.toString();
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
-            return "Error";
+            return "Error:" + e.toString();
         }
     }
 
@@ -63,7 +62,6 @@ public enum RobotInstance {
                 if (fault == null) {
                     fault = new Fault("Unknown Robot MAC Address: " + getMacAddressStr());
                     fault.setIsActive(true);
-                    System.out.println("Unknown Robot MAC Address: " + getMacAddressStr());
                 }
                 return Robot24;
             } else {

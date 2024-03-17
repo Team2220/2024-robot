@@ -55,7 +55,7 @@
   "eventMarkers": [
     {
       "name": "intake",
-      "waypointRelativePos": 0.35,
+      "waypointRelativePos": 0.2,
       "command": {
         "type": "parallel",
         "data": {
@@ -63,13 +63,7 @@
             {
               "type": "named",
               "data": {
-                "name": "intake"
-              }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "armRest"
+                "name": "armIntake"
               }
             }
           ]
@@ -78,7 +72,7 @@
     },
     {
       "name": "New Event Marke",
-      "waypointRelativePos": 1.6,
+      "waypointRelativePos": 1.7,
       "command": {
         "type": "parallel",
         "data": {

@@ -1,12 +1,6 @@
 {
   "version": 1.0,
-  "startingPose": {
-    "position": {
-      "x": 0.78,
-      "y": 4.39
-    },
-    "rotation": -60.0
-  },
+  "startingPose": null,
   "command": {
     "type": "sequential",
     "data": {
@@ -40,19 +34,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "lebanon"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "intakeShot"
-                      }
-                    },
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "righty'h"
+                        "pathName": "vietnam"
                       }
                     }
                   ]
@@ -64,6 +46,6 @@
       ]
     }
   },
-  "folder": "sectret",
+  "folder": "[FIXED] autos",
   "choreoAuto": false
 }

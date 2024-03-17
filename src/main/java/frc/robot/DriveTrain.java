@@ -52,7 +52,7 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem, Check
     public DriveTrain() {
         Shuffleboard.getTab("field").add("Field", m_poseEstimatorField).withSize(4, 3);
         Shuffleboard.getTab("limeLight").add("limeLight", m_limeLightField);
-        System.out.println("Velocity" + MAX_VELOCITY_METERS_PER_SECOND);
+        // System.out.println("Velocity" + MAX_VELOCITY_METERS_PER_SECOND);
         AutoBuilder.configureHolonomic(
                 this::getPose, // Robot pose supplier
                 this::resetPose, // Method to reset odometry (will be called if your auto has a starting pose)
@@ -83,9 +83,9 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem, Check
         // Set up custom logging to add the current path to a field 2d widget
         PathPlannerLogging.setLogActivePathCallback((poses) -> {
             m_poseEstimatorField.getObject("path").setPoses(poses);
-            for (Pose2d pose : poses) {
-                System.out.println(pose);
-            }
+            // for (Pose2d pose : poses) {
+            //     System.out.println(pose);
+            // }
         });
 
         addGraph("GyroRate", navx::getRate);
@@ -130,7 +130,7 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem, Check
 
     public void autoDriveRobotRelative(ChassisSpeeds speed) {
         driveRobotRelative(
-                new ChassisSpeeds(speed.vyMetersPerSecond * 1.41873874, speed.vxMetersPerSecond * -1.41873874,
+                new ChassisSpeeds(speed.vyMetersPerSecond * 1.44, speed.vxMetersPerSecond * -1.44,
                         speed.omegaRadiansPerSecond));
     }
 

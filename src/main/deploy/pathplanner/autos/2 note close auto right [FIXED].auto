@@ -62,15 +62,15 @@
                       }
                     },
                     {
-                      "type": "path",
+                      "type": "named",
                       "data": {
-                        "pathName": "north korea"
+                        "name": "armRestFull"
                       }
                     },
                     {
-                      "type": "named",
+                      "type": "path",
                       "data": {
-                        "name": "intakeShot"
+                        "pathName": "New Path 4"
                       }
                     }
                   ]
@@ -82,6 +82,6 @@
       ]
     }
   },
-  "folder": "sectret",
+  "folder": "[FIXED] autos",
   "choreoAuto": false
 }
