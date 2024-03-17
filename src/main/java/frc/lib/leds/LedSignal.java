@@ -154,7 +154,12 @@ public class LedSignal {
     // }
 
      public static LedSignal erolsPurpleLight(BooleanSupplier supplier) {
-        SingleFadeAnimation singleFadeAnimation = new SingleFadeAnimation(155, 0, 165, 0, .6, 164);
-        return new LedSignal("erolsPurpleLight", supplier, singleFadeAnimation, 0);
+        StrobeAnimation strobeAnimation = new StrobeAnimation(155, 0, 165, 0, 2, 164);
+        return new LedSignal("erolsPurpleLight", supplier, strobeAnimation, 0);
+    }
+
+    public static LedSignal seanscolors(BooleanSupplier supplier) {
+        RainbowAnimation rainbowAnimation = new RainbowAnimation();
+        return new LedSignal("seanscolors", supplier, rainbowAnimation, 0);
     }
 }

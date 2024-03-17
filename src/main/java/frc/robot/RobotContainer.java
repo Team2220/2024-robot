@@ -71,7 +71,9 @@ public class RobotContainer {
             LedSignal.isEndGame(),
             LedSignal.hasgamepiceTopLedSignal(intake::getTopNoteSensor),
             LedSignal.getLowBatteryLedSignal(),
-            LedSignal.shooterAtSetPoint(() -> shooter.isAtSetPoint())
+            LedSignal.erolsPurpleLight(() -> m_operatorController.getHID().getPOV() == 90),
+            LedSignal.seanscolors(() -> m_operatorController.getHID().getPOV() != -1),
+            LedSignal.shooterAtSetPoint(() -> shooter.isAtSetPoint()),
         });
 
     NamedCommands.registerCommand("armSpeakerPos", m_arm.setPositionOnceCommand(55));
@@ -133,7 +135,7 @@ public class RobotContainer {
 
     m_driverController.x().whileTrue((driveTrain.xcommand()));
 
-    m_driverController.povRight().whileTrue(new Angles(m_arm));
+   // m_driverController.povRight().whileTrue(new Angles(m_arm));
 
     new Trigger(shooter::isAtSetPoint)
         .whileTrue(m_driverController.rumbleCommand(.75))
