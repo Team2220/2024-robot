@@ -3,6 +3,7 @@ package frc.lib.leds;
 import java.util.function.BooleanSupplier;
 
 import com.ctre.phoenix.led.Animation;
+import com.ctre.phoenix.led.FireAnimation;
 import com.ctre.phoenix.led.RainbowAnimation;
 import com.ctre.phoenix.led.SingleFadeAnimation;
 import com.ctre.phoenix.led.StrobeAnimation;
@@ -146,5 +147,10 @@ public class LedSignal {
     public static LedSignal seanscolors(BooleanSupplier supplier) {
         RainbowAnimation rainbowAnimation = new RainbowAnimation();
         return new LedSignal("seanscolors", supplier, rainbowAnimation, 0);
+    }
+
+    public static LedSignal intakeStalled(BooleanSupplier supplier) {
+        FireAnimation fireAnimation = new FireAnimation();
+        return new LedSignal("intakeStalled", supplier, fireAnimation, 0);
     }
 }

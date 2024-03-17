@@ -70,6 +70,7 @@ public class RobotContainer {
             LedSignal.isDSConnected(),
             LedSignal.isEndGame(),
             LedSignal.hasgamepiceTopLedSignal(intake::getTopNoteSensor),
+            LedSignal.intakeStalled(intake :: isStalled),
             LedSignal.getLowBatteryLedSignal(),
             LedSignal.erolsPurpleLight(() -> m_operatorController.getHID().getPOV() == 90),
             LedSignal.seanscolors(() -> m_driverController.getHID().getPOV() != -1),

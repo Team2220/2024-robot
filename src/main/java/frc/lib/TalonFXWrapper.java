@@ -15,6 +15,8 @@ import static edu.wpi.first.units.Units.Volts;
 import static frc.lib.units.UnitsUtil.RotationsPerSecCubed;
 import static frc.lib.units.UnitsUtil.RotationsPerSecSquared;
 
+import java.util.function.BooleanSupplier;
+
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
@@ -26,6 +28,8 @@ import edu.wpi.first.units.Units;
 import edu.wpi.first.units.Velocity;
 import edu.wpi.first.units.Voltage;
 import edu.wpi.first.wpilibj2.command.Commands;
+import frc.lib.eventLoops.EventLoops;
+import frc.lib.eventLoops.IsolatedEventLoop;
 import frc.lib.faults.Fault;
 import frc.lib.faults.TalonFXLogPowerFaults;
 import frc.lib.tunables.TunableDouble;
@@ -132,17 +136,21 @@ public class TalonFXWrapper {
                     .in(RotationsPerSecond.per(Seconds).per(Seconds));
             talon.getConfigurator().apply(talonFXConfigs);
         });
+        
 
-        // DriverStationTriggers.isDisabled().debounce(15).onFalse(
+        // DriverStationTriggers.isDisabled().debounce(15).onTrue(
         // Commands.runOnce(() -> {
         // this.setVoltageOut(Units.Volts.of(0));
         // setNeutralMode(NeutralModeValue.Coast);
         // }).ignoringDisable(true));
 
-        // DriverStationTriggers.isDisabled().debounce(7).onTrue(Commands.runOnce(() ->
+        // DriverStationTriggers.isDisabled().debounce(15).onFalse(Commands.runOnce(() ->
         // {
         // setNeutralMode(NeutralModeValue.Brake);
         // }).ignoringDisable(true));
+
+       Fault.autoUpdating(getName() + " Stalled", EventLoops.everyLoop, this :: isStalled);
+    
     }
 
     public TalonFXWrapper(int id, String name, boolean isInverted, NeutralModeValue neutralMode) {

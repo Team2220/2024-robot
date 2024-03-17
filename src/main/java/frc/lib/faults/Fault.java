@@ -89,6 +89,7 @@ public final class Fault {
         autoUpdating("RoboRio 3.3V browned out", () -> !RobotController.getEnabled3V3());
         autoUpdating("RoboRio 5V browned out", () -> !RobotController.getEnabled5V());
         autoUpdating("RoboRio 6V browned out", () -> !RobotController.getEnabled6V());
+        
     }
 
 }
