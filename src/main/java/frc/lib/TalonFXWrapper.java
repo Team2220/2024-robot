@@ -278,7 +278,7 @@ public class TalonFXWrapper {
     }
   }
 
-//   public boolean isStalled() {
-//     return debouncer.calculate(isStalledInternal());
-//   }
+  public boolean isStalled() {
+    return false;
+  }
 }
