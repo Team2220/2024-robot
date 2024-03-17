@@ -169,7 +169,10 @@ public class TalonFXWrapper {
     public void setSoftLimitsEnabled(boolean enabled) {
         talonFXConfigs.SoftwareLimitSwitch.ForwardSoftLimitEnable = enabled;
         talonFXConfigs.SoftwareLimitSwitch.ReverseSoftLimitEnable = enabled;
-        talon.getConfigurator().apply(talonFXConfigs);
+        talon.getConfigurator().apply(talonFXConfigs, 0.000001);
+        if (followerFx != null) {
+            followerFx.getConfigurator().apply(talonFXConfigs, 0.000001);
+        }
 
         softLimitOverrideFault.setIsActive(enabled);
     }
