@@ -85,7 +85,7 @@ public class RobotContainer {
 
     NamedCommands.registerCommand("intake", intake.setIntakeUntilQueued());
     NamedCommands.registerCommand("intake+", intake.setDutyCycleCommand(.75).withTimeout(15));
-    NamedCommands.registerCommand("intakeShot", intake.setDutyCycleCommand(.75).withTimeout(1.5));
+    NamedCommands.registerCommand("intakeShot", intake.setDutyCycleCommand(.75).withTimeout(1));
     NamedCommands.registerCommand("shooter",
         Commands.parallel(
             Commands.sequence(
@@ -95,7 +95,7 @@ public class RobotContainer {
 
     NamedCommands.registerCommand("conveyor", intake.setDutyCycleCommand(.5).withTimeout(2));
     NamedCommands.registerCommand("shooter+", Commands.run(() -> {
-      shooter.setDefaultSpeed();
+      shooter.setDutyCycleCommand(1);
     }, shooter).withTimeout(15));
 
     try {
