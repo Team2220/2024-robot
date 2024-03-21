@@ -52,7 +52,13 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "a Path"
+                        "pathName": "a path 2"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "a path 3"
                       }
                     }
                   ]

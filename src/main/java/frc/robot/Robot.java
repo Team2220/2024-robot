@@ -44,6 +44,7 @@ public class Robot extends TimedRobot {
     DriverStation.startDataLog(DataLogManager.getLog());
 
     CommandObserver.start();
+    addPeriodic(EventLoops.everyLoop::poll, 0.02);
     addPeriodic(EventLoops.oncePerSec::poll, 1);
     addPeriodic(EventLoops.oncePerMin::poll, 60);
     Fault.setupDefaultFaults();

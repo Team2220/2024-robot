@@ -62,17 +62,6 @@ public class CommandXBoxWrapper {
                 || !DriverStation.getJoystickIsXbox(xbox.getHID().getPort());
     }
 
-    /**
-     * Constructs an event instance around the left bumper's digital signal.
-     *
-     * @param loop the event loop instance to attach the event to.
-     * @return an event instance representing the right bumper's digital signal
-     *         attached to the given
-     *         loop.
-     */
-    public Trigger leftBumper(EventLoop loop) {
-        return xbox.leftBumper(loop);
-    }
 
     /**
      * Constructs an event instance around the right bumper's digital signal.
@@ -202,7 +191,8 @@ public class CommandXBoxWrapper {
      *         button loop}.
      */
     public Trigger leftTrigger() {
-        return xbox.leftTrigger();
+        return xbox.leftTrigger(0.25);
+        //when shalowest trigger it is 0.35
     }
 
     /**
@@ -216,7 +206,8 @@ public class CommandXBoxWrapper {
      *         button loop}.
      */
     public Trigger rightTrigger() {
-        return xbox.rightTrigger();
+        return xbox.rightTrigger(0.25);
+        //when shalowest trigger it is 0.35
     }
 
     /**

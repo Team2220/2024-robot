@@ -10,6 +10,7 @@ import java.util.function.DoubleSupplier;
 
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
+import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -38,7 +39,8 @@ public class Arm extends SubsystemBase implements CheckableSubsystem, ShuffleBoa
                 RotationsPerSecond.of(3000),
                 RotationsPerSecond.per(Seconds).per(Seconds).of(3000), true, true,
                 Rotations.of(110.0 / 360.0), Rotations.of(0),
-                new FollowerConfig(Constants.Arm.ARM_TALON_RIGHT, true));
+                new FollowerConfig(Constants.Arm.ARM_TALON_RIGHT, true), Units.Seconds.of(3), Units.Amps.of(75),
+                Units.RotationsPerSecond.of(1));
         addDouble("ArmAngle",
                 () -> ArmTalonFX.getPosition().in(Degrees));
     }

@@ -66,25 +66,12 @@ public class LazyCommandXboxWrapper {
     }
 
     /**
-     * Constructs an event instance around the left bumper's digital signal.
-     *
-     * @param loop the event loop instance to attach the event to.
-     * @return an event instance representing the right bumper's digital signal
-     *         attached to the given
-     *         loop.
-     */
-    public Trigger leftBumper(EventLoop loop) {
-        return lazyTrigger(xbox.leftBumper(loop));
-    }
-
-    /**
      * Constructs an event instance around the right bumper's digital signal.
      *
      * @return an event instance representing the right bumper's digital signal
      *         attached to the {@link
      *         CommandScheduler#getDefaultButtonLoop() default scheduler button
      *         loop}.
-     * @see #rightBumper(EventLoop)
      */
     public Trigger rightBumper() {
         return lazyTrigger(xbox.rightBumper());
