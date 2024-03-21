@@ -15,26 +15,18 @@ import static edu.wpi.first.units.Units.Volts;
 import static frc.lib.units.UnitsUtil.RotationsPerSecCubed;
 import static frc.lib.units.UnitsUtil.RotationsPerSecSquared;
 
-import java.util.function.BooleanSupplier;
-
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
-import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.units.Angle;
-import edu.wpi.first.units.Current;
 import edu.wpi.first.units.Measure;
-import edu.wpi.first.units.Time;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.units.Velocity;
 import edu.wpi.first.units.Voltage;
 import edu.wpi.first.wpilibj2.command.Commands;
-import frc.lib.eventLoops.EventLoops;
-import frc.lib.eventLoops.IsolatedEventLoop;
 import frc.lib.faults.Fault;
-import frc.lib.tunables.TunableDebouncer;
 import frc.lib.tunables.TunableDouble;
 import frc.lib.tunables.TunableMeasure;
 import frc.lib.units.UnitsUtil;
@@ -44,12 +36,9 @@ public class TalonFXWrapper {
     private TalonFX followerFx;
     private String name;
     private TalonFXConfiguration talonFXConfigs;
-    private TunableDebouncer tunableDebouncer;
     // private static Fault fault = new Fault("TalonFX device disconnected");
     // private StatusSignal<Integer> firmwareVersionSignal;
     private Fault softLimitOverrideFault;
-    private TunableMeasure<Current> stallCurrentLimit;
-    private TunableMeasure<Velocity<Angle>> stallRotationLimit;
 
     public TalonFXWrapper(
             int id,
@@ -67,10 +56,7 @@ public class TalonFXWrapper {
             boolean reverseSoftLimitEnable,
             Measure<Angle> forwardSoftLimitTreshold,
             Measure<Angle> reverseSoftLimitThreshold,
-            FollowerConfig followerConfig,
-            Measure<Time> debounceTime,
-            Measure<Current> stallCurrentThreshold,
-            Measure<Velocity<Angle>> stallRotationThreshold) {
+            FollowerConfig followerConfig) {
         talon = new TalonFX(id);
         this.name = name;
         // firmwareVersionSignal = talon.getVersion();
@@ -102,9 +88,6 @@ public class TalonFXWrapper {
 
         talonFXConfigs.Voltage.PeakForwardVoltage = 10;
         talonFXConfigs.Voltage.PeakReverseVoltage = -10;
-
-        tunableDebouncer = new TunableDebouncer("Stall Debounce Time", getName(), debounceTime,
-                Debouncer.DebounceType.kBoth);
 
         talon.getConfigurator().apply(talonFXConfigs);
         if (followerConfig != null) {
@@ -148,23 +131,19 @@ public class TalonFXWrapper {
                     .in(RotationsPerSecond.per(Seconds).per(Seconds));
             talon.getConfigurator().apply(talonFXConfigs);
         });
-        
 
-        this.stallCurrentLimit = new TunableMeasure<>("Stall Current Threshold", stallCurrentThreshold, getName());
-        this.stallRotationLimit = new TunableMeasure<>("Stall Rotation Threshold", stallRotationThreshold, getName());
-        // DriverStationTriggers.isDisabled().debounce(15).onTrue(
+        // DriverStationTriggers.isDisabled().debounce(7).onFalse(
         // Commands.runOnce(() -> {
         // this.setVoltageOut(Units.Volts.of(0));
-        // setNeutralMode(NeutralModeValue.Coast);
+        // talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Coast;
+        // talon.getConfigurator().apply(talonFXConfigs, 0);
         // }).ignoringDisable(true));
 
-        // DriverStationTriggers.isDisabled().debounce(15).onFalse(Commands.runOnce(() ->
+        // DriverStationTriggers.isDisabled().debounce(7).onTrue(Commands.runOnce(() ->
         // {
-        // setNeutralMode(NeutralModeValue.Brake);
+        // talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+        // talon.getConfigurator().apply(talonFXConfigs, 0);
         // }).ignoringDisable(true));
-
-       Fault.autoUpdating(getName() + " Stalled", EventLoops.everyLoop, this :: isStalled);
-    
     }
 
     public TalonFXWrapper(int id, String name, boolean isInverted, NeutralModeValue neutralMode) {
@@ -184,29 +163,26 @@ public class TalonFXWrapper {
                 false,
                 Rotations.of(0),
                 Rotations.of(0),
-                null,
-                Units.Seconds.of(1),
-                Units.Amps.of(75), Units.RotationsPerSecond.of(1));
+                null);
     }
 
     public void setSoftLimitsEnabled(boolean enabled) {
         talonFXConfigs.SoftwareLimitSwitch.ForwardSoftLimitEnable = enabled;
         talonFXConfigs.SoftwareLimitSwitch.ReverseSoftLimitEnable = enabled;
-        configureTalons();
-
-        softLimitOverrideFault.setIsActive(enabled);
-    }
-
-    private void configureTalons() {
         talon.getConfigurator().apply(talonFXConfigs, 0.000001);
         if (followerFx != null) {
             followerFx.getConfigurator().apply(talonFXConfigs, 0.000001);
         }
+
+        softLimitOverrideFault.setIsActive(enabled);
     }
 
     public void setNeutralMode(NeutralModeValue value) {
         talonFXConfigs.MotorOutput.NeutralMode = value;
-        configureTalons();
+        talon.getConfigurator().apply(talonFXConfigs, 0.000001);
+        if (followerFx != null) {
+            followerFx.getConfigurator().apply(talonFXConfigs, 0.000001);
+        }
     }
 
     boolean isPositionBeingHeld = false;
@@ -227,11 +203,14 @@ public class TalonFXWrapper {
         return talon;
     }
 
+    public void checkFault() {
+        // if (firmwareVersionSignal.refresh().getError() != StatusCode.OK) {
+        // fault.setIsActive(true);
+        // }
+    }
+
     public void setPosition(double newPosition) {
-        talon.setPosition(newPosition, 0.00000000000001);
-        if (followerFx != null) {
-            followerFx.setPosition(newPosition, 0.00000000000001);
-        }
+        talon.setPosition(newPosition);
     }
 
     public Measure<Angle> getPosition() {
@@ -284,22 +263,5 @@ public class TalonFXWrapper {
     public boolean isAtPositionReference(Measure<Angle> speed, Measure<Angle> tolerance) {
         var diff = (getPosition().minus(speed));
         return UnitsUtil.abs(diff).lte(tolerance);
-    }
-
-    public Measure<Current> getTorqueCurrent() {
-        return Units.Amps.of(talon.getTorqueCurrent().getValueAsDouble());
-    }
-
-    // From: https://www.chiefdelphi.com/t/falcon-500-detecting-motor-stalls/428106
-    private boolean isStalledInternal() {
-        if (getTorqueCurrent().gte(stallCurrentLimit.getValue())) {
-            return getVelocity().lte(stallRotationLimit.getValue());
-        } else {
-            return false;
-        }
-    }
-
-    public boolean isStalled() {
-        return tunableDebouncer.calculate(isStalledInternal());
     }
 }

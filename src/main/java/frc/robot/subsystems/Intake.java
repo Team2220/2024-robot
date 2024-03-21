@@ -76,12 +76,6 @@ public class Intake extends SubsystemBase implements CheckableSubsystem, Shuffle
         return bottomNoteSensor.get();
     }
 
-    public boolean isStalled() {
-        return intake.isStalled();
-    }
-
-
-
     public Command setIntakeUntilQueued() {
         return this.run(() -> {
             if (topNoteSensor.get()) {

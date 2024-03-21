@@ -130,7 +130,7 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem, Check
 
     public void autoDriveRobotRelative(ChassisSpeeds speed) {
         driveRobotRelative(
-                new ChassisSpeeds(speed.vyMetersPerSecond * 1.44, speed.vxMetersPerSecond * -1.44,
+                new ChassisSpeeds(speed.vyMetersPerSecond * 1.41873874, speed.vxMetersPerSecond * -1.41873874,
                         speed.omegaRadiansPerSecond));
     }
 

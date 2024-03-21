@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 2.887570138776641,
-        "y": 6.99655944766435
+        "x": 3.124856297105959,
+        "y": 7.090731148286942
       },
       "prevControl": {
-        "x": 1.9640242916849473,
-        "y": 6.390190962200106
+        "x": 2.2013104500142653,
+        "y": 6.484362662822698
       },
       "nextControl": {
-        "x": 3.093447186351593,
-        "y": 7.131731246577197
+        "x": 3.330733344680911,
+        "y": 7.225902947199789
       },
       "isLocked": false,
       "linkedName": null
@@ -55,7 +55,7 @@
   "eventMarkers": [
     {
       "name": "dsgg",
-      "waypointRelativePos": 0.3,
+      "waypointRelativePos": 0.35,
       "command": {
         "type": "parallel",
         "data": {
@@ -63,7 +63,13 @@
             {
               "type": "named",
               "data": {
-                "name": "armIntake"
+                "name": "intake"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "armRest"
               }
             }
           ]
@@ -72,7 +78,7 @@
     },
     {
       "name": "hhjj",
-      "waypointRelativePos": 1.65,
+      "waypointRelativePos": 1.6,
       "command": {
         "type": "parallel",
         "data": {
