@@ -3,10 +3,12 @@
   "robotLength": 0.98,
   "holonomicMode": true,
   "pathFolders": [
-    "Sectret",
-    "PathPlanner"
+    "test paths",
+    "PathPlanner",
+    "Sectret"
   ],
   "autoFolders": [
+    "test",
     "[FIXED] autos",
     "sectret"
   ],
