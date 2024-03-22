@@ -33,7 +33,11 @@ public class Intake extends SubsystemBase implements CheckableSubsystem, Shuffle
 
     public Intake() {
         intakeSpeed = addTunableDouble("intakeSpeed", .75);
-        intake = new TalonFXWrapper(Constants.Intake.id_intake, "intake", false, NeutralModeValue.Brake,
+        intake = new TalonFXWrapper(
+                Constants.Intake.id_intake,
+                "intake",
+                false,
+                NeutralModeValue.Brake,
                 1,
                 0,
                 0,
