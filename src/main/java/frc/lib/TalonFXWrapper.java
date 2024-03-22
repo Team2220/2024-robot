@@ -146,8 +146,7 @@ public class TalonFXWrapper implements ShuffleBoardTabWrapper {
                     .in(RotationsPerSecond.per(Seconds).per(Seconds));
             talon.getConfigurator().apply(talonFXConfigs);
         });
-        
-        
+
         this.stallCurrentLimit = new TunableMeasure<>("Stall Current Threshold", stallCurrentThreshold, getName());
         this.stallRotationLimit = new TunableMeasure<>("Stall Rotation Threshold", stallRotationThreshold, getName());
         // DriverStationTriggers.isDisabled().debounce(15).onTrue(
@@ -156,15 +155,14 @@ public class TalonFXWrapper implements ShuffleBoardTabWrapper {
         // setNeutralMode(NeutralModeValue.Coast);
         // }).ignoringDisable(true));
 
-        // DriverStationTriggers.isDisabled().debounce(15).onFalse(Commands.runOnce(() ->
+        // DriverStationTriggers.isDisabled().debounce(15).onFalse(Commands.runOnce(()
+        // ->
         // {
         // setNeutralMode(NeutralModeValue.Brake);
         // }).ignoringDisable(true));
 
+        Fault.autoUpdating(getName() + " Stalled", EventLoops.everyLoop, this::isStalled);
 
-        
-       Fault.autoUpdating(getName() + " Stalled", EventLoops.everyLoop, this :: isStalled);
-    
     }
 
     public TalonFXWrapper(int id, String name, boolean isInverted, NeutralModeValue neutralMode) {
@@ -219,8 +217,6 @@ public class TalonFXWrapper implements ShuffleBoardTabWrapper {
         }
     }
 
-
-    
     public String getName() {
         return name + " (TalonFX " + talon.getDeviceID() + ")";
     }
