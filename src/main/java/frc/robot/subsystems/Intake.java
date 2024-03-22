@@ -47,7 +47,7 @@ public class Intake extends SubsystemBase implements CheckableSubsystem, Shuffle
                 Rotations.of(0),
                 null,
                 Units.Seconds.of(1),
-                Units.Amps.of(55), Units.RotationsPerSecond.of(1));
+                Units.Amps.of(1), Units.RotationsPerSecond.of(100));
         conveyor = new TalonFXWrapper(Constants.Intake.id_conv, "conveyor", true, NeutralModeValue.Brake);
     }
 
