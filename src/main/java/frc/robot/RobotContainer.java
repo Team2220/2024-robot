@@ -5,7 +5,6 @@
 package frc.robot;
 
 import frc.lib.CommandXBoxWrapper;
-import frc.lib.LimelightHelpers;
 import frc.lib.LimelightPortForwarding;
 import frc.lib.MusicToneCommand;
 import frc.lib.Note;
@@ -15,7 +14,6 @@ import frc.lib.leds.LEDs;
 import frc.lib.leds.LedSignal;
 import frc.lib.selfCheck.RobotSelfCheckCommand;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.Angles;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
@@ -72,8 +70,8 @@ public class RobotContainer {
             LedSignal.hasgamepiceTopLedSignal(intake::getTopNoteSensor),
             LedSignal.intakeStalled(intake :: isStalled),
             LedSignal.getLowBatteryLedSignal(),
-            LedSignal.erolsPurpleLight(() -> m_operatorController.getHID().getPOV() == 90),
-            LedSignal.seanscolors(() -> m_driverController.getHID().getPOV() != -1),
+            LedSignal.erolsPurpleLight(() -> m_operatorController.getHID().getPOV() == 90), //left dpad
+            LedSignal.seanscolors(() -> m_operatorController.getHID().getPOV() != -1), // all depad
             LedSignal.shooterAtSetPoint(() -> shooter.isAtSetPoint()),
         });
 

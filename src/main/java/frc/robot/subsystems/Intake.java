@@ -2,18 +2,15 @@ package frc.robot.subsystems;
 
 import java.util.function.DoubleSupplier;
 
-import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.DigitalInputWrapper;
 import frc.lib.ShuffleBoardTabWrapper;
-import frc.lib.SparkMaxWrapper;
 import frc.lib.TalonFXWrapper;
 import frc.lib.selfCheck.CheckCommand;
 import frc.lib.selfCheck.CheckableSubsystem;
-import frc.lib.selfCheck.SparkMAXSpinCheck;
 import frc.lib.selfCheck.SpinTalonCheck;
 import frc.lib.tunables.TunableDouble;
 import frc.robot.Constants;

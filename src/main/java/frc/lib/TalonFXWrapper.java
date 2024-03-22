@@ -15,8 +15,6 @@ import static edu.wpi.first.units.Units.Volts;
 import static frc.lib.units.UnitsUtil.RotationsPerSecCubed;
 import static frc.lib.units.UnitsUtil.RotationsPerSecSquared;
 
-import java.util.function.BooleanSupplier;
-
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
@@ -30,16 +28,16 @@ import edu.wpi.first.units.Time;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.units.Velocity;
 import edu.wpi.first.units.Voltage;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.lib.eventLoops.EventLoops;
-import frc.lib.eventLoops.IsolatedEventLoop;
 import frc.lib.faults.Fault;
 import frc.lib.tunables.TunableDebouncer;
 import frc.lib.tunables.TunableDouble;
 import frc.lib.tunables.TunableMeasure;
 import frc.lib.units.UnitsUtil;
 
-public class TalonFXWrapper {
+public class TalonFXWrapper implements ShuffleBoardTabWrapper {
     private TalonFX talon;
     private TalonFX followerFx;
     private String name;
@@ -128,6 +126,8 @@ public class TalonFXWrapper {
             talon.getConfigurator().apply(talonFXConfigs);
         });
 
+        addGraph("Curent", () -> getTorqueCurrent(), Units.Amps);
+
         // new TunableDouble("G", G, getName(), value -> {
         // talonFXConfigs.Slot0.kG = value;
         // talon.getConfigurator().apply(talonFXConfigs);
@@ -149,7 +149,7 @@ public class TalonFXWrapper {
             talon.getConfigurator().apply(talonFXConfigs);
         });
         
-
+        
         this.stallCurrentLimit = new TunableMeasure<>("Stall Current Threshold", stallCurrentThreshold, getName());
         this.stallRotationLimit = new TunableMeasure<>("Stall Rotation Threshold", stallRotationThreshold, getName());
         // DriverStationTriggers.isDisabled().debounce(15).onTrue(
@@ -163,6 +163,8 @@ public class TalonFXWrapper {
         // setNeutralMode(NeutralModeValue.Brake);
         // }).ignoringDisable(true));
 
+
+        
        Fault.autoUpdating(getName() + " Stalled", EventLoops.everyLoop, this :: isStalled);
     
     }
@@ -219,6 +221,8 @@ public class TalonFXWrapper {
         }
     }
 
+
+    
     public String getName() {
         return name + " (TalonFX " + talon.getDeviceID() + ")";
     }

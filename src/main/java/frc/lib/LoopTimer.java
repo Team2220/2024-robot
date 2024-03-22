@@ -1,11 +1,5 @@
 package frc.lib;
 
-import edu.wpi.first.networktables.GenericEntry;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import frc.lib.faults.Fault;
-
 /*
  * This class works the same way as WPILib's Tracer class:
  * https://github.com/wpilibsuite/allwpilib/blob/e64c20346dfe3252098f0efe51a93bb766881b82/wpilibj/src/main/java/edu/wpi/first/wpilibj/Tracer.java
