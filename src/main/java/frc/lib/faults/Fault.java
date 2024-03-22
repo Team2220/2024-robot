@@ -67,7 +67,7 @@ public final class Fault {
         // return RobotController.getCANStatus().percentBusUtilization > 0.8;
         // });
 
-        autoUpdating("No usb connected into RoboRio", () -> {
+        autoUpdating("No USB connected into RoboRio", () -> {
             if (RobotBase.isSimulation()) {
                 return false;
             } else {
