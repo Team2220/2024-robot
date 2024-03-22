@@ -6,25 +6,25 @@ package frc.lib;
  */
 
 public class LoopTimer {
-    private String name;
-    // private GenericEntry graph;
-   // private Fault fault;
-    private double maxTimeMilliseconds;
+  private String name;
+  // private GenericEntry graph;
+  // private Fault fault;
+  private double maxTimeMilliseconds;
 
-    public LoopTimer(String name, double maxTimeMilliseconds) {
-        this.name = name;
-        // this.graph = Shuffleboard.getTab("LoopTime").add(name,
-        // 0).withWidget(BuiltInWidgets.kGraph).getEntry();
-        this.maxTimeMilliseconds = maxTimeMilliseconds;
-      //  this.fault = new Fault(name + " exceeded " + maxTimeMilliseconds);
-    }
+  public LoopTimer(String name, double maxTimeMilliseconds) {
+    this.name = name;
+    // this.graph = Shuffleboard.getTab("LoopTime").add(name,
+    // 0).withWidget(BuiltInWidgets.kGraph).getEntry();
+    this.maxTimeMilliseconds = maxTimeMilliseconds;
+    // this.fault = new Fault(name + " exceeded " + maxTimeMilliseconds);
+  }
 
-    public void measure(Runnable runable) {
-        // double start = Timer.getFPGATimestamp();
-        runable.run();
-        // double end = Timer.getFPGATimestamp();
-        // graph.setDouble((end - start) * 1000);
-        // boolean isMaxTimeExceeded = (end - start) * 1000 > maxTimeMilliseconds;
-       // fault.setIsActive(isMaxTimeExceeded);
-    }
+  public void measure(Runnable runable) {
+    // double start = Timer.getFPGATimestamp();
+    runable.run();
+    // double end = Timer.getFPGATimestamp();
+    // graph.setDouble((end - start) * 1000);
+    // boolean isMaxTimeExceeded = (end - start) * 1000 > maxTimeMilliseconds;
+    // fault.setIsActive(isMaxTimeExceeded);
+  }
 }

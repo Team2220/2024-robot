@@ -68,9 +68,9 @@ public class RobotContainer {
             LedSignal.isDSConnected(),
             LedSignal.isEndGame(),
             LedSignal.hasgamepiceTopLedSignal(intake::getTopNoteSensor),
-            LedSignal.intakeStalled(intake :: isStalled),
+            LedSignal.intakeStalled(intake::isStalled),
             LedSignal.getLowBatteryLedSignal(),
-            LedSignal.erolsPurpleLight(() -> m_operatorController.getHID().getPOV() == 90), //left dpad
+            LedSignal.erolsPurpleLight(() -> m_operatorController.getHID().getPOV() == 90), // left dpad
             LedSignal.seanscolors(() -> m_operatorController.getHID().getPOV() != -1), // all depad
             LedSignal.shooterAtSetPoint(() -> shooter.isAtSetPoint()),
         });

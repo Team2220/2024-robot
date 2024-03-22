@@ -102,30 +102,26 @@ public class TalonFXWrapper implements ShuffleBoardTabWrapper {
         tunableDebouncer = new TunableDebouncer("Stall Debounce Time", getName(), debounceTime,
                 Debouncer.DebounceType.kBoth);
 
-        
+        talon.getConfigurator().apply(talonFXConfigs);
+        if (followerConfig != null) {
+            followerFx = new TalonFX(followerConfig.id);
+            followerFx.getConfigurator().apply(talonFXConfigs);
+            followerFx.setControl(new Follower(id, followerConfig.isInverted));
+        }
 
-        new TunableDouble("P", P, getName(), (isInit, value) -> {
+        new TunableDouble("P", P, getName(), value -> {
             talonFXConfigs.Slot0.kP = value;
-            if (!isInit) {
-                talon.getConfigurator().apply(talonFXConfigs);
-            }
-
+            talon.getConfigurator().apply(talonFXConfigs);
         });
 
-        new TunableDouble("I", I, getName(), (isInit, value) -> {
+        new TunableDouble("I", I, getName(), value -> {
             talonFXConfigs.Slot0.kI = value;
-            if (!isInit) {
-                talon.getConfigurator().apply(talonFXConfigs);
-            }
-
+            talon.getConfigurator().apply(talonFXConfigs);
         });
 
-        new TunableDouble("D", D, getName(), (isInit, value) -> {
+        new TunableDouble("D", D, getName(), value -> {
             talonFXConfigs.Slot0.kD = value;
-            if (!isInit) {
-                talon.getConfigurator().apply(talonFXConfigs);
-            }
-
+            talon.getConfigurator().apply(talonFXConfigs);
         });
 
         addGraph("Curent", () -> getTorqueCurrent(), Units.Amps);
@@ -135,34 +131,21 @@ public class TalonFXWrapper implements ShuffleBoardTabWrapper {
         // talon.getConfigurator().apply(talonFXConfigs);
         // });
 
-        new TunableMeasure<>("Acceleration", Acceleration, getName(), (isInit, value) -> {
+        new TunableMeasure<>("Acceleration", Acceleration, getName(), value -> {
             talonFXConfigs.MotionMagic.MotionMagicAcceleration = value.in(RotationsPerSecond.per(Seconds));
-            if (!isInit) {
-                talon.getConfigurator().apply(talonFXConfigs);
-            }
+            talon.getConfigurator().apply(talonFXConfigs);
         });
 
-        new TunableMeasure<>("CruiseVelocity", CruiseVelocity, getName(), (isInit, value) -> {
+        new TunableMeasure<>("CruiseVelocity", CruiseVelocity, getName(), value -> {
             talonFXConfigs.MotionMagic.MotionMagicCruiseVelocity = value.in(RotationsPerSecond);
-            if (!isInit) {
-                talon.getConfigurator().apply(talonFXConfigs);
-            }
+            talon.getConfigurator().apply(talonFXConfigs);
         });
 
-        new TunableMeasure<>("Jerk", Jerk, getName(), (isInit, value) -> {
+        new TunableMeasure<>("Jerk", Jerk, getName(), value -> {
             talonFXConfigs.MotionMagic.MotionMagicJerk = value
                     .in(RotationsPerSecond.per(Seconds).per(Seconds));
-            if (!isInit) {
-                talon.getConfigurator().apply(talonFXConfigs);
-            }
+            talon.getConfigurator().apply(talonFXConfigs);
         });
-
-        talon.getConfigurator().apply(talonFXConfigs);
-        if (followerConfig != null) {
-            followerFx = new TalonFX(followerConfig.id);
-            followerFx.getConfigurator().apply(talonFXConfigs);
-            followerFx.setControl(new Follower(id, followerConfig.isInverted));
-        }
 
         this.stallCurrentLimit = new TunableMeasure<>("Stall Current Threshold", stallCurrentThreshold, getName());
         this.stallRotationLimit = new TunableMeasure<>("Stall Rotation Threshold", stallRotationThreshold, getName());
@@ -318,6 +301,3 @@ public class TalonFXWrapper implements ShuffleBoardTabWrapper {
         return tunableDebouncer.calculate(isStalledInternal());
     }
 }
-
-// WHY CODE NO WORK???
-// -Griffin

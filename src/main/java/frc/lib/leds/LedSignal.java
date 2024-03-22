@@ -3,7 +3,6 @@ package frc.lib.leds;
 import java.util.function.BooleanSupplier;
 
 import com.ctre.phoenix.led.Animation;
-import com.ctre.phoenix.led.FireAnimation;
 import com.ctre.phoenix.led.RainbowAnimation;
 import com.ctre.phoenix.led.SingleFadeAnimation;
 import com.ctre.phoenix.led.StrobeAnimation;

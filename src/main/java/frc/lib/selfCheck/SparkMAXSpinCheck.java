@@ -37,11 +37,11 @@ public class SparkMAXSpinCheck extends CheckCommand {
 
     @Override
     public void execute() {
-        spark.set(isForward? 0.25:-0.25);
+        spark.set(isForward ? 0.25 : -0.25);
     }
 
     @Override
     public String getDescription() {
-        return "spin " + spark.getName() + (isForward? "forward":"backward");
+        return "spin " + spark.getName() + (isForward ? "forward" : "backward");
     }
 }
