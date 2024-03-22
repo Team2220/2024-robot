@@ -19,8 +19,6 @@ import frc.robot.Constants;
 
 import static edu.wpi.first.units.Units.Rotations;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
-import static edu.wpi.first.units.Units.Seconds;
-import static edu.wpi.first.units.Units.Volts;
 import static frc.lib.units.UnitsUtil.RotationsPerSecCubed;
 import static frc.lib.units.UnitsUtil.RotationsPerSecSquared;
 
