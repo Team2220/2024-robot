@@ -39,13 +39,12 @@ public class SpinTalonCheck extends CheckCommand {
 
     @Override
     public void execute() {
-        talon.setDutyCycleOut(isForward? 0.25 : -0.25);
+        talon.setDutyCycleOut(isForward ? 0.25 : -0.25);
     }
 
     @Override
     public String getDescription() {
-        return "spin " + talon.getName() + (isForward? "forward":"backward");
+        return "spin " + talon.getName() + (isForward ? "forward" : "backward");
     }
-
 
 }

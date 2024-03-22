@@ -27,8 +27,9 @@ public class PositionTalonCheck extends CheckCommand {
 
     @Override
     public String getDescription() {
-       return "set Position Of " + talon.getName() + " to " + position.toLongString();
+        return "set Position Of " + talon.getName() + " to " + position.toLongString();
     }
+
     @Override
     public boolean isFinished() {
         return talon.isAtPositionReference(position, tolerance);
