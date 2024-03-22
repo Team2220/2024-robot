@@ -15,8 +15,6 @@ import static edu.wpi.first.units.Units.Volts;
 import static frc.lib.units.UnitsUtil.RotationsPerSecCubed;
 import static frc.lib.units.UnitsUtil.RotationsPerSecSquared;
 
-import java.util.function.BooleanSupplier;
-
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
@@ -33,7 +31,6 @@ import edu.wpi.first.units.Voltage;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.lib.eventLoops.EventLoops;
-import frc.lib.eventLoops.IsolatedEventLoop;
 import frc.lib.faults.Fault;
 import frc.lib.tunables.TunableDebouncer;
 import frc.lib.tunables.TunableDouble;
