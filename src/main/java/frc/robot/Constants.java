@@ -27,7 +27,7 @@ public final class Constants {
     public static final int RIGHT = 2;
   }
 
-  public static final boolean isGraphsEnabled = false;
+  public static final boolean isGraphsEnabled = true;
 
   public static class Shooter {
     public static final int id_left = 23;

@@ -4,6 +4,7 @@ import java.util.function.DoubleSupplier;
 
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
+import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.DigitalInputWrapper;
@@ -14,6 +15,12 @@ import frc.lib.selfCheck.CheckableSubsystem;
 import frc.lib.selfCheck.SpinTalonCheck;
 import frc.lib.tunables.TunableDouble;
 import frc.robot.Constants;
+
+
+import static edu.wpi.first.units.Units.Rotations;
+import static edu.wpi.first.units.Units.RotationsPerSecond;
+import static frc.lib.units.UnitsUtil.RotationsPerSecCubed;
+import static frc.lib.units.UnitsUtil.RotationsPerSecSquared;
 
 public class Intake extends SubsystemBase implements CheckableSubsystem, ShuffleBoardTabWrapper {
     private TalonFXWrapper intake;
@@ -27,7 +34,21 @@ public class Intake extends SubsystemBase implements CheckableSubsystem, Shuffle
 
     public Intake() {
         intakeSpeed = addTunableDouble("intakeSpeed", .75);
-        intake = new TalonFXWrapper(Constants.Intake.id_intake, "intake", false, NeutralModeValue.Brake);
+        intake = new TalonFXWrapper(Constants.Intake.id_intake, "intake", false, NeutralModeValue.Brake, 
+                1,
+                0,
+                0,
+                0,
+                RotationsPerSecSquared.of(0),
+                RotationsPerSecond.of(0),
+                RotationsPerSecCubed.of(0),
+                false,
+                false,
+                Rotations.of(0),
+                Rotations.of(0),
+                null,
+                Units.Seconds.of(1),
+                Units.Amps.of(55), Units.RotationsPerSecond.of(1));
         conveyor = new TalonFXWrapper(Constants.Intake.id_conv, "conveyor", true, NeutralModeValue.Brake);
     }
 
@@ -53,6 +74,7 @@ public class Intake extends SubsystemBase implements CheckableSubsystem, Shuffle
             } else {
                 intake.set(intakeSpeed.getValue());
                 conveyor.set(intakeSpeed.getValue());
+                // System.out.println(intakeSpeed.getValue());
             }
         });
     }
