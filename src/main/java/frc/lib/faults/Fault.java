@@ -9,6 +9,7 @@ import java.util.function.BooleanSupplier;
 import edu.wpi.first.util.datalog.BooleanLogEntry;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.RobotController;
 import frc.lib.Alert;
 import frc.lib.eventLoops.EventLoops;
 import frc.lib.eventLoops.IsolatedEventLoop;
@@ -66,7 +67,7 @@ public final class Fault {
         // return RobotController.getCANStatus().percentBusUtilization > 0.8;
         // });
 
-        autoUpdating("No usb connected into roboreo", () -> {
+        autoUpdating("No usb connected into RoboRio", () -> {
             if (RobotBase.isSimulation()) {
                 return false;
             } else {
@@ -83,6 +84,12 @@ public final class Fault {
                 }
             }
         });
+
+        autoUpdating("RoboRio browned out", RobotController::isBrownedOut);
+        autoUpdating("RoboRio 3.3V browned out", () -> !RobotController.getEnabled3V3());
+        autoUpdating("RoboRio 5V browned out", () -> !RobotController.getEnabled5V());
+        autoUpdating("RoboRio 6V browned out", () -> !RobotController.getEnabled6V());
+        
     }
 
 }

@@ -3,6 +3,7 @@ package frc.lib.leds;
 import java.util.function.BooleanSupplier;
 
 import com.ctre.phoenix.led.Animation;
+import com.ctre.phoenix.led.FireAnimation;
 import com.ctre.phoenix.led.RainbowAnimation;
 import com.ctre.phoenix.led.SingleFadeAnimation;
 import com.ctre.phoenix.led.StrobeAnimation;
@@ -129,31 +130,16 @@ public class LedSignal {
     }
 
     public static LedSignal hasgamepiceBottomLedSignal(BooleanSupplier supplier) {
-        // blink red
         StrobeAnimation singleFadeAnimation = new StrobeAnimation(160, 32, 240, 0, 0.5, 164, 0);
-        return new LedSignal("HasGamepice", supplier, singleFadeAnimation, 0);
+        return new LedSignal("HasGamepiceBottom", supplier, singleFadeAnimation, 0);
     }
-    
 
     public static LedSignal hasgamepiceTopLedSignal(BooleanSupplier supplier) {
         StrobeAnimation singleFadeAnimation = new StrobeAnimation(0, 255, 0, 0, 0.5, 164, 0);
-        return new LedSignal("HasGamepice", supplier, singleFadeAnimation, 0);
+        return new LedSignal("HasGamepiceTop", supplier, singleFadeAnimation, 0);
     }
-    
-    //   public static LedSignal seansLight(BooleanSupplier supplier) {
-    //     RainbowAnimation;
-    //     return new LedSignal("seansLight", supplier, SingleFadeAnimation, 0);
-    // }
 
-    // public static LedSignal hasTarget() {
-    // // private final CANdle left = new CANdle(Constants.LEDS.LEFT);
-    // // private final CANdle right = new CANdle(Constants.LEDS.RIGHT);
-    // // solid reen as long as target present
-    // // left.setLEDs(0, 0, 225, 0, 0, 164);
-    // // right.setLEDs(0, 0, 225, 0, 0, 164);
-    // }
-
-     public static LedSignal erolsPurpleLight(BooleanSupplier supplier) {
+    public static LedSignal erolsPurpleLight(BooleanSupplier supplier) {
         StrobeAnimation strobeAnimation = new StrobeAnimation(155, 0, 165, 0, 2, 164);
         return new LedSignal("erolsPurpleLight", supplier, strobeAnimation, 0);
     }
@@ -161,5 +147,10 @@ public class LedSignal {
     public static LedSignal seanscolors(BooleanSupplier supplier) {
         RainbowAnimation rainbowAnimation = new RainbowAnimation();
         return new LedSignal("seanscolors", supplier, rainbowAnimation, 0);
+    }
+
+    public static LedSignal intakeStalled(BooleanSupplier supplier) {
+        FireAnimation fireAnimation = new FireAnimation();
+        return new LedSignal("intakeStalled", supplier, fireAnimation, 0);
     }
 }

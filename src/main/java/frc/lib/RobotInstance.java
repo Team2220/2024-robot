@@ -48,9 +48,8 @@ public enum RobotInstance {
             }
             return stringBuilder.toString();
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
-            return "Error";
+            return "Error:" + e.toString();
         }
     }
 

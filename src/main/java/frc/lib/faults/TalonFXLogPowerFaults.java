@@ -25,7 +25,7 @@ public class TalonFXLogPowerFaults {
                 void update() {
                         var hasFault = getStickyFault.getValue();
                         fault.setIsActive(hasFault);
-                        clearStickyFault.apply(0);
+                        clearStickyFault.apply(0.0000000001); // ctre does not like 0 in config calls
                 }
 
         }
@@ -34,22 +34,22 @@ public class TalonFXLogPowerFaults {
                 var talonFX = wrapper.getTalon();
                 var stickyFaults = List.of(
                                 new StickyFaults(
-                                                "TalonFX:" + wrapper.getName(),
+                                                wrapper.getName(),
                                                 talonFX.getStickyFault_BootDuringEnable(),
                                                 talonFX::clearStickyFault_BootDuringEnable),
 
                                 new StickyFaults(
-                                                "TalonFX:" + wrapper.getName(),
+                                                wrapper.getName(),
                                                 talonFX.getStickyFault_BridgeBrownout(),
                                                 talonFX::clearStickyFault_BridgeBrownout),
 
                                 new StickyFaults(
-                                                "TalonFX:" + wrapper.getName(),
+                                                wrapper.getName(),
                                                 talonFX.getStickyFault_DeviceTemp(),
                                                 talonFX::clearStickyFault_DeviceTemp),
 
                                 new StickyFaults(
-                                                "TalonFX:" + wrapper.getName(),
+                                                wrapper.getName(),
                                                 talonFX.getStickyFault_ForwardHardLimit(),
                                                 talonFX::clearStickyFault_ForwardHardLimit),
                                 // too noisy
@@ -60,84 +60,84 @@ public class TalonFXLogPowerFaults {
                                 // ),
 
                                 new StickyFaults(
-                                                "TalonFX:" + wrapper.getName(),
+                                                wrapper.getName(),
                                                 talonFX.getStickyFault_FusedSensorOutOfSync(),
                                                 talonFX::clearStickyFault_FusedSensorOutOfSync),
 
                                 new StickyFaults(
-                                                "TalonFX:" + wrapper.getName(),
+                                                wrapper.getName(),
                                                 talonFX.getStickyFault_Hardware(),
                                                 talonFX::clearStickyFault_Hardware),
 
                                 new StickyFaults(
-                                                "TalonFX:" + wrapper.getName(),
+                                                wrapper.getName(),
                                                 talonFX.getStickyFault_MissingDifferentialFX(),
                                                 talonFX::clearStickyFault_MissingDifferentialFX),
 
                                 new StickyFaults(
-                                                "TalonFX:" + wrapper.getName(),
+                                                wrapper.getName(),
                                                 talonFX.getStickyFault_OverSupplyV(),
                                                 talonFX::clearStickyFault_OverSupplyV),
 
                                 new StickyFaults(
-                                                "TalonFX:" + wrapper.getName(),
+                                                wrapper.getName(),
                                                 talonFX.getStickyFault_ProcTemp(),
                                                 talonFX::clearStickyFault_ProcTemp),
 
                                 new StickyFaults(
-                                                "TalonFX:" + wrapper.getName(),
+                                                wrapper.getName(),
                                                 talonFX.getStickyFault_RemoteSensorDataInvalid(),
                                                 talonFX::clearStickyFault_RemoteSensorDataInvalid),
 
                                 new StickyFaults(
-                                                "TalonFX:" + wrapper.getName(),
+                                                wrapper.getName(),
                                                 talonFX.getStickyFault_RemoteSensorPosOverflow(),
                                                 talonFX::clearStickyFault_RemoteSensorPosOverflow),
 
                                 new StickyFaults(
-                                                "TalonFX:" + wrapper.getName(),
+                                                wrapper.getName(),
                                                 talonFX.getStickyFault_RemoteSensorReset(),
                                                 talonFX::clearStickyFault_RemoteSensorReset),
 
                                 new StickyFaults(
-                                                "TalonFX:" + wrapper.getName(),
+                                                wrapper.getName(),
                                                 talonFX.getStickyFault_ReverseHardLimit(),
                                                 talonFX::clearStickyFault_ReverseHardLimit),
                                 // too noisy
                                 // new StickyFaults(
-                                // "TalonFX:" + wrapper.getName() + "reverseSoftLimit",
+                                // + wrapper.getName() + "reverseSoftLimit",
                                 // talonFX::getStickyFault_ReverseSoftLimit,
                                 // talonFX::clearStickyFault_ReverseSoftLimit
                                 // ),
 
                                 new StickyFaults(
-                                                "TalonFX:" + wrapper.getName(),
+                                                wrapper.getName(),
                                                 talonFX.getStickyFault_StatorCurrLimit(),
                                                 talonFX::clearStickyFault_StatorCurrLimit),
 
                                 new StickyFaults(
-                                                "TalonFX:" + wrapper.getName(),
+                                                wrapper.getName(),
                                                 talonFX.getStickyFault_SupplyCurrLimit(),
                                                 talonFX::clearStickyFault_SupplyCurrLimit),
 
                                 new StickyFaults(
-                                                "TalonFX:" + wrapper.getName(),
+                                                wrapper.getName(),
                                                 talonFX.getStickyFault_Undervoltage(),
                                                 talonFX::clearStickyFault_Undervoltage),
 
                                 new StickyFaults(
-                                                "TalonFX:" + wrapper.getName(),
+                                                wrapper.getName(),
                                                 talonFX.getStickyFault_UnlicensedFeatureInUse(),
                                                 // unable to find clearStickyFault for UnlicensedFeatureInUse
                                                 (double timeoutSecs) -> StatusCode.OK),
 
                                 new StickyFaults(
-                                                "TalonFX:" + wrapper.getName(),
+                                                wrapper.getName(),
                                                 talonFX.getStickyFault_UnstableSupplyV(),
                                                 talonFX::clearStickyFault_UnstableSupplyV),
 
                                 new StickyFaults(
-                                                "TalonFX:" + wrapper.getName(),
+                                                wrapper.getName(),
                                                 talonFX.getStickyFault_UsingFusedCANcoderWhileUnlicensed(),
                                                 // unable to find clearStickyFault for UsingFusedCANcoderWhileUnlicensed
                                                 (double timeoutSecs) -> StatusCode.OK));
@@ -149,7 +149,7 @@ public class TalonFXLogPowerFaults {
                 });
 
                 var device_temp = talonFX.getDeviceTemp();
-                Fault.autoUpdating("TalonFX:" + wrapper.getName() + "MoterTempToHigh", () -> {
+                Fault.autoUpdating(wrapper.getName() + "MoterTempToHigh", () -> {
                         var value = device_temp.refresh().getValue();
                         // unable to find clearStickyFault for device_temp
                         return value > 100;
