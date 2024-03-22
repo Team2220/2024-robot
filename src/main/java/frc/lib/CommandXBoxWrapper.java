@@ -62,7 +62,6 @@ public class CommandXBoxWrapper {
                 || !DriverStation.getJoystickIsXbox(xbox.getHID().getPort());
     }
 
-
     /**
      * Constructs an event instance around the right bumper's digital signal.
      *
@@ -192,7 +191,7 @@ public class CommandXBoxWrapper {
      */
     public Trigger leftTrigger() {
         return xbox.leftTrigger(0.25);
-        //when shalowest trigger it is 0.35
+        // when shalowest trigger it is 0.35
     }
 
     /**
@@ -207,7 +206,7 @@ public class CommandXBoxWrapper {
      */
     public Trigger rightTrigger() {
         return xbox.rightTrigger(0.25);
-        //when shalowest trigger it is 0.35
+        // when shalowest trigger it is 0.35
     }
 
     /**
