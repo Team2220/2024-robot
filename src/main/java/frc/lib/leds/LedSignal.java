@@ -150,7 +150,7 @@ public class LedSignal {
     }
 
     public static LedSignal intakeStalled(BooleanSupplier supplier) {
-        FireAnimation fireAnimation = new FireAnimation();
-        return new LedSignal("intakeStalled", supplier, fireAnimation, 0);
+        RainbowAnimation RainbowAnimation = new RainbowAnimation();
+        return new LedSignal("intakeStalled", supplier, RainbowAnimation, 0);
     }
 }
