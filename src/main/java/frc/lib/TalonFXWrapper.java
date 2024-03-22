@@ -129,7 +129,7 @@ public class TalonFXWrapper implements ShuffleBoardTabWrapper {
         });
 
         addGraph("Curent", () -> getTorqueCurrent(), Units.Amps);
-
+        addGraph("velocity", () -> getVelocity(), Units.RPM);
         // new TunableDouble("G", G, getName(), value -> {
         // talonFXConfigs.Slot0.kG = value;
         // talon.getConfigurator().apply(talonFXConfigs);
