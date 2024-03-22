@@ -102,12 +102,7 @@ public class TalonFXWrapper implements ShuffleBoardTabWrapper {
         tunableDebouncer = new TunableDebouncer("Stall Debounce Time", getName(), debounceTime,
                 Debouncer.DebounceType.kBoth);
 
-        talon.getConfigurator().apply(talonFXConfigs);
-        if (followerConfig != null) {
-            followerFx = new TalonFX(followerConfig.id);
-            followerFx.getConfigurator().apply(talonFXConfigs);
-            followerFx.setControl(new Follower(id, followerConfig.isInverted));
-        }
+        
 
         new TunableDouble("P", P, getName(), (isInit, value) -> {
             talonFXConfigs.Slot0.kP = value;
@@ -161,6 +156,13 @@ public class TalonFXWrapper implements ShuffleBoardTabWrapper {
                 talon.getConfigurator().apply(talonFXConfigs);
             }
         });
+
+        talon.getConfigurator().apply(talonFXConfigs);
+        if (followerConfig != null) {
+            followerFx = new TalonFX(followerConfig.id);
+            followerFx.getConfigurator().apply(talonFXConfigs);
+            followerFx.setControl(new Follower(id, followerConfig.isInverted));
+        }
 
         this.stallCurrentLimit = new TunableMeasure<>("Stall Current Threshold", stallCurrentThreshold, getName());
         this.stallRotationLimit = new TunableMeasure<>("Stall Rotation Threshold", stallRotationThreshold, getName());
