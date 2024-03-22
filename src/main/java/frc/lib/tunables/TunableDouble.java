@@ -61,6 +61,11 @@ public class TunableDouble {
     addChangeListener(onChange);
   }
 
+  public TunableDouble(String name, double defaultValue, String tab, BooleanDoubleConsumer onChange) {
+    this(name, defaultValue, tab);
+    addChangeListener(onChange);
+  }
+
 
   public TunableDouble(String name, double defaultValue, boolean tunable) {
     this(name, defaultValue, tunable, "Tunables");

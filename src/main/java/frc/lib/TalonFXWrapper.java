@@ -109,19 +109,28 @@ public class TalonFXWrapper implements ShuffleBoardTabWrapper {
             followerFx.setControl(new Follower(id, followerConfig.isInverted));
         }
 
-        new TunableDouble("P", P, getName(), value -> {
+        new TunableDouble("P", P, getName(), (isInit, value) -> {
             talonFXConfigs.Slot0.kP = value;
-            talon.getConfigurator().apply(talonFXConfigs);
+            if (!isInit) {
+                talon.getConfigurator().apply(talonFXConfigs);
+            }
+
         });
 
-        new TunableDouble("I", I, getName(), value -> {
+        new TunableDouble("I", I, getName(), (isInit, value) -> {
             talonFXConfigs.Slot0.kI = value;
-            talon.getConfigurator().apply(talonFXConfigs);
+            if (!isInit) {
+                talon.getConfigurator().apply(talonFXConfigs);
+            }
+
         });
 
-        new TunableDouble("D", D, getName(), value -> {
+        new TunableDouble("D", D, getName(), (isInit, value) -> {
             talonFXConfigs.Slot0.kD = value;
-            talon.getConfigurator().apply(talonFXConfigs);
+            if (!isInit) {
+                talon.getConfigurator().apply(talonFXConfigs);
+            }
+
         });
 
         addGraph("Curent", () -> getTorqueCurrent(), Units.Amps);
@@ -131,23 +140,28 @@ public class TalonFXWrapper implements ShuffleBoardTabWrapper {
         // talon.getConfigurator().apply(talonFXConfigs);
         // });
 
-        new TunableMeasure<>("Acceleration", Acceleration, getName(), value -> {
+        new TunableMeasure<>("Acceleration", Acceleration, getName(), (isInit, value) -> {
             talonFXConfigs.MotionMagic.MotionMagicAcceleration = value.in(RotationsPerSecond.per(Seconds));
-            talon.getConfigurator().apply(talonFXConfigs);
+            if (!isInit) {
+                talon.getConfigurator().apply(talonFXConfigs);
+            }
         });
 
-        new TunableMeasure<>("CruiseVelocity", CruiseVelocity, getName(), value -> {
+        new TunableMeasure<>("CruiseVelocity", CruiseVelocity, getName(), (isInit, value) -> {
             talonFXConfigs.MotionMagic.MotionMagicCruiseVelocity = value.in(RotationsPerSecond);
-            talon.getConfigurator().apply(talonFXConfigs);
+            if (!isInit) {
+                talon.getConfigurator().apply(talonFXConfigs);
+            }
         });
 
-        new TunableMeasure<>("Jerk", Jerk, getName(), value -> {
+        new TunableMeasure<>("Jerk", Jerk, getName(), (isInit, value) -> {
             talonFXConfigs.MotionMagic.MotionMagicJerk = value
                     .in(RotationsPerSecond.per(Seconds).per(Seconds));
-            talon.getConfigurator().apply(talonFXConfigs);
+            if (!isInit) {
+                talon.getConfigurator().apply(talonFXConfigs);
+            }
         });
-        
-        
+
         this.stallCurrentLimit = new TunableMeasure<>("Stall Current Threshold", stallCurrentThreshold, getName());
         this.stallRotationLimit = new TunableMeasure<>("Stall Rotation Threshold", stallRotationThreshold, getName());
         // DriverStationTriggers.isDisabled().debounce(15).onTrue(
@@ -156,15 +170,14 @@ public class TalonFXWrapper implements ShuffleBoardTabWrapper {
         // setNeutralMode(NeutralModeValue.Coast);
         // }).ignoringDisable(true));
 
-        // DriverStationTriggers.isDisabled().debounce(15).onFalse(Commands.runOnce(() ->
+        // DriverStationTriggers.isDisabled().debounce(15).onFalse(Commands.runOnce(()
+        // ->
         // {
         // setNeutralMode(NeutralModeValue.Brake);
         // }).ignoringDisable(true));
 
+        Fault.autoUpdating(getName() + " Stalled", EventLoops.everyLoop, this::isStalled);
 
-        
-       Fault.autoUpdating(getName() + " Stalled", EventLoops.everyLoop, this :: isStalled);
-    
     }
 
     public TalonFXWrapper(int id, String name, boolean isInverted, NeutralModeValue neutralMode) {
@@ -219,8 +232,6 @@ public class TalonFXWrapper implements ShuffleBoardTabWrapper {
         }
     }
 
-
-    
     public String getName() {
         return name + " (TalonFX " + talon.getDeviceID() + ")";
     }
