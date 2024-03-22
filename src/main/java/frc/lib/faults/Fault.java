@@ -84,11 +84,11 @@ public final class Fault {
                 }
             }
         });
-
-        autoUpdating("RoboRio browned out", RobotController::isBrownedOut);
-        autoUpdating("RoboRio 3.3V browned out", () -> !RobotController.getEnabled3V3());
-        autoUpdating("RoboRio 5V browned out", () -> !RobotController.getEnabled5V());
-        autoUpdating("RoboRio 6V browned out", () -> !RobotController.getEnabled6V());
+// Different stages: https://docs.wpilib.org/en/stable/docs/software/roborio-info/roborio-brownouts.html
+        autoUpdating("RoboRio browned out", EventLoops.everyLoop, RobotController::isBrownedOut);
+        autoUpdating("RoboRio 3.3V browned out (Stage 2)", EventLoops.everyLoop, () -> !RobotController.getEnabled3V3());
+        autoUpdating("RoboRio 5V browned out (Stage 2)", EventLoops.everyLoop, () -> !RobotController.getEnabled5V());
+        autoUpdating("RoboRio 6V browned out (Stage 1)", EventLoops.everyLoop, () -> !RobotController.getEnabled6V());
 
     }
 
