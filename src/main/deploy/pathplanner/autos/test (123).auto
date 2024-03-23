@@ -48,6 +48,18 @@
                       "data": {
                         "name": "intakeShot"
                       }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "kbar"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "intakeShot"
+                      }
                     }
                   ]
                 }
