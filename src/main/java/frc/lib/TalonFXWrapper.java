@@ -28,8 +28,6 @@ import edu.wpi.first.units.Time;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.units.Velocity;
 import edu.wpi.first.units.Voltage;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj2.command.Commands;
 import frc.lib.eventLoops.EventLoops;
 import frc.lib.faults.Fault;
 import frc.lib.tunables.TunableDebouncer;
@@ -127,7 +125,7 @@ public class TalonFXWrapper implements ShuffleBoardTabWrapper {
         });
 
         addGraph("Curent", () -> getTorqueCurrent(), Units.Amps);
-
+        addGraph("velocity", () -> getVelocity(), Units.RPM);
         // new TunableDouble("G", G, getName(), value -> {
         // talonFXConfigs.Slot0.kG = value;
         // talon.getConfigurator().apply(talonFXConfigs);
@@ -148,8 +146,7 @@ public class TalonFXWrapper implements ShuffleBoardTabWrapper {
                     .in(RotationsPerSecond.per(Seconds).per(Seconds));
             talon.getConfigurator().apply(talonFXConfigs);
         });
-        
-        
+
         this.stallCurrentLimit = new TunableMeasure<>("Stall Current Threshold", stallCurrentThreshold, getName());
         this.stallRotationLimit = new TunableMeasure<>("Stall Rotation Threshold", stallRotationThreshold, getName());
         // DriverStationTriggers.isDisabled().debounce(15).onTrue(
@@ -158,15 +155,14 @@ public class TalonFXWrapper implements ShuffleBoardTabWrapper {
         // setNeutralMode(NeutralModeValue.Coast);
         // }).ignoringDisable(true));
 
-        // DriverStationTriggers.isDisabled().debounce(15).onFalse(Commands.runOnce(() ->
+        // DriverStationTriggers.isDisabled().debounce(15).onFalse(Commands.runOnce(()
+        // ->
         // {
         // setNeutralMode(NeutralModeValue.Brake);
         // }).ignoringDisable(true));
 
+        Fault.autoUpdating(getName() + " Stalled", EventLoops.everyLoop, this::isStalled);
 
-        
-       Fault.autoUpdating(getName() + " Stalled", EventLoops.everyLoop, this :: isStalled);
-    
     }
 
     public TalonFXWrapper(int id, String name, boolean isInverted, NeutralModeValue neutralMode) {
@@ -221,8 +217,6 @@ public class TalonFXWrapper implements ShuffleBoardTabWrapper {
         }
     }
 
-
-    
     public String getName() {
         return name + " (TalonFX " + talon.getDeviceID() + ")";
     }

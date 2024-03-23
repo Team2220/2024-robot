@@ -16,11 +16,8 @@ import frc.lib.selfCheck.SpinTalonCheck;
 import frc.lib.tunables.TunableDouble;
 import frc.robot.Constants;
 
-
 import static edu.wpi.first.units.Units.Rotations;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
-import static edu.wpi.first.units.Units.Seconds;
-import static edu.wpi.first.units.Units.Volts;
 import static frc.lib.units.UnitsUtil.RotationsPerSecCubed;
 import static frc.lib.units.UnitsUtil.RotationsPerSecSquared;
 
@@ -36,7 +33,11 @@ public class Intake extends SubsystemBase implements CheckableSubsystem, Shuffle
 
     public Intake() {
         intakeSpeed = addTunableDouble("intakeSpeed", .75);
-        intake = new TalonFXWrapper(Constants.Intake.id_intake, "intake", false, NeutralModeValue.Brake, 
+        intake = new TalonFXWrapper(
+                Constants.Intake.id_intake,
+                "intake",
+                false,
+                NeutralModeValue.Brake,
                 1,
                 0,
                 0,
@@ -50,7 +51,7 @@ public class Intake extends SubsystemBase implements CheckableSubsystem, Shuffle
                 Rotations.of(0),
                 null,
                 Units.Seconds.of(1),
-                Units.Amps.of(55), Units.RotationsPerSecond.of(1));
+                Units.Amps.of(55), Units.RotationsPerSecond.of(3));
         conveyor = new TalonFXWrapper(Constants.Intake.id_conv, "conveyor", true, NeutralModeValue.Brake);
     }
 
@@ -100,8 +101,6 @@ public class Intake extends SubsystemBase implements CheckableSubsystem, Shuffle
     public boolean isStalled() {
         return intake.isStalled();
     }
-
-
 
     public Command setIntakeUntilQueued() {
         return this.run(() -> {

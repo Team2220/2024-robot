@@ -17,7 +17,7 @@ public class Angles extends Command {
 
     public Angles(Arm arm) {
         this.arm = arm;
-        
+
     }
 
     @Override
@@ -33,8 +33,7 @@ public class Angles extends Command {
 
     // @Override
     // public void initialize() {
-    //     botPose = LimelightHelpers.getBotPose2d("limelight");
+    // botPose = LimelightHelpers.getBotPose2d("limelight");
 
     // }
 }
-    

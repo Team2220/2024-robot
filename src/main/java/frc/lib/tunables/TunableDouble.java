@@ -6,6 +6,7 @@ import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.lib.BooleanDoubleConsumer;
 
 public class TunableDouble {
   private double defaultValue;
@@ -50,6 +51,16 @@ public class TunableDouble {
     addChangeListener(onChange);
   }
 
+  public TunableDouble(String name, double defaultValue, boolean tunable, String tab, BooleanDoubleConsumer onChange) {
+    this(name, defaultValue, tunable, tab);
+    addChangeListener(onChange);
+  }
+
+  public TunableDouble(String name, double defaultValue, boolean tunable, BooleanDoubleConsumer onChange) {
+    this(name, defaultValue, tunable);
+    addChangeListener(onChange);
+  }
+
   public TunableDouble(String name, double defaultValue, boolean tunable) {
     this(name, defaultValue, tunable, "Tunables");
   }
@@ -72,7 +83,11 @@ public class TunableDouble {
   }
 
   public void addChangeListener(DoubleConsumer onChange) {
-    onChange.accept(getValue());
+    addChangeListener((isInit, value) -> onChange.accept(value));
+  }
+
+  public void addChangeListener(BooleanDoubleConsumer onChange) {
+    onChange.accept(true, getValue());
     CommandScheduler.getInstance().getDefaultButtonLoop().bind(
         new Runnable() {
           private double m_oldValue = getValue();
@@ -82,7 +97,7 @@ public class TunableDouble {
             double newValue = getValue();
 
             if (m_oldValue != newValue) {
-              onChange.accept(newValue);
+              onChange.accept(false, newValue);
               m_oldValue = newValue;
             }
 
