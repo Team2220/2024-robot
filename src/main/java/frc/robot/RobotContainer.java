@@ -177,7 +177,7 @@ public class RobotContainer {
     m_driverController.leftTrigger().whileTrue(m_arm.setPositionOnceCommand(0).andThen(intake.intakeUntilQueued()));
 
     intake.setDefaultCommand(intake.dutyCycleCommand(() -> {
-      return m_operatorController.getRightY() * .75;
+      return m_operatorController.getRightY();
     }));
 
     var armCommand = Commands.run(() -> {

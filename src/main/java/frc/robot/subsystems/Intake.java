@@ -58,8 +58,8 @@ public class Intake extends SubsystemBase implements CheckableSubsystem, Shuffle
     public Command dutyCycleCommand(DoubleSupplier speed) {
 
         return this.run(() -> {
-            intake.set(speed.getAsDouble());
-            conveyor.set(speed.getAsDouble());
+            intake.set(speed.getAsDouble() * .75);
+            conveyor.set(speed.getAsDouble() * .75);
         });
     }
 
