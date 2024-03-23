@@ -224,6 +224,7 @@ public class RobotContainer {
     // }));
 
     m_operatorController.povUp().onTrue(m_arm.setPositionCommand(43.7));
+    m_operatorController.povDown().whileTrue(shooter.setDutyCycleCommand(-1));
 
    // m_operatorController.povDown().whileTrue(shooter.setDutyCycleCommand(-1));
 
