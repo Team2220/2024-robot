@@ -135,8 +135,8 @@ public class LedSignal {
     }
 
     public static LedSignal hasgamepiceTopLedSignal(BooleanSupplier supplier) {
-        StrobeAnimation singleFadeAnimation = new StrobeAnimation(0, 255, 0, 0, 0.5, 164, 0);
-        return new LedSignal("HasGamepiceTop", supplier, singleFadeAnimation, 0);
+        RainbowAnimation RainbowAnimation = new RainbowAnimation();
+        return new LedSignal("HasGamepiceTop", supplier, RainbowAnimation, 0);
     }
 
     public static LedSignal erolsPurpleLight(BooleanSupplier supplier) {
@@ -152,6 +152,10 @@ public class LedSignal {
     public static LedSignal intakeStalled(BooleanSupplier supplier) {
         FireAnimation FireAnimation = new FireAnimation();
         return new LedSignal("intakeStalled", supplier, FireAnimation, 0);
-        //we need to see if fire animation works
+    }
+
+    public static LedSignal shooterspin(BooleanSupplier supplier) {
+        SingleFadeAnimation singleFadeAnimation = new SingleFadeAnimation(0, 0, 0, 255, 0.113, 164, 0);
+        return new LedSignal("HasGamepiceBottom", supplier, singleFadeAnimation, 0);
     }
 }
