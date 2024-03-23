@@ -5,7 +5,7 @@
       "x": 0.77,
       "y": 6.68
     },
-    "rotation": 0
+    "rotation": 60.0
   },
   "command": {
     "type": "sequential",
@@ -29,6 +29,18 @@
                       "type": "path",
                       "data": {
                         "pathName": "ala"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "intakeShot"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "of"
                       }
                     },
                     {
