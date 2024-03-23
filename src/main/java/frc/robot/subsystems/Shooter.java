@@ -94,6 +94,7 @@ public class Shooter extends SubsystemBase implements CheckableSubsystem, Shuffl
         right.isAtReference(shooterSpeed.getValue(), tolerance.getValue());
     }
 
+
     public Command velocityCommand() {
         return this.run(() -> {
             var speed = shooterSpeed.getValue();
@@ -110,6 +111,12 @@ public class Shooter extends SubsystemBase implements CheckableSubsystem, Shuffl
         left.setVelocity(speed);
         right.setVelocity(speed);
     }
+    public void setDefaultySpeed() {
+        Measure<Velocity<Angle>> speed = shooterSpeed.getValue();
+        left.setVelocity(speed.times(-1));
+        right.setVelocity(speed.times(-1));
+    }
+
 
     public Command velocityCommandy() {
         return this.run(() -> {

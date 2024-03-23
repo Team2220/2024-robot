@@ -18,6 +18,7 @@ import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 
+import com.fasterxml.jackson.annotation.JacksonInject.Value;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
@@ -135,7 +136,7 @@ public class RobotContainer {
 
     // m_driverController.povRight().whileTrue(new Angles(m_arm));
 
-    new Trigger(shooter::isAtSetPoint)
+    new Trigger(shooter :: isAtSetPoint)
         .whileTrue(m_driverController.rumbleCommand(.75))
         .whileTrue(m_operatorController.rumbleCommand(.74));
 
@@ -143,8 +144,10 @@ public class RobotContainer {
 
     m_driverController.a().onTrue(m_arm.setPositionCommand(0));
 
-    m_driverController.rightTrigger()
-        .whileTrue(Commands.run(shooter::setDefaultSpeed, shooter))
+    m_driverController.y()
+        .whileTrue(Commands.run(shooter::setDefaultySpeed, shooter))
+
+
         .onFalse(Commands.startEnd(() -> {
           if (m_driverController.getHID().getRightBumper()) {
             shooter.setDefaultSpeed();
@@ -158,7 +161,26 @@ public class RobotContainer {
           intake.setSpeed(0);
         }, shooter, intake).withTimeout(1));
 
-    m_driverController.leftTrigger().whileTrue(intake.intakeUntilQueued());
+    m_driverController.rightTrigger()
+        .whileTrue(Commands.run(shooter::setDefaultSpeed, shooter))
+        .whileTrue(m_driverController.rumbleCommand(.1).withTimeout(4))
+        .whileFalse(m_driverController.rumbleCommand(.8).withTimeout(.5))
+
+
+        .onFalse(Commands.startEnd(() -> {
+          if (m_driverController.getHID().getRightBumper()) {
+            shooter.setDefaultSpeed();
+            intake.setSpeed(0);
+          } else {
+            shooter.setDefaultSpeed();
+            intake.setSpeed(.75);
+          }
+        }, () -> {
+          shooter.stopShooter();
+          intake.setSpeed(0);
+        }, shooter, intake).withTimeout(1));
+
+    m_driverController.leftTrigger().whileTrue(m_arm.setPositionOnceCommand(0).andThen(intake.intakeUntilQueued()));
 
     intake.setDefaultCommand(intake.dutyCycleCommand(() -> {
       return m_operatorController.getRightY() * .75;
