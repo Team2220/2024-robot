@@ -96,7 +96,7 @@ public class PDHLogPowerFaults {
         channel7BreakerFault.setIsActive(faults.Channel7BreakerFault && !unusedBreakers.contains(7));
         channel8BreakerFault.setIsActive(faults.Channel8BreakerFault && !unusedBreakers.contains(8));
         channel9BreakerFault.setIsActive(faults.Channel9BreakerFault && !unusedBreakers.contains(9));
-        channel10BreakerFault.setIsActive(faults.Channel10BreakerFault && !unusedBreakers.contains(10));
+       // channel10BreakerFault.setIsActive(faults.Channel10BreakerFault && !unusedBreakers.contains(10));
         channel11BreakerFault.setIsActive(faults.Channel11BreakerFault && !unusedBreakers.contains(11));
         channel12BreakerFault.setIsActive(faults.Channel12BreakerFault && !unusedBreakers.contains(12));
         channel13BreakerFault.setIsActive(faults.Channel13BreakerFault && !unusedBreakers.contains(13));
