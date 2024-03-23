@@ -136,7 +136,7 @@ public class RobotContainer {
 
     // m_driverController.povRight().whileTrue(new Angles(m_arm));
 
-    new Trigger(shooter :: isAtSetPoint)
+    new Trigger(shooter::isAtSetPoint)
         .whileTrue(m_driverController.rumbleCommand(.75))
         .whileTrue(m_operatorController.rumbleCommand(.74));
 
@@ -145,27 +145,20 @@ public class RobotContainer {
     m_driverController.a().onTrue(m_arm.setPositionCommand(0));
 
     m_driverController.y()
-        .whileTrue(Commands.run(shooter::setDefaultySpeed, shooter))
-
-
+        .whileTrue(m_arm.setPositionOnceCommand(0)
+        .andThen(Commands.run(shooter::setDefaultySpeed, shooter)))
         .onFalse(Commands.startEnd(() -> {
-          if (m_driverController.getHID().getRightBumper()) {
-            shooter.setDefaultSpeed();
-            intake.setSpeed(0);
-          } else {
-            shooter.setDefaultSpeed();
-            intake.setSpeed(.75);
-          }
+          shooter.setDefaultSpeed();
+          intake.setSpeed(.75);
         }, () -> {
           shooter.stopShooter();
           intake.setSpeed(0);
-        }, shooter, intake).withTimeout(1));
+        }, shooter, intake).withTimeout(1.5));
 
     m_driverController.rightTrigger()
         .whileTrue(Commands.run(shooter::setDefaultSpeed, shooter))
         .whileTrue(m_driverController.rumbleCommand(.1).withTimeout(4))
         .whileFalse(m_driverController.rumbleCommand(.8).withTimeout(.5))
-
 
         .onFalse(Commands.startEnd(() -> {
           if (m_driverController.getHID().getRightBumper()) {
