@@ -29,7 +29,6 @@ import edu.wpi.first.units.Units;
 import edu.wpi.first.units.Velocity;
 import edu.wpi.first.units.Voltage;
 import frc.lib.eventLoops.EventLoops;
-import frc.lib.faults.Fault;
 import frc.lib.tunables.TunableDebouncer;
 import frc.lib.tunables.TunableDouble;
 import frc.lib.tunables.TunableMeasure;
@@ -43,7 +42,6 @@ public class TalonFXWrapper implements ShuffleBoardTabWrapper {
     private TunableDebouncer tunableDebouncer;
     // private static Fault fault = new Fault("TalonFX device disconnected");
     // private StatusSignal<Integer> firmwareVersionSignal;
-    private Fault softLimitOverrideFault;
     private TunableMeasure<Current> stallCurrentLimit;
     private TunableMeasure<Velocity<Angle>> stallRotationLimit;
 
@@ -71,8 +69,6 @@ public class TalonFXWrapper implements ShuffleBoardTabWrapper {
         this.name = name;
         // firmwareVersionSignal = talon.getVersion();
         // TalonFXLogPowerFaults.setupChecks(this);
-        softLimitOverrideFault = new Fault(getName() + " Device ID: " + id + " Soft Limit Overrided");
-
         talonFXConfigs = new TalonFXConfiguration();
 
         talonFXConfigs.MotorOutput.NeutralMode = neutralMode;
@@ -161,8 +157,6 @@ public class TalonFXWrapper implements ShuffleBoardTabWrapper {
         // setNeutralMode(NeutralModeValue.Brake);
         // }).ignoringDisable(true));
 
-        Fault.autoUpdating(getName() + " Stalled", EventLoops.everyLoop, this::isStalled);
-
     }
 
     public TalonFXWrapper(int id, String name, boolean isInverted, NeutralModeValue neutralMode) {
@@ -185,14 +179,6 @@ public class TalonFXWrapper implements ShuffleBoardTabWrapper {
                 null,
                 Units.Seconds.of(1),
                 Units.Amps.of(75), Units.RotationsPerSecond.of(1));
-    }
-
-    public void setSoftLimitsEnabled(boolean enabled) {
-        talonFXConfigs.SoftwareLimitSwitch.ForwardSoftLimitEnable = enabled;
-        talonFXConfigs.SoftwareLimitSwitch.ReverseSoftLimitEnable = enabled;
-        configureTalons();
-
-        softLimitOverrideFault.setIsActive(enabled);
     }
 
     private void configureTalons() {

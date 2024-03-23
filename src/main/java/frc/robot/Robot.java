@@ -73,15 +73,6 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void autonomousInit() {
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.schedule();
-    }
-  }
-
-  @Override
   public void autonomousPeriodic() {
   }
 
@@ -98,16 +89,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-  }
-
-  @Override
-  public void testInit() {
-    // Cancels all running commands at the start of test mode.
-    CommandScheduler.getInstance().cancelAll();
-    m_testCommand = m_robotContainer.getTestCommand();
-    if (m_testCommand != null) {
-      m_testCommand.schedule();
-    }
   }
 
   @Override

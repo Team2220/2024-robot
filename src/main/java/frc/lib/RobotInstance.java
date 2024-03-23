@@ -8,7 +8,6 @@ import java.net.NetworkInterface;
 import java.util.function.Function;
 
 import edu.wpi.first.wpilibj.RobotBase;
-import frc.lib.faults.Fault;
 
 public enum RobotInstance {
     Robot23("00-80-2F-17-60-67"),
@@ -16,7 +15,6 @@ public enum RobotInstance {
 
     private String address;
     private static RobotInstance current = getMacAddress();
-    private static Fault fault;
 
     RobotInstance(String text) {
         this.address = text;
@@ -59,10 +57,10 @@ public enum RobotInstance {
         } else {
             var check = fromString(getMacAddressStr());
             if (check == null) {
-                if (fault == null) {
-                    fault = new Fault("Unknown Robot MAC Address: " + getMacAddressStr());
-                    fault.setIsActive(true);
-                }
+                // if (fault == null) {
+                //     fault = new Fault("Unknown Robot MAC Address: " + getMacAddressStr());
+                //     fault.setIsActive(true);
+                // }
                 return Robot24;
             } else {
                 return check;
