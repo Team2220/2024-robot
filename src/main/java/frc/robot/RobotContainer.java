@@ -52,13 +52,16 @@ public class RobotContainer {
   private final Intake intake = new Intake();
 
   public RobotContainer() {
-    PDHLogPowerFaults.setPdh(m_PowerDistribution, 8, 12, 13, 14, 15, 16, 17, 22, 23);
-    LimelightPortForwarding.setup();
-    if (Constants.isGraphsEnabled) {
-      Shuffleboard.getTab("can")
-          .addDouble("can utilization", () -> RobotController.getCANStatus().percentBusUtilization)
-          .withWidget(BuiltInWidgets.kGraph);
-    }
+    PDHLogPowerFaults.setPdh(m_PowerDistribution, 
+    8, 10, 12, 13, 14, 15, 16, 17, 22, 23);
+
+
+    // LimelightPortForwarding.setup();
+    // if (Constants.isGraphsEnabled) {
+    //   Shuffleboard.getTab("can")
+    //       .addDouble("can utilization", () -> RobotController.getCANStatus().percentBusUtilization)
+    //       .withWidget(BuiltInWidgets.kGraph);
+    // }
 
     configureBindings();
 
@@ -67,14 +70,14 @@ public class RobotContainer {
         new LedSignal[] {
             LedSignal.isBrownedOut(),
             LedSignal.isDSConnected(),
-            LedSignal.isEndGame(),
-            LedSignal.hasgamepiceTopLedSignal(intake::getTopNoteSensor),
-            LedSignal.intakeStalled(intake::isStalled),
-            LedSignal.getLowBatteryLedSignal(),
-            LedSignal.erolsPurpleLight(() -> m_operatorController.getHID().getPOV() == 90), // left dpad
-            LedSignal.seanscolors(() -> m_driverController.getHID().getPOV() != -1), // all depad
-            LedSignal.seanscolors(() -> m_operatorController.getHID().getPOV() == 270),
-            LedSignal.shooterAtSetPoint(() -> shooter.isAtSetPoint()),
+            // LedSignal.isEndGame(),
+            // LedSignal.hasgamepiceTopLedSignal(intake::getTopNoteSensor),
+            // LedSignal.intakeStalled(intake::isStalled),
+            // LedSignal.getLowBatteryLedSignal(),
+            // LedSignal.erolsPurpleLight(() -> m_operatorController.getHID().getPOV() == 90), // left dpad
+            // LedSignal.seanscolors(() -> m_driverController.getHID().getPOV() != -1), // all depad
+            // LedSignal.seanscolors(() -> m_operatorController.getHID().getPOV() == 270),
+            // LedSignal.shooterAtSetPoint(() -> shooter.isAtSetPoint()),
         });
 
     NamedCommands.registerCommand("armSpeakerPos", m_arm.setPositionOnceCommand(55));
@@ -134,99 +137,99 @@ public class RobotContainer {
     // duplacates on purpos
     m_driverController.back().onTrue(driveTrain.zeroCommand());
 
-    m_driverController.x().whileTrue((driveTrain.xcommand()));
+    // m_driverController.x().whileTrue((driveTrain.xcommand()));
 
-    // m_driverController.povRight().whileTrue(new Angles(m_arm));
+    // // m_driverController.povRight().whileTrue(new Angles(m_arm));
 
-    new Trigger(shooter::isAtSetPoint)
-        .whileTrue(m_driverController.rumbleCommand(.75))
-        .whileTrue(m_operatorController.rumbleCommand(.74));
+    // new Trigger(shooter::isAtSetPoint)
+    //     .whileTrue(m_driverController.rumbleCommand(.75))
+    //     .whileTrue(m_operatorController.rumbleCommand(.74));
 
-    m_driverController.b().onTrue(m_arm.setPositionCommand(55));
+    // m_driverController.b().onTrue(m_arm.setPositionCommand(55));
 
-    m_driverController.a().onTrue(m_arm.setPositionCommand(0));
+    // m_driverController.a().onTrue(m_arm.setPositionCommand(0));
 
-    m_driverController.y()
-        .whileTrue(m_arm.setPositionOnceCommand(90)
-        .andThen(Commands.run(shooter::setDefaultySpeed, shooter)))
-        .onFalse(Commands.startEnd(() -> {
-          shooter.setDefaultSpeed();
-          intake.setSpeed(.75);
-        }, () -> {
-          shooter.stopShooter();
-          intake.setSpeed(0);
-        }, shooter, intake).withTimeout(3));
+    // m_driverController.y()
+    //     .whileTrue(m_arm.setPositionOnceCommand(90)
+    //     .andThen(Commands.run(shooter::setDefaultySpeed, shooter)))
+    //     .onFalse(Commands.startEnd(() -> {
+    //       shooter.setDefaultSpeed();
+    //       intake.setSpeed(.75);
+    //     }, () -> {
+    //       shooter.stopShooter();
+    //       intake.setSpeed(0);
+    //     }, shooter, intake).withTimeout(3));
 
-    m_driverController.rightTrigger()
-        .whileTrue(Commands.run(shooter::setDefaultSpeed, shooter))
-        .whileTrue(m_driverController.rumbleCommand(.1).withTimeout(4))
-        .whileFalse(m_driverController.rumbleCommand(.8).withTimeout(.5))
+    // m_driverController.rightTrigger()
+    //     .whileTrue(Commands.run(shooter::setDefaultSpeed, shooter))
+    //     .whileTrue(m_driverController.rumbleCommand(.1).withTimeout(4))
+    //     .whileFalse(m_driverController.rumbleCommand(.8).withTimeout(.5))
 
-        .onFalse(Commands.startEnd(() -> {
-          if (m_driverController.getHID().getRightBumper()) {
-            shooter.setDefaultSpeed();
-            intake.setSpeed(0);
-          } else {
-            shooter.setDefaultSpeed();
-            intake.setSpeed(.75);
-          }
-        }, () -> {
-          shooter.stopShooter();
-          intake.setSpeed(0);
-        }, shooter, intake).withTimeout(1));
+    //     .onFalse(Commands.startEnd(() -> {
+    //       if (m_driverController.getHID().getRightBumper()) {
+    //         shooter.setDefaultSpeed();
+    //         intake.setSpeed(0);
+    //       } else {
+    //         shooter.setDefaultSpeed();
+    //         intake.setSpeed(.75);
+    //       }
+    //     }, () -> {
+    //       shooter.stopShooter();
+    //       intake.setSpeed(0);
+    //     }, shooter, intake).withTimeout(1));
 
-    m_driverController.leftTrigger().whileTrue(m_arm.setPositionOnceCommand(0).andThen(intake.intakeUntilQueued()));
+    // m_driverController.leftTrigger().whileTrue(m_arm.setPositionOnceCommand(0).andThen(intake.intakeUntilQueued()));
 
-    intake.setDefaultCommand(intake.dutyCycleCommand(() -> {
-      return m_operatorController.getRightY() * .75;
-    }));
-
-    var armCommand = Commands.run(() -> {
-      var joyStickPosition = m_operatorController.getLeftY() * 0.55;
-      if (joyStickPosition > 0.01 || joyStickPosition < -0.01) {
-        isArmHeld = false;
-        m_arm.setDutyCycle(joyStickPosition);
-      } else {
-        if (isArmHeld == false) {
-          m_arm.holdPosition();
-        }
-        isArmHeld = true;
-      }
-    }, m_arm);
-
-    m_operatorController.leftYTrigger().onTrue(armCommand);
-    m_arm.setDefaultCommand(armCommand);
-
-    m_operatorController.leftTrigger().whileTrue(m_arm.setPositionOnceCommand(0).andThen(intake.intakeUntilQueued()));
-
-    m_operatorController.leftBumper().whileTrue(intake.setDutyCycleCommand(-.75));
-
-    m_operatorController.rightTrigger().whileTrue(shooter.setDutyCycleCommand(1));
-
-    m_operatorController.rightBumper().whileTrue(intake.setDutyCycleCommand(.75));
-
-    m_operatorController.start().onTrue(Commands.runOnce(m_arm::setZero, m_arm));
-    // duplicates on purpos
-    m_operatorController.back().onTrue(Commands.runOnce(m_arm::setZero, m_arm));
-
-    m_operatorController.y().onTrue(m_arm.setPositionCommand(100));
-
-    m_operatorController.a().onTrue(m_arm.setPositionCommand(43.7));
-
-    m_operatorController.b().whileTrue(m_arm.setPositionCommand(0));
-
-    m_operatorController.x().onTrue(m_arm.setPositionCommand(55));
-
-    m_operatorController.leftStick().whileTrue(m_arm.overrideSoftLimits());
-
-    // m_operatorController.povLeft().onTrue(Commands.runOnce(() -> {
-    // LimelightHelpers.setPipelineIndex("limelight-right", 2);
+    // intake.setDefaultCommand(intake.dutyCycleCommand(() -> {
+    //   return m_operatorController.getRightY() * .75;
     // }));
 
-    m_operatorController.povUp().onTrue(m_arm.setPositionCommand(43.7));
-    m_operatorController.povDown().whileTrue(shooter.setDutyCycleCommand(-1));
+    // var armCommand = Commands.run(() -> {
+    //   var joyStickPosition = m_operatorController.getLeftY() * 0.55;
+    //   if (joyStickPosition > 0.01 || joyStickPosition < -0.01) {
+    //     isArmHeld = false;
+    //     m_arm.setDutyCycle(joyStickPosition);
+    //   } else {
+    //     if (isArmHeld == false) {
+    //       m_arm.holdPosition();
+    //     }
+    //     isArmHeld = true;
+    //   }
+    // }, m_arm);
 
-   // m_operatorController.povDown().whileTrue(shooter.setDutyCycleCommand(-1));
+  //   m_operatorController.leftYTrigger().onTrue(armCommand);
+  //   m_arm.setDefaultCommand(armCommand);
+
+  //   m_operatorController.leftTrigger().whileTrue(m_arm.setPositionOnceCommand(0).andThen(intake.intakeUntilQueued()));
+
+  //   m_operatorController.leftBumper().whileTrue(intake.setDutyCycleCommand(-.75));
+
+  //   m_operatorController.rightTrigger().whileTrue(shooter.setDutyCycleCommand(1));
+
+  //   m_operatorController.rightBumper().whileTrue(intake.setDutyCycleCommand(.75));
+
+  //   m_operatorController.start().onTrue(Commands.runOnce(m_arm::setZero, m_arm));
+  //   // duplicates on purpos
+  //   m_operatorController.back().onTrue(Commands.runOnce(m_arm::setZero, m_arm));
+
+  //   m_operatorController.y().onTrue(m_arm.setPositionCommand(100));
+
+  //   m_operatorController.a().onTrue(m_arm.setPositionCommand(43.7));
+
+  //   m_operatorController.b().whileTrue(m_arm.setPositionCommand(0));
+
+  //   m_operatorController.x().onTrue(m_arm.setPositionCommand(55));
+
+  //   m_operatorController.leftStick().whileTrue(m_arm.overrideSoftLimits());
+
+  //   // m_operatorController.povLeft().onTrue(Commands.runOnce(() -> {
+  //   // LimelightHelpers.setPipelineIndex("limelight-right", 2);
+  //   // }));
+
+  //   m_operatorController.povUp().onTrue(m_arm.setPositionCommand(43.7));
+  //   m_operatorController.povDown().whileTrue(shooter.setDutyCycleCommand(-1));
+
+  //  // m_operatorController.povDown().whileTrue(shooter.setDutyCycleCommand(-1));
 
   }
 
