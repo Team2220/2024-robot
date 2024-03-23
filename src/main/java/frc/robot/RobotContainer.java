@@ -72,7 +72,8 @@ public class RobotContainer {
             LedSignal.intakeStalled(intake::isStalled),
             LedSignal.getLowBatteryLedSignal(),
             LedSignal.erolsPurpleLight(() -> m_operatorController.getHID().getPOV() == 90), // left dpad
-            LedSignal.seanscolors(() -> m_operatorController.getHID().getPOV() != -1), // all depad
+            LedSignal.seanscolors(() -> m_driverController.getHID().getPOV() != -1), // all depad
+            LedSignal.seanscolors(() -> m_operatorController.getHID().getPOV() == 270),
             LedSignal.shooterAtSetPoint(() -> shooter.isAtSetPoint()),
         });
 
@@ -209,9 +210,9 @@ public class RobotContainer {
 
     m_operatorController.y().onTrue(m_arm.setPositionCommand(100));
 
-    m_operatorController.a().onTrue(m_arm.setPositionCommand(0));
+    m_operatorController.a().onTrue(m_arm.setPositionCommand(43.7));
 
-    m_operatorController.b().whileTrue(shooter.setDutyCycleCommand(-1));
+    m_operatorController.b().whileTrue(m_arm.setPositionCommand(0));
 
     m_operatorController.x().onTrue(m_arm.setPositionCommand(55));
 
@@ -223,7 +224,7 @@ public class RobotContainer {
 
     m_operatorController.povUp().onTrue(m_arm.setPositionCommand(43.7));
 
-    m_operatorController.povDown().whileTrue(shooter.setDutyCycleCommand(-1));
+   // m_operatorController.povDown().whileTrue(shooter.setDutyCycleCommand(-1));
 
   }
 
