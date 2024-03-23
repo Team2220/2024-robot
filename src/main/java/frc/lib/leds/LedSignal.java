@@ -152,5 +152,6 @@ public class LedSignal {
     public static LedSignal intakeStalled(BooleanSupplier supplier) {
         FireAnimation FireAnimation = new FireAnimation();
         return new LedSignal("intakeStalled", supplier, FireAnimation, 0);
+        //we need to see if fire animation works
     }
 }
