@@ -84,6 +84,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("3.1", m_arm.setPositionOnceCommand(31));
     NamedCommands.registerCommand("3.2", m_arm.setPositionOnceCommand(33));
     NamedCommands.registerCommand("3.3", m_arm.setPositionOnceCommand(31));
+    NamedCommands.registerCommand("3.4", m_arm.setPositionOnceCommand(42));
     NamedCommands.registerCommand("saboStart", m_arm.setPositionOnceCommand(46));
     NamedCommands.registerCommand("armIntake", m_arm.setPositionOnceCommand(20).andThen(intake.setIntakeUntilQueued()));
     NamedCommands.registerCommand("intake", intake.setIntakeUntilQueued());
@@ -146,7 +147,7 @@ public class RobotContainer {
     m_driverController.a().onTrue(m_arm.setPositionCommand(0));
 
     m_driverController.y()
-        .whileTrue(m_arm.setPositionOnceCommand(0)
+        .whileTrue(m_arm.setPositionOnceCommand(90)
         .andThen(Commands.run(shooter::setDefaultySpeed, shooter)))
         .onFalse(Commands.startEnd(() -> {
           shooter.setDefaultSpeed();
