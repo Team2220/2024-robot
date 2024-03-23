@@ -82,7 +82,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("armRest", m_arm.setPositionOnceCommand(15));
     NamedCommands.registerCommand("3.1", m_arm.setPositionOnceCommand(29));
     NamedCommands.registerCommand("3.2", m_arm.setPositionOnceCommand(33));
-    NamedCommands.registerCommand("3.3", m_arm.setPositionOnceCommand(30.5).withTimeout(2));
+    NamedCommands.registerCommand("3.3", m_arm.setPositionOnceCommand(28));
     NamedCommands.registerCommand("3.4", m_arm.setPositionOnceCommand(38));
     NamedCommands.registerCommand("saboStart", m_arm.setPositionOnceCommand(46));
     NamedCommands.registerCommand("armIntake", m_arm.setPositionOnceCommand(20).andThen(intake.setIntakeUntilQueued()));
