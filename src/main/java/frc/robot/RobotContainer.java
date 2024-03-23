@@ -79,7 +79,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("armSpeakerPos", m_arm.setPositionOnceCommand(55));
     NamedCommands.registerCommand("firstArmSpeakerPos", m_arm.setPositionOnceCommand(55).withTimeout(2));
     NamedCommands.registerCommand("armRestFull", m_arm.setPositionOnceCommand(0));
-    NamedCommands.registerCommand("armRest", m_arm.setPositionOnceCommand(20));
+    NamedCommands.registerCommand("armRest", m_arm.setPositionOnceCommand(15));
     NamedCommands.registerCommand("3.1", m_arm.setPositionOnceCommand(31));
     NamedCommands.registerCommand("3.2", m_arm.setPositionOnceCommand(33));
     NamedCommands.registerCommand("3.3", m_arm.setPositionOnceCommand(31));
