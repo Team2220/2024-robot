@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 8.518088867476292,
-        "y": 7.601837711999509
+        "x": 8.288614490658505,
+        "y": 7.464153085908837
       },
       "prevControl": {
-        "x": 7.518088867476295,
-        "y": 7.601837711999509
+        "x": 7.2886144906585075,
+        "y": 7.464153085908837
       },
       "nextControl": {
-        "x": 8.73838426922137,
-        "y": 7.601837711999509
+        "x": 8.508909892403583,
+        "y": 7.464153085908837
       },
       "isLocked": false,
       "linkedName": null
@@ -47,8 +47,8 @@
   "rotationTargets": [
     {
       "waypointRelativePos": 1.0,
-      "rotationDegrees": 0,
-      "rotateFast": false
+      "rotationDegrees": 14.036243467926521,
+      "rotateFast": true
     }
   ],
   "constraintZones": [],
@@ -78,7 +78,7 @@
     },
     {
       "name": "Nerker",
-      "waypointRelativePos": 1.65,
+      "waypointRelativePos": 1.35,
       "command": {
         "type": "parallel",
         "data": {
@@ -86,7 +86,7 @@
             {
               "type": "named",
               "data": {
-                "name": "3.1"
+                "name": "3.3"
               }
             }
           ]
