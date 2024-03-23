@@ -55,7 +55,7 @@
   "eventMarkers": [
     {
       "name": "Nrker",
-      "waypointRelativePos": 0.6,
+      "waypointRelativePos": 0.3,
       "command": {
         "type": "parallel",
         "data": {
@@ -64,6 +64,29 @@
               "type": "named",
               "data": {
                 "name": "intake"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "armRestFull"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Nerker",
+      "waypointRelativePos": 1.65,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "3.1"
               }
             }
           ]
