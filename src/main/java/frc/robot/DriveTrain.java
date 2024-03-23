@@ -30,8 +30,9 @@ import com.pathplanner.lib.util.ReplanningConfig;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.NavXWrapper;
-import frc.lib.LimelightHelpers;
 import frc.lib.RobotInstance;
+import frc.lib.LimelightHelpers;
+
 import frc.lib.ShuffleBoardTabWrapper;
 import frc.lib.TalonFXSubsystem;
 import frc.lib.selfCheck.CheckCommand;
@@ -287,7 +288,7 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem, Check
      * This is a measure of how fast the robot should be able to drive in a straight
      * line.
      */
-    public static final double MAX_VELOCITY_METERS_PER_SECOND = 6380.0 / 60.0 / SwerveModule.DT_DRIVE_GEAR_RATIO
+    public static final double MAX_VELOCITY_METERS_PER_SECOND = 1000000000 / 1.0 / SwerveModule.DT_DRIVE_GEAR_RATIO
             * SwerveModule.DT_WHEEL_DIAMETER * Math.PI;
     // ModuleConfiguration.MK4I_L2.getDriveReduction() *
     // ModuleConfiguration.MK4I_L2.getWheelDiameter() * PI;
@@ -300,7 +301,7 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem, Check
     // Here we calculate the theoretical maximum angular velocity. You can also
     // replace this with a measured amount.
     public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = (MAX_VELOCITY_METERS_PER_SECOND /
-            Math.hypot(DRIVETRAIN_TRACKWIDTH_METERS / 2.0, DRIVETRAIN_WHEELBASE_METERS / 2.0));
+            Math.hypot(DRIVETRAIN_TRACKWIDTH_METERS / 40.0, DRIVETRAIN_WHEELBASE_METERS / 40.0));
 
     public Command xcommand() {
         return this.run(() -> {

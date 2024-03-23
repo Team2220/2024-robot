@@ -16,7 +16,6 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.lib.CommandObserver;
 import frc.lib.LoopTimer;
 import frc.lib.eventLoops.EventLoops;
-import frc.lib.faults.Fault;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -47,7 +46,6 @@ public class Robot extends TimedRobot {
     addPeriodic(EventLoops.everyLoop::poll, 0.02);
     addPeriodic(EventLoops.oncePerSec::poll, 1);
     addPeriodic(EventLoops.oncePerMin::poll, 60);
-    Fault.setupDefaultFaults();
 
     DriverStation.silenceJoystickConnectionWarning(true);
 
@@ -76,16 +74,6 @@ public class Robot extends TimedRobot {
   public void autonomousPeriodic() {
   }
 
-  @Override
-  public void teleopInit() {
-    m_robotContainer.m_arm.setNeturalMode(NeutralModeValue.Brake);
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.cancel();
-    }
-    if (m_testCommand != null) {
-      m_testCommand.cancel();
-    }
-  }
 
   @Override
   public void teleopPeriodic() {

@@ -10,7 +10,7 @@ import com.ctre.phoenix.led.StrobeAnimation;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotController;
-import frc.lib.faults.FaultRegistry;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.lib.tunables.TunableDouble;
 
 public class LedSignal {
@@ -62,18 +62,6 @@ public class LedSignal {
         }, singleFadeAnimation, 0);
     }
 
-    public static LedSignal previouslyHadFault() {
-        // fade orange
-        SingleFadeAnimation singleFadeAnimation = new SingleFadeAnimation(255, 165, 0, 0, .5, 164);
-        return new LedSignal("previouslyHadFault", () -> {
-            if (DriverStation.isDisabled()) {
-                return FaultRegistry.hasAnyPreviouslyActive();
-            } else {
-                return false;
-            }
-        }, singleFadeAnimation, 0);
-    }
-
     public static LedSignal isBrownedOut() {
         // blink red
         StrobeAnimation strobeAnimation = new StrobeAnimation(64, 0, 0, 0, 0.1, 164);
@@ -87,16 +75,9 @@ public class LedSignal {
         return new LedSignal("shooterAtSetPoint", supplier, strobeAnimation, 0);
     }
 
-    public static LedSignal hasActiveFault() {
-        // blink orange
-        StrobeAnimation strobeAnimation = new StrobeAnimation(255, 165, 0, 0, 0.1,
-                164);
-        return new LedSignal("hasActiveFault", FaultRegistry::hasAnyActive,
-                strobeAnimation, 0);
-    }
-
     private static TunableDouble endgameTimeStart = new TunableDouble("EndgameTimeStart", 15, true, "LEDs");
     private static TunableDouble endgameTimeEnd = new TunableDouble("EndgameTimeEnd", 15, true, "LEDs");
+    public static Command brr;
 
     public static LedSignal isEndGame() {
         // blink yellow
@@ -158,4 +139,10 @@ public class LedSignal {
         SingleFadeAnimation singleFadeAnimation = new SingleFadeAnimation(0, 0, 0, 255, 0.113, 164, 0);
         return new LedSignal("HasGamepiceBottom", supplier, singleFadeAnimation, 0);
     }
+
+    public static LedSignal brr() {
+        FireAnimation FireAnimation = new FireAnimation();
+        return new LedSignal("HasGamepiceBottom", () -> true, FireAnimation, 0);
+    }
+
 }

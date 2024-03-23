@@ -10,8 +10,6 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.lib.faults.Fault;
-
 public class CommandXBoxWrapper {
 
     CommandXboxController xbox;
@@ -27,9 +25,7 @@ public class CommandXBoxWrapper {
         this.faultsWhenDisconnected = faultsWhenDisconnected;
         this.joystickDeadband = joystickDeadband;
         this.triggerDeadZone = triggerDeadZone;
-
-        Fault.autoUpdating("Controller " + name + " (Port: " + inPort + ") is disconnected.", this::isConnected);
-    }
+            }
 
     public CommandXBoxWrapper(String name, int inPort) {
         this(name, inPort, .15, .1, true);

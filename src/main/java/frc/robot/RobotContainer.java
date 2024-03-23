@@ -6,9 +6,6 @@ package frc.robot;
 
 import frc.lib.CommandXBoxWrapper;
 import frc.lib.LimelightPortForwarding;
-import frc.lib.Note;
-import frc.lib.faults.Fault;
-import frc.lib.faults.PDHLogPowerFaults;
 import frc.lib.leds.LEDs;
 import frc.lib.leds.LedSignal;
 import frc.lib.selfCheck.RobotSelfCheckCommand;
@@ -44,30 +41,16 @@ public class RobotContainer {
   private final CommandXBoxWrapper m_operatorController = new CommandXBoxWrapper("Operator Controller",
       OperatorConstants.kOperatorControllerPort);
   public RobotContainer() {
-    PDHLogPowerFaults.setPdh(m_PowerDistribution, 
-    8, 10, 12, 13, 14, 15, 16, 17, 22, 23);
-
     configureBindings();
-
     m_leds = new LEDs(
         new int[] { 1, 2 },
         new LedSignal[] {
             LedSignal.isBrownedOut(),
-            LedSignal.isDSConnected(),
+           // LedSignal.brr(),
         });
-
-    try {
-      autoChooser = AutoBuilder.buildAutoChooser();
-      SmartDashboard.putData("Auto Chooser", autoChooser);
-    } catch (Exception exception) {
-      autoChooser = new SendableChooser<>();
-      SmartDashboard.putData("Auto Chooser", autoChooser);
-      DriverStation.reportError(exception.toString(), exception.getStackTrace());
-      new Fault("Failed to set up Auto Chooser.").setIsActive(true);
-    }
-
   }
 
+  
   boolean isArmHeld = false;
 
   private void configureBindings() {
@@ -82,7 +65,7 @@ public class RobotContainer {
       double coefficient = m_driverController.getHID().getLeftBumper() ? 0.5 : 1;
       return m_driverController.getRightX() * -1 * coefficient;
     });
-    driveTrain.setDefaultCommand(driveCommand);
+driveTrain.setDefaultCommand(driveCommand);
     m_driverController.joysticksTrigger().onTrue(driveCommand);
 
     m_driverController.start().onTrue(driveTrain.zeroCommand());
