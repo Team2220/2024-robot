@@ -113,6 +113,17 @@ public class Intake extends SubsystemBase implements CheckableSubsystem, Shuffle
             }
         });
     }
+    public Command setIntakeUntilQueuedSlow() {
+        return this.run(() -> {
+            if (topNoteSensor.get()) {
+                intake.set(0);
+                conveyor.set(0);
+            } else {
+                intake.set(.5);
+                conveyor.set(.5);
+            }
+        });
+    }
 
     public Command setintakeUntilNotQueued() {
         return this.run(() -> {

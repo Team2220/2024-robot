@@ -87,7 +87,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("saboStart", m_arm.setPositionOnceCommand(46));
     NamedCommands.registerCommand("armIntake", m_arm.setPositionOnceCommand(20).andThen(intake.setIntakeUntilQueued()));
     NamedCommands.registerCommand("intake", intake.setIntakeUntilQueued());
-    NamedCommands.registerCommand("intake+", intake.setDutyCycleCommand(.75).withTimeout(15));
+    NamedCommands.registerCommand("intake+", intake.setIntakeUntilQueuedSlow());
     NamedCommands.registerCommand("intakeShot", intake.setDutyCycleCommand(.75).withTimeout(1.5));
     NamedCommands.registerCommand("shooter",
         Commands.parallel(
