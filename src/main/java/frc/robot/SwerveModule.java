@@ -40,18 +40,18 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
   // get one revolution of the output)
   public static final double DT_DRIVE_GEAR_RATIO = (50.0 / 14.0) * (16.0 / 28.0) * (45.0 / 15.0);
   // Drive motor inverted
-  public static final boolean DT_DRIVE_MOTOR_INVERTED = true;
+  // public static final boolean DT_DRIVE_MOTOR_INVERTED = true;
 
   // Steer gear ratio (that number is the number of revolutions of the steer motor
   // to get one revolution of the output)
   public static final double DT_STEER_GEAR_RATIO = 150.0 / 7.0;
   // Steer motor inverted
-  public static final boolean DT_STEER_MOTOR_INVERTED = false;
+  // public static final boolean DT_STEER_MOTOR_INVERTED = false;
 
   // Steer encoder gear ratio
-  public static final double DT_STEER_ENCODER_GEAR_RATIO = 1;
+  // public static final double DT_STEER_ENCODER_GEAR_RATIO = 1;
   // Steer encoder inverted
-  public static final boolean DT_STEER_ENCODER_INVERTED = false;
+  // public static final boolean DT_STEER_ENCODER_INVERTED = false;
 
   private double offset;
   private String name;

@@ -164,38 +164,30 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem, Check
         return KINEMATICS.toChassisSpeeds(getModuleStates());
     }
 
-    public static final double DT_BL_SE_OFFSET = RobotInstance.config((robot) -> {
-        return switch (robot) {
-            case Robot23 -> 8.96484375 - 90;
-            case Robot24 -> 356.667 - 90;
-        };
-    });
-
-    public static final double DT_FR_SE_OFFSET = RobotInstance.config((robot) -> {
-        return switch (robot) {
-            case Robot23 -> 124.98046875 - 90;
-            case Robot24 -> 153.808 - 90;
-        };
-    });
-
-    public static final double DT_FL_SE_OFFSET = RobotInstance.config((robot) -> {
-        return switch (robot) {
-            case Robot23 -> 155.302734375 - 90;
-            case Robot24 -> 222.099 - 270;
-        };
-    });
-
-    public static final double DT_BR_SE_OFFSET = RobotInstance.config((robot) -> {
-        return switch (robot) {
-            case Robot23 -> 247.5 - 90;
-            case Robot24 -> 182.284 - 270;
-        };
-    });
-
-    private final SwerveModule m_frontLeft = new SwerveModule("frontleft", 12, 11, 1, DT_FL_SE_OFFSET);
-    private final SwerveModule m_frontRight = new SwerveModule("frontright", 18, 17, 2, DT_FR_SE_OFFSET);
-    private final SwerveModule m_backLeft = new SwerveModule("backleft", 16, 15, 3, DT_BL_SE_OFFSET);
-    private final SwerveModule m_backRight = new SwerveModule("backright", 14, 13, 0, DT_BR_SE_OFFSET);
+    private final SwerveModule m_frontLeft = new SwerveModule(
+            "frontleft",
+            12,
+            11,
+            1,
+            Constants.DriveTrain.DT_FL_SE_OFFSET);
+    private final SwerveModule m_frontRight = new SwerveModule(
+            "frontright",
+            18,
+            17,
+            2,
+            Constants.DriveTrain.DT_FR_SE_OFFSET);
+    private final SwerveModule m_backLeft = new SwerveModule(
+            "backleft",
+            16,
+            15,
+            3,
+            Constants.DriveTrain.DT_BL_SE_OFFSET);
+    private final SwerveModule m_backRight = new SwerveModule(
+            "backright",
+            14,
+            13,
+            0,
+            Constants.DriveTrain.DT_BR_SE_OFFSET);
 
     public void periodic() {
         m_poseEstimatorField.setRobotPose(getPose());

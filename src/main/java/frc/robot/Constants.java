@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import frc.lib.RobotInstance;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
  * numerical or boolean
@@ -28,6 +30,36 @@ public final class Constants {
   }
 
   public static final boolean isGraphsEnabled = false;
+
+  public static class DriveTrain {
+    public static final double DT_BL_SE_OFFSET = RobotInstance.config((robot) -> {
+      return switch (robot) {
+        case Robot23 -> 8.96484375 - 90;
+        case Robot24 -> 356.667 - 90;
+      };
+    });
+
+    public static final double DT_FR_SE_OFFSET = RobotInstance.config((robot) -> {
+      return switch (robot) {
+        case Robot23 -> 124.98046875 - 90;
+        case Robot24 -> 153.808 - 90;
+      };
+    });
+
+    public static final double DT_FL_SE_OFFSET = RobotInstance.config((robot) -> {
+      return switch (robot) {
+        case Robot23 -> 155.302734375 - 90;
+        case Robot24 -> 222.099 - 270;
+      };
+    });
+
+    public static final double DT_BR_SE_OFFSET = RobotInstance.config((robot) -> {
+      return switch (robot) {
+        case Robot23 -> 247.5 - 90;
+        case Robot24 -> 182.284 - 270;
+      };
+    });
+  }
 
   public static class Shooter {
     public static final int id_left = 23;
