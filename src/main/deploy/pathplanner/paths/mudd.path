@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 8.609878618203409,
-        "y": 7.48251103605426
+        "x": 8.444657066894601,
+        "y": 5.793579622675338
       },
       "prevControl": {
-        "x": 7.609878618203411,
-        "y": 7.48251103605426
+        "x": 7.499222634405315,
+        "y": 6.0138750244204155
       },
       "nextControl": {
-        "x": 8.830174019948487,
-        "y": 7.48251103605426
+        "x": 9.418567975884729,
+        "y": 5.56664892543492
       },
       "isLocked": false,
       "linkedName": null
@@ -36,8 +36,8 @@
         "y": 7.0
       },
       "prevControl": {
-        "x": 3.3999999999999977,
-        "y": 7.0
+        "x": 3.4321264127544904,
+        "y": 6.990821024927288
       },
       "nextControl": null,
       "isLocked": false,
@@ -46,16 +46,16 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 1.0,
-      "rotationDegrees": 14.036243467926521,
+      "waypointRelativePos": 1.1,
+      "rotationDegrees": -10.397761443030292,
       "rotateFast": true
     }
   ],
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "Nrker",
-      "waypointRelativePos": 0.4,
+      "name": " Event Marker",
+      "waypointRelativePos": 0.6,
       "command": {
         "type": "parallel",
         "data": {
@@ -64,23 +64,6 @@
               "type": "named",
               "data": {
                 "name": "intake"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "Nerker",
-      "waypointRelativePos": 1.35,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "3.3"
               }
             }
           ]
