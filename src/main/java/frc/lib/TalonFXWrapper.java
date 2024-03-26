@@ -125,7 +125,6 @@ public class TalonFXWrapper implements ShuffleBoardTabWrapper {
             if (!isInit) {
                 talon.getConfigurator().apply(talonFXConfigs);
             }
-
         });
 
         addGraph("Curent", () -> getTorqueCurrent(), Units.Amps);

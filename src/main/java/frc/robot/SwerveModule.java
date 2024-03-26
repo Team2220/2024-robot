@@ -160,7 +160,7 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
   public static final TunableDouble DT_STEER_I = new TunableDouble("DT_STEER_I", 0, "swerve").setSpot(1, 1);
   public static final TunableDouble DT_STEER_D = new TunableDouble("DT_STEER_D", 0.0001, "swerve").setSpot(2, 1);
   public static final TunableDouble DT_STEER_F = new TunableDouble("DT_STEER_F", 0, "swerve").setSpot(3, 1);
-
+  
   private double getDrivePosition() {
     double ticks = m_driveMotor.getRotorPosition().getValueAsDouble();
     double revolutionsMotorToRevolutionsWheel = 1.0 / DT_DRIVE_GEAR_RATIO // Reduction from motor to output
