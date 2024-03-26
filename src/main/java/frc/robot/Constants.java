@@ -35,28 +35,28 @@ public final class Constants {
     public static final double DT_BL_SE_OFFSET = RobotInstance.config((robot) -> {
       return switch (robot) {
         case Robot23 -> 8.96484375 - 90;
-        case Robot24 -> 356.667 - 90;
+        case Robot24 -> 253.388 - 90;
       };
     });
 
     public static final double DT_FR_SE_OFFSET = RobotInstance.config((robot) -> {
       return switch (robot) {
         case Robot23 -> 124.98046875 - 90;
-        case Robot24 -> 153.808 - 90;
+        case Robot24 -> 309.902 - 90;
       };
     });
 
     public static final double DT_FL_SE_OFFSET = RobotInstance.config((robot) -> {
       return switch (robot) {
         case Robot23 -> 155.302734375 - 90;
-        case Robot24 -> 222.099 - 270;
+        case Robot24 -> 42.363 - 90;
       };
     });
 
     public static final double DT_BR_SE_OFFSET = RobotInstance.config((robot) -> {
       return switch (robot) {
         case Robot23 -> 247.5 - 90;
-        case Robot24 -> 182.284 - 270;
+        case Robot24 -> 359.912 - 90;
       };
     });
   }
