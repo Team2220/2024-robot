@@ -123,7 +123,11 @@ public class RobotContainer {
         m_driverController::getLeftX,
         m_driverController::getLeftY,
         m_driverController::getRightX,
-        () -> m_driverController.getHID().getLeftBumper(), 
+        () -> m_driverController.getHID().getLeftBumper(),
+        () -> m_driverController.getHID().getPOV() == 270,
+        () -> m_driverController.getHID().getPOV() == 90,
+        () -> m_driverController.getHID().getPOV() == 0,
+        () -> m_driverController.getHID().getPOV() == 180,
         driveTrain);
     driveTrain.setDefaultCommand(driveCommand);
     m_driverController.joysticksTrigger().onTrue(driveCommand);

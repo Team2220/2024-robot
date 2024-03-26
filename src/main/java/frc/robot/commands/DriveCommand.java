@@ -13,6 +13,10 @@ public class DriveCommand extends Command {
     private DoubleSupplier yspeed;
     private DoubleSupplier rot;
     private DriveTrain driveTrain;
+    private BooleanSupplier left;
+    private BooleanSupplier right;
+    private BooleanSupplier up;
+    private BooleanSupplier down;
     PIDController controller = new PIDController(
             DriveTrain.rotationConstants.kP,
             DriveTrain.rotationConstants.kI,
@@ -25,11 +29,19 @@ public class DriveCommand extends Command {
             DoubleSupplier yspeed,
             DoubleSupplier rot,
             BooleanSupplier slow,
+            BooleanSupplier left,
+            BooleanSupplier right,
+            BooleanSupplier up,
+            BooleanSupplier down,
             DriveTrain driveTrain) {
         this.slow = slow;
         this.xspeed = xspeed;
         this.yspeed = yspeed;
         this.rot = rot;
+        this.left = left;
+        this.right = right;
+        this.up = up;
+        this.down = down;
         this.driveTrain = driveTrain;
         addRequirements(driveTrain);
     }
@@ -40,10 +52,36 @@ public class DriveCommand extends Command {
     @Override
     public void execute() {
         double coefficient = slow.getAsBoolean() ? 0.5 : 1;
+        if (left.getAsBoolean()) {
+            pid = true;
+            wantedAngle = 90;
+        }
+        if (right.getAsBoolean()) {
+            pid = true;
+            wantedAngle = 270;
+        }
+        if (up.getAsBoolean()) {
+            pid = true;
+            wantedAngle = 0;
+        }
+        if (down.getAsBoolean()) {
+            pid = true;
+            wantedAngle = 180;
+        }
+        if (rot.getAsDouble() > 0) {
+            pid = false;
+            wantedAngle = 0;
+        }
+        double rotate = this.rot.getAsDouble() * coefficient;
+        if (pid) {
+            rotate = controller.calculate(
+                    driveTrain.getGyroscopeRotation().getDegrees(),
+                    wantedAngle);
+        }
         this.driveTrain.drive(
                 this.xspeed.getAsDouble() * coefficient,
                 this.yspeed.getAsDouble() * coefficient,
-                this.rot.getAsDouble() * coefficient,
+                rotate,
                 true);
     }
 }

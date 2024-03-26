@@ -130,18 +130,18 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
     });
 
     m_turningMotor.setPosition(-angleToEncoderTicks(getAngle().getDegrees()));
-    // Shuffleboard.getTab("current")
-    //                 .addDouble(name, ()->{
-    //                   return
-    //                   m_turningMotor.getTorqueCurrent().getValueAsDouble();
-    //                 })
-    //                 .withWidget(BuiltInWidgets.kGraph);
+    Shuffleboard.getTab("current")
+                    .addDouble(name, ()->{
+                      return
+                      m_turningMotor.getTorqueCurrent().getValueAsDouble();
+                    })
+                    .withWidget(BuiltInWidgets.kGraph);
 
-    // if (Constants.isGraphsEnabled) {
-    // Shuffleboard.getTab("swerve")
-    // .addDouble(name, this::getDriveVelocity)
-    // .withWidget(BuiltInWidgets.kGraph).withSize(1, 1);
-    // }
+    if (Constants.isGraphsEnabled) {
+    Shuffleboard.getTab("swerve")
+    .addDouble(name, this::getDriveVelocity)
+    .withWidget(BuiltInWidgets.kGraph).withSize(1, 1);
+    }
   }
 
   public SwerveModuleState getState() {
@@ -167,7 +167,7 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
   public static final TunableDouble DT_STEER_I = new TunableDouble("DT_STEER_I", 0, "swerve").setSpot(1, 1);
   public static final TunableDouble DT_STEER_D = new TunableDouble("DT_STEER_D", 0.0001, "swerve").setSpot(2, 1);
   public static final TunableDouble DT_STEER_F = new TunableDouble("DT_STEER_F", 0, "swerve").setSpot(3, 1);
-  
+
   private double getDrivePosition() {
     double ticks = m_driveMotor.getRotorPosition().getValueAsDouble();
     double revolutionsMotorToRevolutionsWheel = 1.0 / DT_DRIVE_GEAR_RATIO // Reduction from motor to output
