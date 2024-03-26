@@ -14,6 +14,7 @@ import frc.lib.leds.LEDs;
 import frc.lib.leds.LedSignal;
 import frc.lib.selfCheck.RobotSelfCheckCommand;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.DriveCommand;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
@@ -21,6 +22,7 @@ import frc.robot.subsystems.Shooter;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.RobotController;
@@ -116,16 +118,13 @@ public class RobotContainer {
 
   private void configureBindings() {
     // driver controls
-    var driveCommand = driveTrain.driveCommand(() -> {
-      double coefficient = m_driverController.getHID().getLeftBumper() ? 0.5 : 1;
-      return m_driverController.getLeftX() * -1 * coefficient;
-    }, () -> {
-      double coefficient = m_driverController.getHID().getLeftBumper() ? 0.5 : 1;
-      return m_driverController.getLeftY() * coefficient;
-    }, () -> {
-      double coefficient = m_driverController.getHID().getLeftBumper() ? 0.5 : 1;
-      return m_driverController.getRightX() * -1 * coefficient;
-    });
+
+    var driveCommand = new DriveCommand(
+        m_driverController::getLeftX,
+        m_driverController::getLeftY,
+        m_driverController::getRightX,
+        () -> m_driverController.getHID().getLeftBumper(), 
+        driveTrain);
     driveTrain.setDefaultCommand(driveCommand);
     m_driverController.joysticksTrigger().onTrue(driveCommand);
 
@@ -147,7 +146,7 @@ public class RobotContainer {
 
     m_driverController.y()
         .whileTrue(m_arm.setPositionOnceCommand(90)
-        .andThen(Commands.run(shooter::setDefaultySpeed, shooter)))
+            .andThen(Commands.run(shooter::setDefaultySpeed, shooter)))
         .onFalse(Commands.startEnd(() -> {
           shooter.setDefaultSpeed();
           intake.setSpeed(.75);
@@ -225,7 +224,7 @@ public class RobotContainer {
     m_operatorController.povUp().onTrue(m_arm.setPositionCommand(43.7));
     m_operatorController.povDown().whileTrue(shooter.setDutyCycleCommand(-1));
 
-   // m_operatorController.povDown().whileTrue(shooter.setDutyCycleCommand(-1));
+    // m_operatorController.povDown().whileTrue(shooter.setDutyCycleCommand(-1));
 
   }
 
