@@ -2,6 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.Vector;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -45,6 +46,7 @@ import frc.lib.selfCheck.CheckableSubsystem;
  */
 
 public class DriveTrain extends SubsystemBase implements TalonFXSubsystem, CheckableSubsystem, ShuffleBoardTabWrapper {
+public static final PIDConstants rotationConstants = new PIDConstants(2, 0.0, 0.3);
 
     double driveRadius = Math
             .sqrt(Math.pow(DRIVETRAIN_TRACKWIDTH_METERS / 2, 2) + Math.pow(DRIVETRAIN_WHEELBASE_METERS / 2, 2));
@@ -61,7 +63,7 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem, Check
                 new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your
                                                  // Constants class
                         new PIDConstants(.001, 0.0, 0.0), // Translation PID constants
-                        new PIDConstants(2, 0.0, 0.3), // Rotation PID constants
+                        rotationConstants, // Rotation PID constants
                         MAX_VELOCITY_METERS_PER_SECOND, // Max module speed, in m/s
                         driveRadius, // Drive base radius in meters. Distance from robot center to furthest module.
                         new ReplanningConfig() // Default path replanning config. See the API for the options here
@@ -94,10 +96,13 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem, Check
     GenericEntry gyroAngle = Shuffleboard.getTab("swerve").add("gyroAngle", 0).getEntry();
 
     public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
+        double x = xSpeed  * MAX_VELOCITY_METERS_PER_SECOND * -1;
+        double y = ySpeed  * MAX_VELOCITY_METERS_PER_SECOND * -1;
+        double r = rot * MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * -1;
         driveRobotRelative(
                 fieldRelative
-                        ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, getGyroscopeRotation())
-                        : new ChassisSpeeds(xSpeed, ySpeed, rot));
+                        ? ChassisSpeeds.fromFieldRelativeSpeeds(x, y, r, getGyroscopeRotation())
+                        : new ChassisSpeeds(x, y, r));
     }
 
     public void driveRobotRelative(ChassisSpeeds speed) {
@@ -150,15 +155,7 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem, Check
             poseEstimator.resetPosition(getGyroscopeRotation(), getModulePositions(), m_startPose);
         });
     }
-
-    public Command driveCommand(DoubleSupplier xspeed, DoubleSupplier yspeed, DoubleSupplier rot) {
-        return this.run(() -> {
-            this.drive(
-                    xspeed.getAsDouble() * MAX_VELOCITY_METERS_PER_SECOND * 1,
-                    yspeed.getAsDouble() * MAX_VELOCITY_METERS_PER_SECOND * -1,
-                    rot.getAsDouble() * MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, true);
-        });
-    }
+    
 
     public ChassisSpeeds getSpeeds() {
         return KINEMATICS.toChassisSpeeds(getModuleStates());

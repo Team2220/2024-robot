@@ -69,23 +69,6 @@
           ]
         }
       }
-    },
-    {
-      "name": "Nerker",
-      "waypointRelativePos": 1.35,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "3.3"
-              }
-            }
-          ]
-        }
-      }
     }
   ],
   "globalConstraints": {
@@ -96,13 +79,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 23.47,
+    "rotation": 23.5,
     "rotateFast": false
   },
   "reversed": false,
   "folder": null,
   "previewStartingState": {
-    "rotation": 23.47,
+    "rotation": 23.5,
     "velocity": 0
   },
   "useDefaultConstraints": true
