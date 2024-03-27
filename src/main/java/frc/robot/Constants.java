@@ -41,7 +41,7 @@ public final class Constants {
 
     public static final double DT_FR_SE_OFFSET = RobotInstance.config((robot) -> {
       return switch (robot) {
-        case Robot23 -> 124.98046875 - 90;
+       case Robot23 -> 127.98046875 - 90;
         case Robot24 -> 309.902 - 90;
       };
     });
