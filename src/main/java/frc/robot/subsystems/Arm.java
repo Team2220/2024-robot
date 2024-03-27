@@ -8,12 +8,15 @@ import static edu.wpi.first.units.Units.Volts;
 
 import java.util.function.DoubleSupplier;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.units.Units;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.lib.DigitalInputWrapper;
 import frc.lib.ShuffleBoardTabWrapper;
 import frc.lib.TalonFXWrapper;
 import frc.lib.TalonFXWrapper.FollowerConfig;
@@ -24,6 +27,9 @@ import frc.robot.Constants;
 
 public class Arm extends SubsystemBase implements CheckableSubsystem, ShuffleBoardTabWrapper {
     TalonFXWrapper ArmTalonFX;
+
+    private DigitalInputWrapper coastButton = new DigitalInputWrapper(Constants.Arm.coastButtonID,
+            "coastButton", false);
 
     public Arm() {
         ArmTalonFX = new TalonFXWrapper(
@@ -37,17 +43,24 @@ public class Arm extends SubsystemBase implements CheckableSubsystem, ShuffleBoa
                 0.1,
                 RotationsPerSecond.per(Seconds).of(3000),
                 RotationsPerSecond.of(3000),
-                RotationsPerSecond.per(Seconds).per(Seconds).of(3000), 
-                true, 
+                RotationsPerSecond.per(Seconds).per(Seconds).of(3000),
                 true,
-                Rotations.of(120.0 / 360.0), 
+                true,
+                Rotations.of(120.0 / 360.0),
                 Rotations.of(0),
-                new FollowerConfig(Constants.Arm.ARM_TALON_RIGHT, true), 
-                Units.Seconds.of(3), 
+                new FollowerConfig(Constants.Arm.ARM_TALON_RIGHT, true),
+                Units.Seconds.of(3),
                 Units.Amps.of(75),
                 Units.RotationsPerSecond.of(1));
         addDouble("ArmAngle",
                 () -> ArmTalonFX.getPosition().in(Degrees));
+    }
+
+    @Override
+    public void periodic() {
+        if (coastButton.get() && DriverStation.isDisabled()) {
+            ArmTalonFX.setNeutralMode(NeutralModeValue.Coast);
+        }
     }
 
     public Command dutyCycleCommand(DoubleSupplier speed) {
