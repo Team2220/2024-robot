@@ -4,39 +4,39 @@
     {
       "anchor": {
         "x": 2.0,
-        "y": 7.0
+        "y": 6.75
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.0,
-        "y": 7.0
+        "x": 2.9652475852740565,
+        "y": 7.026501927468906
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.543084378066648,
-        "y": 7.0
+        "x": 3.53907857601735,
+        "y": 7.237296985292972
       },
       "prevControl": {
-        "x": 3.588979253430206,
-        "y": 7.0275369252181346
+        "x": 3.584973451380908,
+        "y": 7.264833910511107
       },
       "nextControl": {
-        "x": 3.4971895027030904,
-        "y": 6.9724630747818654
+        "x": 3.4931837006537925,
+        "y": 7.209760060074838
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.9005561229768415,
+        "x": 2.9,
         "y": 7.0
       },
       "prevControl": {
-        "x": 2.9189140731222643,
+        "x": 2.9183579501454227,
         "y": 6.9836293712543025
       },
       "nextControl": null,
@@ -46,8 +46,8 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.0,
-      "rotationDegrees": 0,
+      "waypointRelativePos": 0.8,
+      "rotationDegrees": 19.16322175503539,
       "rotateFast": true
     }
   ],
@@ -63,13 +63,7 @@
             {
               "type": "named",
               "data": {
-                "name": "intake"
-              }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "3.1"
+                "name": "intake+"
               }
             }
           ]
@@ -85,13 +79,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 23.471760924911543,
+    "rotation": 15.0,
     "rotateFast": false
   },
   "reversed": false,
   "folder": null,
   "previewStartingState": {
-    "rotation": 32.5,
+    "rotation": 25.0,
     "velocity": 0
   },
   "useDefaultConstraints": true

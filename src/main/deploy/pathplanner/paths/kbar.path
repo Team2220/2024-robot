@@ -55,7 +55,7 @@
   "eventMarkers": [
     {
       "name": "Nrker",
-      "waypointRelativePos": 0.4,
+      "waypointRelativePos": 0.7,
       "command": {
         "type": "parallel",
         "data": {
@@ -63,7 +63,7 @@
             {
               "type": "named",
               "data": {
-                "name": "intake"
+                "name": "intake+"
               }
             }
           ]
@@ -79,13 +79,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 23.5,
+    "rotation": 15.0,
     "rotateFast": false
   },
   "reversed": false,
   "folder": null,
   "previewStartingState": {
-    "rotation": 23.5,
+    "rotation": 15.0,
     "velocity": 0
   },
   "useDefaultConstraints": true

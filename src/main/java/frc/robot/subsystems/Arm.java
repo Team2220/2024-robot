@@ -99,8 +99,10 @@ public class Arm extends SubsystemBase implements CheckableSubsystem, ShuffleBoa
 
     public Command setPositionOnceCommand(double degrees) {
         return this.run(() -> {
+            System.out.println("setting" + degrees);
             this.setPosition(degrees);
-        }).until(() -> atPosition(degrees, 2));
+        }).until(() -> atPosition(degrees, .5))
+        .finallyDo(() -> { System.out.println("JITHIN: end: set angle to " + degrees); });
     }
 
     @Override
