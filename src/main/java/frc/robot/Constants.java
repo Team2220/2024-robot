@@ -78,6 +78,7 @@ public final class Constants {
     public static final int ARM_TALON_LEFT = 27;
     public static final int ARM_TALON_RIGHT = 28;
     public static final double ARM_GEAR_RATIO = (5.0 / 1.0) * (4.0 / 1.0) * (4.0 / 1.0) * (58.0 / 18.0);
+    public static final int coastButtonID = 9;
   }
 
   public static final class LimelightConfig {
