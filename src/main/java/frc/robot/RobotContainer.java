@@ -83,7 +83,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("firstArmSpeakerPos", m_arm.setPositionOnceCommand(55).withTimeout(2));
     NamedCommands.registerCommand("armRestFull", m_arm.setPositionOnceCommand(0).withTimeout(2));
     NamedCommands.registerCommand("armRest", m_arm.setPositionOnceCommand(15));
-    NamedCommands.registerCommand("3.1", m_arm.setPositionOnceCommand(30.5));
+    NamedCommands.registerCommand("3.1", m_arm.setPositionOnceCommand(29));
     NamedCommands.registerCommand("3.2", m_arm.setPositionOnceCommand(26));
     NamedCommands.registerCommand("3.3", m_arm.setPositionOnceCommand(34));
     NamedCommands.registerCommand("3.4", m_arm.setPositionOnceCommand(38.5));
@@ -150,15 +150,15 @@ public class RobotContainer {
     m_driverController.a().onTrue(m_arm.setPositionCommand(0));
 
     m_driverController.y()
-        .whileTrue(m_arm.setPositionOnceCommand(90)
-            .andThen(Commands.run(shooter::setDefaultySpeed, shooter)))
+        .whileTrue(m_arm.setPositionOnceCommand(100)
+            .andThen(shooter.setDutyCycleCommand(-1)))
         .onFalse(Commands.startEnd(() -> {
-          shooter.setDefaultSpeed();
+          shooter.setDutyCycleCommand(-1);
           intake.setSpeed(.75);
         }, () -> {
           shooter.stopShooter();
           intake.setSpeed(0);
-        }, shooter, intake).withTimeout(3));
+        }, shooter, intake).withTimeout(1.5));
 
     m_driverController.rightTrigger()
         .whileTrue(Commands.run(shooter::setDefaultSpeed, shooter))
