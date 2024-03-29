@@ -8,9 +8,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.DriveTrain;
 
 public class DriveCommand extends Command {
-    double P = DriveTrain.rotationConstants.kP;
-    double I = DriveTrain.rotationConstants.kI;
-    double D = DriveTrain.rotationConstants.kD;
+    double P = .009764387;
+    double I = 0;
+    double D = 0.0002;
     private BooleanSupplier slow;
     private DoubleSupplier xspeed;
     private DoubleSupplier yspeed;
@@ -55,11 +55,11 @@ public class DriveCommand extends Command {
         double coefficient = slow.getAsBoolean() ? 0.5 : 1;
         if (left.getAsBoolean()) {
             pid = true;
-            wantedAngle = 90;
+            wantedAngle = 270;
         }
         if (right.getAsBoolean()) {
             pid = true;
-            wantedAngle = 270;
+            wantedAngle = 90;
         }
         if (up.getAsBoolean()) {
             pid = true;
