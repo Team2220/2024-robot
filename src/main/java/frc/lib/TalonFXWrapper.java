@@ -102,8 +102,6 @@ public class TalonFXWrapper implements ShuffleBoardTabWrapper {
         tunableDebouncer = new TunableDebouncer("Stall Debounce Time", getName(), debounceTime,
                 Debouncer.DebounceType.kBoth);
 
-        
-
         new TunableDouble("P", P, getName(), (isInit, value) -> {
             talonFXConfigs.Slot0.kP = value;
             if (!isInit) {
@@ -193,7 +191,7 @@ public class TalonFXWrapper implements ShuffleBoardTabWrapper {
                 Rotations.of(0),
                 null,
                 Units.Seconds.of(1),
-                Units.Amps.of(75), 
+                Units.Amps.of(75),
                 Units.RotationsPerSecond.of(1));
     }
 
@@ -213,8 +211,10 @@ public class TalonFXWrapper implements ShuffleBoardTabWrapper {
     }
 
     public void setNeutralMode(NeutralModeValue value) {
-        talonFXConfigs.MotorOutput.NeutralMode = value;
-        configureTalons();
+        if (talonFXConfigs.MotorOutput.NeutralMode != value) {
+            talonFXConfigs.MotorOutput.NeutralMode = value;
+            configureTalons();
+        }
     }
 
     boolean isPositionBeingHeld = false;

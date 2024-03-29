@@ -29,7 +29,7 @@ public class Arm extends SubsystemBase implements CheckableSubsystem, ShuffleBoa
     TalonFXWrapper ArmTalonFX;
 
     private DigitalInputWrapper coastButton = new DigitalInputWrapper(Constants.Arm.coastButtonID,
-            "coastButton", false);
+            "coastButton", true);
 
     public Arm() {
         ArmTalonFX = new TalonFXWrapper(
@@ -115,7 +115,9 @@ public class Arm extends SubsystemBase implements CheckableSubsystem, ShuffleBoa
             System.out.println("setting" + degrees);
             this.setPosition(degrees);
         }).until(() -> atPosition(degrees, .5))
-        .finallyDo(() -> { System.out.println("JITHIN: end: set angle to " + degrees); });
+                .finallyDo(() -> {
+                    System.out.println("JITHIN: end: set angle to " + degrees);
+                });
     }
 
     @Override
