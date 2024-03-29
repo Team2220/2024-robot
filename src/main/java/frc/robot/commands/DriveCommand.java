@@ -8,6 +8,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.DriveTrain;
 
 public class DriveCommand extends Command {
+    double P = DriveTrain.rotationConstants.kP;
+    double I = DriveTrain.rotationConstants.kI;
+    double D = DriveTrain.rotationConstants.kD;
     private BooleanSupplier slow;
     private DoubleSupplier xspeed;
     private DoubleSupplier yspeed;
@@ -17,11 +20,8 @@ public class DriveCommand extends Command {
     private BooleanSupplier right;
     private BooleanSupplier up;
     private BooleanSupplier down;
-    PIDController controller = new PIDController(
-            DriveTrain.rotationConstants.kP,
-            DriveTrain.rotationConstants.kI,
-            DriveTrain.rotationConstants.kD);
-    double wantedAngle = 0;
+    PIDController controller = new PIDController(P, I, D);
+    double wantedAngle = 0.0;
     boolean pid = false;
 
     public DriveCommand(
@@ -44,6 +44,7 @@ public class DriveCommand extends Command {
         this.down = down;
         this.driveTrain = driveTrain;
         addRequirements(driveTrain);
+        controller.enableContinuousInput(0, 360);
     }
     // if(m_driverController.getHID().getPOV() != -1){
     // pid = true;
@@ -75,7 +76,7 @@ public class DriveCommand extends Command {
         double rotate = this.rot.getAsDouble() * coefficient;
         if (pid) {
             rotate = controller.calculate(
-                    driveTrain.getGyroscopeRotation().getDegrees(),
+                    driveTrain.getGyroscopeRotation().getDegrees() * -1,
                     wantedAngle);
         }
         this.driveTrain.drive(
