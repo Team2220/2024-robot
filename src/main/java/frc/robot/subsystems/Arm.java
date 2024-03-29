@@ -30,6 +30,8 @@ public class Arm extends SubsystemBase implements CheckableSubsystem, ShuffleBoa
 
     private DigitalInputWrapper coastButton = new DigitalInputWrapper(Constants.Arm.coastButtonID,
             "coastButton", true);
+    private DigitalInputWrapper zeroLimitSwitch = new DigitalInputWrapper(Constants.Arm.zeroSwitchID,
+            "zeroLimitSwitch", true);        
 
     public Arm() {
         ArmTalonFX = new TalonFXWrapper(
@@ -58,9 +60,13 @@ public class Arm extends SubsystemBase implements CheckableSubsystem, ShuffleBoa
 
     @Override
     public void periodic() {
-        if (coastButton.get() && DriverStation.isDisabled()) {
-            ArmTalonFX.setNeutralMode(NeutralModeValue.Coast);
-        }
+        // if (coastButton.get() && DriverStation.isDisabled()) {
+        //     ArmTalonFX.setNeutralMode(NeutralModeValue.Coast);
+        // }
+
+        // if (zeroLimitSwitch.get()) {
+        //     ArmTalonFX.setPosition(0);
+        // }
     }
 
     public Command dutyCycleCommand(DoubleSupplier speed) {
