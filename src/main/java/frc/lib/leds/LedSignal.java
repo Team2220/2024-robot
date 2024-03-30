@@ -135,7 +135,7 @@ public class LedSignal {
     }
 
     public static LedSignal hasgamepiceTopLedSignal(BooleanSupplier supplier) {
-        SingleFadeAnimation singleFadeAnimation = new SingleFadeAnimation(255, 100, 0, 0, 0.1, 164, 0);
+        SingleFadeAnimation singleFadeAnimation = new SingleFadeAnimation(255, 166, 0, 0, 0.1, 164, 0);
         return new LedSignal("HasGamepiceBottom", supplier, singleFadeAnimation, 0);
     }
 
