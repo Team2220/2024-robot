@@ -31,7 +31,7 @@ public class Arm extends SubsystemBase implements CheckableSubsystem, ShuffleBoa
     private DigitalInputWrapper coastButton = new DigitalInputWrapper(Constants.Arm.coastButtonID,
             "coastButton", true);
     private DigitalInputWrapper zeroLimitSwitch = new DigitalInputWrapper(Constants.Arm.zeroSwitchID,
-            "zeroLimitSwitch", true);        
+            "zeroLimitSwitch", true);
 
     public Arm() {
         ArmTalonFX = new TalonFXWrapper(
@@ -60,15 +60,12 @@ public class Arm extends SubsystemBase implements CheckableSubsystem, ShuffleBoa
 
     @Override
     public void periodic() {
-        if (coastButton.get() !=lastButtonValue && DriverStation.isDisabled()) {
-          if (ArmTalonFX.getNeutralMode() == NeutralModeValue.Coast) {
-            ArmTalonFX.setNeutralMode(NeutralModeValue.Brake);}
-            else{
+        if (coastButton.get() != lastButtonValue && DriverStation.isDisabled() && coastButton.get()) {
+            if (ArmTalonFX.getNeutralMode() == NeutralModeValue.Coast) {
+                ArmTalonFX.setNeutralMode(NeutralModeValue.Brake);
+            } else {
                 ArmTalonFX.setNeutralMode(NeutralModeValue.Coast);
-
-        
-            
-          }
+            }
         }
         lastButtonValue = coastButton.get();
     }
@@ -127,9 +124,9 @@ public class Arm extends SubsystemBase implements CheckableSubsystem, ShuffleBoa
             // System.out.println("setting" + degrees);
             this.setPosition(degrees);
         }).until(() -> atPosition(degrees, .5));
-                // .finallyDo(() -> {
-                //     System.out.println("JITHIN: end: set angle to " + degrees);
-                // });
+        // .finallyDo(() -> {
+        // System.out.println("JITHIN: end: set angle to " + degrees);
+        // });
     }
 
     public Command autoSetPositionOnceCommand(double degrees) {
@@ -137,9 +134,9 @@ public class Arm extends SubsystemBase implements CheckableSubsystem, ShuffleBoa
             // System.out.println("setting" + degrees);
             this.setPosition(degrees);
         }).withTimeout(.75);
-                // .finallyDo(() -> {
-                //     System.out.println("JITHIN: end: set angle to " + degrees);
-                // });
+        // .finallyDo(() -> {
+        // System.out.println("JITHIN: end: set angle to " + degrees);
+        // });
     }
 
     @Override
