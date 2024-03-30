@@ -135,8 +135,8 @@ public class LedSignal {
     }
 
     public static LedSignal hasgamepiceTopLedSignal(BooleanSupplier supplier) {
-        RainbowAnimation RainbowAnimation = new RainbowAnimation();
-        return new LedSignal("HasGamepiceTop", supplier, RainbowAnimation, 0);
+        SingleFadeAnimation singleFadeAnimation = new SingleFadeAnimation(255, 100, 0, 0, 0.1, 164, 0);
+        return new LedSignal("HasGamepiceBottom", supplier, singleFadeAnimation, 0);
     }
 
     public static LedSignal erolsPurpleLight(BooleanSupplier supplier) {
