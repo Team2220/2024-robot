@@ -8,52 +8,36 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.399999999999999,
-        "y": 5.55
+        "x": 1.5512467872882474,
+        "y": 5.123514442367398
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.8821981728314183,
-        "y": 5.55
+        "x": 2.5884709705046496,
+        "y": 4.1046482092964185
       },
       "prevControl": {
-        "x": 2.6068289206500723,
-        "y": 5.545747295712128
+        "x": 1.264026124761628,
+        "y": 4.067858074692444
       },
       "nextControl": {
-        "x": 3.1942750853097746,
-        "y": 5.554819604270735
+        "x": 2.9189140731222643,
+        "y": 4.11382718436913
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.8821981728314183,
-        "y": 5.55492627078484
-      },
-      "prevControl": {
-        "x": 3.056598699212937,
-        "y": 5.55492627078484
-      },
-      "nextControl": {
-        "x": 2.3821921058322655,
-        "y": 5.55492627078484
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 1.4,
+        "x": 1.2575195849614786,
         "y": 5.55
       },
       "prevControl": {
-        "x": 1.15,
-        "y": 5.55123156769621
+        "x": 1.4638402226859952,
+        "y": 5.187767267876379
       },
       "nextControl": null,
       "isLocked": false,
@@ -64,8 +48,8 @@
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "er",
-      "waypointRelativePos": 0.05,
+      "name": "New Event Marker",
+      "waypointRelativePos": 0.2,
       "command": {
         "type": "parallel",
         "data": {
@@ -81,8 +65,8 @@
       }
     },
     {
-      "name": "Nker",
-      "waypointRelativePos": 2.1999999999999997,
+      "name": "New Event Marker",
+      "waypointRelativePos": 1.35,
       "command": {
         "type": "parallel",
         "data": {
@@ -105,7 +89,7 @@
     "maxAngularAcceleration": 180.0
   },
   "goalEndState": {
-    "velocity": 0,
+    "velocity": 0.0,
     "rotation": 0,
     "rotateFast": false
   },
