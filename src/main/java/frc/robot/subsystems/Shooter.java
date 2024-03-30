@@ -87,6 +87,16 @@ public class Shooter extends SubsystemBase implements CheckableSubsystem, Shuffl
                     right.set(0);
                 });
     }
+    public Command setyDutyCycleCommand() {
+        return this.run(() -> {
+            left.set(-1);
+            right.set(-1);
+        })
+                .finallyDo(() -> {
+                    left.set(0);
+                    right.set(0);
+                });
+    }
 
     public boolean isAtSetPoint() {
         return // left.isAtReference(shooterSpeed.getValue(), tolerance.getValue())

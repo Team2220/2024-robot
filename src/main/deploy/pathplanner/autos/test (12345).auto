@@ -38,9 +38,21 @@
                       }
                     },
                     {
+                      "type": "named",
+                      "data": {
+                        "name": "armRestFull"
+                      }
+                    },
+                    {
                       "type": "path",
                       "data": {
                         "pathName": "of"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "3.1"
                       }
                     },
                     {

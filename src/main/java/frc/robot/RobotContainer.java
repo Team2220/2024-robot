@@ -150,10 +150,11 @@ public class RobotContainer {
     m_driverController.a().onTrue(m_arm.setPositionCommand(0));
 
     m_driverController.y()
-        .whileTrue(m_arm.setPositionOnceCommand(100)
-            .andThen(shooter.setDutyCycleCommand(-1)))
+        .whileTrue(m_arm.setPositionOnceCommand(100))
+        .whileTrue(shooter.setyDutyCycleCommand())
+
         .onFalse(Commands.startEnd(() -> {
-          shooter.setDutyCycleCommand(-1);
+          shooter.setyDutyCycleCommand();
           intake.setSpeed(.75);
         }, () -> {
           shooter.stopShooter();
