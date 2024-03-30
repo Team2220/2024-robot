@@ -15,6 +15,7 @@ import frc.lib.leds.LEDs;
 import frc.lib.leds.LedSignal;
 import frc.lib.selfCheck.RobotSelfCheckCommand;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.AutoIntake;
 import frc.robot.commands.DriveCommand;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Intake;
@@ -109,6 +110,7 @@ public class RobotContainer {
         shooter.setDutyCycleCommand(1).withTimeout(20));
     NamedCommands.registerCommand("shooter-",
         shooter.setyDutyCycleCommand().withTimeout(20));
+         NamedCommands.registerCommand("AutoIntake", new AutoIntake(intake));
 
     try {
       autoChooser = AutoBuilder.buildAutoChooser();
