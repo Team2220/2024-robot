@@ -96,6 +96,7 @@ public class Intake extends SubsystemBase implements CheckableSubsystem, Shuffle
 
     public boolean bottomNoteGet() {
         return bottomNoteSensor.get();
+
     }
 
     public boolean isStalled() {
@@ -119,7 +120,7 @@ public class Intake extends SubsystemBase implements CheckableSubsystem, Shuffle
                 intake.set(0);
                 conveyor.set(0);
             } else {
-                intake.set(.75);
+                intake.set(.65);
                 conveyor.set(.35);
             }
         });

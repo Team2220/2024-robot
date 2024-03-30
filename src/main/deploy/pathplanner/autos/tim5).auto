@@ -38,6 +38,12 @@
                       }
                     },
                     {
+                      "type": "named",
+                      "data": {
+                        "name": "armRestFull"
+                      }
+                    },
+                    {
                       "type": "path",
                       "data": {
                         "pathName": "of"
@@ -46,13 +52,7 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "intakeShot"
-                      }
-                    },
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "kbar"
+                        "name": "3.4"
                       }
                     },
                     {
@@ -62,9 +62,21 @@
                       }
                     },
                     {
+                      "type": "named",
+                      "data": {
+                        "name": "armRestFull"
+                      }
+                    },
+                    {
                       "type": "path",
                       "data": {
-                        "pathName": "mudd"
+                        "pathName": "Nbaba"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "3.4"
                       }
                     },
                     {

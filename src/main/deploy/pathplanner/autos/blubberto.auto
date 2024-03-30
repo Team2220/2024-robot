@@ -3,9 +3,9 @@
   "startingPose": {
     "position": {
       "x": 0.77,
-      "y": 6.68
+      "y": 4.4
     },
-    "rotation": 60.0
+    "rotation": -60.0
   },
   "command": {
     "type": "sequential",
@@ -28,7 +28,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "ala"
+                        "pathName": "mnf hh"
                       }
                     },
                     {
@@ -46,7 +46,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "of"
+                        "pathName": "fghjk"
                       }
                     },
                     {
