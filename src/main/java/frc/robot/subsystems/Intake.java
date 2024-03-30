@@ -96,6 +96,7 @@ public class Intake extends SubsystemBase implements CheckableSubsystem, Shuffle
 
     public boolean bottomNoteGet() {
         return bottomNoteSensor.get();
+        
     }
 
     public boolean isStalled() {

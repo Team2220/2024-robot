@@ -79,16 +79,16 @@ public class RobotContainer {
             LedSignal.shooterAtSetPoint(() -> shooter.isAtSetPoint()),
         });
 
-    NamedCommands.registerCommand("armSpeakerPos", m_arm.setPositionOnceCommand(55));
-    NamedCommands.registerCommand("firstArmSpeakerPos", m_arm.setPositionOnceCommand(55).withTimeout(2));
-    NamedCommands.registerCommand("armRestFull", m_arm.setPositionOnceCommand(0).withTimeout(2));
-    NamedCommands.registerCommand("armRest", m_arm.setPositionOnceCommand(15));
-    NamedCommands.registerCommand("3.1", m_arm.setPositionOnceCommand(29));
-    NamedCommands.registerCommand("3.2", m_arm.setPositionOnceCommand(26));
-    NamedCommands.registerCommand("3.3", m_arm.setPositionOnceCommand(34));
-    NamedCommands.registerCommand("3.4", m_arm.setPositionOnceCommand(38.5));
-    NamedCommands.registerCommand("saboStart", m_arm.setPositionOnceCommand(46));
-    NamedCommands.registerCommand("armIntake", m_arm.setPositionOnceCommand(20).andThen(intake.setIntakeUntilQueued()));
+    NamedCommands.registerCommand("armSpeakerPos", m_arm.autoSetPositionOnceCommand(55));
+    NamedCommands.registerCommand("firstArmSpeakerPos", m_arm.autoSetPositionOnceCommand(55).withTimeout(2));
+    NamedCommands.registerCommand("armRestFull", m_arm.autoSetPositionOnceCommand(0).withTimeout(2));
+    NamedCommands.registerCommand("armRest", m_arm.autoSetPositionOnceCommand(15));
+    NamedCommands.registerCommand("3.1", m_arm.autoSetPositionOnceCommand(29.5));
+    NamedCommands.registerCommand("3.2", m_arm.autoSetPositionOnceCommand(26));
+    NamedCommands.registerCommand("3.3", m_arm.autoSetPositionOnceCommand(34));
+    NamedCommands.registerCommand("3.4", m_arm.autoSetPositionOnceCommand(38.5));
+    NamedCommands.registerCommand("saboStart", m_arm.autoSetPositionOnceCommand(46));
+    NamedCommands.registerCommand("armIntake", m_arm.autoSetPositionOnceCommand(20).andThen(intake.setIntakeUntilQueued()));
     NamedCommands.registerCommand("intake", intake.setIntakeUntilQueued());
     NamedCommands.registerCommand("intake+", intake.setIntakeUntilQueuedSlow());
     NamedCommands.registerCommand("intakeShot", intake.setDutyCycleCommand(.75).withTimeout(1.5));
@@ -129,6 +129,10 @@ public class RobotContainer {
         () -> m_driverController.getHID().getPOV() == 90,
         () -> m_driverController.getHID().getPOV() == 0,
         () -> m_driverController.getHID().getPOV() == 180,
+        () -> m_driverController.getHID().getPOV() == 45,
+        () -> m_driverController.getHID().getPOV() == 135,
+        () -> m_driverController.getHID().getPOV() == 315,
+        () -> m_driverController.getHID().getPOV() == 225,
         driveTrain);
     driveTrain.setDefaultCommand(driveCommand);
     m_driverController.joysticksTrigger().onTrue(driveCommand);
@@ -180,6 +184,8 @@ public class RobotContainer {
         }, shooter, intake).withTimeout(1));
 
     m_driverController.leftTrigger().whileTrue(m_arm.setPositionOnceCommand(0).andThen(intake.intakeUntilQueued()));
+
+//Operator controls
 
     intake.setDefaultCommand(intake.dutyCycleCommand(() -> {
       return m_operatorController.getRightY();

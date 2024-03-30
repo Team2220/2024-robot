@@ -20,6 +20,10 @@ public class DriveCommand extends Command {
     private BooleanSupplier right;
     private BooleanSupplier up;
     private BooleanSupplier down;
+    private BooleanSupplier upLeft;
+    private BooleanSupplier upRight;
+    private BooleanSupplier downLeft;
+    private BooleanSupplier downRight;
     PIDController controller = new PIDController(P, I, D);
     double wantedAngle = 0.0;
     boolean pid = false;
@@ -33,6 +37,10 @@ public class DriveCommand extends Command {
             BooleanSupplier right,
             BooleanSupplier up,
             BooleanSupplier down,
+            BooleanSupplier upLeft,
+            BooleanSupplier upRight,
+            BooleanSupplier downLeft,
+            BooleanSupplier downRight,
             DriveTrain driveTrain) {
         this.slow = slow;
         this.xspeed = xspeed;
@@ -42,6 +50,10 @@ public class DriveCommand extends Command {
         this.right = right;
         this.up = up;
         this.down = down;
+        this.upLeft = upLeft;
+        this.upRight = upRight;
+        this.downLeft = downLeft;
+        this.downRight = downRight;
         this.driveTrain = driveTrain;
         addRequirements(driveTrain);
         controller.enableContinuousInput(0, 360);
@@ -68,6 +80,22 @@ public class DriveCommand extends Command {
         if (down.getAsBoolean()) {
             pid = true;
             wantedAngle = 180;
+        }
+        if (upLeft.getAsBoolean()) {
+            pid = true;
+            wantedAngle = 45;
+        }
+        if (upRight.getAsBoolean()) {
+            pid = true;
+            wantedAngle = 315;
+        }
+        if (downLeft.getAsBoolean()) {
+            pid = true;
+            wantedAngle = 135;
+        }
+        if (downRight.getAsBoolean()) {
+            pid = true;
+            wantedAngle = 225;
         }
         if (rot.getAsDouble() > 0) {
             pid = false;
