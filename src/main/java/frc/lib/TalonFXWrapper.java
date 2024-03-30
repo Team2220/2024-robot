@@ -224,6 +224,10 @@ public class TalonFXWrapper implements ShuffleBoardTabWrapper {
         }
     }
 
+    public NeutralModeValue getNeutralMode() {
+        return talonFXConfigs.MotorOutput.NeutralMode;
+    }
+
     boolean isPositionBeingHeld = false;
 
     public void holdPosition() {
