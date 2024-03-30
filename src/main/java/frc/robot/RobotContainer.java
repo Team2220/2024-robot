@@ -75,7 +75,8 @@ public class RobotContainer {
             LedSignal.intakeStalled(intake::isStalled),
             LedSignal.getLowBatteryLedSignal(),
             LedSignal.erolsPurpleLight(() -> m_operatorController.getHID().getPOV() == 90), // left dpad
-            //LedSignal.seanscolors(() -> m_driverController.getHID().getPOV() != -1), // all depad
+            // LedSignal.seanscolors(() -> m_driverController.getHID().getPOV() != -1), //
+            // all depad
             LedSignal.seanscolors(() -> m_operatorController.getHID().getPOV() == 270),
             LedSignal.shooterAtSetPoint(() -> shooter.isAtSetPoint()),
         });
@@ -87,9 +88,11 @@ public class RobotContainer {
     NamedCommands.registerCommand("3.1", m_arm.autoSetPositionOnceCommand(29.5));
     NamedCommands.registerCommand("3.2", m_arm.autoSetPositionOnceCommand(26));
     NamedCommands.registerCommand("3.3", m_arm.autoSetPositionOnceCommand(34));
-    NamedCommands.registerCommand("3.4", m_arm.autoSetPositionOnceCommand(38.5));
+    NamedCommands.registerCommand("3.4", m_arm.autoSetPositionOnceCommand(40));
+    NamedCommands.registerCommand("3.5", m_arm.autoSetPositionOnceCommand(100));
     NamedCommands.registerCommand("saboStart", m_arm.autoSetPositionOnceCommand(46));
-    NamedCommands.registerCommand("armIntake", m_arm.autoSetPositionOnceCommand(20).andThen(intake.setIntakeUntilQueued()));
+    NamedCommands.registerCommand("armIntake",
+        m_arm.autoSetPositionOnceCommand(20).andThen(intake.setIntakeUntilQueued()));
     NamedCommands.registerCommand("intake", intake.setIntakeUntilQueued());
     NamedCommands.registerCommand("intake+", intake.setIntakeUntilQueuedSlow());
     NamedCommands.registerCommand("intakeShot", intake.setDutyCycleCommand(.75).withTimeout(1.5));
@@ -103,6 +106,8 @@ public class RobotContainer {
     NamedCommands.registerCommand("conveyor", intake.setDutyCycleCommand(.5).withTimeout(2));
     NamedCommands.registerCommand("shooter+",
         shooter.setDutyCycleCommand(1).withTimeout(20));
+    NamedCommands.registerCommand("shooter-",
+        shooter.setyDutyCycleCommand().withTimeout(20));
 
     try {
       autoChooser = AutoBuilder.buildAutoChooser();
@@ -186,7 +191,7 @@ public class RobotContainer {
 
     m_driverController.leftTrigger().whileTrue(m_arm.setPositionOnceCommand(0).andThen(intake.intakeUntilQueued()));
 
-//Operator controls
+    // Operator controls
 
     intake.setDefaultCommand(intake.dutyCycleCommand(() -> {
       return m_operatorController.getRightY();
