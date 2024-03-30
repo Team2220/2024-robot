@@ -170,6 +170,13 @@ public class TalonFXWrapper implements ShuffleBoardTabWrapper {
 
         Fault.autoUpdating(getName() + " Stalled", EventLoops.everyLoop, this::isStalled);
 
+        talon.getConfigurator().apply(talonFXConfigs);
+
+        if (followerFx != null) {
+
+            followerFx.getConfigurator().apply(talonFXConfigs);
+
+        }
     }
 
     public TalonFXWrapper(int id, String name, boolean isInverted, NeutralModeValue neutralMode) {
@@ -311,6 +318,3 @@ public class TalonFXWrapper implements ShuffleBoardTabWrapper {
         return tunableDebouncer.calculate(isStalledInternal());
     }
 }
-
-// WHY CODE NO WORK???
-// -Griffin
