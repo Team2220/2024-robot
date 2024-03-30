@@ -130,7 +130,7 @@ public class LedSignal {
     }
 
     public static LedSignal hasgamepiceBottomLedSignal(BooleanSupplier supplier) {
-        StrobeAnimation singleFadeAnimation = new StrobeAnimation(160, 32, 240, 0, 0.5, 164, 0);
+        StrobeAnimation singleFadeAnimation = new StrobeAnimation(0, 255, 0, 0, 0.5, 164, 0);
         return new LedSignal("HasGamepiceBottom", supplier, singleFadeAnimation, 0);
     }
 
