@@ -60,13 +60,9 @@ public class Arm extends SubsystemBase implements CheckableSubsystem, ShuffleBoa
 
     @Override
     public void periodic() {
-        // if (coastButton.get() && DriverStation.isDisabled()) {
-        //     ArmTalonFX.setNeutralMode(NeutralModeValue.Coast);
-        // }
-
-        // if (zeroLimitSwitch.get()) {
-        //     ArmTalonFX.setPosition(0);
-        // }
+        if (coastButton.get() && DriverStation.isDisabled()) {
+            ArmTalonFX.setNeutralMode(NeutralModeValue.Coast);
+        }
     }
 
     public Command dutyCycleCommand(DoubleSupplier speed) {
