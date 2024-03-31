@@ -83,15 +83,15 @@ public class TunableEnum<V extends Enum<V>> {
     onChange.accept(getValue());
     CommandScheduler.getInstance().getDefaultButtonLoop().bind(
         new Runnable() {
-          private V m_oldValue = getValue();
+          private V oldValue = getValue();
 
           @Override
           public void run() {
             V newValue = getValue();
 
-            if (m_oldValue != newValue) {
+            if (oldValue != newValue) {
               onChange.accept(newValue);
-              m_oldValue = newValue;
+              oldValue = newValue;
             }
           }
         });

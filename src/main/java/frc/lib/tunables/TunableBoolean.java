@@ -74,15 +74,15 @@ public class TunableBoolean {
     onChange.accept(getValue());
     CommandScheduler.getInstance().getDefaultButtonLoop().bind(
         new Runnable() {
-          private boolean m_oldValue = getValue();
+          private boolean oldValue = getValue();
 
           @Override
           public void run() {
             boolean newValue = getValue();
 
-            if (m_oldValue != newValue) {
+            if (oldValue != newValue) {
               onChange.accept(newValue);
-              m_oldValue = newValue;
+              oldValue = newValue;
             }
 
           }

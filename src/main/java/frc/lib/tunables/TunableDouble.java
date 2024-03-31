@@ -95,15 +95,15 @@ public class TunableDouble {
     onChange.accept(true, getValue());
     CommandScheduler.getInstance().getDefaultButtonLoop().bind(
         new Runnable() {
-          private double m_oldValue = getValue();
+          private double oldValue = getValue();
 
           @Override
           public void run() {
             double newValue = getValue();
 
-            if (m_oldValue != newValue) {
+            if (oldValue != newValue) {
               onChange.accept(false, newValue);
-              m_oldValue = newValue;
+              oldValue = newValue;
             }
 
           }

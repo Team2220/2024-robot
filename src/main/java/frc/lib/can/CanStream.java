@@ -7,23 +7,23 @@ import frc.lib.eventLoops.EventLoops;
 
 public class CanStream {
   private final int maxMessages = 1000;
-  private int m_canStreamSession;
-  private CANStreamMessage[] m_messageBuffer;
+  private int canStreamSession;
+  private CANStreamMessage[] messageBuffer;
 
   public CanStream() {
-    m_canStreamSession = CANJNI.openCANStreamSession(0, 0, maxMessages);
-    m_messageBuffer = new CANStreamMessage[maxMessages];
+    canStreamSession = CANJNI.openCANStreamSession(0, 0, maxMessages);
+    messageBuffer = new CANStreamMessage[maxMessages];
     for (int i = 0; i < maxMessages; i++) {
-      m_messageBuffer[i] = new CANStreamMessage();
+      messageBuffer[i] = new CANStreamMessage();
     }
     EventLoops.everyLoop.bind(this::poll);
   }
 
   public void poll() {
     try {
-      int numToRead = CANJNI.readCANStreamSession(m_canStreamSession, m_messageBuffer, maxMessages);
+      int numToRead = CANJNI.readCANStreamSession(canStreamSession, messageBuffer, maxMessages);
       for (int i = 0; i < numToRead; i++) {
-        var message = m_messageBuffer[i];
+        var message = messageBuffer[i];
         process(message);
       }
     } catch (CANStreamOverflowException e) {
