@@ -69,48 +69,59 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
     turningMotor = new TalonFX(turningMotorChannel);
     var driveConfig = makeConfiguration();
     var turningconfig = makeConfiguration();
-    driveMotor.getConfigurator().apply(driveConfig);
-    driveMotor.getConfigurator().apply(turningconfig);
 
     turningEncoder = new PWMEncoder(turningEncoderChannelA);
     speed = Shuffleboard.getTab("swerve").add(name + " speed", 0).getEntry();
     angle = Shuffleboard.getTab("swerve").add(name + " angle", 0).getEntry();
     drivePositionEntry = Shuffleboard.getTab("swerve").add(name + " drivePostion", 0).getEntry();
     Shuffleboard.getTab("swerve").addDouble(name + "encoder", turningEncoder::getPosition);
-    var driveConfigs = new Slot0Configs();
-    var steerConfigs = new Slot0Configs();
-    SwerveModule.DT_DRIVE_P.addChangeListener((value) -> {
-      driveConfigs.kP = value;
-      driveMotor.getConfigurator().apply(driveConfigs);
-    });
-    SwerveModule.DT_DRIVE_I.addChangeListener((value) -> {
-      driveConfigs.kI = value;
-      driveMotor.getConfigurator().apply(driveConfigs);
-    });
-    SwerveModule.DT_DRIVE_D.addChangeListener((value) -> {
-      driveConfigs.kD = value;
-      driveMotor.getConfigurator().apply(driveConfigs);
-    });
-    SwerveModule.DT_DRIVE_F.addChangeListener((value) -> {
-      driveConfigs.kV = value;
-      driveMotor.getConfigurator().apply(driveConfigs);
-    });
-    SwerveModule.DT_STEER_P.addChangeListener((value) -> {
-      steerConfigs.kP = value;
-      turningMotor.getConfigurator().apply(steerConfigs);
-    });
-    SwerveModule.DT_STEER_I.addChangeListener((value) -> {
-      steerConfigs.kI = value;
-      turningMotor.getConfigurator().apply(steerConfigs);
 
+    SwerveModule.DT_DRIVE_P.addChangeListener((isInit, value) -> {
+      driveConfig.Slot0.kP = value;
+      driveMotor.getConfigurator().apply(driveConfig);
     });
-    SwerveModule.DT_STEER_D.addChangeListener((value) -> {
-      steerConfigs.kD = value;
-      turningMotor.getConfigurator().apply(steerConfigs);
+    SwerveModule.DT_DRIVE_I.addChangeListener((isInit, value) -> {
+      driveConfig.Slot0.kI = value;
+      if (!isInit) {
+        driveMotor.getConfigurator().apply(driveConfig);
+      }
     });
-    SwerveModule.DT_STEER_F.addChangeListener((value) -> {
-      steerConfigs.kV = value;
-      turningMotor.getConfigurator().apply(steerConfigs);
+    SwerveModule.DT_DRIVE_D.addChangeListener((isInit, value) -> {
+      driveConfig.Slot0.kD = value;
+      if (!isInit) {
+        driveMotor.getConfigurator().apply(driveConfig);
+      }
+    });
+    SwerveModule.DT_DRIVE_F.addChangeListener((isInit, value) -> {
+      driveConfig.Slot0.kV = value;
+      if (!isInit) {
+        driveMotor.getConfigurator().apply(driveConfig);
+      }
+    });
+    SwerveModule.DT_STEER_P.addChangeListener((isInit, value) -> {
+      turningconfig.Slot0.kP = value;
+      if (!isInit) {
+        turningMotor.getConfigurator().apply(turningconfig);
+      }
+    });
+    SwerveModule.DT_STEER_I.addChangeListener((isInit, value) -> {
+      turningconfig.Slot0.kI = value;
+      if (!isInit) {
+        turningMotor.getConfigurator().apply(turningconfig);
+
+      }
+    });
+    SwerveModule.DT_STEER_D.addChangeListener((isInit, value) -> {
+      turningconfig.Slot0.kD = value;
+      if (!isInit) {
+        turningMotor.getConfigurator().apply(turningconfig);
+      }
+    });
+    SwerveModule.DT_STEER_F.addChangeListener((isInit, value) -> {
+      turningconfig.Slot0.kV = value;
+      if (!isInit) {
+        turningMotor.getConfigurator().apply(turningconfig);
+      }
     });
 
     turningMotor.setPosition(-angleToEncoderTicks(getAngle().getDegrees()));
@@ -128,7 +139,7 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
     // .withWidget(BuiltInWidgets.kGraph).withSize(1, 1);
     // }
 
-     driveMotor.getConfigurator().apply(driveConfig);
+    driveMotor.getConfigurator().apply(driveConfig);
     turningMotor.getConfigurator().apply(turningconfig);
   }
 
