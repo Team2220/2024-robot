@@ -22,7 +22,7 @@ public class AutoIntake extends Command {
         if (intake.getTopNoteSensor()) {
             intake.setSpeed(0);
         } else if (hasSeenNote) {
-            intake.setSpeed(0.45);
+            intake.setSpeed(0.65, .4);
         } else if (intake.getBottomNoteSensor()) {
             hasSeenNote = true;
         }

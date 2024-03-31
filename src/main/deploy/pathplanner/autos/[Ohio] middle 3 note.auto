@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.78,
-      "y": 4.39
+      "x": 1.4,
+      "y": 5.55
     },
-    "rotation": -58.000962434237834
+    "rotation": 0
   },
   "command": {
     "type": "sequential",
@@ -28,7 +28,7 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "firstArmSpeakerPos"
+                        "name": "armSpeakerPos"
                       }
                     },
                     {
@@ -40,25 +40,37 @@
                     {
                       "type": "named",
                       "data": {
+                        "name": "armRestFull"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "jijath"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
                         "name": "intakeShot"
                       }
                     },
                     {
-                      "type": "path",
+                      "type": "named",
                       "data": {
-                        "pathName": "righty'h"
+                        "name": "armRestFull"
                       }
                     },
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "a path 2"
+                        "pathName": "ayakbarh"
                       }
                     },
                     {
-                      "type": "path",
+                      "type": "named",
                       "data": {
-                        "pathName": "a path 3"
+                        "name": "intakeShot"
                       }
                     }
                   ]
@@ -70,6 +82,6 @@
       ]
     }
   },
-  "folder": "[FIXED] autos",
+  "folder": null,
   "choreoAuto": false
 }

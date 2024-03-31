@@ -123,7 +123,7 @@ public class Arm extends SubsystemBase implements CheckableSubsystem, ShuffleBoa
         return this.run(() -> {
             // System.out.println("setting" + degrees);
             this.setPosition(degrees);
-        }).until(() -> atPosition(degrees, .5));
+        }).until(() -> atPosition(degrees, 2));
         // .finallyDo(() -> {
         // System.out.println("JITHIN: end: set angle to " + degrees);
         // });
