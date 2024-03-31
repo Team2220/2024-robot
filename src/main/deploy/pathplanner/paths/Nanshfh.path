@@ -72,7 +72,7 @@
     },
     {
       "name": "New Evarker",
-      "waypointRelativePos": 1.45,
+      "waypointRelativePos": 1.55,
       "command": {
         "type": "parallel",
         "data": {

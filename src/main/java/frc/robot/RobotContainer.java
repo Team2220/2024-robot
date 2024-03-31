@@ -97,7 +97,7 @@ public class RobotContainer {
         m_arm.autoSetPositionOnceCommand(20).andThen(intake.setIntakeUntilQueued()));
     NamedCommands.registerCommand("intake", intake.setIntakeUntilQueued());
     NamedCommands.registerCommand("intake+", intake.setIntakeUntilQueuedSlow());
-    NamedCommands.registerCommand("intakeShot", intake.setDutyCycleCommand(.75).withTimeout(1.5));
+    NamedCommands.registerCommand("intakeShot", intake.setDutyCycleCommand(.75).withTimeout(.5));
     NamedCommands.registerCommand("shooter",
         Commands.parallel(
             Commands.sequence(
@@ -110,7 +110,7 @@ public class RobotContainer {
         shooter.setDutyCycleCommand(1).withTimeout(20));
     NamedCommands.registerCommand("shooter-",
         shooter.setyDutyCycleCommand().withTimeout(20));
-         NamedCommands.registerCommand("AutoIntake", new AutoIntake(intake));
+    NamedCommands.registerCommand("autoIntake", new AutoIntake(intake));
 
     try {
       autoChooser = AutoBuilder.buildAutoChooser();

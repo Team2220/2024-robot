@@ -8,6 +8,8 @@ import com.ctre.phoenix.led.RainbowAnimation;
 import com.ctre.phoenix.led.SingleFadeAnimation;
 import com.ctre.phoenix.led.StrobeAnimation;
 
+import edu.wpi.first.math.filter.Debouncer;
+import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotController;
 import frc.lib.faults.FaultRegistry;
@@ -18,23 +20,29 @@ public class LedSignal {
     BooleanSupplier isActive;
     Animation animation;
     double debounce;
+    Debouncer debouncer;
     private LedSegment[] segments;
 
     public LedSignal(String name, BooleanSupplier isActive, Animation animation, double debounce,
-            LedSegment[] segments) {
+            DebounceType debounceType, LedSegment[] segments) {
         this.name = name;
         this.isActive = isActive;
         this.animation = animation;
         this.debounce = debounce;
+        this.debouncer = new Debouncer(debounce);
         this.segments = segments;
     }
 
     public LedSignal(String name, BooleanSupplier isActive, Animation animation, double debounce) {
-        this(name, isActive, animation, debounce, new LedSegment[] {});
+        this(name, isActive, animation, debounce, DebounceType.kFalling, new LedSegment[] {});
+    }
+
+    public LedSignal(String name, BooleanSupplier isActive, Animation animation, double debounce, DebounceType debounceType) {
+        this(name, isActive, animation, debounce, debounceType, new LedSegment[] {});
     }
 
     public void update(LedSegment[] allSegments) {
-        if (isActive.getAsBoolean() == true) {
+        if (debouncer.calculate(isActive.getAsBoolean())) {
             if (segments.length == 0) {
                 for (LedSegment segment : allSegments) {
                     segment.setAnimationIfAble(animation);
@@ -77,7 +85,7 @@ public class LedSignal {
     public static LedSignal isBrownedOut() {
         // blink red
         StrobeAnimation strobeAnimation = new StrobeAnimation(64, 0, 0, 0, 0.1, 164);
-        return new LedSignal("isBrownedOut", RobotController::isBrownedOut, strobeAnimation, 0);
+        return new LedSignal("isBrownedOut", RobotController::isBrownedOut, strobeAnimation, 3);
     }
 
     public static LedSignal shooterAtSetPoint(BooleanSupplier supplier) {
