@@ -9,16 +9,16 @@ import frc.lib.faults.Fault;
  */
 
 public class LoopTimer {
-  private String name;
+  // private String name;
   private GraphWrapper graph;
-  private Fault fault;
-  private double maxTimeMilliseconds;
+  // private Fault fault;
+  // private double maxTimeMilliseconds;
 
   public LoopTimer(String name, double maxTimeMilliseconds) {
-    this.name = name;
+    // this.name = name;
     this.graph = new GraphWrapper(name, "LoopTimers");
-    this.maxTimeMilliseconds = maxTimeMilliseconds;
-    this.fault = new Fault(name + " exceeded " + maxTimeMilliseconds);
+    // this.maxTimeMilliseconds = maxTimeMilliseconds;
+    // this.fault = new Fault(name + " exceeded " + maxTimeMilliseconds);
   }
 
   public void measure(Runnable runable) {
@@ -26,7 +26,7 @@ public class LoopTimer {
     runable.run();
     double end = Timer.getFPGATimestamp();
     graph.setDouble((end - start) * 1000);
-    boolean isMaxTimeExceeded = (end - start) * 1000 > maxTimeMilliseconds;
-    fault.setIsActive(isMaxTimeExceeded);
+    // boolean isMaxTimeExceeded = (end - start) * 1000 > maxTimeMilliseconds;
+    // fault.setIsActive(isMaxTimeExceeded);
   }
 }
