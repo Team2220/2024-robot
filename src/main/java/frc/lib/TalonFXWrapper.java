@@ -1,7 +1,6 @@
 package frc.lib;
 
 import com.ctre.phoenix6.controls.DutyCycleOut;
-import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.MusicTone;
 import com.ctre.phoenix6.controls.PositionVoltage;
@@ -32,6 +31,7 @@ import frc.lib.eventLoops.EventLoops;
 import frc.lib.faults.Fault;
 import frc.lib.tunables.TunableDebouncer;
 import frc.lib.tunables.TunableDouble;
+import frc.lib.tunables.TunableEnum;
 import frc.lib.tunables.TunableMeasure;
 import frc.lib.units.UnitsUtil;
 
@@ -75,8 +75,6 @@ public class TalonFXWrapper implements ShuffleBoardTabWrapper {
 
         talonFXConfigs = new TalonFXConfiguration();
 
-        talonFXConfigs.MotorOutput.NeutralMode = neutralMode;
-
         talonFXConfigs.MotorOutput.Inverted = isInverted ? InvertedValue.Clockwise_Positive
                 : InvertedValue.CounterClockwise_Positive;
 
@@ -109,6 +107,14 @@ public class TalonFXWrapper implements ShuffleBoardTabWrapper {
             }
 
         });
+
+        new TunableEnum<NeutralModeValue>("breakCoast", neutralMode, NeutralModeValue.class, getName(),
+                (isInit, value) -> {
+                    talonFXConfigs.MotorOutput.NeutralMode = value;
+                    if (!isInit) {
+                        talon.getConfigurator().apply(talonFXConfigs);
+                    }
+                });
 
         new TunableDouble("I", I, getName(), (isInit, value) -> {
             talonFXConfigs.Slot0.kI = value;
