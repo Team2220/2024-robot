@@ -14,6 +14,7 @@ import frc.lib.leds.LEDs;
 import frc.lib.leds.LedSignal;
 import frc.lib.selfCheck.RobotSelfCheckCommand;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.Angles;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
@@ -72,7 +73,7 @@ public class RobotContainer {
             LedSignal.intakeStalled(intake::isStalled),
             LedSignal.getLowBatteryLedSignal(),
             LedSignal.erolsPurpleLight(() -> m_operatorController.getHID().getPOV() == 90), // left dpad
-            LedSignal.seanscolors(() -> m_driverController.getHID().getPOV() != -1), // all depad
+            // LedSignal.seanscolors(() -> m_driverController.getHID().getPOV() != -1), // all depad
             LedSignal.seanscolors(() -> m_operatorController.getHID().getPOV() == 270),
             LedSignal.shooterAtSetPoint(() -> shooter.isAtSetPoint()),
         });
@@ -136,7 +137,7 @@ public class RobotContainer {
 
     m_driverController.x().whileTrue((driveTrain.xcommand()));
 
-    // m_driverController.povRight().whileTrue(new Angles(m_arm));
+    m_driverController.povRight().whileTrue(new Angles(m_arm));
 
     new Trigger(shooter::isAtSetPoint)
         .whileTrue(m_driverController.rumbleCommand(.75))
