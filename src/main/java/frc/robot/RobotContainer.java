@@ -263,7 +263,8 @@ public class RobotContainer {
             new MusicToneCommand(Note.LowC, driveTrain).withTimeout(0.25)),
         driveTrain,
         shooter,
-        intake);
+        intake,
+        arm);
   }
   // CanStream canStream = new CanStream();
 }

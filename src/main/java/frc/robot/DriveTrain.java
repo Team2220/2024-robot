@@ -37,6 +37,7 @@ import frc.lib.ShuffleBoardTabWrapper;
 import frc.lib.TalonFXSubsystem;
 import frc.lib.selfCheck.CheckCommand;
 import frc.lib.selfCheck.CheckableSubsystem;
+import frc.lib.selfCheck.UnwrappedTalonSpinCheck;
 
 /**
  * Standard deviations of the vision measurements. Increase these numbers to
@@ -130,7 +131,24 @@ public static final PIDConstants rotationConstants = new PIDConstants(2, 0.0, 0.
 
     @Override
     public CheckCommand[] getCheckCommands() {
-        return new CheckCommand[] {};
+        return new CheckCommand[] {
+            new UnwrappedTalonSpinCheck("backLeftDrive", backLeft.getDriveMotor(), true),
+            new UnwrappedTalonSpinCheck("backLeftDrive", backLeft.getDriveMotor(), false),
+            new UnwrappedTalonSpinCheck("backLeftTurn", backLeft.getTurningMotor(), true),
+            new UnwrappedTalonSpinCheck("backLeftTurn", backLeft.getTurningMotor(), false),
+            new UnwrappedTalonSpinCheck("frontLeftDrive", frontLeft.getDriveMotor(), true),
+            new UnwrappedTalonSpinCheck("frontLeftDrive", frontLeft.getDriveMotor(), false),
+            new UnwrappedTalonSpinCheck("frontLeftTurn", frontLeft.getTurningMotor(), true),
+            new UnwrappedTalonSpinCheck("frontLeftTurn", frontLeft.getTurningMotor(), false),
+            new UnwrappedTalonSpinCheck("backRightDrive", backRight.getDriveMotor(), true),
+            new UnwrappedTalonSpinCheck("backRightDrive", backRight.getDriveMotor(), false),
+            new UnwrappedTalonSpinCheck("backRightTurn", backRight.getTurningMotor(), true),
+            new UnwrappedTalonSpinCheck("backRightTurn", backRight.getTurningMotor(), false),
+            new UnwrappedTalonSpinCheck("frontRightDrive", frontRight.getDriveMotor(), true),
+            new UnwrappedTalonSpinCheck("frontRightDrive", frontRight.getDriveMotor(), false),
+            new UnwrappedTalonSpinCheck("frontRightTurn", frontRight.getTurningMotor(), true),
+            new UnwrappedTalonSpinCheck("frontRightTurn", frontRight.getTurningMotor(), false),
+        };
     }
 
     public void autoDriveRobotRelative(ChassisSpeeds speed) {
