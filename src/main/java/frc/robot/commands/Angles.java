@@ -23,12 +23,15 @@ public class Angles extends Command {
     @Override
     public void execute() {
         var goal = DriverStation.getAlliance().get() == DriverStation.Alliance.Red ? RED : BLUE;
-        Pose2d pose = LimelightHelpers.getBotPose2d("limelight-right");
-        double Botpose = pose.getTranslation().getDistance(((Pose3d) goal).toPose2d().getTranslation());
+        LimelightHelpers.PoseEstimate limelightMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight");
+        if (limelightMeasurement.tagCount >= 2) {
+        double Botpose = limelightMeasurement.pose.getTranslation().getDistance(((Pose3d) goal).toPose2d().getTranslation());
         double speakerhight = 6.6;
         double armAngle = Math.toDegrees(Math.atan2(speakerhight, Botpose));
         System.out.println(armAngle);
         arm.setPosition(armAngle);
+        }
+        else 
     }
 
     // @Override
