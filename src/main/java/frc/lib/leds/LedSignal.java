@@ -37,7 +37,8 @@ public class LedSignal {
         this(name, isActive, animation, debounce, DebounceType.kFalling, new LedSegment[] {});
     }
 
-    public LedSignal(String name, BooleanSupplier isActive, Animation animation, double debounce, DebounceType debounceType) {
+    public LedSignal(String name, BooleanSupplier isActive, Animation animation, double debounce,
+            DebounceType debounceType) {
         this(name, isActive, animation, debounce, debounceType, new LedSegment[] {});
     }
 
@@ -142,19 +143,14 @@ public class LedSignal {
         return new LedSignal("HasGamepiceBottom", supplier, singleFadeAnimation, 0);
     }
 
-    public static LedSignal hasgamepiceTopLedSignal(BooleanSupplier supplier) {
-        SingleFadeAnimation singleFadeAnimation = new SingleFadeAnimation(255, 166, 0, 0, 0.1, 164, 0);
-        return new LedSignal("HasGamepiceBottom", supplier, singleFadeAnimation, 0);
+      public static LedSignal hasgamepiceTopLedSignal(BooleanSupplier supplier) {
+        RainbowAnimation rainbowAnimation = new RainbowAnimation();
+        return new LedSignal("seanscolors", supplier, rainbowAnimation, 0);
     }
 
     public static LedSignal erolsPurpleLight(BooleanSupplier supplier) {
         StrobeAnimation strobeAnimation = new StrobeAnimation(155, 0, 165, 0, 2, 164);
         return new LedSignal("erolsPurpleLight", supplier, strobeAnimation, 0);
-    }
-
-    public static LedSignal seanscolors(BooleanSupplier supplier) {
-        RainbowAnimation rainbowAnimation = new RainbowAnimation();
-        return new LedSignal("seanscolors", supplier, rainbowAnimation, 0);
     }
 
     public static LedSignal intakeStalled(BooleanSupplier supplier) {
@@ -166,4 +162,20 @@ public class LedSignal {
         SingleFadeAnimation singleFadeAnimation = new SingleFadeAnimation(0, 0, 0, 255, 0.113, 164, 0);
         return new LedSignal("HasGamepiceBottom", supplier, singleFadeAnimation, 0);
     }
+
+    public static LedSignal limeLight(BooleanSupplier supplier) {
+        SingleFadeAnimation singleFadeAnimation = new SingleFadeAnimation(10, 200, 0, 10, 1, 164, 0);
+        return new LedSignal("HasGamepiceBottom", supplier, singleFadeAnimation, 0);
+    }
+
+    public static LedSignal coastButton(BooleanSupplier supplier) {
+        SingleFadeAnimation singleFadeAnimation = new SingleFadeAnimation(10, 100, 40, 10, 1, 164, 0);
+        return new LedSignal("HasGamepiceBottom", supplier, singleFadeAnimation, 0);
+    }
+
+    public static LedSignal ledForceBlank(BooleanSupplier supplier) {
+        SingleFadeAnimation singleFadeAnimation = new SingleFadeAnimation(0, 0, 0, 0, 1, 164, 0);
+        return new LedSignal("HasGamepiceBottom", supplier, singleFadeAnimation, 0);
+    }
+
 }

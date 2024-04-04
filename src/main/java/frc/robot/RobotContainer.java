@@ -69,17 +69,16 @@ public class RobotContainer {
         new int[] { 1, 2 },
         new LedSignal[] {
             LedSignal.isBrownedOut(),
-
             LedSignal.isDSConnected(),
             LedSignal.isEndGame(),
             LedSignal.hasgamepiceTopLedSignal(intake::getTopNoteSensor),
             LedSignal.intakeStalled(intake::isStalled),
             LedSignal.hasgamepiceBottomLedSignal(intake::getBottomNoteSensor),
+            LedSignal.coastButton(arm::getcoastButton),
             LedSignal.getLowBatteryLedSignal(),
             LedSignal.erolsPurpleLight(() -> operatorController.getHID().getPOV() == 90), // left dpad
             // LedSignal.seanscolors(() -> driverController.getHID().getPOV() != -1), //
             // all depad
-            LedSignal.seanscolors(() -> operatorController.getHID().getPOV() == 270),
             LedSignal.shooterAtSetPoint(() -> shooter.isAtSetPoint()),
         });
 
@@ -194,9 +193,24 @@ public class RobotContainer {
 
     driverController.leftTrigger().whileTrue(arm.setPositionOnceCommand(0).andThen(intake.intakeUntilQueued()));
 
-    // Operator controls
 
-    intake.setDefaultCommand(intake.dutyCycleCommand(() -> {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // Operator controls
+intake.setDefaultCommand(intake.dutyCycleCommand(() -> {
       return operatorController.getRightY();
     }));
 

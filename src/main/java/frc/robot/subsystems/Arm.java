@@ -28,7 +28,7 @@ import frc.robot.Constants;
 public class Arm extends SubsystemBase implements CheckableSubsystem, ShuffleBoardTabWrapper {
     TalonFXWrapper ArmTalonFX;
 
-    private DigitalInputWrapper coastButton = new DigitalInputWrapper(Constants.Arm.coastButtonID,
+    private static DigitalInputWrapper coastButton = new DigitalInputWrapper(Constants.Arm.coastButtonID,
             "coastButton", true);
     private DigitalInputWrapper zeroLimitSwitch = new DigitalInputWrapper(Constants.Arm.zeroSwitchID,
             "zeroLimitSwitch", true);
@@ -68,6 +68,11 @@ public class Arm extends SubsystemBase implements CheckableSubsystem, ShuffleBoa
             }
         }
         lastButtonValue = coastButton.get();
+    }
+
+    public boolean getcoastButton() {
+
+        return coastButton.get();
     }
 
     private boolean lastButtonValue = false;
@@ -147,5 +152,5 @@ public class Arm extends SubsystemBase implements CheckableSubsystem, ShuffleBoa
 
         };
     }
-
+    
 }
