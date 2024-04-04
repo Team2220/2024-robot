@@ -1,5 +1,6 @@
 package frc.lib.leds;
 
+import java.sql.Blob;
 import java.util.function.BooleanSupplier;
 
 import com.ctre.phoenix.led.Animation;
@@ -10,6 +11,8 @@ import com.ctre.phoenix.led.StrobeAnimation;
 
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.math.filter.Debouncer.DebounceType;
+import edu.wpi.first.util.datalog.BooleanLogEntry;
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotController;
 import frc.lib.faults.FaultRegistry;
@@ -22,6 +25,7 @@ public class LedSignal {
     double debounce;
     Debouncer debouncer;
     private LedSegment[] segments;
+    BooleanLogEntry logEntry;
 
     public LedSignal(String name, BooleanSupplier isActive, Animation animation, double debounce,
             DebounceType debounceType, LedSegment[] segments) {
@@ -31,7 +35,9 @@ public class LedSignal {
         this.debounce = debounce;
         this.debouncer = new Debouncer(debounce);
         this.segments = segments;
+        this.logEntry = new BooleanLogEntry(DataLogManager.getLog(), "Led Signal " + name);
     }
+
 
     public LedSignal(String name, BooleanSupplier isActive, Animation animation, double debounce) {
         this(name, isActive, animation, debounce, DebounceType.kFalling, new LedSegment[] {});
@@ -43,7 +49,10 @@ public class LedSignal {
     }
 
     public void update(LedSegment[] allSegments) {
-        if (debouncer.calculate(isActive.getAsBoolean())) {
+
+        boolean asBoolean = isActive.getAsBoolean();
+        logEntry.append(asBoolean);
+        if (debouncer.calculate(asBoolean)) {
             if (segments.length == 0) {
                 for (LedSegment segment : allSegments) {
                     segment.setAnimationIfAble(animation);
@@ -143,7 +152,7 @@ public class LedSignal {
         return new LedSignal("HasGamepiceBottom", supplier, singleFadeAnimation, 0);
     }
 
-      public static LedSignal hasgamepiceTopLedSignal(BooleanSupplier supplier) {
+    public static LedSignal hasgamepiceTopLedSignal(BooleanSupplier supplier) {
         RainbowAnimation rainbowAnimation = new RainbowAnimation();
         return new LedSignal("seanscolors", supplier, rainbowAnimation, 0);
     }
