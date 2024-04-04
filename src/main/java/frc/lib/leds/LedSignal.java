@@ -173,9 +173,4 @@ public class LedSignal {
         return new LedSignal("HasGamepiceBottom", supplier, singleFadeAnimation, 0);
     }
 
-    public static LedSignal ledForceBlank(BooleanSupplier supplier) {
-        SingleFadeAnimation singleFadeAnimation = new SingleFadeAnimation(0, 0, 0, 0, 1, 164, 0);
-        return new LedSignal("HasGamepiceBottom", supplier, singleFadeAnimation, 0);
-    }
-
 }
