@@ -158,7 +158,7 @@ public class LedSignal {
     }
 
     public static LedSignal erolsPurpleLight(BooleanSupplier supplier) {
-        StrobeAnimation strobeAnimation = new StrobeAnimation(155, 0, 165, 0, 2, 164);
+        StrobeAnimation strobeAnimation = new StrobeAnimation(70, 0, 165, 0, 2, 164);
         return new LedSignal("erolsPurpleLight", supplier, strobeAnimation, 0);
     }
 
