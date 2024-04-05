@@ -79,7 +79,7 @@ public class RobotContainer {
             LedSignal.erolsPurpleLight(() -> operatorController.getHID().getPOV() == 90), // left dpad
             // LedSignal.seanscolors(() -> driverController.getHID().getPOV() != -1), //
             // all depad
-            LedSignal.shooterAtSetPoint(() -> shooter.isAtSetPoint()),
+            // LedSignal.shooterAtSetPoint(() -> shooter.isAtSetPoint()),
         });
 
     NamedCommands.registerCommand("armSpeakerPos", arm.autoSetPositionOnceCommand(55));
@@ -153,9 +153,9 @@ public class RobotContainer {
 
     // driverController.povRight().whileTrue(new Angles(m_arm));
 
-    new Trigger(shooter::isAtSetPoint)
-        .whileTrue(driverController.rumbleCommand(.75))
-        .whileTrue(operatorController.rumbleCommand(.74));
+    new Trigger(shooter::isGoingWrongWay)
+        .whileTrue(driverController.rumbleCommand(.50))
+        .whileTrue(operatorController.rumbleCommand(.80));
 
     driverController.b().onTrue(arm.setPositionCommand(55));
 
@@ -174,16 +174,16 @@ public class RobotContainer {
         }, shooter, intake).withTimeout(1.5));
 
     driverController.rightTrigger()
-        .whileTrue(Commands.run(shooter::setDefaultSpeed, shooter))
+        .whileTrue(shooter.setDutyCycleCommand(1))
         .whileTrue(driverController.rumbleCommand(.1).withTimeout(4))
         .whileFalse(driverController.rumbleCommand(.8).withTimeout(.5))
 
         .onFalse(Commands.startEnd(() -> {
           if (driverController.getHID().getRightBumper()) {
-            shooter.setDefaultSpeed();
+            shooter.setDutyCycle(1);
             intake.setSpeed(0);
           } else {
-            shooter.setDefaultSpeed();
+            shooter.setDutyCycle(1);
             intake.setSpeed(.75);
           }
         }, () -> {
@@ -193,24 +193,8 @@ public class RobotContainer {
 
     driverController.leftTrigger().whileTrue(arm.setPositionOnceCommand(0).andThen(intake.intakeUntilQueued()));
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     // Operator controls
-intake.setDefaultCommand(intake.dutyCycleCommand(() -> {
+    intake.setDefaultCommand(intake.dutyCycleCommand(() -> {
       return operatorController.getRightY();
     }));
 

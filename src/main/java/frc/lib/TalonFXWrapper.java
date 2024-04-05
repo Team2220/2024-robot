@@ -46,6 +46,7 @@ public class TalonFXWrapper implements ShuffleBoardTabWrapper {
     private Fault softLimitOverrideFault;
     private TunableMeasure<Current> stallCurrentLimit;
     private TunableMeasure<Velocity<Angle>> stallRotationLimit;
+    //private Measure<Velocity<Angle>> velocitySetPoint = Units.RPM.of(0);
 
     public TalonFXWrapper(
             int id,

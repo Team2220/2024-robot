@@ -3,7 +3,6 @@ package frc.robot.subsystems;
 import static frc.lib.units.UnitsUtil.RotationsPerSecSquared;
 
 import java.util.function.DoubleSupplier;
-
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.units.Angle;
@@ -26,6 +25,7 @@ public class Shooter extends SubsystemBase implements CheckableSubsystem, Shuffl
     private TalonFXWrapper right;
     private TunableMeasure<Velocity<Angle>> shooterSpeed;
     private TunableMeasure<Velocity<Angle>> tolerance;
+    private double desiredspeed = 0;
 
     public Shooter() {
         shooterSpeed = new TunableMeasure<>("shooterSpeed", Units.RPM.of(7000), "Shooter");
@@ -70,8 +70,24 @@ public class Shooter extends SubsystemBase implements CheckableSubsystem, Shuffl
         addGraph("ShooterVelocityLeft", () -> left.getVelocity(), Units.RPM);
     }
 
+    public boolean isGoingWrongWay() {
+        if (this.desiredspeed > 0
+                && (left.getVelocity().lt(Units.RPM.of(0)) || (right.getVelocity().lt(Units.RPM.of(0))))) {
+            return true;
+        }
+        if (this.desiredspeed < 0
+                && (left.getVelocity().gt(Units.RPM.of(0)) || (right.getVelocity().gt(Units.RPM.of(0))))) {
+            return true;
+        }
+        else{
+
+            return false;
+        }
+    }
+
     public Command dutyCycleCommand(DoubleSupplier speed) {
         return this.run(() -> {
+            this.desiredspeed = speed.getAsDouble();
             left.set(speed.getAsDouble());
             right.set(speed.getAsDouble());
         });
@@ -79,69 +95,79 @@ public class Shooter extends SubsystemBase implements CheckableSubsystem, Shuffl
 
     public Command setDutyCycleCommand(double speed) {
         return this.run(() -> {
+            this.desiredspeed = speed;
             left.set(speed);
             right.set(speed);
         })
                 .finallyDo(() -> {
                     left.set(0);
                     right.set(0);
+                    this.desiredspeed = 0;
                 });
     }
+
     public Command setyDutyCycleCommand() {
         return this.run(() -> {
+            this.desiredspeed = -1;
             left.set(-1);
             right.set(-1);
         })
                 .finallyDo(() -> {
+                    this.desiredspeed = 0;
                     left.set(0);
                     right.set(0);
                 });
     }
 
-    public boolean isAtSetPoint() {
-        return // left.isAtReference(shooterSpeed.getValue(), tolerance.getValue())
-               // &&
-        right.isAtReference(shooterSpeed.getValue(), tolerance.getValue());
+    // public boolean isAtSetPoint() {
+    // return // left.isAtReference(shooterSpeed.getValue(), tolerance.getValue())
+    // // &&
+    // right.isAtReference(shooterSpeed.getValue(), tolerance.getValue());
+    // }
+
+    // public Command velocityCommand() {
+    // return this.run(() -> {
+    // var speed = shooterSpeed.getValue();
+    // left.setVelocity(speed);
+    // right.setVelocity(speed);
+    // }).finallyDo(() -> {
+    // left.setVelocity(Units.RPM.of(0));
+    // right.setVelocity(Units.RPM.of(0));
+    // });
+    // }
+
+    // public void setDefaultSpeed() {
+    // Measure<Velocity<Angle>> speed = shooterSpeed.getValue();
+    // left.setVelocity(speed);
+    // right.setVelocity(speed);
+    // }
+
+    public void setDutyCycle(double speed) {
+        left.set(speed);
+        right.set(speed);
+        this.desiredspeed = speed;
     }
 
-
-    public Command velocityCommand() {
-        return this.run(() -> {
-            var speed = shooterSpeed.getValue();
-            left.setVelocity(speed);
-            right.setVelocity(speed);
-        }).finallyDo(() -> {
-            left.setVelocity(Units.RPM.of(0));
-            right.setVelocity(Units.RPM.of(0));
-        });
-    }
-
-    public void setDefaultSpeed() {
-        Measure<Velocity<Angle>> speed = shooterSpeed.getValue();
-        left.setVelocity(speed);
-        right.setVelocity(speed);
-    }
-    public void setDefaultySpeed() {
-        Measure<Velocity<Angle>> speed = shooterSpeed.getValue();
-        left.setVelocity(speed.times(-1));
-        right.setVelocity(speed.times(-1));
-    }
-
-
-    public Command velocityCommandy() {
-        return this.run(() -> {
-            var speed = shooterSpeed.getValue();
-            left.setVelocity(speed.times(-1));
-            right.setVelocity(speed.times(-1));
-        }).finallyDo(() -> {
-            left.setVelocity(Units.RPM.of(0));
-            right.setVelocity(Units.RPM.of(0));
-        });
-    }
+    // public void setDefaultySpeed() {
+    // Measure<Velocity<Angle>> speed = shooterSpeed.getValue();
+    // left.setVelocity(speed.times(-1));
+    // right.setVelocity(speed.times(-1));
+    // }
+    // public Command velocityCommandy() {
+    // return this.run(() -> {
+    // var speed = shooterSpeed.getValue();
+    // left.setVelocity(speed.times(-1));
+    // right.setVelocity(speed.times(-1));
+    // }).finallyDo(() -> {
+    // left.setVelocity(Units.RPM.of(0));
+    // right.setVelocity(Units.RPM.of(0));
+    // });
+    // }
 
     public void stopShooter() {
         left.set(0);
         right.set(0);
+        this.desiredspeed = 0;
     }
 
     @Override
