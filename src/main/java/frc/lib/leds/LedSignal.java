@@ -169,17 +169,17 @@ public class LedSignal {
 
     public static LedSignal shooterspin(BooleanSupplier supplier) {
         SingleFadeAnimation singleFadeAnimation = new SingleFadeAnimation(0, 0, 0, 255, 0.113, 164, 0);
-        return new LedSignal("HasGamepiceBottom", supplier, singleFadeAnimation, 0);
+        return new LedSignal("shooterspin", supplier, singleFadeAnimation, 0);
     }
 
     public static LedSignal limeLight(BooleanSupplier supplier) {
         SingleFadeAnimation singleFadeAnimation = new SingleFadeAnimation(10, 200, 0, 10, 1, 164, 0);
-        return new LedSignal("HasGamepiceBottom", supplier, singleFadeAnimation, 0);
+        return new LedSignal("limeLight", supplier, singleFadeAnimation, 0);
     }
 
     public static LedSignal coastButton(BooleanSupplier supplier) {
         SingleFadeAnimation singleFadeAnimation = new SingleFadeAnimation(10, 100, 40, 10, 1, 164, 0);
-        return new LedSignal("HasGamepiceBottom", supplier, singleFadeAnimation, 0);
+        return new LedSignal("coastButton", supplier, singleFadeAnimation, 0);
     }
 
 }
