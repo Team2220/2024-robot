@@ -147,7 +147,7 @@ public class Arm extends SubsystemBase implements CheckableSubsystem, ShuffleBoa
     @Override
     public CheckCommand[] getCheckCommands() {
         return new CheckCommand[] {
-                new PositionTalonCheck(ArmTalonFX, Degrees.of(90), Degrees.of(5)),
+                new PositionTalonCheck(ArmTalonFX, Degrees.of(45), Degrees.of(5)),
                 new PositionTalonCheck(ArmTalonFX, Degrees.of(0), Degrees.of(5))
 
         };

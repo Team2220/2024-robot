@@ -32,12 +32,12 @@
     },
     {
       "anchor": {
-        "x": 1.80825808932417,
-        "y": 4.480986187277591
+        "x": 1.4,
+        "y": 5.54
       },
       "prevControl": {
-        "x": 2.0145787270486872,
-        "y": 4.11875345515397
+        "x": 1.6063206377245187,
+        "y": 5.177767267876379
       },
       "nextControl": null,
       "isLocked": false,
@@ -85,7 +85,7 @@
             {
               "type": "named",
               "data": {
-                "name": "3.4"
+                "name": "armSpeakerPos"
               }
             }
           ]
@@ -101,7 +101,7 @@
   },
   "goalEndState": {
     "velocity": 0.0,
-    "rotation": -35.0,
+    "rotation": -0.09239904971677058,
     "rotateFast": false
   },
   "reversed": false,
