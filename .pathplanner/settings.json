@@ -3,14 +3,12 @@
   "robotLength": 0.98,
   "holonomicMode": true,
   "pathFolders": [
-    "test paths",
-    "PathPlanner",
-    "Sectret"
+    "Probaly Ohio paths",
+    "Calabration paths"
   ],
   "autoFolders": [
-    "test",
-    "[FIXED] autos",
-    "sectret"
+    "Ohio",
+    "Calabration"
   ],
   "defaultMaxVel": 4.0,
   "defaultMaxAccel": 3.0,

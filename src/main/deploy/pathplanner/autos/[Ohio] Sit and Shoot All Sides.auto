@@ -1,0 +1,31 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.37,
+      "y": 5.566113857248358
+    },
+    "rotation": 0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "armSpeakerPos"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "intakeShot"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Ohio",
+  "choreoAuto": false
+}

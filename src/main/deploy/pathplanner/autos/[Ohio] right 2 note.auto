@@ -1,0 +1,81 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.77,
+      "y": 4.4
+    },
+    "rotation": -60.0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "shooter+"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "mnf hh"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "intakeShot"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "armRestFull"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "fghjk"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "3.4"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "intakeShot"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "zoom"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Ohio",
+  "choreoAuto": false
+}

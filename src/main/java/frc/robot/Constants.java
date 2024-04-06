@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import frc.lib.RobotInstance;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
  * numerical or boolean
@@ -27,7 +29,37 @@ public final class Constants {
     public static final int RIGHT = 2;
   }
 
-  public static final boolean isGraphsEnabled = true;
+  public static final boolean isGraphsEnabled = false;
+
+  public static class DriveTrain {
+    public static final double DT_BL_SE_OFFSET = RobotInstance.config((robot) -> {
+      return switch (robot) {
+        case Robot23 -> 8.96484375 - 90;
+        case Robot24 -> 253.388 - 90;
+      };
+    });
+
+    public static final double DT_FR_SE_OFFSET = RobotInstance.config((robot) -> {
+      return switch (robot) {
+       case Robot23 -> 127.98046875 - 90;
+        case Robot24 -> 309.902 - 90;
+      };
+    });
+
+    public static final double DT_FL_SE_OFFSET = RobotInstance.config((robot) -> {
+      return switch (robot) {
+        case Robot23 -> 155.302734375 - 90;
+        case Robot24 -> 42.363 - 90;
+      };
+    });
+
+    public static final double DT_BR_SE_OFFSET = RobotInstance.config((robot) -> {
+      return switch (robot) {
+        case Robot23 -> 247.5 - 90;
+        case Robot24 -> 359.912 - 90;
+      };
+    });
+  }
 
   public static class Shooter {
     public static final int id_left = 23;
@@ -46,6 +78,8 @@ public final class Constants {
     public static final int ARM_TALON_LEFT = 27;
     public static final int ARM_TALON_RIGHT = 28;
     public static final double ARM_GEAR_RATIO = (5.0 / 1.0) * (4.0 / 1.0) * (4.0 / 1.0) * (58.0 / 18.0);
+    public static final int coastButtonID = 9;
+    public static final int zeroSwitchID = 2;
   }
 
   public static final class LimelightConfig {

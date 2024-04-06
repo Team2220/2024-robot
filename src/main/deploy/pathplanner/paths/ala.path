@@ -17,11 +17,11 @@
     {
       "anchor": {
         "x": 1.9994483453621656,
-        "y": 7.0
+        "y": 6.75
       },
       "prevControl": {
         "x": 1.5821277045963997,
-        "y": 6.884570886596703
+        "y": 6.634570886596703
       },
       "nextControl": null,
       "isLocked": false,
@@ -57,11 +57,11 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 32.5,
+    "rotation": 23.0,
     "rotateFast": true
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Probaly Ohio paths",
   "previewStartingState": {
     "rotation": 60.0,
     "velocity": 0

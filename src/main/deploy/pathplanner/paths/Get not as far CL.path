@@ -1,0 +1,87 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 0.771033906107768,
+        "y": 4.380017461477765
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": -0.33044310261761484,
+        "y": -0.3287967508232471
+      },
+      "isLocked": false,
+      "linkedName": "Start Right"
+    },
+    {
+      "anchor": {
+        "x": 8.270256540513083,
+        "y": 1.6630408399551526
+      },
+      "prevControl": {
+        "x": 6.829157454097374,
+        "y": -0.09014339893274759
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [
+    {
+      "name": "New Event Marker",
+      "waypointRelativePos": 0.3,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "armRestFull"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "New Event Marker",
+      "waypointRelativePos": 0.75,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "intake"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 4.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 360.0,
+    "maxAngularAcceleration": 180.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 27.59729586864383,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "Probaly Ohio paths",
+  "previewStartingState": {
+    "rotation": -60.0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

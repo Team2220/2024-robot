@@ -1,7 +1,6 @@
 package frc.lib;
 
 import com.ctre.phoenix6.controls.DutyCycleOut;
-import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.MusicTone;
 import com.ctre.phoenix6.controls.PositionVoltage;
@@ -32,6 +31,7 @@ import frc.lib.eventLoops.EventLoops;
 import frc.lib.faults.Fault;
 import frc.lib.tunables.TunableDebouncer;
 import frc.lib.tunables.TunableDouble;
+import frc.lib.tunables.TunableEnum;
 import frc.lib.tunables.TunableMeasure;
 import frc.lib.units.UnitsUtil;
 
@@ -46,6 +46,7 @@ public class TalonFXWrapper implements ShuffleBoardTabWrapper {
     private Fault softLimitOverrideFault;
     private TunableMeasure<Current> stallCurrentLimit;
     private TunableMeasure<Velocity<Angle>> stallRotationLimit;
+    //private Measure<Velocity<Angle>> velocitySetPoint = Units.RPM.of(0);
 
     public TalonFXWrapper(
             int id,
@@ -75,8 +76,6 @@ public class TalonFXWrapper implements ShuffleBoardTabWrapper {
 
         talonFXConfigs = new TalonFXConfiguration();
 
-        talonFXConfigs.MotorOutput.NeutralMode = neutralMode;
-
         talonFXConfigs.MotorOutput.Inverted = isInverted ? InvertedValue.Clockwise_Positive
                 : InvertedValue.CounterClockwise_Positive;
 
@@ -102,26 +101,35 @@ public class TalonFXWrapper implements ShuffleBoardTabWrapper {
         tunableDebouncer = new TunableDebouncer("Stall Debounce Time", getName(), debounceTime,
                 Debouncer.DebounceType.kBoth);
 
-        talon.getConfigurator().apply(talonFXConfigs);
-        if (followerConfig != null) {
-            followerFx = new TalonFX(followerConfig.id);
-            followerFx.getConfigurator().apply(talonFXConfigs);
-            followerFx.setControl(new Follower(id, followerConfig.isInverted));
-        }
-
-        new TunableDouble("P", P, getName(), value -> {
+        new TunableDouble("P", P, getName(), (isInit, value) -> {
             talonFXConfigs.Slot0.kP = value;
-            talon.getConfigurator().apply(talonFXConfigs);
+            if (!isInit) {
+                talon.getConfigurator().apply(talonFXConfigs);
+            }
+
         });
 
-        new TunableDouble("I", I, getName(), value -> {
+        new TunableEnum<NeutralModeValue>("breakCoast", neutralMode, NeutralModeValue.class, getName(),
+                (isInit, value) -> {
+                    talonFXConfigs.MotorOutput.NeutralMode = value;
+                    if (!isInit) {
+                        talon.getConfigurator().apply(talonFXConfigs);
+                    }
+                });
+
+        new TunableDouble("I", I, getName(), (isInit, value) -> {
             talonFXConfigs.Slot0.kI = value;
-            talon.getConfigurator().apply(talonFXConfigs);
+            if (!isInit) {
+                talon.getConfigurator().apply(talonFXConfigs);
+            }
+
         });
 
-        new TunableDouble("D", D, getName(), value -> {
+        new TunableDouble("D", D, getName(), (isInit, value) -> {
             talonFXConfigs.Slot0.kD = value;
-            talon.getConfigurator().apply(talonFXConfigs);
+            if (!isInit) {
+                talon.getConfigurator().apply(talonFXConfigs);
+            }
         });
 
         addGraph("Curent", () -> getTorqueCurrent(), Units.Amps);
@@ -131,20 +139,26 @@ public class TalonFXWrapper implements ShuffleBoardTabWrapper {
         // talon.getConfigurator().apply(talonFXConfigs);
         // });
 
-        new TunableMeasure<>("Acceleration", Acceleration, getName(), value -> {
+        new TunableMeasure<>("Acceleration", Acceleration, getName(), (isInit, value) -> {
             talonFXConfigs.MotionMagic.MotionMagicAcceleration = value.in(RotationsPerSecond.per(Seconds));
-            talon.getConfigurator().apply(talonFXConfigs);
+            if (!isInit) {
+                talon.getConfigurator().apply(talonFXConfigs);
+            }
         });
 
-        new TunableMeasure<>("CruiseVelocity", CruiseVelocity, getName(), value -> {
+        new TunableMeasure<>("CruiseVelocity", CruiseVelocity, getName(), (isInit, value) -> {
             talonFXConfigs.MotionMagic.MotionMagicCruiseVelocity = value.in(RotationsPerSecond);
-            talon.getConfigurator().apply(talonFXConfigs);
+            if (!isInit) {
+                talon.getConfigurator().apply(talonFXConfigs);
+            }
         });
 
-        new TunableMeasure<>("Jerk", Jerk, getName(), value -> {
+        new TunableMeasure<>("Jerk", Jerk, getName(), (isInit, value) -> {
             talonFXConfigs.MotionMagic.MotionMagicJerk = value
                     .in(RotationsPerSecond.per(Seconds).per(Seconds));
-            talon.getConfigurator().apply(talonFXConfigs);
+            if (!isInit) {
+                talon.getConfigurator().apply(talonFXConfigs);
+            }
         });
 
         this.stallCurrentLimit = new TunableMeasure<>("Stall Current Threshold", stallCurrentThreshold, getName());
@@ -163,6 +177,13 @@ public class TalonFXWrapper implements ShuffleBoardTabWrapper {
 
         Fault.autoUpdating(getName() + " Stalled", EventLoops.everyLoop, this::isStalled);
 
+        talon.getConfigurator().apply(talonFXConfigs);
+
+        if (followerFx != null) {
+
+            followerFx.getConfigurator().apply(talonFXConfigs);
+
+        }
     }
 
     public TalonFXWrapper(int id, String name, boolean isInverted, NeutralModeValue neutralMode) {
@@ -184,7 +205,8 @@ public class TalonFXWrapper implements ShuffleBoardTabWrapper {
                 Rotations.of(0),
                 null,
                 Units.Seconds.of(1),
-                Units.Amps.of(75), Units.RotationsPerSecond.of(1));
+                Units.Amps.of(75),
+                Units.RotationsPerSecond.of(1));
     }
 
     public void setSoftLimitsEnabled(boolean enabled) {
@@ -203,8 +225,14 @@ public class TalonFXWrapper implements ShuffleBoardTabWrapper {
     }
 
     public void setNeutralMode(NeutralModeValue value) {
-        talonFXConfigs.MotorOutput.NeutralMode = value;
-        configureTalons();
+        if (talonFXConfigs.MotorOutput.NeutralMode != value) {
+            talonFXConfigs.MotorOutput.NeutralMode = value;
+            configureTalons();
+        }
+    }
+
+    public NeutralModeValue getNeutralMode() {
+        return talonFXConfigs.MotorOutput.NeutralMode;
     }
 
     boolean isPositionBeingHeld = false;

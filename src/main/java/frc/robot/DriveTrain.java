@@ -2,6 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.Vector;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -36,6 +37,7 @@ import frc.lib.ShuffleBoardTabWrapper;
 import frc.lib.TalonFXSubsystem;
 import frc.lib.selfCheck.CheckCommand;
 import frc.lib.selfCheck.CheckableSubsystem;
+import frc.lib.selfCheck.UnwrappedTalonSpinCheck;
 
 /**
  * Standard deviations of the vision measurements. Increase these numbers to
@@ -45,13 +47,14 @@ import frc.lib.selfCheck.CheckableSubsystem;
  */
 
 public class DriveTrain extends SubsystemBase implements TalonFXSubsystem, CheckableSubsystem, ShuffleBoardTabWrapper {
+public static final PIDConstants rotationConstants = new PIDConstants(2, 0.0, 0.3);
 
     double driveRadius = Math
             .sqrt(Math.pow(DRIVETRAIN_TRACKWIDTH_METERS / 2, 2) + Math.pow(DRIVETRAIN_WHEELBASE_METERS / 2, 2));
 
     public DriveTrain() {
-        Shuffleboard.getTab("field").add("Field", m_poseEstimatorField).withSize(4, 3);
-        Shuffleboard.getTab("limeLight").add("limeLight", m_limeLightField);
+        Shuffleboard.getTab("field").add("Field", poseEstimatorField).withSize(4, 3);
+        Shuffleboard.getTab("limeLight").add("limeLight", limeLightField);
         // System.out.println("Velocity" + MAX_VELOCITY_METERS_PER_SECOND);
         AutoBuilder.configureHolonomic(
                 this::getPose, // Robot pose supplier
@@ -61,7 +64,7 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem, Check
                 new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your
                                                  // Constants class
                         new PIDConstants(.001, 0.0, 0.0), // Translation PID constants
-                        new PIDConstants(2, 0.0, 0.3), // Rotation PID constants
+                        rotationConstants, // Rotation PID constants
                         MAX_VELOCITY_METERS_PER_SECOND, // Max module speed, in m/s
                         driveRadius, // Drive base radius in meters. Distance from robot center to furthest module.
                         new ReplanningConfig() // Default path replanning config. See the API for the options here
@@ -82,7 +85,7 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem, Check
         );
         // Set up custom logging to add the current path to a field 2d widget
         PathPlannerLogging.setLogActivePathCallback((poses) -> {
-            m_poseEstimatorField.getObject("path").setPoses(poses);
+            poseEstimatorField.getObject("path").setPoses(poses);
             // for (Pose2d pose : poses) {
             // System.out.println(pose);
             // }
@@ -94,38 +97,58 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem, Check
     GenericEntry gyroAngle = Shuffleboard.getTab("swerve").add("gyroAngle", 0).getEntry();
 
     public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
+        double x = xSpeed  * MAX_VELOCITY_METERS_PER_SECOND * -1;
+        double y = ySpeed  * MAX_VELOCITY_METERS_PER_SECOND * -1;
+        double r = rot * MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * -1;
         driveRobotRelative(
                 fieldRelative
-                        ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, getGyroscopeRotation())
-                        : new ChassisSpeeds(xSpeed, ySpeed, rot));
+                        ? ChassisSpeeds.fromFieldRelativeSpeeds(x, y, r, getGyroscopeRotation())
+                        : new ChassisSpeeds(x, y, r));
     }
 
     public void driveRobotRelative(ChassisSpeeds speed) {
         var swerveModuleStates = KINEMATICS.toSwerveModuleStates(speed);
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, MAX_VELOCITY_METERS_PER_SECOND);
-        m_frontLeft.setDesiredState(swerveModuleStates[0]);
-        m_frontRight.setDesiredState(swerveModuleStates[1]);
-        m_backLeft.setDesiredState(swerveModuleStates[2]);
-        m_backRight.setDesiredState(swerveModuleStates[3]);
+        frontLeft.setDesiredState(swerveModuleStates[0]);
+        frontRight.setDesiredState(swerveModuleStates[1]);
+        backLeft.setDesiredState(swerveModuleStates[2]);
+        backRight.setDesiredState(swerveModuleStates[3]);
     }
 
     @Override
     public TalonFX[] getTalonFXs() {
         return new TalonFX[] {
-                m_backLeft.getM_driveMotor(),
-                m_backLeft.getM_turningMotor(),
-                m_frontLeft.getM_driveMotor(),
-                m_frontLeft.getM_turningMotor(),
-                m_backRight.getM_driveMotor(),
-                m_backRight.getM_turningMotor(),
-                m_frontRight.getM_driveMotor(),
-                m_frontRight.getM_turningMotor(),
+                backLeft.getDriveMotor(),
+                backLeft.getTurningMotor(),
+                frontLeft.getDriveMotor(),
+                frontLeft.getTurningMotor(),
+                backRight.getDriveMotor(),
+                backRight.getTurningMotor(),
+                frontRight.getDriveMotor(),
+                frontRight.getTurningMotor(),
         };
     }
 
     @Override
     public CheckCommand[] getCheckCommands() {
-        return new CheckCommand[] {};
+        return new CheckCommand[] {
+            new UnwrappedTalonSpinCheck("backLeftDrive", backLeft.getDriveMotor(), true),
+            new UnwrappedTalonSpinCheck("backLeftDrive", backLeft.getDriveMotor(), false),
+            new UnwrappedTalonSpinCheck("backLeftTurn", backLeft.getTurningMotor(), true),
+            new UnwrappedTalonSpinCheck("backLeftTurn", backLeft.getTurningMotor(), false),
+            new UnwrappedTalonSpinCheck("frontLeftDrive", frontLeft.getDriveMotor(), true),
+            new UnwrappedTalonSpinCheck("frontLeftDrive", frontLeft.getDriveMotor(), false),
+            new UnwrappedTalonSpinCheck("frontLeftTurn", frontLeft.getTurningMotor(), true),
+            new UnwrappedTalonSpinCheck("frontLeftTurn", frontLeft.getTurningMotor(), false),
+            new UnwrappedTalonSpinCheck("backRightDrive", backRight.getDriveMotor(), true),
+            new UnwrappedTalonSpinCheck("backRightDrive", backRight.getDriveMotor(), false),
+            new UnwrappedTalonSpinCheck("backRightTurn", backRight.getTurningMotor(), true),
+            new UnwrappedTalonSpinCheck("backRightTurn", backRight.getTurningMotor(), false),
+            new UnwrappedTalonSpinCheck("frontRightDrive", frontRight.getDriveMotor(), true),
+            new UnwrappedTalonSpinCheck("frontRightDrive", frontRight.getDriveMotor(), false),
+            new UnwrappedTalonSpinCheck("frontRightTurn", frontRight.getTurningMotor(), true),
+            new UnwrappedTalonSpinCheck("frontRightTurn", frontRight.getTurningMotor(), false),
+        };
     }
 
     public void autoDriveRobotRelative(ChassisSpeeds speed) {
@@ -134,9 +157,9 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem, Check
                         speed.omegaRadiansPerSecond));
     }
 
-    private final Field2d m_poseEstimatorField = new Field2d();
-    private final Field2d m_limeLightField = new Field2d();
-    private final Pose2d m_startPose = new Pose2d(0, 0, Rotation2d.fromDegrees(0));
+    private final Field2d poseEstimatorField = new Field2d();
+    private final Field2d limeLightField = new Field2d();
+    private final Pose2d startPose = new Pose2d(0, 0, Rotation2d.fromDegrees(0));
 
     public void resetPose(Pose2d pose) {
         var newPose = new Pose2d(pose.getY() * -1, pose.getX(), pose.getRotation());
@@ -147,58 +170,42 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem, Check
     public Command zeroCommand() {
         return this.runOnce(() -> {
             navx.zero();
-            poseEstimator.resetPosition(getGyroscopeRotation(), getModulePositions(), m_startPose);
+            poseEstimator.resetPosition(getGyroscopeRotation(), getModulePositions(), startPose);
         });
     }
-
-    public Command driveCommand(DoubleSupplier xspeed, DoubleSupplier yspeed, DoubleSupplier rot) {
-        return this.run(() -> {
-            this.drive(
-                    xspeed.getAsDouble() * MAX_VELOCITY_METERS_PER_SECOND * 1,
-                    yspeed.getAsDouble() * MAX_VELOCITY_METERS_PER_SECOND * -1,
-                    rot.getAsDouble() * MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, true);
-        });
-    }
+    
 
     public ChassisSpeeds getSpeeds() {
         return KINEMATICS.toChassisSpeeds(getModuleStates());
     }
 
-    public static final double DT_BL_SE_OFFSET = RobotInstance.config((robot) -> {
-        return switch (robot) {
-            case Robot23 -> 8.96484375 - 90;
-            case Robot24 -> 356.667 - 90;
-        };
-    });
-
-    public static final double DT_FR_SE_OFFSET = RobotInstance.config((robot) -> {
-        return switch (robot) {
-            case Robot23 -> 124.98046875 - 90;
-            case Robot24 -> 153.808 - 90;
-        };
-    });
-
-    public static final double DT_FL_SE_OFFSET = RobotInstance.config((robot) -> {
-        return switch (robot) {
-            case Robot23 -> 155.302734375 - 90;
-            case Robot24 -> 222.099 - 270;
-        };
-    });
-
-    public static final double DT_BR_SE_OFFSET = RobotInstance.config((robot) -> {
-        return switch (robot) {
-            case Robot23 -> 247.5 - 90;
-            case Robot24 -> 182.284 - 270;
-        };
-    });
-
-    private final SwerveModule m_frontLeft = new SwerveModule("frontleft", 12, 11, 1, DT_FL_SE_OFFSET);
-    private final SwerveModule m_frontRight = new SwerveModule("frontright", 18, 17, 2, DT_FR_SE_OFFSET);
-    private final SwerveModule m_backLeft = new SwerveModule("backleft", 16, 15, 3, DT_BL_SE_OFFSET);
-    private final SwerveModule m_backRight = new SwerveModule("backright", 14, 13, 0, DT_BR_SE_OFFSET);
+    private final SwerveModule frontLeft = new SwerveModule(
+            "frontleft",
+            12,
+            11,
+            1,
+            Constants.DriveTrain.DT_FL_SE_OFFSET);
+    private final SwerveModule frontRight = new SwerveModule(
+            "frontright",
+            18,
+            17,
+            2,
+            Constants.DriveTrain.DT_FR_SE_OFFSET);
+    private final SwerveModule backLeft = new SwerveModule(
+            "backleft",
+            16,
+            15,
+            3,
+            Constants.DriveTrain.DT_BL_SE_OFFSET);
+    private final SwerveModule backRight = new SwerveModule(
+            "backright",
+            14,
+            13,
+            0,
+            Constants.DriveTrain.DT_BR_SE_OFFSET);
 
     public void periodic() {
-        m_poseEstimatorField.setRobotPose(getPose());
+        poseEstimatorField.setRobotPose(getPose());
 
         LimelightHelpers.PoseEstimate limelightMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight");
         if (limelightMeasurement.tagCount >= 2) {
@@ -208,7 +215,7 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem, Check
                     limelightMeasurement.timestampSeconds);
         }
 
-        m_limeLightField.setRobotPose(limelightMeasurement.pose);
+        limeLightField.setRobotPose(limelightMeasurement.pose);
         gyroAngle.setDouble(getGyroscopeRotation().getDegrees());
         poseEstimator.update(
                 getGyroscopeRotation(), getModulePositions());
@@ -229,19 +236,19 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem, Check
 
     public SwerveModulePosition[] getModulePositions() {
         return new SwerveModulePosition[] {
-                m_frontLeft.getPosition(),
-                m_frontRight.getPosition(),
-                m_backLeft.getPosition(),
-                m_backRight.getPosition()
+                frontLeft.getPosition(),
+                frontRight.getPosition(),
+                backLeft.getPosition(),
+                backRight.getPosition()
         };
     }
 
     public SwerveModuleState[] getModuleStates() {
         return new SwerveModuleState[] {
-                m_frontLeft.getState(),
-                m_frontRight.getState(),
-                m_backLeft.getState(),
-                m_backRight.getState()
+                frontLeft.getState(),
+                frontRight.getState(),
+                backLeft.getState(),
+                backRight.getState()
         };
     }
 
@@ -277,7 +284,7 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem, Check
             KINEMATICS,
             getGyroscopeRotation(),
             getModulePositions(),
-            m_startPose,
+            startPose,
             stateStdDevs,
             visionMeasurementStdDevs);
 
@@ -304,10 +311,10 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem, Check
 
     public Command xcommand() {
         return this.run(() -> {
-            m_backLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(-135)));
-            m_frontLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(-45)));
-            m_backRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(135)));
-            m_frontRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
+            backLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(-135)));
+            frontLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(-45)));
+            backRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(135)));
+            frontRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
         });
     }
 }

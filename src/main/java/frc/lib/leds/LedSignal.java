@@ -1,5 +1,6 @@
 package frc.lib.leds;
 
+import java.sql.Blob;
 import java.util.function.BooleanSupplier;
 
 import com.ctre.phoenix.led.Animation;
@@ -8,6 +9,10 @@ import com.ctre.phoenix.led.RainbowAnimation;
 import com.ctre.phoenix.led.SingleFadeAnimation;
 import com.ctre.phoenix.led.StrobeAnimation;
 
+import edu.wpi.first.math.filter.Debouncer;
+import edu.wpi.first.math.filter.Debouncer.DebounceType;
+import edu.wpi.first.util.datalog.BooleanLogEntry;
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotController;
 import frc.lib.faults.FaultRegistry;
@@ -18,23 +23,36 @@ public class LedSignal {
     BooleanSupplier isActive;
     Animation animation;
     double debounce;
+    Debouncer debouncer;
     private LedSegment[] segments;
+    BooleanLogEntry logEntry;
 
     public LedSignal(String name, BooleanSupplier isActive, Animation animation, double debounce,
-            LedSegment[] segments) {
+            DebounceType debounceType, LedSegment[] segments) {
         this.name = name;
         this.isActive = isActive;
         this.animation = animation;
         this.debounce = debounce;
+        this.debouncer = new Debouncer(debounce);
         this.segments = segments;
+        this.logEntry = new BooleanLogEntry(DataLogManager.getLog(), "Led Signal " + name);
     }
 
+
     public LedSignal(String name, BooleanSupplier isActive, Animation animation, double debounce) {
-        this(name, isActive, animation, debounce, new LedSegment[] {});
+        this(name, isActive, animation, debounce, DebounceType.kFalling, new LedSegment[] {});
+    }
+
+    public LedSignal(String name, BooleanSupplier isActive, Animation animation, double debounce,
+            DebounceType debounceType) {
+        this(name, isActive, animation, debounce, debounceType, new LedSegment[] {});
     }
 
     public void update(LedSegment[] allSegments) {
-        if (isActive.getAsBoolean() == true) {
+
+        boolean asBoolean = isActive.getAsBoolean();
+        logEntry.append(asBoolean);
+        if (debouncer.calculate(asBoolean)) {
             if (segments.length == 0) {
                 for (LedSegment segment : allSegments) {
                     segment.setAnimationIfAble(animation);
@@ -77,7 +95,7 @@ public class LedSignal {
     public static LedSignal isBrownedOut() {
         // blink red
         StrobeAnimation strobeAnimation = new StrobeAnimation(64, 0, 0, 0, 0.1, 164);
-        return new LedSignal("isBrownedOut", RobotController::isBrownedOut, strobeAnimation, 0);
+        return new LedSignal("isBrownedOut", RobotController::isBrownedOut, strobeAnimation, 3);
     }
 
     public static LedSignal shooterAtSetPoint(BooleanSupplier supplier) {
@@ -130,23 +148,18 @@ public class LedSignal {
     }
 
     public static LedSignal hasgamepiceBottomLedSignal(BooleanSupplier supplier) {
-        StrobeAnimation singleFadeAnimation = new StrobeAnimation(160, 32, 240, 0, 0.5, 164, 0);
+        StrobeAnimation singleFadeAnimation = new StrobeAnimation(0, 255, 0, 0, 0.5, 164, 0);
         return new LedSignal("HasGamepiceBottom", supplier, singleFadeAnimation, 0);
     }
 
     public static LedSignal hasgamepiceTopLedSignal(BooleanSupplier supplier) {
-        RainbowAnimation RainbowAnimation = new RainbowAnimation();
-        return new LedSignal("HasGamepiceTop", supplier, RainbowAnimation, 0);
+        RainbowAnimation rainbowAnimation = new RainbowAnimation();
+        return new LedSignal("seanscolors", supplier, rainbowAnimation, 0);
     }
 
     public static LedSignal erolsPurpleLight(BooleanSupplier supplier) {
-        StrobeAnimation strobeAnimation = new StrobeAnimation(155, 0, 165, 0, 2, 164);
+        StrobeAnimation strobeAnimation = new StrobeAnimation(70, 0, 165, 0, 2, 164);
         return new LedSignal("erolsPurpleLight", supplier, strobeAnimation, 0);
-    }
-
-    public static LedSignal seanscolors(BooleanSupplier supplier) {
-        RainbowAnimation rainbowAnimation = new RainbowAnimation();
-        return new LedSignal("seanscolors", supplier, rainbowAnimation, 0);
     }
 
     public static LedSignal intakeStalled(BooleanSupplier supplier) {
@@ -156,6 +169,17 @@ public class LedSignal {
 
     public static LedSignal shooterspin(BooleanSupplier supplier) {
         SingleFadeAnimation singleFadeAnimation = new SingleFadeAnimation(0, 0, 0, 255, 0.113, 164, 0);
-        return new LedSignal("HasGamepiceBottom", supplier, singleFadeAnimation, 0);
+        return new LedSignal("shooterspin", supplier, singleFadeAnimation, 0);
     }
+
+    public static LedSignal limeLight(BooleanSupplier supplier) {
+        SingleFadeAnimation singleFadeAnimation = new SingleFadeAnimation(10, 200, 0, 10, 1, 164, 0);
+        return new LedSignal("limeLight", supplier, singleFadeAnimation, 0);
+    }
+
+    public static LedSignal coastButton(BooleanSupplier supplier) {
+        SingleFadeAnimation singleFadeAnimation = new SingleFadeAnimation(10, 100, 40, 10, 1, 164, 0);
+        return new LedSignal("coastButton", supplier, singleFadeAnimation, 0);
+    }
+
 }

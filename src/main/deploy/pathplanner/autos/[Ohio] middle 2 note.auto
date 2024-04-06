@@ -1,0 +1,81 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.4,
+      "y": 5.55
+    },
+    "rotation": 0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "shooter+"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "armSpeakerPos"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "intakeShot"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "armRestFull"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "jijath"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "armSpeakerPos"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "intakeShot"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "armRestFull"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Ohio",
+  "choreoAuto": false
+}

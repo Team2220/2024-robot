@@ -8,12 +8,15 @@ import static edu.wpi.first.units.Units.Volts;
 
 import java.util.function.DoubleSupplier;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.units.Units;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.lib.DigitalInputWrapper;
 import frc.lib.ShuffleBoardTabWrapper;
 import frc.lib.TalonFXWrapper;
 import frc.lib.TalonFXWrapper.FollowerConfig;
@@ -24,6 +27,11 @@ import frc.robot.Constants;
 
 public class Arm extends SubsystemBase implements CheckableSubsystem, ShuffleBoardTabWrapper {
     TalonFXWrapper ArmTalonFX;
+
+    private static DigitalInputWrapper coastButton = new DigitalInputWrapper(Constants.Arm.coastButtonID,
+            "coastButton", true);
+    private DigitalInputWrapper zeroLimitSwitch = new DigitalInputWrapper(Constants.Arm.zeroSwitchID,
+            "zeroLimitSwitch", true);
 
     public Arm() {
         ArmTalonFX = new TalonFXWrapper(
@@ -37,13 +45,37 @@ public class Arm extends SubsystemBase implements CheckableSubsystem, ShuffleBoa
                 0.1,
                 RotationsPerSecond.per(Seconds).of(3000),
                 RotationsPerSecond.of(3000),
-                RotationsPerSecond.per(Seconds).per(Seconds).of(3000), true, true,
-                Rotations.of(110.0 / 360.0), Rotations.of(0),
-                new FollowerConfig(Constants.Arm.ARM_TALON_RIGHT, true), Units.Seconds.of(3), Units.Amps.of(75),
+                RotationsPerSecond.per(Seconds).per(Seconds).of(3000),
+                true,
+                true,
+                Rotations.of(120.0 / 360.0),
+                Rotations.of(0),
+                new FollowerConfig(Constants.Arm.ARM_TALON_RIGHT, true),
+                Units.Seconds.of(3),
+                Units.Amps.of(75),
                 Units.RotationsPerSecond.of(1));
         addDouble("ArmAngle",
                 () -> ArmTalonFX.getPosition().in(Degrees));
     }
+
+    @Override
+    public void periodic() {
+        if (coastButton.get() != lastButtonValue && DriverStation.isDisabled() && coastButton.get()) {
+            if (ArmTalonFX.getNeutralMode() == NeutralModeValue.Coast) {
+                ArmTalonFX.setNeutralMode(NeutralModeValue.Brake);
+            } else {
+                ArmTalonFX.setNeutralMode(NeutralModeValue.Coast);
+            }
+        }
+        lastButtonValue = coastButton.get();
+    }
+
+    public boolean getcoastButton() {
+
+        return coastButton.get();
+    }
+
+    private boolean lastButtonValue = false;
 
     public Command dutyCycleCommand(DoubleSupplier speed) {
         return this.run(() -> {
@@ -94,17 +126,31 @@ public class Arm extends SubsystemBase implements CheckableSubsystem, ShuffleBoa
 
     public Command setPositionOnceCommand(double degrees) {
         return this.run(() -> {
+            // System.out.println("setting" + degrees);
             this.setPosition(degrees);
         }).until(() -> atPosition(degrees, 2));
+        // .finallyDo(() -> {
+        // System.out.println("JITHIN: end: set angle to " + degrees);
+        // });
+    }
+
+    public Command autoSetPositionOnceCommand(double degrees) {
+        return this.run(() -> {
+            // System.out.println("setting" + degrees);
+            this.setPosition(degrees);
+        }).withTimeout(.75);
+        // .finallyDo(() -> {
+        // System.out.println("JITHIN: end: set angle to " + degrees);
+        // });
     }
 
     @Override
     public CheckCommand[] getCheckCommands() {
         return new CheckCommand[] {
-                new PositionTalonCheck(ArmTalonFX, Degrees.of(90), Degrees.of(5)),
+                new PositionTalonCheck(ArmTalonFX, Degrees.of(45), Degrees.of(5)),
                 new PositionTalonCheck(ArmTalonFX, Degrees.of(0), Degrees.of(5))
 
         };
     }
-
+    
 }

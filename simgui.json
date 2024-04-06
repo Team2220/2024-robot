@@ -1,10 +1,22 @@
 {
+  "HALProvider": {
+    "RoboRIO": {
+      "window": {
+        "visible": true
+      }
+    }
+  },
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/Shuffleboard/Arm (TalonFX 27)/breakCoast": "String Chooser",
       "/Shuffleboard/Scheduler/Scheduler": "Scheduler",
+      "/Shuffleboard/conveyor (TalonFX 5)/breakCoast": "String Chooser",
       "/Shuffleboard/field/Field": "Field2d",
+      "/Shuffleboard/intake (TalonFX 31)/breakCoast": "String Chooser",
+      "/Shuffleboard/leftShooter (TalonFX 23)/breakCoast": "String Chooser",
       "/Shuffleboard/limeLight/limeLight": "Field2d",
+      "/Shuffleboard/rightShooter (TalonFX 24)/breakCoast": "String Chooser",
       "/SmartDashboard/Auto Chooser": "String Chooser"
     }
   },

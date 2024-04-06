@@ -1,0 +1,68 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 1.8,
+        "y": 7.601837711999509
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 0.8270286422925784,
+        "y": 6.234170426165493
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 3.267715125885302,
+        "y": 7.115352033145798
+      },
+      "prevControl": {
+        "x": 2.4966812197775337,
+        "y": 6.876698681255298
+      },
+      "nextControl": {
+        "x": 3.347117681384046,
+        "y": 7.139929014609694
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.0,
+        "y": 6.75
+      },
+      "prevControl": {
+        "x": 2.377354543832284,
+        "y": 6.88587765632801
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 4.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 360.0,
+    "maxAngularAcceleration": 180.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 23.0,
+    "rotateFast": true
+  },
+  "reversed": false,
+  "folder": "Probaly Ohio paths",
+  "previewStartingState": {
+    "rotation": 90.0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

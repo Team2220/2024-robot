@@ -1,0 +1,99 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.77,
+      "y": 6.68
+    },
+    "rotation": 60.0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "shooter+"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "ala"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "intakeShot"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "armRestFull"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "of"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "3.4"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "intakeShot"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "armRestFull"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "Nbaba"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "3.4"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "intakeShot"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Ohio",
+  "choreoAuto": false
+}

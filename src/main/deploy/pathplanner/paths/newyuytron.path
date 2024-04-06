@@ -1,0 +1,92 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 2.0,
+        "y": 6.75
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.211624709597921,
+        "y": 6.472823778055991
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.9739879235585334,
+        "y": 5.472315495130435
+      },
+      "prevControl": {
+        "x": 2.539724869788734,
+        "y": 5.395680838582824
+      },
+      "nextControl": {
+        "x": 3.1300304997946293,
+        "y": 5.49985242034857
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 1.3125934353977478,
+        "y": 5.61917909629382
+      },
+      "prevControl": {
+        "x": 1.285056510179613,
+        "y": 5.600821146148396
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1.1,
+      "rotationDegrees": -21.47442824099642,
+      "rotateFast": true
+    }
+  ],
+  "constraintZones": [],
+  "eventMarkers": [
+    {
+      "name": "New Event Marker",
+      "waypointRelativePos": 0.1,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "intake"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 4.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 360.0,
+    "maxAngularAcceleration": 180.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -7.5,
+    "rotateFast": true
+  },
+  "reversed": false,
+  "folder": "Probaly Ohio paths",
+  "previewStartingState": {
+    "rotation": 23.0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

@@ -51,21 +51,25 @@ public class Intake extends SubsystemBase implements CheckableSubsystem, Shuffle
                 Rotations.of(0),
                 null,
                 Units.Seconds.of(1),
-                Units.Amps.of(55), Units.RotationsPerSecond.of(3));
+                Units.Amps.of(55), Units.RotationsPerSecond.of(1));
         conveyor = new TalonFXWrapper(Constants.Intake.id_conv, "conveyor", true, NeutralModeValue.Brake);
     }
 
     public Command dutyCycleCommand(DoubleSupplier speed) {
 
         return this.run(() -> {
-            intake.set(speed.getAsDouble());
-            conveyor.set(speed.getAsDouble());
+            intake.set(speed.getAsDouble() * .75);
+            conveyor.set(speed.getAsDouble() * .75);
         });
     }
 
     public void setSpeed(double speed) {
         intake.set(speed);
         conveyor.set(speed);
+    }
+    public void setSpeed(double iSpeed, double cSpeed) {
+        intake.set(iSpeed);
+        conveyor.set(cSpeed);
     }
 
     public Command intakeUntilQueued() {
@@ -96,6 +100,7 @@ public class Intake extends SubsystemBase implements CheckableSubsystem, Shuffle
 
     public boolean bottomNoteGet() {
         return bottomNoteSensor.get();
+
     }
 
     public boolean isStalled() {
@@ -110,6 +115,17 @@ public class Intake extends SubsystemBase implements CheckableSubsystem, Shuffle
             } else {
                 intake.set(.75);
                 conveyor.set(.75);
+            }
+        });
+    }
+    public Command setIntakeUntilQueuedSlow() {
+        return this.run(() -> {
+            if (topNoteSensor.get()) {
+                intake.set(0);
+                conveyor.set(0);
+            } else {
+                intake.set(.65);
+                conveyor.set(.35);
             }
         });
     }

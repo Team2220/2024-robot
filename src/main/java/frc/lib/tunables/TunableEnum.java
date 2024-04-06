@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ComplexWidget;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.lib.BooleanObjectConsumer;
 
 public class TunableEnum<V extends Enum<V>> {
   private V defaultValue;
@@ -22,6 +23,11 @@ public class TunableEnum<V extends Enum<V>> {
 
   public TunableEnum(String name, V defaultValue, Class<V> klass, String tab) {
     this(name, defaultValue, klass, true, tab);
+  }
+
+  public TunableEnum(String name, V defaultValue, Class<V> klass, String tab, BooleanObjectConsumer<V> onChange) {
+    this(name, defaultValue, klass, tab);
+    addChangeListener(onChange);
   }
 
   public TunableEnum(String name, V defaultValue, Class<V> klass, String tab, Consumer<V> onChange) {
@@ -79,22 +85,26 @@ public class TunableEnum<V extends Enum<V>> {
     return defaultValue;
   }
 
-  public void addChangeListener(Consumer<V> onChange) {
-    onChange.accept(getValue());
+  public void addChangeListener(BooleanObjectConsumer<V> onChange) {
+    onChange.accept(true, getValue());
     CommandScheduler.getInstance().getDefaultButtonLoop().bind(
         new Runnable() {
-          private V m_oldValue = getValue();
+          private V oldValue = getValue();
 
           @Override
           public void run() {
             V newValue = getValue();
 
-            if (m_oldValue != newValue) {
-              onChange.accept(newValue);
-              m_oldValue = newValue;
+            if (oldValue != newValue) {
+              onChange.accept(false, newValue);
+              oldValue = newValue;
             }
           }
         });
+  }
+
+  public void addChangeListener(Consumer<V> onChange) {
+    addChangeListener((isInit, value) -> onChange.accept(value));
   }
 
 }

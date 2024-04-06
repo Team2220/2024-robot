@@ -29,10 +29,10 @@ import frc.lib.faults.Fault;
  */
 
 public class Robot extends TimedRobot {
-  private Command m_autonomousCommand;
-  private Command m_testCommand;
+  private Command autonomousCommand;
+  private Command testCommand;
 
-  private RobotContainer m_robotContainer;
+  private RobotContainer robotContainer;
 
   @Override
   public void robotInit() {
@@ -51,7 +51,7 @@ public class Robot extends TimedRobot {
 
     DriverStation.silenceJoystickConnectionWarning(true);
 
-    m_robotContainer = new RobotContainer();
+    robotContainer = new RobotContainer();
     Shuffleboard.getTab("Scheduler").add("Scheduler", CommandScheduler.getInstance()).withSize(3, 2);
   }
 
@@ -74,10 +74,10 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    autonomousCommand = robotContainer.getAutonomousCommand();
 
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.schedule();
+    if (autonomousCommand != null) {
+      autonomousCommand.schedule();
     }
   }
 
@@ -87,12 +87,12 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    m_robotContainer.m_arm.setNeturalMode(NeutralModeValue.Brake);
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.cancel();
+    robotContainer.arm.setNeturalMode(NeutralModeValue.Brake);
+    if (autonomousCommand != null) {
+      autonomousCommand.cancel();
     }
-    if (m_testCommand != null) {
-      m_testCommand.cancel();
+    if (testCommand != null) {
+      testCommand.cancel();
     }
   }
 
@@ -104,9 +104,9 @@ public class Robot extends TimedRobot {
   public void testInit() {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
-    m_testCommand = m_robotContainer.getTestCommand();
-    if (m_testCommand != null) {
-      m_testCommand.schedule();
+    testCommand = robotContainer.getTestCommand();
+    if (testCommand != null) {
+      testCommand.schedule();
     }
   }
 

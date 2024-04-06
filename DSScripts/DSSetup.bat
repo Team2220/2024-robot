@@ -6,6 +6,10 @@ taskkill /IM "javaw.exe" /F
 
 taskkill /IM "electron.exe"
 
+taskkill /IM "msedge.exe" /F
+taskkill /IM "msteams.exe" /F
+taskkill /IM "OneDrive.exe" /F
+
 ::Disable Firewalls
 netsh advfirewall set allprofiles state off 
 

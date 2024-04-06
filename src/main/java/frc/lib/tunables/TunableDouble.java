@@ -30,6 +30,11 @@ public class TunableDouble {
     addChangeListener(onChange);
   }
 
+  public TunableDouble(String name, double defaultValue, String tab, BooleanDoubleConsumer onChange) {
+    this(name, defaultValue, tab);
+    addChangeListener(onChange);
+  }
+
   public TunableDouble(String name, double defaultValue, boolean tunable, String tab) {
     this.defaultValue = defaultValue;
 
@@ -90,15 +95,15 @@ public class TunableDouble {
     onChange.accept(true, getValue());
     CommandScheduler.getInstance().getDefaultButtonLoop().bind(
         new Runnable() {
-          private double m_oldValue = getValue();
+          private double oldValue = getValue();
 
           @Override
           public void run() {
             double newValue = getValue();
 
-            if (m_oldValue != newValue) {
+            if (oldValue != newValue) {
               onChange.accept(false, newValue);
-              m_oldValue = newValue;
+              oldValue = newValue;
             }
 
           }
