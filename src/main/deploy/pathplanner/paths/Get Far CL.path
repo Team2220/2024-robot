@@ -3,59 +3,37 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.0,
-        "y": 6.75
+        "x": 0.771033906107768,
+        "y": 4.380017461477765
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.946450998340399,
-        "y": 7.326468459818163
+        "x": 1.0382580893241702,
+        "y": 1.0572284851561937
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Start Right"
     },
     {
       "anchor": {
-        "x": 8.73838426922137,
-        "y": 7.207141783872914
+        "x": 8.297793465731218,
+        "y": 0.03836225208521413
       },
       "prevControl": {
-        "x": 8.98102228561788,
-        "y": 5.3763276601538115
-      },
-      "nextControl": {
-        "x": 8.631136928835952,
-        "y": 8.01637171587197
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 2.0,
-        "y": 6.876698681255299
-      },
-      "prevControl": {
-        "x": 2.7077976464498996,
-        "y": 7.150260963673982
+        "x": 3.653005331137331,
+        "y": 0.038362252085212795
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.95,
-      "rotationDegrees": 84.11931107718108,
-      "rotateFast": false
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [
     {
       "name": "New Event Marker",
-      "waypointRelativePos": 0.5,
+      "waypointRelativePos": 0.3,
       "command": {
         "type": "parallel",
         "data": {
@@ -63,7 +41,24 @@
             {
               "type": "named",
               "data": {
-                "name": "intake+"
+                "name": "armRestFull"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "New Event Marker",
+      "waypointRelativePos": 0.75,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "intake"
               }
             }
           ]
@@ -79,14 +74,14 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 23.0,
+    "rotation": -1.041626676010009,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "Probaly Ohio paths",
   "previewStartingState": {
-    "rotation": 23.0,
-    "velocity": 230.0
+    "rotation": -60.0,
+    "velocity": 0
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }
