@@ -38,7 +38,6 @@ public class LedSignal {
         this.logEntry = new BooleanLogEntry(DataLogManager.getLog(), "Led Signal " + name);
     }
 
-
     public LedSignal(String name, BooleanSupplier isActive, LedAnimation animation, double debounce) {
         this(name, isActive, animation, debounce, DebounceType.kFalling, new LedSegment[] {});
     }
@@ -48,20 +47,19 @@ public class LedSignal {
         this(name, isActive, animation, debounce, debounceType, new LedSegment[] {});
     }
 
-    //$#####################//#endregion
+    // $#####################//#endregion
     public LedSignal(String name, BooleanSupplier isActive, Animation animation, double debounce,
             DebounceType debounceType, LedSegment[] segments) {
         this(name, isActive, new LedAnimation(animation), debounce, debounceType, segments);
     }
 
-
     public LedSignal(String name, BooleanSupplier isActive, Animation animation, double debounce) {
-         this(name, isActive, new LedAnimation(animation), debounce);
+        this(name, isActive, new LedAnimation(animation), debounce);
     }
 
     public LedSignal(String name, BooleanSupplier isActive, Animation animation, double debounce,
             DebounceType debounceType) {
-         this(name, isActive, new LedAnimation(animation), debounce, debounceType);
+        this(name, isActive, new LedAnimation(animation), debounce, debounceType);
     }
 
     public void update(LedSegment[] allSegments) {
@@ -196,6 +194,11 @@ public class LedSignal {
     public static LedSignal coastButton(BooleanSupplier supplier) {
         SingleFadeAnimation singleFadeAnimation = new SingleFadeAnimation(10, 100, 40, 10, 1, 164, 0);
         return new LedSignal("coastButton", supplier, singleFadeAnimation, 0);
+    }
+
+    public static LedSignal Lime(BooleanSupplier supplier) {
+        LedAnimation animation = LedAnimation.solid( 0, 30, 20);
+        return new LedSignal("Lime", supplier, animation, 0);
     }
 
 }
