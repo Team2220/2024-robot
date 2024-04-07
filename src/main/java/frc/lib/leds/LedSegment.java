@@ -3,7 +3,6 @@ package frc.lib.leds;
 import java.util.function.Consumer;
 
 import com.ctre.phoenix.led.Animation;
-import com.ctre.phoenix.led.CANdle;
 
 public class LedSegment {
     Consumer<LedAnimation> setAnimation;
@@ -13,7 +12,7 @@ public class LedSegment {
         this.setAnimation = setAnimation;
     }
 
-    public LedSegment(CANdle candle) {
+    public LedSegment(CANdleWrapper candle) {
         this((animation) -> {
             animation.run(candle);
 

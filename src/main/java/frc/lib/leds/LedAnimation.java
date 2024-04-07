@@ -3,16 +3,15 @@ package frc.lib.leds;
 import java.util.function.Consumer;
 
 import com.ctre.phoenix.led.Animation;
-import com.ctre.phoenix.led.CANdle;
 
 class LedAnimation {
-    private Consumer<CANdle> consumer;
+    private Consumer<CANdleWrapper> consumer;
 
-    public void run(CANdle candle) {
+    public void run(CANdleWrapper candle) {
         consumer.accept(candle);
     };
 
-    public LedAnimation(Consumer<CANdle> consumer) {
+    public LedAnimation(Consumer<CANdleWrapper> consumer) {
         this.consumer = consumer;
     }
 
@@ -39,7 +38,7 @@ class LedAnimation {
 
     public static LedAnimation progressbar() {
         return new LedAnimation((candle) -> {
-            candle.setLEDs(1, 100, 50, 0, 15, 7);
+            candle.setLEDs(1, 100, 50, 15, 7);
         });
 
     };
