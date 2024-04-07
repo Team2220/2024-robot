@@ -21,13 +21,13 @@ import frc.lib.tunables.TunableDouble;
 public class LedSignal {
     String name;
     BooleanSupplier isActive;
-    Animation animation;
+    LedAnimation animation;
     double debounce;
     Debouncer debouncer;
     private LedSegment[] segments;
     BooleanLogEntry logEntry;
 
-    public LedSignal(String name, BooleanSupplier isActive, Animation animation, double debounce,
+    public LedSignal(String name, BooleanSupplier isActive, LedAnimation animation, double debounce,
             DebounceType debounceType, LedSegment[] segments) {
         this.name = name;
         this.isActive = isActive;
@@ -39,13 +39,29 @@ public class LedSignal {
     }
 
 
-    public LedSignal(String name, BooleanSupplier isActive, Animation animation, double debounce) {
+    public LedSignal(String name, BooleanSupplier isActive, LedAnimation animation, double debounce) {
         this(name, isActive, animation, debounce, DebounceType.kFalling, new LedSegment[] {});
+    }
+
+    public LedSignal(String name, BooleanSupplier isActive, LedAnimation animation, double debounce,
+            DebounceType debounceType) {
+        this(name, isActive, animation, debounce, debounceType, new LedSegment[] {});
+    }
+
+    //$#####################//#endregion
+    public LedSignal(String name, BooleanSupplier isActive, Animation animation, double debounce,
+            DebounceType debounceType, LedSegment[] segments) {
+        this(name, isActive, new LedAnimation(animation), debounce, debounceType, segments);
+    }
+
+
+    public LedSignal(String name, BooleanSupplier isActive, Animation animation, double debounce) {
+         this(name, isActive, new LedAnimation(animation), debounce);
     }
 
     public LedSignal(String name, BooleanSupplier isActive, Animation animation, double debounce,
             DebounceType debounceType) {
-        this(name, isActive, animation, debounce, debounceType, new LedSegment[] {});
+         this(name, isActive, new LedAnimation(animation), debounce, debounceType);
     }
 
     public void update(LedSegment[] allSegments) {
