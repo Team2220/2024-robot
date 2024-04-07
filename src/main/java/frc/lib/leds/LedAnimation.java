@@ -7,6 +7,7 @@ import com.ctre.phoenix.led.CANdle;
 
 class LedAnimation {
     private Consumer<CANdle> run;
+    public void run(CANdle candle) {};
 
     public LedAnimation(Consumer<CANdle> run) {
         this.run = run;
