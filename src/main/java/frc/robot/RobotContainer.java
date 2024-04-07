@@ -11,6 +11,7 @@ import frc.lib.Note;
 import frc.lib.can.CanStream;
 import frc.lib.faults.Fault;
 import frc.lib.faults.PDHLogPowerFaults;
+import frc.lib.leds.CANdleWrapper;
 import frc.lib.leds.LEDs;
 import frc.lib.leds.LedSignal;
 import frc.lib.selfCheck.RobotSelfCheckCommand;
@@ -21,6 +22,7 @@ import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 
+import com.ctre.phoenix.led.CANdle;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
@@ -66,7 +68,9 @@ public class RobotContainer {
     configureBindings();
 
     leds = new LEDs(
-        new int[] { 1, 2 },
+        new CANdleWrapper[] {
+            new CANdleWrapper(1, 512),
+            new CANdleWrapper(2, 512) },
         new LedSignal[] {
             LedSignal.isBrownedOut(),
             LedSignal.isDSConnected(),
@@ -77,9 +81,9 @@ public class RobotContainer {
             LedSignal.coastButton(arm::getcoastButton),
             LedSignal.getLowBatteryLedSignal(),
             LedSignal.erolsPurpleLight(() -> operatorController.getHID().getPOV() == 90), // left dpad
-            // LedSignal.seanscolors(() -> driverController.getHID().getPOV() != -1), //
-            // all depad
-            // LedSignal.shooterAtSetPoint(() -> shooter.isAtSetPoint()),
+        // LedSignal.seanscolors(() -> driverController.getHID().getPOV() != -1), //
+        // all depad
+        // LedSignal.shooterAtSetPoint(() -> shooter.isAtSetPoint()),
         });
 
     NamedCommands.registerCommand("armSpeakerPos", arm.autoSetPositionOnceCommand(55));
@@ -243,7 +247,7 @@ public class RobotContainer {
     operatorController.povUp().onTrue(arm.setPositionCommand(43.7));
     operatorController.povDown().whileTrue(shooter.setDutyCycleCommand(-1));
 
-    //_operatorController.povDown().whileTrue(shooter.setDutyCycleCommand(-1));
+    // _operatorController.povDown().whileTrue(shooter.setDutyCycleCommand(-1));
 
   }
 

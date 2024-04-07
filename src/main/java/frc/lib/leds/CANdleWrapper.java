@@ -6,10 +6,12 @@ import com.ctre.phoenix.led.CANdle;
 
 public class CANdleWrapper {
     private CANdle candle;
+    private int leds;
 
-    public CANdleWrapper(int id) {
+    public CANdleWrapper(int id, int numLed) {
 
         candle = new CANdle(id);
+        leds = numLed;
 
     };
 
@@ -25,4 +27,9 @@ public class CANdleWrapper {
     public void setLEDs(int r, int g, int b) {
         setLEDs(r, g, b, 0, 512);
     }
+
+    public int getNumLed() {
+        return leds;
+    }
+
 }

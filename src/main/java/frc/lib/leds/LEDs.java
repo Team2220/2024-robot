@@ -11,15 +11,15 @@ public class LEDs extends SubsystemBase {
     this.signals = signals;
   }
 
-  public LEDs(int[] ids, LedSignal[] signals) {
-    this(makeCANdleWrapperSegments(ids), signals);
+  public LEDs(CANdleWrapper[] candles, LedSignal[] signals) {
+    this(makeCANdleWrapperSegments(candles), signals);
   }
 
-  private static LedSegment[] makeCANdleWrapperSegments(int[] ids) {
-    LedSegment[] segments = new LedSegment[ids.length];
+  private static LedSegment[] makeCANdleWrapperSegments(CANdleWrapper candle[]) {
+    LedSegment[] segments = new LedSegment[candle.length];
 
-    for (int i = 0; i < ids.length; i++) {
-      segments[i] = new LedSegment(new CANdleWrapper(ids[i]));
+    for (int i = 0; i < candle.length; i++) {
+      segments[i] = new LedSegment(candle[i]);
     }
 
     return segments;
