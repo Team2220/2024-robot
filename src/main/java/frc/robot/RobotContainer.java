@@ -75,6 +75,7 @@ public class RobotContainer {
             LedSignal.isBrownedOut(),
             LedSignal.isDSConnected(),
             LedSignal.isEndGame(),
+            LedSignal.Testwrapper(() -> driverController.getHID().getPOV() != -1),
             LedSignal.hasgamepiceTopLedSignal(intake::getTopNoteSensor),
             LedSignal.intakeStalled(intake::isStalled),
             LedSignal.hasgamepiceBottomLedSignal(intake::getBottomNoteSensor),
