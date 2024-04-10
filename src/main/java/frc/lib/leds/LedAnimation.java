@@ -4,8 +4,11 @@ import java.util.function.Consumer;
 
 import com.ctre.phoenix.led.Animation;
 
+import edu.wpi.first.wpilibj.Timer;
+
 class LedAnimation {
     private Consumer<CANdleWrapper> consumer;
+
 
     public void run(CANdleWrapper candle) {
         consumer.accept(candle);
@@ -36,9 +39,13 @@ class LedAnimation {
         });
     };
 
+    // how long would the buttion have to be pressed for a timed anaimation (with
+    // delays) to play in full? ASK TIM
     public static LedAnimation progressbar() {
         return new LedAnimation((candle) -> {
-            candle.setLEDs(1, 100, 50, 15, 7);
+       
+                candle.setLEDs(0, 100, 0);
+
         });
 
     };

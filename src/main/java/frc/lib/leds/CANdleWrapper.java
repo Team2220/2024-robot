@@ -32,4 +32,7 @@ public class CANdleWrapper {
         return leds;
     }
 
+    public int e = 3;
+    //hehehe
+
 }
