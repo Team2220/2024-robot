@@ -46,18 +46,39 @@ class LedAnimation {
         });
     };
 
-    // how long would the buttion have to be pressed for a timed anaimation (with
-    // delays) to play in full? ASK TIM
-    public static LedAnimation progressbar() {
+    // timed example
+    // change 3 for number of varibles
+    // change 2 for speed
+    public static LedAnimation e() {
         return new LedAnimation((candle) -> {
 
-            if ((int)((Timer.getFPGATimestamp()*2) % 2) == 0) {
+            int i = (int) ((Timer.getFPGATimestamp() * 2) % 3);
+            if (i == 0) {
                 candle.setLEDs(75, 0, 0);
-            } else {
-                candle.setLEDs(0, 0, 100);
+            }
+            if (i == 1) {
+                candle.setLEDs(0, 75, 0);
+            }
+            if (i == 2) {
+                candle.setLEDs(0, 0, 75);
             }
         });
 
+    };
+
+    public static LedAnimation progressbar() {
+        return new LedAnimation((candle) -> {
+
+            for (int i = 0; i < candle.getNumLed(); i++) {
+                if ((int) (i % 2) == 0) {
+                    candle.setLEDs(20, 0, 0, i, 1);
+
+                } else {
+                    candle.setLEDs(0, 20, 0, i, 1);
+                }
+
+            }
+        });
     };
 
 };
