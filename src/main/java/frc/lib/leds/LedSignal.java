@@ -201,7 +201,7 @@ public class LedSignal {
         return new LedSignal("Lime", supplier, animation, 0);
     }
 
-    public static LedSignal Testwrapper (BooleanSupplier supplier) {
+    public static LedSignal Testwrapper(BooleanSupplier supplier) {
         LedAnimation animation = LedAnimation.progressbar();
         return new LedSignal("Testwrapper", supplier, animation, 0);
     }
