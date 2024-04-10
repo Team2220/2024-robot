@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.Timer;
 class LedAnimation {
     private Consumer<CANdleWrapper> consumer;
 
-
     public void run(CANdleWrapper candle) {
         consumer.accept(candle);
     };
@@ -33,6 +32,14 @@ class LedAnimation {
 
     };
 
+    public static LedAnimation off() {
+        return new LedAnimation((candle) -> {
+            candle.setLEDs(0, 0, 0);
+            candle.animate(null);
+        });
+
+    };
+
     public static LedAnimation solid(int r, int b, int g) {
         return new LedAnimation((candle) -> {
             candle.setLEDs(r, g, b);
@@ -43,9 +50,12 @@ class LedAnimation {
     // delays) to play in full? ASK TIM
     public static LedAnimation progressbar() {
         return new LedAnimation((candle) -> {
-       
-                candle.setLEDs(0, 100, 0);
 
+            if ((int)((Timer.getFPGATimestamp()*2) % 2) == 0) {
+                candle.setLEDs(75, 0, 0);
+            } else {
+                candle.setLEDs(0, 0, 100);
+            }
         });
 
     };

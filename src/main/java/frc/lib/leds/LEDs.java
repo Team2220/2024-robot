@@ -34,7 +34,7 @@ public class LEDs extends SubsystemBase {
       signal.update(segments);
     }
     for (LedSegment segment : segments) {
-      segment.setAnimationIfAble(null);
+      segment.setAnimationIfAble(LedAnimation.off());
     }
   }
 }
