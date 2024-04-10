@@ -34,13 +34,13 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
 
   // Drive gear ratio (that number is the number of revolutions of the motor to
   // get one revolution of the output)
-  public static final double DT_DRIVE_GEAR_RATIO = Constants.SwerveModule.DT_DRIVE_GEAR_RATIO;
+
   // Drive motor inverted
   // public static final boolean DT_DRIVE_MOTOR_INVERTED = true;
 
   // Steer gear ratio (that number is the number of revolutions of the steer motor
   // to get one revolution of the output)
-  public static final double DT_STEER_GEAR_RATIO = Constants.SwerveModule.DT_STEER_GEAR_RATIO;
+
   // Steer motor inverted
   // public static final boolean DT_STEER_MOTOR_INVERTED = false;
 
@@ -61,7 +61,9 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
     driveMotor = new TalonFX(driveMotorChannel);
     turningMotor = new TalonFX(turningMotorChannel);
     var driveConfig = makeConfiguration();
+    driveConfig.Feedback.SensorToMechanismRatio = Constants.SwerveModule.DT_DRIVE_GEAR_RATIO;
     var turningconfig = makeConfiguration();
+    turningconfig.Feedback.SensorToMechanismRatio = Constants.SwerveModule.DT_STEER_GEAR_RATIO;
 
     turningEncoder = new PWMEncoder(turningEncoderChannelA);
     speed = Shuffleboard.getTab("swerve").add(name + " speed", 0).getEntry();
@@ -160,7 +162,7 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
 
   private double getDriveVelocity() {
     double ticks = driveMotor.getVelocity().getValueAsDouble();
-    double revolutionsMotorToRevolutionsWheel = 1.0 / DT_DRIVE_GEAR_RATIO // Reduction from motor to output
+    double revolutionsMotorToRevolutionsWheel = 1.0 // Reduction from motor to output
         * (1.0 / (SwerveModule.DT_WHEEL_DIAMETER * Math.PI));
 
     return ticks * revolutionsMotorToRevolutionsWheel;
@@ -179,7 +181,7 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
 
   private double getDrivePosition() {
     double ticks = driveMotor.getRotorPosition().getValueAsDouble();
-    double revolutionsMotorToRevolutionsWheel = 1.0 / DT_DRIVE_GEAR_RATIO // Reduction from motor to output
+    double revolutionsMotorToRevolutionsWheel = 1.0 // Reduction from motor to output
         * (1.0 * (SwerveModule.DT_WHEEL_DIAMETER * Math.PI));
 
     return ticks * revolutionsMotorToRevolutionsWheel;
@@ -187,20 +189,20 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
 
   private double mpsToEncoderTicks(double mps) {
     double wheelRevolutions = (DT_WHEEL_DIAMETER * Math.PI);
-    double motorRev = mps / wheelRevolutions * DT_DRIVE_GEAR_RATIO;
+    double motorRev = mps / wheelRevolutions;
     double ticks = motorRev;
     return ticks;
   }
 
   private double angleToEncoderTicks(double angle) {
     double angleToWheelRev = angle / 360.0;
-    double motorRev = angleToWheelRev * DT_STEER_GEAR_RATIO;
+    double motorRev = angleToWheelRev;
     return motorRev;
   }
 
   private double steerEncoderTicksToAngle(double ticks) {
     double motorRotation = ticks;
-    double moduleRotation = motorRotation / DT_STEER_GEAR_RATIO;
+    double moduleRotation = motorRotation;
     double angle = moduleRotation * 360;
     return angle;
   }
