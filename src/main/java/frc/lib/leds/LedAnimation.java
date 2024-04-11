@@ -49,36 +49,88 @@ class LedAnimation {
     // timed example
     // change 3 for number of varibles
     // change 2 for speed
-    public static LedAnimation e() {
+    public static LedAnimation timedexample() {
         return new LedAnimation((candle) -> {
 
-            int i = (int) ((Timer.getFPGATimestamp() * 2) % 3);
-            if (i == 0) {
+            int time = (int) ((Timer.getFPGATimestamp() * 2) % 3);
+            if (time == 0) {
                 candle.setLEDs(75, 0, 0);
             }
-            if (i == 1) {
+            if (time == 1) {
                 candle.setLEDs(0, 75, 0);
             }
-            if (i == 2) {
+            if (time == 2) {
                 candle.setLEDs(0, 0, 75);
             }
         });
 
     };
 
-    public static LedAnimation progressbar() {
+    public static LedAnimation rainbowOffset() {
+        return new LedAnimation((candle) -> {
+          int numLeds = candle.getNumLed();
+          float hueOffset = (float) Timer.getFPGATimestamp() / 1000.0f; // Adjust speed as needed
+      
+          for (int led = 0; led < numLeds; led++) {
+            float hue = (led + hueOffset) % 1.0f;
+            int red = (int) (Math.sin(hue * Math.PI * 2.0f) * 255);
+            int green = (int) (Math.cos(hue * Math.PI) * 255);
+            int blue = (int) (-Math.sin(hue * Math.PI * 2.0f + 2.0f * Math.PI / 3.0f) * 255);
+      
+            candle.setLEDs(red, green, blue, led, 1); // Set brightness with the last argument
+          }
+        });
+      }
+      
+
+    public static LedAnimation stagerexample() {
         return new LedAnimation((candle) -> {
 
-            for (int i = 0; i < candle.getNumLed(); i++) {
-                if ((int) (i % 2) == 0) {
-                    candle.setLEDs(20, 0, 0, i, 1);
+            for (int stager = 0; stager < candle.getNumLed(); stager++) {
+                if ((int) (stager % 2) == 0) {
+                    candle.setLEDs(20, 0, 0, stager, 1);
 
                 } else {
-                    candle.setLEDs(0, 20, 0, i, 1);
+                    candle.setLEDs(0, 20, 0, stager, 1);
                 }
 
             }
         });
     };
 
+    public static LedAnimation rainbow() {
+        return new LedAnimation((candle) -> {
+
+            int time = (int) ((Timer.getFPGATimestamp() * 15) % 6);
+            if (time == 0) {
+                candle.setLEDs(255, 0, 0);
+            }
+            // red
+            if (time == 1) {
+                candle.setLEDs(255, 128, 0);
+            }
+            // orange
+            if (time == 2) {
+                candle.setLEDs(255, 255, 0);
+            }
+            // yellow
+            if (time == 3) {
+                candle.setLEDs(0, 255, 75);
+            }
+            // green
+            if (time == 4) {
+                candle.setLEDs(0, 0, 255);
+            }
+            // blue
+            if (time == 5) {
+                candle.setLEDs(255, 0, 255);
+            }
+            // pink
+
+        });
+
+    };
+
 };
+// dont name all the varibles "i" it breaks it
+// *cough* tim *cough*
