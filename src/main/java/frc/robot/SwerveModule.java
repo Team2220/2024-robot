@@ -4,13 +4,7 @@
 
 package frc.robot;
 
-import org.ejml.equation.Function;
-
-import com.ctre.phoenix6.configs.AudioConfigs;
-import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
-import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.configs.VoltageConfigs;
 import com.ctre.phoenix6.controls.PositionDutyCycle;
 import com.ctre.phoenix6.controls.VelocityDutyCycle;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -22,7 +16,6 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.GenericEntry;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import frc.lib.PWMEncoder;
 import frc.lib.ShuffleBoardTabWrapper;
@@ -41,13 +34,13 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
 
   // Drive gear ratio (that number is the number of revolutions of the motor to
   // get one revolution of the output)
-  public static final double DT_DRIVE_GEAR_RATIO = (50.0 / 14.0) * (16.0 / 28.0) * (45.0 / 15.0);
+
   // Drive motor inverted
   // public static final boolean DT_DRIVE_MOTOR_INVERTED = true;
 
   // Steer gear ratio (that number is the number of revolutions of the steer motor
   // to get one revolution of the output)
-  public static final double DT_STEER_GEAR_RATIO = 150.0 / 7.0;
+
   // Steer motor inverted
   // public static final boolean DT_STEER_MOTOR_INVERTED = false;
 
@@ -68,7 +61,9 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
     driveMotor = new TalonFX(driveMotorChannel);
     turningMotor = new TalonFX(turningMotorChannel);
     var driveConfig = makeConfiguration();
+    driveConfig.Feedback.SensorToMechanismRatio = Constants.SwerveModule.DT_DRIVE_GEAR_RATIO;
     var turningconfig = makeConfiguration();
+    turningconfig.Feedback.SensorToMechanismRatio = Constants.SwerveModule.DT_STEER_GEAR_RATIO;
 
     turningEncoder = new PWMEncoder(turningEncoderChannelA);
     speed = Shuffleboard.getTab("swerve").add(name + " speed", 0).getEntry();
@@ -112,7 +107,6 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
       }
     });
 
-    //i like ashwan
     SwerveModule.DT_STEER_D.addChangeListener((isInit, value) -> {
       turningconfig.Slot0.kD = value;
       if (!isInit) {
@@ -168,7 +162,7 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
 
   private double getDriveVelocity() {
     double ticks = driveMotor.getVelocity().getValueAsDouble();
-    double revolutionsMotorToRevolutionsWheel = 1.0 / DT_DRIVE_GEAR_RATIO // Reduction from motor to output
+    double revolutionsMotorToRevolutionsWheel = 1.0 // Reduction from motor to output
         * (1.0 / (SwerveModule.DT_WHEEL_DIAMETER * Math.PI));
 
     return ticks * revolutionsMotorToRevolutionsWheel;
@@ -187,7 +181,7 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
 
   private double getDrivePosition() {
     double ticks = driveMotor.getRotorPosition().getValueAsDouble();
-    double revolutionsMotorToRevolutionsWheel = 1.0 / DT_DRIVE_GEAR_RATIO // Reduction from motor to output
+    double revolutionsMotorToRevolutionsWheel = 1.0 // Reduction from motor to output
         * (1.0 * (SwerveModule.DT_WHEEL_DIAMETER * Math.PI));
 
     return ticks * revolutionsMotorToRevolutionsWheel;
@@ -195,20 +189,20 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
 
   private double mpsToEncoderTicks(double mps) {
     double wheelRevolutions = (DT_WHEEL_DIAMETER * Math.PI);
-    double motorRev = mps / wheelRevolutions * DT_DRIVE_GEAR_RATIO;
+    double motorRev = mps / wheelRevolutions;
     double ticks = motorRev;
     return ticks;
   }
 
   private double angleToEncoderTicks(double angle) {
     double angleToWheelRev = angle / 360.0;
-    double motorRev = angleToWheelRev * DT_STEER_GEAR_RATIO;
+    double motorRev = angleToWheelRev;
     return motorRev;
   }
 
   private double steerEncoderTicksToAngle(double ticks) {
     double motorRotation = ticks;
-    double moduleRotation = motorRotation / DT_STEER_GEAR_RATIO;
+    double moduleRotation = motorRotation;
     double angle = moduleRotation * 360;
     return angle;
   }
