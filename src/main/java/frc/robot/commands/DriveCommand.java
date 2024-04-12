@@ -3,9 +3,17 @@ package frc.robot.commands;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.DriveTrain;
+
+import frc.lib.LimelightHelpers;
+import frc.lib.LimelightHelpers.LimelightTarget_Detector;
+
 
 public class DriveCommand extends Command {
     double P = .009764387;
@@ -24,9 +32,12 @@ public class DriveCommand extends Command {
     private BooleanSupplier upRight;
     private BooleanSupplier downLeft;
     private BooleanSupplier downRight;
+    private BooleanSupplier pointAtGoal;
     PIDController controller = new PIDController(P, I, D);
     double wantedAngle = 0.0;
     boolean pid = false;
+
+    boolean goal = false;
 
     public DriveCommand(
             DoubleSupplier xspeed,
@@ -41,6 +52,7 @@ public class DriveCommand extends Command {
             BooleanSupplier upRight,
             BooleanSupplier downLeft,
             BooleanSupplier downRight,
+            BooleanSupplier pointAtGoal,
             DriveTrain driveTrain) {
         this.slow = slow;
         this.xspeed = xspeed;
@@ -55,6 +67,7 @@ public class DriveCommand extends Command {
         this.downLeft = downLeft;
         this.downRight = downRight;
         this.driveTrain = driveTrain;
+        this.pointAtGoal = pointAtGoal;
         addRequirements(driveTrain);
         controller.enableContinuousInput(0, 360);
     }
@@ -67,39 +80,63 @@ public class DriveCommand extends Command {
         double coefficient = slow.getAsBoolean() ? 0.5 : 1;
         if (left.getAsBoolean()) {
             pid = true;
+            goal = false;
             wantedAngle = 270;
         }
         if (right.getAsBoolean()) {
             pid = true;
+            goal = false;
             wantedAngle = 90;
         }
         if (up.getAsBoolean()) {
             pid = true;
+            goal = false;
             wantedAngle = 0;
         }
         if (down.getAsBoolean()) {
             pid = true;
+            goal = false;
             wantedAngle = 180;
         }
         if (upLeft.getAsBoolean()) {
             pid = true;
+            goal = false;
             wantedAngle = 45;
         }
         if (upRight.getAsBoolean()) {
             pid = true;
+            goal = false;
             wantedAngle = 315;
         }
         if (downLeft.getAsBoolean()) {
             pid = true;
+            goal = false;
             wantedAngle = 135;
         }
         if (downRight.getAsBoolean()) {
             pid = true;
+            goal = false;
             wantedAngle = 225;
         }
         if (rot.getAsDouble() > 0) {
             pid = false;
+            goal = false;
             wantedAngle = 0;
+        }
+        if (pointAtGoal.getAsBoolean()) {
+            pid = true;
+            goal = true;
+          
+            
+        }
+        if (goal){
+            AprilTagFieldLayout layout = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
+            Pose3d RED = layout.getTagPose(4).get();
+            Pose3d BLUE = layout.getTagPose(7).get();
+            var goal = DriverStation.getAlliance().get() == DriverStation.Alliance.Red ? RED : BLUE;
+            var Botpose = driveTrain.getPose().getTranslation().minus((goal).toPose2d().getTranslation());
+            
+            wantedAngle = Math.toDegrees(Math.atan2(Botpose.getY(), Botpose.getX()));
         }
         double rotate = this.rot.getAsDouble() * coefficient;
         if (pid) {

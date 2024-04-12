@@ -223,7 +223,7 @@ public static final PIDConstants rotationConstants = new PIDConstants(2, 0.0, 0.
         // System.out.println(LimelightHelpers.getBotPose2d_wpiBlue("limelight-name"));
     }
 
-    private Pose2d getPose() {
+    public Pose2d getPose() {
         var pose = poseEstimator.getEstimatedPosition();
         return new Pose2d(pose.getY(), pose.getX() * -1, pose.getRotation());
     }

@@ -142,6 +142,7 @@ public class RobotContainer {
         () -> driverController.getHID().getPOV() == 135,
         () -> driverController.getHID().getPOV() == 315,
         () -> driverController.getHID().getPOV() == 225,
+        () -> driverController.getHID().getBButton(),
         driveTrain);
     driveTrain.setDefaultCommand(driveCommand);
     driverController.joysticksTrigger().onTrue(driveCommand);
@@ -152,7 +153,7 @@ public class RobotContainer {
 
     driverController.x().whileTrue((driveTrain.xcommand()));
 
-    driverController.povRight().whileTrue(new Angles(m_arm));
+    driverController.povRight().whileTrue(new Angles(arm));
 
     new Trigger(shooter::isGoingWrongWay)
         .whileTrue(driverController.rumbleCommand(.50))

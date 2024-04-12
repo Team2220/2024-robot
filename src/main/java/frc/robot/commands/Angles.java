@@ -31,7 +31,6 @@ public class Angles extends Command {
         System.out.println(armAngle);
         arm.setPosition(armAngle);
         }
-        else 
     }
 
     // @Override
