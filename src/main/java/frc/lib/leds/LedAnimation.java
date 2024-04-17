@@ -68,22 +68,42 @@ class LedAnimation {
 
     public static LedAnimation rainbowOffset() {
         return new LedAnimation((candle) -> {
-          int numLeds = candle.getNumLed();
-          float hueOffset = (float) Timer.getFPGATimestamp() / 1000.0f; // Adjust speed as needed
-      
-          for (int led = 0; led < numLeds; led++) {
-            float hue = (led + hueOffset) % 1.0f;
-            int red = (int) (Math.sin(hue * Math.PI * 2.0f) * 255);
-            int green = (int) (Math.cos(hue * Math.PI) * 255);
-            int blue = (int) (-Math.sin(hue * Math.PI * 2.0f + 2.0f * Math.PI / 3.0f) * 255);
-      
-            candle.setLEDs(red, green, blue, led, 1); // Set brightness with the last argument
-          }
-        });
-      }
-      
+            int numLeds = candle.getNumLed();
+            float hueOffset = (float) Timer.getFPGATimestamp() / 1000.0f; // Adjust speed as needed
 
-    public static LedAnimation stagerexample() {
+            for (int led = 0; led < numLeds; led++) {
+                float hue = (led + hueOffset) % 1.0f;
+                int red = (int) (Math.sin(hue * Math.PI * 2.0f) * 255);
+                int green = (int) (Math.cos(hue * Math.PI) * 255);
+                int blue = (int) (-Math.sin(hue * Math.PI * 2.0f + 2.0f * Math.PI / 3.0f) * 255);
+
+                candle.setLEDs(red, green, blue, led, 1); // Set brightness with the last argument
+            }
+        });
+    }
+
+    // ###############################
+
+    public static LedAnimation stagger() {
+        return new LedAnimation((candle) -> {
+
+            for (int stagger = 0; stagger < candle.getNumLed(); stagger++) {
+                if ((int) (stagger % 3) == 0) {
+                    candle.setLEDs(20, 0, 0, stagger, 1);
+                }
+                if ((int) (stagger % 3) == 0) {
+                    candle.setLEDs(20, 20, 0, stagger, 1);
+                } else {
+                    candle.setLEDs(0, 0, 20, stagger, 1);
+                }
+
+            }
+        });
+    };
+
+    // ###############################
+
+    public static LedAnimation staggerexample() {
         return new LedAnimation((candle) -> {
 
             for (int stager = 0; stager < candle.getNumLed(); stager++) {
