@@ -20,12 +20,12 @@ public class CANdleWrapper {
 
     };
 
-    public void setLEDs(int r, int g, int b, int startIdx, int count) {
-        candle.setLEDs(r, g, b, 0, startIdx, count);
+    public void setLEDs(Color color, int startIdx, int count) {
+        candle.setLEDs(color.getR(), color.getG(), color.getB(), 0, startIdx, count);
     }
 
-    public void setLEDs(int r, int g, int b) {
-        setLEDs(r, g, b, 0, 512);
+    public void setLEDs(Color color) {
+        setLEDs(color, 0, 512);
     }
 
     public int getNumLed() {

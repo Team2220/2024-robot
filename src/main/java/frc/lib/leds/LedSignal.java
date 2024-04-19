@@ -197,7 +197,7 @@ public class LedSignal {
     }
 
     public static LedSignal Lime(BooleanSupplier supplier) {
-        LedAnimation animation = LedAnimation.solid( 0, 30, 20);
+        LedAnimation animation = LedAnimation.solid(Color.GREEN);
         return new LedSignal("Lime", supplier, animation, 0);
     }
 
