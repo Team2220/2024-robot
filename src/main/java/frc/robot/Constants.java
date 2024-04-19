@@ -41,7 +41,7 @@ public final class Constants {
 
     public static final double DT_FR_SE_OFFSET = RobotInstance.config((robot) -> {
       return switch (robot) {
-        case Robot23 -> 127.98046875 - 90;
+       case Robot23 -> 127.98046875 - 90;
         case Robot24 -> 309.902 - 90;
       };
     });
@@ -59,11 +59,6 @@ public final class Constants {
         case Robot24 -> 359.912 - 90;
       };
     });
-  }
-
-  public static class SwerveModule {
-    public static final double DT_DRIVE_GEAR_RATIO = (50.0 / 14.0) * (16.0 / 28.0) * (45.0 / 15.0);
-    public static final double DT_STEER_GEAR_RATIO = 150.0 / 7.0;
   }
 
   public static class Shooter {
