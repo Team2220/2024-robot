@@ -26,4 +26,8 @@ public class Color {
     public int getB() {
         return b;
     }
+
+    public Color brightness(double brightness) {
+        return new Color((int)(r*brightness), (int)(g*brightness), (int)(b*brightness));
+    }
 }
