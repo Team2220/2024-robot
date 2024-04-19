@@ -32,31 +32,31 @@ public final class Constants {
   public static final boolean isGraphsEnabled = false;
 
   public static class DriveTrain {
-    public static final double DT_BL_SE_OFFSET = RobotInstance.config((robot) -> {
+    public static final double DT_BACKLEFT_SE_OFFSET = RobotInstance.config((robot) -> {
       return switch (robot) {
-        case Robot23 -> 8.96484375 - 90;
-        case Robot24 -> 253.388 - 90;
+        case Robot23 -> 0.0;
+        case Robot24 -> 254.53 - 90;
       };
     });
 
-    public static final double DT_FR_SE_OFFSET = RobotInstance.config((robot) -> {
+    public static final double DT_FRONTRIGHT_SE_OFFSET = RobotInstance.config((robot) -> {
       return switch (robot) {
-       case Robot23 -> 127.98046875 - 90;
-        case Robot24 -> 309.902 - 90;
+        case Robot23 -> 0.0;
+        case Robot24 -> 309.46 - 90;
       };
     });
 
-    public static final double DT_FL_SE_OFFSET = RobotInstance.config((robot) -> {
+    public static final double DT_FRONTLEFT_SE_OFFSET = RobotInstance.config((robot) -> {
       return switch (robot) {
         case Robot23 -> 155.302734375 - 90;
-        case Robot24 -> 42.363 - 90;
+        case Robot24 -> 37.96 - 90;
       };
     });
 
-    public static final double DT_BR_SE_OFFSET = RobotInstance.config((robot) -> {
+    public static final double DT_BACKRIGHT_SE_OFFSET = RobotInstance.config((robot) -> {
       return switch (robot) {
         case Robot23 -> 247.5 - 90;
-        case Robot24 -> 359.912 - 90;
+        case Robot24 -> 358.24 - 90;
       };
     });
   }

@@ -153,7 +153,7 @@ public class RobotContainer {
 
     driverController.x().whileTrue((driveTrain.xcommand()));
 
-    driverController.povRight().whileTrue(new Angles(m_arm));
+    driverController.povRight().whileTrue(new Angles(arm));
 
     new Trigger(shooter::isGoingWrongWay)
         .whileTrue(driverController.rumbleCommand(.50))
