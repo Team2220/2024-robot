@@ -11,6 +11,7 @@ import frc.lib.Note;
 import frc.lib.can.CanStream;
 import frc.lib.faults.Fault;
 import frc.lib.faults.PDHLogPowerFaults;
+import frc.lib.leds.CANdleWrapper;
 import frc.lib.leds.LEDs;
 import frc.lib.leds.LedSignal;
 import frc.lib.selfCheck.RobotSelfCheckCommand;
@@ -22,6 +23,7 @@ import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 
+import com.ctre.phoenix.led.CANdle;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
@@ -67,14 +69,18 @@ public class RobotContainer {
     configureBindings();
 
     leds = new LEDs(
-        new int[] { 1, 2 },
+        new CANdleWrapper[] {
+            new CANdleWrapper(1, 512),
+            new CANdleWrapper(2, 512) },
         new LedSignal[] {
             LedSignal.isBrownedOut(),
             LedSignal.isDSConnected(),
             LedSignal.isEndGame(),
+            LedSignal.probalynotgoingtowork(driverController.x()),
+           // LedSignal.customrainbow(driverController.x()),
             LedSignal.hasgamepiceTopLedSignal(intake::getTopNoteSensor),
             LedSignal.intakeStalled(intake::isStalled),
-            LedSignal.hasgamepiceBottomLedSignal(intake::getBottomNoteSensor),
+            LedSignal.hasgamepiceBottomLedSignal(intake::getBottomNoteSensor),                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
             LedSignal.coastButton(arm::getcoastButton),
             LedSignal.getLowBatteryLedSignal(),
             LedSignal.erolsPurpleLight(() -> operatorController.getHID().getPOV() == 90), // left dpad
@@ -151,7 +157,7 @@ public class RobotContainer {
     // duplacates on purpos
     driverController.back().onTrue(driveTrain.zeroCommand());
 
-    driverController.x().whileTrue((driveTrain.xcommand()));
+    //driverController.x().whileTrue((driveTrain.xcommand()));
 
     driverController.povRight().whileTrue(new Angles(arm));
 
@@ -195,7 +201,15 @@ public class RobotContainer {
 
     driverController.leftTrigger().whileTrue(arm.setPositionOnceCommand(0).andThen(intake.intakeUntilQueued()));
 
-    // Operator controls
+
+
+
+
+
+
+
+
+    // Operator controls #######################################################################################################
     intake.setDefaultCommand(intake.dutyCycleCommand(() -> {
       return operatorController.getRightY();
     }));

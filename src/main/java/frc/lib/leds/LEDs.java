@@ -2,8 +2,6 @@ package frc.lib.leds;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import com.ctre.phoenix.led.CANdle;
-
 public class LEDs extends SubsystemBase {
   LedSegment[] segments;
   LedSignal[] signals;
@@ -13,15 +11,15 @@ public class LEDs extends SubsystemBase {
     this.signals = signals;
   }
 
-  public LEDs(int[] ids, LedSignal[] signals) {
-    this(makeCANdleSegments(ids), signals);
+  public LEDs(CANdleWrapper[] candles, LedSignal[] signals) {
+    this(makeCANdleWrapperSegments(candles), signals);
   }
 
-  private static LedSegment[] makeCANdleSegments(int[] ids) {
-    LedSegment[] segments = new LedSegment[ids.length];
+  private static LedSegment[] makeCANdleWrapperSegments(CANdleWrapper candle[]) {
+    LedSegment[] segments = new LedSegment[candle.length];
 
-    for (int i = 0; i < ids.length; i++) {
-      segments[i] = new LedSegment(new CANdle(ids[i]));
+    for (int i = 0; i < candle.length; i++) {
+      segments[i] = new LedSegment(candle[i]);
     }
 
     return segments;
@@ -36,7 +34,7 @@ public class LEDs extends SubsystemBase {
       signal.update(segments);
     }
     for (LedSegment segment : segments) {
-      segment.setAnimationIfAble(null);
+      segment.setAnimationIfAble(LedAnimation.off());
     }
   }
 }
