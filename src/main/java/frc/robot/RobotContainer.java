@@ -84,9 +84,9 @@ public class RobotContainer {
             LedSignal.coastButton(arm::getcoastButton),
             LedSignal.getLowBatteryLedSignal(),
             LedSignal.erolsPurpleLight(() -> operatorController.getHID().getPOV() == 90), // left dpad
-        // LedSignal.seanscolors(() -> driverController.getHID().getPOV() != -1), //
-        // all depad
-        // LedSignal.shooterAtSetPoint(() -> shooter.isAtSetPoint()),
+            // LedSignal.seanscolors(() -> driverController.getHID().getPOV() != -1), //
+            // all depad
+            // LedSignal.shooterAtSetPoint(() -> shooter.isAtSetPoint()),
         });
 
     NamedCommands.registerCommand("armSpeakerPos", arm.autoSetPositionOnceCommand(55));
@@ -259,7 +259,7 @@ public class RobotContainer {
     operatorController.povUp().onTrue(arm.setPositionCommand(43.7));
     operatorController.povDown().whileTrue(shooter.setDutyCycleCommand(-1));
 
-    // _operatorController.povDown().whileTrue(shooter.setDutyCycleCommand(-1));
+    //_operatorController.povDown().whileTrue(shooter.setDutyCycleCommand(-1));
 
   }
 

@@ -48,7 +48,7 @@ import frc.lib.selfCheck.UnwrappedTalonSpinCheck;
  */
 
 public class DriveTrain extends SubsystemBase implements TalonFXSubsystem, CheckableSubsystem, ShuffleBoardTabWrapper {
-    public static final PIDConstants rotationConstants = new PIDConstants(2, 0.0, 0.3);
+public static final PIDConstants rotationConstants = new PIDConstants(2, 0.0, 0.3);
 
     double driveRadius = Math
             .sqrt(Math.pow(DRIVETRAIN_TRACKWIDTH_METERS / 2, 2) + Math.pow(DRIVETRAIN_WHEELBASE_METERS / 2, 2));
@@ -98,8 +98,8 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem, Check
     GenericEntry gyroAngle = Shuffleboard.getTab("swerve").add("gyroAngle", 0).getEntry();
 
     public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
-        double x = xSpeed * MAX_VELOCITY_METERS_PER_SECOND * -1;
-        double y = ySpeed * MAX_VELOCITY_METERS_PER_SECOND * -1;
+        double x = xSpeed  * MAX_VELOCITY_METERS_PER_SECOND * -1;
+        double y = ySpeed  * MAX_VELOCITY_METERS_PER_SECOND * -1;
         double r = rot * MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * -1;
         driveRobotRelative(
                 fieldRelative
@@ -175,6 +175,7 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem, Check
             poseEstimator.resetPosition(getGyroscopeRotation(), getModulePositions(), startPose);
         });
     }
+    
 
     public ChassisSpeeds getSpeeds() {
         return KINEMATICS.toChassisSpeeds(getModuleStates());
@@ -185,25 +186,25 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem, Check
             12,
             11,
             1,
-            Constants.DriveTrain.DT_FL_SE_OFFSET);
+            Constants.DriveTrain.DT_FRONTLEFT_SE_OFFSET);
     private final SwerveModule frontRight = new SwerveModule(
             "frontright",
             18,
             17,
             2,
-            Constants.DriveTrain.DT_FR_SE_OFFSET);
+            Constants.DriveTrain.DT_FRONTRIGHT_SE_OFFSET);
     private final SwerveModule backLeft = new SwerveModule(
             "backleft",
             16,
             15,
             3,
-            Constants.DriveTrain.DT_BL_SE_OFFSET);
+            Constants.DriveTrain.DT_BACKLEFT_SE_OFFSET);
     private final SwerveModule backRight = new SwerveModule(
             "backright",
             14,
             13,
             0,
-            Constants.DriveTrain.DT_BR_SE_OFFSET);
+            Constants.DriveTrain.DT_BACKRIGHT_SE_OFFSET);
 
     public void periodic() {
         poseEstimatorField.setRobotPose(getPose());
@@ -295,8 +296,7 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem, Check
      * This is a measure of how fast the robot should be able to drive in a straight
      * line.
      */
-    public static final double MAX_VELOCITY_METERS_PER_SECOND = 6380.0 / 60.0
-            / Constants.SwerveModule.DT_DRIVE_GEAR_RATIO
+    public static final double MAX_VELOCITY_METERS_PER_SECOND = 6380.0 / 60.0 / SwerveModule.DT_DRIVE_GEAR_RATIO
             * SwerveModule.DT_WHEEL_DIAMETER * Math.PI;
     // ModuleConfiguration.MK4I_L2.getDriveReduction() *
     // ModuleConfiguration.MK4I_L2.getWheelDiameter() * PI;
