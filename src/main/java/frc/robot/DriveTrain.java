@@ -37,6 +37,7 @@ import frc.lib.ShuffleBoardTabWrapper;
 import frc.lib.TalonFXSubsystem;
 import frc.lib.selfCheck.CheckCommand;
 import frc.lib.selfCheck.CheckableSubsystem;
+import frc.lib.selfCheck.SwerveModuleSelfCheck;
 import frc.lib.selfCheck.UnwrappedTalonSpinCheck;
 
 /**
@@ -148,6 +149,7 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem, Check
                 new UnwrappedTalonSpinCheck("frontRightDrive", frontRight.getDriveMotor(), false),
                 new UnwrappedTalonSpinCheck("frontRightTurn", frontRight.getTurningMotor(), true),
                 new UnwrappedTalonSpinCheck("frontRightTurn", frontRight.getTurningMotor(), false),
+                //new SwerveModuleSelfCheck(backLeft, Units.degrees, null)
         };
     }
 
