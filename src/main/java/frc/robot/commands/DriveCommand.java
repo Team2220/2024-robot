@@ -16,9 +16,9 @@ import frc.lib.LimelightHelpers.LimelightTarget_Detector;
 
 
 public class DriveCommand extends Command {
-    double P = .009764387;
+    double P = .005;
     double I = 0;
-    double D = 0.0002;
+    double D = 0.000;
     private BooleanSupplier slow;
     private DoubleSupplier xspeed;
     private DoubleSupplier yspeed;
@@ -145,9 +145,9 @@ public class DriveCommand extends Command {
                     wantedAngle);
         }
         this.driveTrain.drive(
-                this.xspeed.getAsDouble() * coefficient,
-                this.yspeed.getAsDouble() * coefficient,
-                rotate,
+                this.xspeed.getAsDouble() * coefficient * -0.25,
+                this.yspeed.getAsDouble() * coefficient * -0.25,
+                rotate * -0.25,
                 true);
     }
 }

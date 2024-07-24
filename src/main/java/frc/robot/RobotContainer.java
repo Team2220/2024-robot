@@ -167,7 +167,7 @@ public class RobotContainer {
 
     driverController.b().onTrue(arm.setPositionCommand(55));
 
-    driverController.a().onTrue(arm.setPositionCommand(0));
+    driverController.a().onTrue(arm.setPositionCommand(28));
 
     driverController.y()
         .whileTrue(arm.setPositionOnceCommand(100))
@@ -182,17 +182,17 @@ public class RobotContainer {
         }, shooter, intake).withTimeout(1.5));
 
     driverController.rightTrigger()
-        .whileTrue(shooter.setDutyCycleCommand(1))
+        .whileTrue(shooter.setDutyCycleCommand(0.25))
         .whileTrue(driverController.rumbleCommand(.1).withTimeout(4))
         .whileFalse(driverController.rumbleCommand(.8).withTimeout(.5))
 
         .onFalse(Commands.startEnd(() -> {
           if (driverController.getHID().getRightBumper()) {
-            shooter.setDutyCycle(1);
+            shooter.setDutyCycle(0.25);
             intake.setSpeed(0);
           } else {
-            shooter.setDutyCycle(1);
-            intake.setSpeed(.75);
+            shooter.setDutyCycle(0.25);
+            intake.setSpeed(.5);
           }
         }, () -> {
           shooter.stopShooter();
@@ -202,8 +202,8 @@ public class RobotContainer {
     driverController.leftTrigger().whileTrue(arm.setPositionOnceCommand(0).andThen(intake.intakeUntilQueued()));
 
 
-
-
+    driverController.rightBumper().whileTrue(shooter.setDutyCycleCommand(-0.75));
+    driverController.leftBumper().whileTrue(intake.setDutyCycleCommand(-0.5));
 
 
 
