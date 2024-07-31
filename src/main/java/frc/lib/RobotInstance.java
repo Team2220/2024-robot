@@ -11,8 +11,8 @@ import edu.wpi.first.wpilibj.RobotBase;
 import frc.lib.faults.Fault;
 
 public enum RobotInstance {
-    Robot23("00-80-2F-17-60-67"),
-    Robot24("00-80-2F-36-FD-D6");
+    Robot24("ashwin"),
+    BoxyBot("00-80-2F-36-FD-D6");
 
     private String address;
     private static RobotInstance current = getMacAddress();
@@ -41,7 +41,7 @@ public enum RobotInstance {
             address = InetAddress.getLocalHost();
             NetworkInterface networkInterface = NetworkInterface.getByInetAddress(address);
             byte[] mac = networkInterface.getHardwareAddress();
-            // System.out.print("MAC address : ");
+            System.out.print("MAC address : ");
             StringBuilder stringBuilder = new StringBuilder();
             for (int i = 0; i < mac.length; i++) {
                 stringBuilder.append(String.format("%02X%s", mac[i], (i < mac.length - 1) ? "-" : ""));

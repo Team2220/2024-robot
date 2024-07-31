@@ -32,33 +32,13 @@ public final class Constants {
   public static final boolean isGraphsEnabled = false;
 
   public static class DriveTrain {
-    public static final double DT_BACKLEFT_SE_OFFSET = RobotInstance.config((robot) -> {
-      return switch (robot) {
-        case Robot23 -> 0.0;
-        case Robot24 -> 254.53 - 90 - 180;
-      };
-    });
+    public static final double DT_BACKLEFT_SE_OFFSET = 254.53 - 90 - 180;
 
-    public static final double DT_FRONTRIGHT_SE_OFFSET = RobotInstance.config((robot) -> {
-      return switch (robot) {
-        case Robot23 -> 0.0;
-        case Robot24 -> 309.46 - 90 - 180;
-      };
-    });
+    public static final double DT_FRONTRIGHT_SE_OFFSET = 309.46 - 90 - 180;
 
-    public static final double DT_FRONTLEFT_SE_OFFSET = RobotInstance.config((robot) -> {
-      return switch (robot) {
-        case Robot23 -> 155.302734375 - 90;
-        case Robot24 -> 37.96 - 90 - 180;
-      };
-    });
+    public static final double DT_FRONTLEFT_SE_OFFSET = 37.96 - 90 - 180;
 
-    public static final double DT_BACKRIGHT_SE_OFFSET = RobotInstance.config((robot) -> {
-      return switch (robot) {
-        case Robot23 -> 247.5 - 90;
-        case Robot24 -> 358.24 - 90 - 180;
-      };
-    });
+    public static final double DT_BACKRIGHT_SE_OFFSET = 358.24 - 90 - 180;
   }
 
   public static class SwerveModule {
