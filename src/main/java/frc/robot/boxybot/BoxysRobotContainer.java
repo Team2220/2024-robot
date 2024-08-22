@@ -4,13 +4,8 @@
 
 package frc.robot.boxybot;
 
-import frc.lib.MusicToneCommand;
-import frc.lib.Note;
-import frc.lib.selfCheck.RobotSelfCheckCommand;
-import frc.robot.DriveTrain;
 import frc.robot.DriverTab;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 
 public class BoxysRobotContainer {
   @SuppressWarnings("unused")
