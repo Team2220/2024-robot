@@ -2,30 +2,41 @@ package frc.robot;
 
 import java.util.function.DoubleSupplier;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 // import frc.twilight.swerve.subsystems.Swerve;
 // import frc.twilight.swerve.vectors.DriveVector;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.lib.LimelightHelpers;
-import frc.lib.LimelightHelpers.LimelightTarget_Detector;
 import frc.lib.tunables.TunableDouble;
+import frc.robot.LimelightHelpers.LimelightTarget_Detector;
 
 public class ObjectTracker extends Command {
   private PIDController pid = new PIDController(0, 0, 0);
 
-  // private Swerve swerve;
+   private DriveTrain driveTrain;
+   private DoubleSupplier fwd;
+   private DoubleSupplier str;
 
-  private static TunableDouble p = new TunableDouble("P", .03, true, "limelight");
+  private static TunableDouble p = new TunableDouble("P", .01, true, "limelight");
   private static TunableDouble i = new TunableDouble("I", 0, true, "limelight");
   private static TunableDouble d = new TunableDouble("D", 0, true, "limelight");
 
-  public ObjectTracker(/* Swerve swerve, */ DoubleSupplier fwd, DoubleSupplier str) {
+  public ObjectTracker(DriveTrain driveTrain,  DoubleSupplier fwd, DoubleSupplier str) {
+    addRequirements(driveTrain);
     pid.setTolerance(0.5);
     pid.setSetpoint(0);
+    this.driveTrain = driveTrain;
+    this.fwd = fwd;
+    this.str = str;
   }
+  
 
   @Override
   public void initialize() {
+    // System.out.println("init");
+    // var results = LimelightHelpers.getJSONDump("limelight-right");
+    // System.out.println("results=" + results);
+    // System.out.println("done");
   }
 
   @Override
@@ -33,25 +44,35 @@ public class ObjectTracker extends Command {
     pid.setPID(p.getValue(), i.getValue(), d.getValue());
 
     double out = 0;
-    boolean foundCone = false;
+    // double outA = 0;
+    boolean foundNote = false;
 
     var results = LimelightHelpers.getLatestResults("limelight-right");
-    for (LimelightTarget_Detector target : results.targetingResults.targets_Detector) {
-      if (target.className.equals("cone")) {
+    for (LimelightTarget_Detector target : results.targets_Detector) {
+      if (target.className.equals("note")) {
         out = target.tx;
-        foundCone = false;
+        // outA = target.ta;
+        foundNote = true;
+      } else {
+        System.out.println("unknown: " + target.className);
       }
     }
 
     out = pid.calculate(out);
+    // outA = pid.calculate(outA);
 
-    if (foundCone) {
-      System.out.println("out: " + out);
-      // out = MathUtil.clamp(out, -1, 1);
-      // swerve.setDrive(new DriveVector(fwd.getAsDouble(), str.getAsDouble(), -out),
+
+    if (foundNote) {
+      // System.out.println("out: "+ out);
+      // var result = results.targets_Detector[0];
+      
+      out = MathUtil.clamp(out, -1, 1);
+      driveTrain.drive(fwd.getAsDouble(), str.getAsDouble(), -out, true);
+      // driveTrain.setDrive(new DriveVector(fwd.getAsDouble(), str.getAsDouble(), -out),
       // true);
     } else {
-      // swerve.setDrive(new DriveVector(fwd.getAsDouble(), str.getAsDouble(), 0));
+      // System.out.println("nothing found");
+     driveTrain.drive(fwd.getAsDouble(), str.getAsDouble(), 0, true);
     }
 
   }

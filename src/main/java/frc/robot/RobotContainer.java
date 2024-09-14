@@ -151,7 +151,7 @@ public class RobotContainer {
         () -> driverController.getHID().getBButton(),
         driveTrain);
     driveTrain.setDefaultCommand(driveCommand);
-    driverController.joysticksTrigger().onTrue(driveCommand);
+    // driverController.joysticksTrigger().onTrue(driveCommand);
 
     driverController.start().onTrue(driveTrain.zeroCommand());
     // duplacates on purpos
@@ -167,7 +167,7 @@ public class RobotContainer {
 
     driverController.b().onTrue(arm.setPositionCommand(55));
 
-    driverController.a().onTrue(arm.setPositionCommand(28));
+    driverController.a().whileTrue(new ObjectTracker(driveTrain, driverController::getLeftX, driverController::getLeftY));
 
     driverController.y()
         .whileTrue(arm.setPositionOnceCommand(100))

@@ -46,7 +46,9 @@ public enum RobotInstance {
             for (int i = 0; i < mac.length; i++) {
                 stringBuilder.append(String.format("%02X%s", mac[i], (i < mac.length - 1) ? "-" : ""));
             }
-            return stringBuilder.toString();
+            String result = stringBuilder.toString();
+            System.out.println(result);
+            return result;
         } catch (Exception e) {
             e.printStackTrace();
             return "Error:" + e.toString();
@@ -59,10 +61,11 @@ public enum RobotInstance {
         } else {
             var check = fromString(getMacAddressStr());
             if (check == null) {
-                if (fault == null) {
-                    fault = new Fault("Unknown Robot MAC Address: " + getMacAddressStr());
-                    fault.setIsActive(true);
-                }
+                // if (fault == null) {
+                //     fault = new Fault("Unknown Robot MAC Address: " + getMacAddressStr());
+                //     fault.setIsActive(true);
+                // }
+                System.err.println("no mac address found");
                 return Robot24;
             } else {
                 return check;

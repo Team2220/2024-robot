@@ -31,7 +31,6 @@ import com.pathplanner.lib.util.ReplanningConfig;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.NavXWrapper;
-import frc.lib.LimelightHelpers;
 import frc.lib.RobotInstance;
 import frc.lib.ShuffleBoardTabWrapper;
 import frc.lib.TalonFXSubsystem;
@@ -55,7 +54,10 @@ public static final PIDConstants rotationConstants = new PIDConstants(2, 0.0, 0.
 
     public DriveTrain() {
         Shuffleboard.getTab("field").add("Field", poseEstimatorField).withSize(4, 3);
-        Shuffleboard.getTab("limeLight").add("limeLight", limeLightField);
+        Shuffleboard.getTab("limeLight").add("limeLight", limeLightField)
+                .withSize(4, 4)
+                .withPosition(0, 0);
+        GenericEntry skibidi = Shuffleboard.getTab("field").add("tag-count", 0).getEntry();
         // System.out.println("Velocity" + MAX_VELOCITY_METERS_PER_SECOND);
         AutoBuilder.configureHolonomic(
                 this::getPose, // Robot pose supplier
@@ -209,14 +211,14 @@ public static final PIDConstants rotationConstants = new PIDConstants(2, 0.0, 0.
     public void periodic() {
         poseEstimatorField.setRobotPose(getPose());
 
-        LimelightHelpers.PoseEstimate limelightMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight");
-        if (limelightMeasurement.tagCount >= 2) {
-            poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.7, .7, 9999999));
+        LimelightHelpers.PoseEstimate limelightMeasurement = LimelightHelpers
+                .getBotPoseEstimate_wpiBlue("limelight-right");
+        if (limelightMeasurement.tagCount >= 1) {
+            poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(0.5, 0.5, 0.5));
             poseEstimator.addVisionMeasurement(
                     limelightMeasurement.pose,
                     limelightMeasurement.timestampSeconds);
         }
-
         limeLightField.setRobotPose(limelightMeasurement.pose);
         gyroAngle.setDouble(getGyroscopeRotation().getDegrees());
         poseEstimator.update(
@@ -226,8 +228,8 @@ public static final PIDConstants rotationConstants = new PIDConstants(2, 0.0, 0.
     }
 
     public Pose2d getPose() {
-        var pose = poseEstimator.getEstimatedPosition();
-        return new Pose2d(pose.getY(), pose.getX() * -1, pose.getRotation());
+        return poseEstimator.getEstimatedPosition();
+        // return new Pose2d(pose.getX(), pose.getY(), pose.getRotation());
     }
 
     NavXWrapper navx = new NavXWrapper();
