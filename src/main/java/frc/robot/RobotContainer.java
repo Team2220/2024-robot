@@ -76,8 +76,8 @@ public class RobotContainer {
             LedSignal.isBrownedOut(),
             LedSignal.isDSConnected(),
             LedSignal.isEndGame(),
-            LedSignal.probalynotgoingtowork(driverController.x()),
-           // LedSignal.customrainbow(driverController.x()),
+           //// LedSignal.probalynotgoingtowork(driverController.x()),
+           LedSignal.customrainbow(driverController.x()),
             LedSignal.hasgamepiceTopLedSignal(intake::getTopNoteSensor),
             LedSignal.intakeStalled(intake::isStalled),
             LedSignal.hasgamepiceBottomLedSignal(intake::getBottomNoteSensor),                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
@@ -157,7 +157,7 @@ public class RobotContainer {
     // duplacates on purpos
     driverController.back().onTrue(driveTrain.zeroCommand());
 
-    //driverController.x().whileTrue((driveTrain.xcommand()));
+    driverController.x().whileTrue((driveTrain.xcommand()));
 
     driverController.povRight().whileTrue(new Angles(arm));
 
@@ -182,16 +182,16 @@ public class RobotContainer {
         }, shooter, intake).withTimeout(1.5));
 
     driverController.rightTrigger()
-        .whileTrue(shooter.setDutyCycleCommand(0.25))
+        .whileTrue(shooter.setDutyCycleCommand(0.35))
         .whileTrue(driverController.rumbleCommand(.1).withTimeout(4))
         .whileFalse(driverController.rumbleCommand(.8).withTimeout(.5))
 
         .onFalse(Commands.startEnd(() -> {
           if (driverController.getHID().getRightBumper()) {
-            shooter.setDutyCycle(0.25);
+            shooter.setDutyCycle(0.35);
             intake.setSpeed(0);
           } else {
-            shooter.setDutyCycle(0.25);
+            shooter.setDutyCycle(0.35);
             intake.setSpeed(.5);
           }
         }, () -> {
@@ -202,8 +202,31 @@ public class RobotContainer {
     driverController.leftTrigger().whileTrue(arm.setPositionOnceCommand(0).andThen(intake.intakeUntilQueued()));
 
 
-    driverController.rightBumper().whileTrue(shooter.setDutyCycleCommand(-0.75));
+   // driverController.rightBumper().whileTrue(shooter.setDutyCycleCommand(-0.75));
     driverController.leftBumper().whileTrue(intake.setDutyCycleCommand(-0.5));
+
+
+driverController.rightBumper()
+        .whileTrue(shooter.setDutyCycleCommand(2))
+        .whileTrue(driverController.rumbleCommand(2).withTimeout(4))
+        .whileFalse(driverController.rumbleCommand(.8).withTimeout(.5))
+
+        .onFalse(Commands.startEnd(() -> {
+          if (driverController.getHID().getRightBumper()) {
+            shooter.setDutyCycle(2);
+            intake.setSpeed(0);
+          } else {
+            shooter.setDutyCycle(2);
+            intake.setSpeed(.5);
+          }
+        }, () -> {
+          shooter.stopShooter();
+          intake.setSpeed(0);
+        }, shooter, intake).withTimeout(1));
+
+
+
+
 
 
 

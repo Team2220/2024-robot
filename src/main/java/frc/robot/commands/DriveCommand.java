@@ -8,11 +8,13 @@ import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.DriveTrain;
 
 import frc.lib.LimelightHelpers;
 import frc.lib.LimelightHelpers.LimelightTarget_Detector;
+import frc.lib.tunables.TunableDouble;
 
 
 public class DriveCommand extends Command {
@@ -38,6 +40,7 @@ public class DriveCommand extends Command {
     boolean pid = false;
 
     boolean goal = false;
+    TunableDouble speedMultiplier = new TunableDouble("SpeedMultiplier", 1, getName());
 
     public DriveCommand(
             DoubleSupplier xspeed,
@@ -144,10 +147,11 @@ public class DriveCommand extends Command {
                     driveTrain.getGyroscopeRotation().getDegrees() * -1,
                     wantedAngle);
         }
+
         this.driveTrain.drive(
-                this.xspeed.getAsDouble() * coefficient * -0.25,
-                this.yspeed.getAsDouble() * coefficient * -0.25,
-                rotate * -0.25,
+                this.xspeed.getAsDouble() * coefficient * speedMultiplier.getValue(),
+                this.yspeed.getAsDouble() * coefficient * speedMultiplier.getValue(),
+                rotate * speedMultiplier.getValue(),
                 true);
     }
 }
