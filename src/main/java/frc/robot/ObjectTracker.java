@@ -11,7 +11,8 @@ import frc.lib.tunables.TunableDouble;
 import frc.robot.LimelightHelpers.LimelightTarget_Detector;
 
 public class ObjectTracker extends Command {
-  private PIDController pid = new PIDController(0, 0, 0);
+  private PIDController turningPid = new PIDController(0, 0, 0);
+  private PIDController movingPid = new PIDController(0, 0, 0);
 
    private DriveTrain driveTrain;
    private DoubleSupplier fwd;
@@ -21,10 +22,16 @@ public class ObjectTracker extends Command {
   private static TunableDouble i = new TunableDouble("I", 0, true, "limelight");
   private static TunableDouble d = new TunableDouble("D", 0, true, "limelight");
 
+  private static TunableDouble pM = new TunableDouble("PM", .01, true, "limelight");
+  private static TunableDouble iM = new TunableDouble("IM", 0, true, "limelight");
+  private static TunableDouble dM = new TunableDouble("DM", 0, true, "limelight");
+
   public ObjectTracker(DriveTrain driveTrain,  DoubleSupplier fwd, DoubleSupplier str) {
     addRequirements(driveTrain);
-    pid.setTolerance(0.5);
-    pid.setSetpoint(0);
+    turningPid.setTolerance(0.5);
+    turningPid.setSetpoint(0);
+    movingPid.setTolerance(0.5);
+    movingPid.setSetpoint(0);
     this.driveTrain = driveTrain;
     this.fwd = fwd;
     this.str = str;
@@ -41,25 +48,26 @@ public class ObjectTracker extends Command {
 
   @Override
   public void execute() {
-    pid.setPID(p.getValue(), i.getValue(), d.getValue());
+    turningPid.setPID(p.getValue(), i.getValue(), d.getValue());
+    movingPid.setPID(pM.getValue(), iM.getValue(), dM.getValue());
 
     double out = 0;
-    // double outA = 0;
+    double outA = 0;
     boolean foundNote = false;
 
     var results = LimelightHelpers.getLatestResults("limelight-right");
     for (LimelightTarget_Detector target : results.targets_Detector) {
       if (target.className.equals("note")) {
         out = target.tx;
-        // outA = target.ta;
+        outA = target.ta;
         foundNote = true;
       } else {
         System.out.println("unknown: " + target.className);
       }
     }
 
-    out = pid.calculate(out);
-    // outA = pid.calculate(outA);
+    out = turningPid.calculate(out);
+    outA = movingPid.calculate(outA);
 
 
     if (foundNote) {
@@ -67,12 +75,12 @@ public class ObjectTracker extends Command {
       // var result = results.targets_Detector[0];
       
       out = MathUtil.clamp(out, -1, 1);
-      driveTrain.drive(fwd.getAsDouble(), str.getAsDouble(), -out, true);
+      driveTrain.drive(-outA + 10, str.getAsDouble(), -out, true);
       // driveTrain.setDrive(new DriveVector(fwd.getAsDouble(), str.getAsDouble(), -out),
       // true);
     } else {
       // System.out.println("nothing found");
-     driveTrain.drive(fwd.getAsDouble(), str.getAsDouble(), 0, true);
+     driveTrain.drive(0, str.getAsDouble(), 0, true);
     }
 
   }
