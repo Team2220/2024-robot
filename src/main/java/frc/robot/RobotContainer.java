@@ -177,7 +177,7 @@ public class RobotContainer {
     driverController.a().onTrue(arm.setPositionCommand(28));
 
     driverController.y()
-        .whileTrue(arm.setPositionOnceCommand(100))
+        .whileTrue(arm.setPositionOnceCommand(75))
         .whileTrue(shooter.setyDutyCycleCommand())
 
         .onFalse(Commands.startEnd(() -> {
