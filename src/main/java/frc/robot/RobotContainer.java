@@ -161,7 +161,7 @@ public class RobotContainer {
     driverController.joysticksTrigger().onTrue(driveCommand);
 
     driverController.start().onTrue(driveTrain.zeroCommand());
-    // duplacates on purpos
+    
     driverController.back().onTrue(driveTrain.zeroCommand());
 
     driverController.x().whileTrue((driveTrain.xcommand()));
