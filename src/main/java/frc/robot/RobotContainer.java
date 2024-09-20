@@ -76,7 +76,7 @@ public class RobotContainer {
             LedSignal.isBrownedOut(),
             LedSignal.isDSConnected(),
             LedSignal.isEndGame(),
-           //// LedSignal.probalynotgoingtowork(driverController.x()),
+           //// -LedSignal.probalynotgoingtowork(driverController.x()),
            LedSignal.customrainbow(driverController.x()),
             LedSignal.hasgamepiceTopLedSignal(intake::getTopNoteSensor),
             LedSignal.intakeStalled(intake::isStalled),
@@ -151,6 +151,13 @@ public class RobotContainer {
         () -> driverController.getHID().getBButton(),
         driveTrain);
     driveTrain.setDefaultCommand(driveCommand);
+
+
+
+    // Driver controler ##############################################################
+
+
+    
     driverController.joysticksTrigger().onTrue(driveCommand);
 
     driverController.start().onTrue(driveTrain.zeroCommand());
@@ -207,16 +214,16 @@ public class RobotContainer {
 
 
 driverController.rightBumper()
-        .whileTrue(shooter.setDutyCycleCommand(2))
-        .whileTrue(driverController.rumbleCommand(2).withTimeout(4))
+        .whileTrue(shooter.setDutyCycleCommand(1))
+        .whileTrue(driverController.rumbleCommand(1).withTimeout(4))
         .whileFalse(driverController.rumbleCommand(.8).withTimeout(.5))
 
         .onFalse(Commands.startEnd(() -> {
           if (driverController.getHID().getRightBumper()) {
-            shooter.setDutyCycle(2);
+            shooter.setDutyCycle(1);
             intake.setSpeed(0);
           } else {
-            shooter.setDutyCycle(2);
+            shooter.setDutyCycle(1);
             intake.setSpeed(.5);
           }
         }, () -> {
@@ -232,7 +239,10 @@ driverController.rightBumper()
 
 
 
-    // Operator controls #######################################################################################################
+    /*  Da 1 Remote ############################################################################################################
+    ############################################################################################################################
+    ############################################################################################################################
+    ##########################################################################################################################*/
     intake.setDefaultCommand(intake.dutyCycleCommand(() -> {
       return operatorController.getRightY();
     }));
@@ -262,7 +272,7 @@ driverController.rightBumper()
     operatorController.rightBumper().whileTrue(intake.setDutyCycleCommand(.75));
 
     operatorController.start().onTrue(Commands.runOnce(arm::setZero, arm));
-    // duplicates on purpos
+
     operatorController.back().onTrue(Commands.runOnce(arm::setZero, arm));
 
     operatorController.y().onTrue(arm.setPositionCommand(100));
@@ -286,6 +296,11 @@ driverController.rightBumper()
 
   }
 
+
+
+  /*##########################################################################################################################
+  ############################################################################################################################
+  ##########################################################################################################################*/
   public Command getAutonomousCommand() {
     return autoChooser.getSelected();
   }
