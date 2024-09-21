@@ -40,7 +40,7 @@ public class DriveCommand extends Command {
     boolean pid = false;
 
     boolean goal = false;
-    TunableDouble speedMultiplier = new TunableDouble("SpeedMultiplier", 1, getName());
+    TunableDouble speedMultiplier = new TunableDouble("SpeedMultiplier", 0.5, getName());
 
     public DriveCommand(
             DoubleSupplier xspeed,
@@ -81,51 +81,51 @@ public class DriveCommand extends Command {
     @Override
     public void execute() {
         double coefficient = slow.getAsBoolean() ? 0.5 : 1;
-        if (left.getAsBoolean()) {
-            pid = true;
-            goal = false;
-            wantedAngle = 270;
-        }
-        if (right.getAsBoolean()) {
-            pid = true;
-            goal = false;
-            wantedAngle = 90;
-        }
-        if (up.getAsBoolean()) {
-            pid = true;
-            goal = false;
-            wantedAngle = 0;
-        }
-        if (down.getAsBoolean()) {
-            pid = true;
-            goal = false;
-            wantedAngle = 180;
-        }
-        if (upLeft.getAsBoolean()) {
-            pid = true;
-            goal = false;
-            wantedAngle = 45;
-        }
-        if (upRight.getAsBoolean()) {
-            pid = true;
-            goal = false;
-            wantedAngle = 315;
-        }
-        if (downLeft.getAsBoolean()) {
-            pid = true;
-            goal = false;
-            wantedAngle = 135;
-        }
-        if (downRight.getAsBoolean()) {
-            pid = true;
-            goal = false;
-            wantedAngle = 225;
-        }
-        if (rot.getAsDouble() > 0) {
-            pid = false;
-            goal = false;
-            wantedAngle = 0;
-        }
+        // if (left.getAsBoolean()) {
+        //     pid = true;
+        //     goal = false;
+        //     wantedAngle = 270;
+        // }
+        // if (right.getAsBoolean()) {
+        //     pid = true;
+        //     goal = false;
+        //     wantedAngle = 90;
+        // }
+        // if (up.getAsBoolean()) {
+        //     pid = true;
+        //     goal = false;
+        //     wantedAngle = 0;
+        // }
+        // if (down.getAsBoolean()) {
+        //     pid = true;
+        //     goal = false;
+        //     wantedAngle = 180;
+        // }
+        // if (upLeft.getAsBoolean()) {
+        //     pid = true;
+        //     goal = false;
+        //     wantedAngle = 45;
+        // }
+        // if (upRight.getAsBoolean()) {
+        //     pid = true;
+        //     goal = false;
+        //     wantedAngle = 315;
+        // }
+        // if (downLeft.getAsBoolean()) {
+        //     pid = true;
+        //     goal = false;
+        //     wantedAngle = 135;
+        // }
+        // if (downRight.getAsBoolean()) {
+        //     pid = true;
+        //     goal = false;
+        //     wantedAngle = 225;
+        // }
+        // if (rot.getAsDouble() > 0) {
+        //     pid = false;
+        //     goal = false;
+        //     wantedAngle = 0;
+        // }
         if (pointAtGoal.getAsBoolean()) {
             pid = true;
             goal = true;

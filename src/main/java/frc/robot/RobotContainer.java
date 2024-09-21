@@ -76,11 +76,11 @@ public class RobotContainer {
             LedSignal.isBrownedOut(),
             LedSignal.isDSConnected(),
             LedSignal.isEndGame(),
-           //// -LedSignal.probalynotgoingtowork(driverController.x()),
-           LedSignal.customrainbow(driverController.x()),
+            //// -LedSignal.probalynotgoingtowork(driverController.x()),
+            LedSignal.customrainbow(driverController.x()),
             LedSignal.hasgamepiceTopLedSignal(intake::getTopNoteSensor),
             LedSignal.intakeStalled(intake::isStalled),
-            LedSignal.hasgamepiceBottomLedSignal(intake::getBottomNoteSensor),                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+            LedSignal.hasgamepiceBottomLedSignal(intake::getBottomNoteSensor),
             LedSignal.coastButton(arm::getcoastButton),
             LedSignal.getLowBatteryLedSignal(),
             LedSignal.erolsPurpleLight(() -> operatorController.getHID().getPOV() == 90), // left dpad
@@ -152,16 +152,13 @@ public class RobotContainer {
         driveTrain);
     driveTrain.setDefaultCommand(driveCommand);
 
+    // Driver controler
+    // ##############################################################
 
-
-    // Driver controler ##############################################################
-
-
-    
     driverController.joysticksTrigger().onTrue(driveCommand);
 
     driverController.start().onTrue(driveTrain.zeroCommand());
-    
+
     driverController.back().onTrue(driveTrain.zeroCommand());
 
     driverController.x().whileTrue((driveTrain.xcommand()));
@@ -175,10 +172,6 @@ public class RobotContainer {
     driverController.b().onTrue(arm.setPositionCommand(55));
 
     driverController.a().onTrue(arm.setPositionCommand(28));
-     
-    // driverController.getHID().getPOV(0).onTrue(/*arm up*/);
-  
-    // driverController.getHID().getPOV(180).onTrue(/*arm down*/);
 
     driverController.y()
         .whileTrue(arm.setPositionOnceCommand(75))
@@ -212,11 +205,9 @@ public class RobotContainer {
 
     driverController.leftTrigger().whileTrue(arm.setPositionOnceCommand(0).andThen(intake.intakeUntilQueued()));
 
-
     driverController.leftBumper().whileTrue(intake.setDutyCycleCommand(-0.5));
 
-
-driverController.rightBumper()
+    driverController.rightBumper()
         .whileTrue(shooter.setDutyCycleCommand(1))
         .whileTrue(driverController.rumbleCommand(1).withTimeout(4))
         .whileFalse(driverController.rumbleCommand(.8).withTimeout(.5))
@@ -234,18 +225,18 @@ driverController.rightBumper()
           intake.setSpeed(0);
         }, shooter, intake).withTimeout(1));
 
+    /*
+     * operator controler
+     * #############################################################################
+     * #########################
+     * #############################################################################
+     * ###############################################
+     * #############################################################################
+     * ###############################################
+     * #############################################################################
+     * #############################################
+     */
 
-
-
-
-
-
-
-
-    /* operator controler ######################################################################################################
-    ############################################################################################################################
-    ############################################################################################################################
-    ##########################################################################################################################*/
     intake.setDefaultCommand(intake.dutyCycleCommand(() -> {
       return operatorController.getRightY();
     }));
@@ -255,7 +246,26 @@ driverController.rightBumper()
       if (joyStickPosition > 0.01 || joyStickPosition < -0.01) {
         isArmHeld = false;
         arm.setDutyCycle(joyStickPosition);
-      } else {
+      } else if (driverController.getHID().getPOV() == 0) {
+
+        isArmHeld = false;
+        arm.setDutyCycle(0.3);
+
+      } else if (driverController.getHID().getPOV() == 180) {
+
+        isArmHeld = false;
+        arm.setDutyCycle(-0.4);
+
+      }
+
+
+
+
+
+            
+
+
+      else {
         if (isArmHeld == false) {
           arm.holdPosition();
         }
@@ -299,11 +309,14 @@ driverController.rightBumper()
 
   }
 
-
-
-  /*##########################################################################################################################
-  ############################################################################################################################
-  ##########################################################################################################################*/
+  /*
+   * #############################################################################
+   * #############################################
+   * #############################################################################
+   * ###############################################
+   * #############################################################################
+   * #############################################
+   */
   public Command getAutonomousCommand() {
     return autoChooser.getSelected();
   }
