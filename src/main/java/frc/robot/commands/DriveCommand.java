@@ -141,7 +141,7 @@ public class DriveCommand extends Command {
             
             wantedAngle = Math.toDegrees(Math.atan2(Botpose.getY(), Botpose.getX()));
         }
-        double rotate = this.rot.getAsDouble() * coefficient;
+        double rotate = this.rot.getAsDouble() * coefficient * -1;
         if (pid) {
             rotate = controller.calculate(
                     driveTrain.getGyroscopeRotation().getDegrees() * -1,
