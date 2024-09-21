@@ -290,7 +290,7 @@ public class RobotContainer {
 
     operatorController.y().onTrue(arm.setPositionCommand(100));
 
-    operatorController.a().onTrue(arm.setPositionCommand(120));
+    operatorController.a().onTrue(arm.setPositionCommand(12));
 
     operatorController.b().whileTrue(arm.setPositionCommand(0));
 
