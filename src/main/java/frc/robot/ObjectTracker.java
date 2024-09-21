@@ -22,7 +22,7 @@ public class ObjectTracker extends Command {
   private static TunableDouble i = new TunableDouble("I", 0, true, "limelight");
   private static TunableDouble d = new TunableDouble("D", 0, true, "limelight");
 
-  private static TunableDouble pM = new TunableDouble("PM", .00001, true, "limelight");
+  private static TunableDouble pM = new TunableDouble("PM", .5, true, "limelight");
   private static TunableDouble iM = new TunableDouble("IM", 0, true, "limelight");
   private static TunableDouble dM = new TunableDouble("DM", 0, true, "limelight");
 
@@ -75,12 +75,12 @@ public class ObjectTracker extends Command {
       // var result = results.targets_Detector[0];
       
       out = MathUtil.clamp(out, -1, 1);
-      driveTrain.drive(-outA, str.getAsDouble(), -out, true);
+      driveTrain.drive(0, -outA + 3, -out, false);
       // driveTrain.setDrive(new DriveVector(fwd.getAsDouble(), str.getAsDouble(), -out),
       // true);
     } else {
       // System.out.println("nothing found");
-     driveTrain.drive(0, str.getAsDouble(), 0, true);
+     driveTrain.drive(0, str.getAsDouble(), 0, false);
     }
 
   }
