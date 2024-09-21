@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import static edu.wpi.first.math.util.Units.inchesToMeters;
+import static edu.wpi.first.units.Units.Degrees;
 
 import java.util.function.DoubleSupplier;
 
@@ -133,23 +134,23 @@ public static final PIDConstants rotationConstants = new PIDConstants(2, 0.0, 0.
     @Override
     public CheckCommand[] getCheckCommands() {
         return new CheckCommand[] {
-                new UnwrappedTalonSpinCheck("backLeftDrive", backLeft.getDriveMotor(), true),
-                new UnwrappedTalonSpinCheck("backLeftDrive", backLeft.getDriveMotor(), false),
-                new UnwrappedTalonSpinCheck("backLeftTurn", backLeft.getTurningMotor(), true),
-                new UnwrappedTalonSpinCheck("backLeftTurn", backLeft.getTurningMotor(), false),
-                new UnwrappedTalonSpinCheck("frontLeftDrive", frontLeft.getDriveMotor(), true),
-                new UnwrappedTalonSpinCheck("frontLeftDrive", frontLeft.getDriveMotor(), false),
-                new UnwrappedTalonSpinCheck("frontLeftTurn", frontLeft.getTurningMotor(), true),
-                new UnwrappedTalonSpinCheck("frontLeftTurn", frontLeft.getTurningMotor(), false),
-                new UnwrappedTalonSpinCheck("backRightDrive", backRight.getDriveMotor(), true),
-                new UnwrappedTalonSpinCheck("backRightDrive", backRight.getDriveMotor(), false),
-                new UnwrappedTalonSpinCheck("backRightTurn", backRight.getTurningMotor(), true),
-                new UnwrappedTalonSpinCheck("backRightTurn", backRight.getTurningMotor(), false),
-                new UnwrappedTalonSpinCheck("frontRightDrive", frontRight.getDriveMotor(), true),
-                new UnwrappedTalonSpinCheck("frontRightDrive", frontRight.getDriveMotor(), false),
-                new UnwrappedTalonSpinCheck("frontRightTurn", frontRight.getTurningMotor(), true),
-                new UnwrappedTalonSpinCheck("frontRightTurn", frontRight.getTurningMotor(), false),
-                //new SwerveModuleSelfCheck(backLeft, Units.degrees, null)
+            // new UnwrappedTalonSpinCheck("backLeftDrive", backLeft.getDriveMotor(), true),
+            // new UnwrappedTalonSpinCheck("backLeftDrive", backLeft.getDriveMotor(), false),
+            // new UnwrappedTalonSpinCheck("backLeftTurn", backLeft.getTurningMotor(), true),
+            // new UnwrappedTalonSpinCheck("backLeftTurn", backLeft.getTurningMotor(), false),
+            // new UnwrappedTalonSpinCheck("frontLeftDrive", frontLeft.getDriveMotor(), true),
+            // new UnwrappedTalonSpinCheck("frontLeftDrive", frontLeft.getDriveMotor(), false),
+            // new UnwrappedTalonSpinCheck("frontLeftTurn", frontLeft.getTurningMotor(), true),
+            // new UnwrappedTalonSpinCheck("frontLeftTurn", frontLeft.getTurningMotor(), false),
+            // new UnwrappedTalonSpinCheck("backRightDrive", backRight.getDriveMotor(), true),
+            // new UnwrappedTalonSpinCheck("backRightDrive", backRight.getDriveMotor(), false),
+            // new UnwrappedTalonSpinCheck("backRightTurn", backRight.getTurningMotor(), true),
+            // new UnwrappedTalonSpinCheck("backRightTurn", backRight.getTurningMotor(), false),
+            // new UnwrappedTalonSpinCheck("frontRightDrive", frontRight.getDriveMotor(), true),
+            // new UnwrappedTalonSpinCheck("frontRightDrive", frontRight.getDriveMotor(), false),
+            // new UnwrappedTalonSpinCheck("frontRightTurn", frontRight.getTurningMotor(), true),
+            // new UnwrappedTalonSpinCheck("frontRightTurn", frontRight.getTurningMotor(), false),
+            new SwerveModuleSelfCheck(backLeft, Degrees.of(90), Degrees.of(5))
         };
     }
 

@@ -21,7 +21,9 @@ public class SwerveModuleSelfCheck extends CheckCommand {
 
     @Override
     public void initialize() {
-
+        System.out.println("initialize");
+      System.out.println("position =" + position.in(Units.Degrees));
+      System.out.println("getCurrentPosition =" + getCurrentPosition().in(Units.Degrees));
     }
 
     @Override
@@ -31,15 +33,21 @@ public class SwerveModuleSelfCheck extends CheckCommand {
 
     @Override
     public void end(boolean interrupted) {
-
+        System.out.println("end");
+        System.out.println("position =" + position.in(Units.Degrees));
+        System.out.println("getCurrentPosition =" + getCurrentPosition().in(Units.Degrees));
     }
 
     @Override
     public boolean isFinished() {
-        var currentPosition = Units.Degrees.of(module.getPosition().angle.getDegrees());
+        var currentPosition = getCurrentPosition();
         var diff = (currentPosition.minus(position));
         return UnitsUtil.abs(diff).lte(tolerance);
         
+    }
+
+    private Measure<Angle> getCurrentPosition() {
+        return Units.Degrees.of(module.getPosition().angle.getDegrees());
     }
 
     @Override
