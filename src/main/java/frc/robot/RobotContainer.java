@@ -175,6 +175,10 @@ public class RobotContainer {
     driverController.b().onTrue(arm.setPositionCommand(55));
 
     driverController.a().onTrue(arm.setPositionCommand(28));
+     
+    // driverController.getHID().getPOV(0).onTrue(/*arm up*/);
+  
+    // driverController.getHID().getPOV(180).onTrue(/*arm down*/);
 
     driverController.y()
         .whileTrue(arm.setPositionOnceCommand(75))
@@ -209,7 +213,6 @@ public class RobotContainer {
     driverController.leftTrigger().whileTrue(arm.setPositionOnceCommand(0).andThen(intake.intakeUntilQueued()));
 
 
-   // driverController.rightBumper().whileTrue(shooter.setDutyCycleCommand(-0.75));
     driverController.leftBumper().whileTrue(intake.setDutyCycleCommand(-0.5));
 
 
@@ -239,7 +242,7 @@ driverController.rightBumper()
 
 
 
-    /*  Da 1 Remote ############################################################################################################
+    /* operator controler ######################################################################################################
     ############################################################################################################################
     ############################################################################################################################
     ##########################################################################################################################*/
