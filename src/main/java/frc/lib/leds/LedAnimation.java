@@ -27,22 +27,22 @@ class LedAnimation {
 
     public static LedAnimation namehere() {
         return new LedAnimation((candle) -> {
-            candle.setLEDs(1, 100, 50);
+            candle.setLEDs(Color.BLUE);
         });
 
     };
 
     public static LedAnimation off() {
         return new LedAnimation((candle) -> {
-            candle.setLEDs(0, 0, 0);
+            candle.setLEDs(Color.BLACK);
             candle.animate(null);
         });
 
     };
 
-    public static LedAnimation solid(int r, int b, int g) {
+    public static LedAnimation solid(Color color) {
         return new LedAnimation((candle) -> {
-            candle.setLEDs(r, g, b);
+            candle.setLEDs(color);
         });
     };
 
@@ -54,13 +54,13 @@ class LedAnimation {
 
             int time = (int) ((Timer.getFPGATimestamp() * 2) % 3);
             if (time == 0) {
-                candle.setLEDs(75, 0, 0);
+                candle.setLEDs(Color.RED);
             }
             if (time == 1) {
-                candle.setLEDs(0, 75, 0);
+                candle.setLEDs(Color.GREEN);
             }
             if (time == 2) {
-                candle.setLEDs(0, 0, 75);
+                candle.setLEDs(Color.BLUE);
             }
         });
 
@@ -77,7 +77,7 @@ class LedAnimation {
                 int green = (int) (Math.cos(hue * Math.PI) * 255);
                 int blue = (int) (-Math.sin(hue * Math.PI * 2.0f + 2.0f * Math.PI / 3.0f) * 255);
 
-                candle.setLEDs(red, green, blue, led, 1); // Set brightness with the last argument
+                candle.setLEDs(new Color(red, green, blue), led, 1); // Set brightness with the last argument
             }
         });
     }
@@ -89,12 +89,12 @@ class LedAnimation {
 
             for (int stagger = 0; stagger < candle.getNumLed(); stagger++) {
                 if ((int) (stagger % 3) == 0) {
-                    candle.setLEDs(20, 0, 0, stagger, 1);
+                    candle.setLEDs(Color.RED, stagger, 1);
                 }
                 if ((int) (stagger % 3) == 0) {
-                    candle.setLEDs(20, 20, 0, stagger, 1);
+                    candle.setLEDs(Color.GREEN, stagger, 1);
                 } else {
-                    candle.setLEDs(0, 0, 20, stagger, 1);
+                    candle.setLEDs(Color.BLUE, stagger, 1);
                 }
 
             }
@@ -108,10 +108,10 @@ class LedAnimation {
 
             for (int stager = 0; stager < candle.getNumLed(); stager++) {
                 if ((int) (stager % 2) == 0) {
-                    candle.setLEDs(20, 0, 0, stager, 1);
+                    candle.setLEDs(Color.RED, stager, 1);
 
                 } else {
-                    candle.setLEDs(0, 20, 0, stager, 1);
+                    candle.setLEDs(Color.GREEN, stager, 1);
                 }
 
             }
@@ -123,27 +123,27 @@ class LedAnimation {
 
             int time = (int) ((Timer.getFPGATimestamp() * 15) % 6);
             if (time == 0) {
-                candle.setLEDs(255, 0, 0);
+                candle.setLEDs(Color.RED);
             }
             // red
             if (time == 1) {
-                candle.setLEDs(255, 128, 0);
+                candle.setLEDs(Color.RED);
             }
             // orange
             if (time == 2) {
-                candle.setLEDs(255, 255, 0);
+                candle.setLEDs(Color.RED);
             }
             // yellow
             if (time == 3) {
-                candle.setLEDs(0, 255, 75);
+                candle.setLEDs(Color.RED);
             }
             // green
             if (time == 4) {
-                candle.setLEDs(0, 0, 255);
+                candle.setLEDs(Color.RED);
             }
             // blue
             if (time == 5) {
-                candle.setLEDs(255, 0, 255);
+                candle.setLEDs(Color.RED);
             }
             // pink
 
@@ -152,5 +152,3 @@ class LedAnimation {
     };
 
 };
-// dont name all the varibles "i" it breaks it
-// *cough* tim *cough*

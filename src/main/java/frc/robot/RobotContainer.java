@@ -84,9 +84,9 @@ public class RobotContainer {
             LedSignal.coastButton(arm::getcoastButton),
             LedSignal.getLowBatteryLedSignal(),
             LedSignal.erolsPurpleLight(() -> operatorController.getHID().getPOV() == 90), // left dpad
-            // LedSignal.seanscolors(() -> driverController.getHID().getPOV() != -1), //
-            // all depad
-            // LedSignal.shooterAtSetPoint(() -> shooter.isAtSetPoint()),
+        // LedSignal.seanscolors(() -> driverController.getHID().getPOV() != -1), //
+        // all depad
+        // LedSignal.shooterAtSetPoint(() -> shooter.isAtSetPoint()),
         });
 
     NamedCommands.registerCommand("armSpeakerPos", arm.autoSetPositionOnceCommand(55));
@@ -151,7 +151,7 @@ public class RobotContainer {
         () -> driverController.getHID().getBButton(),
         driveTrain);
     driveTrain.setDefaultCommand(driveCommand);
-    driverController.joysticksTrigger().onTrue(driveCommand);
+    // driverController.joysticksTrigger().onTrue(driveCommand);
 
     driverController.start().onTrue(driveTrain.zeroCommand());
     // duplacates on purpos
@@ -167,7 +167,7 @@ public class RobotContainer {
 
     driverController.b().onTrue(arm.setPositionCommand(55));
 
-    driverController.a().onTrue(arm.setPositionCommand(0));
+    driverController.a().whileTrue(new ObjectTracker(driveTrain, driverController::getLeftX, driverController::getLeftY));
 
     driverController.y()
         .whileTrue(arm.setPositionOnceCommand(100))
@@ -182,17 +182,17 @@ public class RobotContainer {
         }, shooter, intake).withTimeout(1.5));
 
     driverController.rightTrigger()
-        .whileTrue(shooter.setDutyCycleCommand(1))
+        .whileTrue(shooter.setDutyCycleCommand(0.25))
         .whileTrue(driverController.rumbleCommand(.1).withTimeout(4))
         .whileFalse(driverController.rumbleCommand(.8).withTimeout(.5))
 
         .onFalse(Commands.startEnd(() -> {
           if (driverController.getHID().getRightBumper()) {
-            shooter.setDutyCycle(1);
+            shooter.setDutyCycle(0.25);
             intake.setSpeed(0);
           } else {
-            shooter.setDutyCycle(1);
-            intake.setSpeed(.75);
+            shooter.setDutyCycle(0.25);
+            intake.setSpeed(.5);
           }
         }, () -> {
           shooter.stopShooter();
@@ -202,8 +202,8 @@ public class RobotContainer {
     driverController.leftTrigger().whileTrue(arm.setPositionOnceCommand(0).andThen(intake.intakeUntilQueued()));
 
 
-
-
+    driverController.rightBumper().whileTrue(shooter.setDutyCycleCommand(-0.75));
+    driverController.leftBumper().whileTrue(intake.setDutyCycleCommand(-0.5));
 
 
 
@@ -259,7 +259,7 @@ public class RobotContainer {
     operatorController.povUp().onTrue(arm.setPositionCommand(43.7));
     operatorController.povDown().whileTrue(shooter.setDutyCycleCommand(-1));
 
-    //_operatorController.povDown().whileTrue(shooter.setDutyCycleCommand(-1));
+    // _operatorController.povDown().whileTrue(shooter.setDutyCycleCommand(-1));
 
   }
 

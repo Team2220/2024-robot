@@ -11,8 +11,8 @@ import edu.wpi.first.wpilibj.RobotBase;
 import frc.lib.faults.Fault;
 
 public enum RobotInstance {
-    Robot23("00-80-2F-17-60-67"),
-    Robot24("00-80-2F-36-FD-D6");
+    Robot24("ashwin"),
+    BoxyBot("00-80-2F-36-FD-D6");
 
     private String address;
     private static RobotInstance current = getMacAddress();
@@ -41,12 +41,14 @@ public enum RobotInstance {
             address = InetAddress.getLocalHost();
             NetworkInterface networkInterface = NetworkInterface.getByInetAddress(address);
             byte[] mac = networkInterface.getHardwareAddress();
-            // System.out.print("MAC address : ");
+            System.out.print("MAC address : ");
             StringBuilder stringBuilder = new StringBuilder();
             for (int i = 0; i < mac.length; i++) {
                 stringBuilder.append(String.format("%02X%s", mac[i], (i < mac.length - 1) ? "-" : ""));
             }
-            return stringBuilder.toString();
+            String result = stringBuilder.toString();
+            System.out.println(result);
+            return result;
         } catch (Exception e) {
             e.printStackTrace();
             return "Error:" + e.toString();
@@ -59,10 +61,11 @@ public enum RobotInstance {
         } else {
             var check = fromString(getMacAddressStr());
             if (check == null) {
-                if (fault == null) {
-                    fault = new Fault("Unknown Robot MAC Address: " + getMacAddressStr());
-                    fault.setIsActive(true);
-                }
+                // if (fault == null) {
+                //     fault = new Fault("Unknown Robot MAC Address: " + getMacAddressStr());
+                //     fault.setIsActive(true);
+                // }
+                System.err.println("no mac address found");
                 return Robot24;
             } else {
                 return check;

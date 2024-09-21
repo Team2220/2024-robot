@@ -2,56 +2,85 @@ package frc.robot;
 
 import java.util.function.DoubleSupplier;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 // import frc.twilight.swerve.subsystems.Swerve;
 // import frc.twilight.swerve.vectors.DriveVector;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.lib.LimelightHelpers;
-import frc.lib.LimelightHelpers.LimelightTarget_Detector;
 import frc.lib.tunables.TunableDouble;
+import frc.robot.LimelightHelpers.LimelightTarget_Detector;
 
 public class ObjectTracker extends Command {
-  private PIDController pid = new PIDController(0, 0, 0);
+  private PIDController turningPid = new PIDController(0, 0, 0);
+  private PIDController movingPid = new PIDController(0, 0, 0);
 
-  // private Swerve swerve;
+   private DriveTrain driveTrain;
+   private DoubleSupplier fwd;
+   private DoubleSupplier str;
 
-  private static TunableDouble p = new TunableDouble("P", .03, true, "limelight");
+  private static TunableDouble p = new TunableDouble("P", .01, true, "limelight");
   private static TunableDouble i = new TunableDouble("I", 0, true, "limelight");
   private static TunableDouble d = new TunableDouble("D", 0, true, "limelight");
 
-  public ObjectTracker(/* Swerve swerve, */ DoubleSupplier fwd, DoubleSupplier str) {
-    pid.setTolerance(0.5);
-    pid.setSetpoint(0);
+  private static TunableDouble pM = new TunableDouble("PM", .01, true, "limelight");
+  private static TunableDouble iM = new TunableDouble("IM", 0, true, "limelight");
+  private static TunableDouble dM = new TunableDouble("DM", 0, true, "limelight");
+
+  public ObjectTracker(DriveTrain driveTrain,  DoubleSupplier fwd, DoubleSupplier str) {
+    addRequirements(driveTrain);
+    turningPid.setTolerance(0.5);
+    turningPid.setSetpoint(0);
+    movingPid.setTolerance(0.5);
+    movingPid.setSetpoint(0);
+    this.driveTrain = driveTrain;
+    this.fwd = fwd;
+    this.str = str;
   }
+  
 
   @Override
   public void initialize() {
+    // System.out.println("init");
+    // var results = LimelightHelpers.getJSONDump("limelight-right");
+    // System.out.println("results=" + results);
+    // System.out.println("done");
   }
 
   @Override
   public void execute() {
-    pid.setPID(p.getValue(), i.getValue(), d.getValue());
+    turningPid.setPID(p.getValue(), i.getValue(), d.getValue());
+    movingPid.setPID(pM.getValue(), iM.getValue(), dM.getValue());
 
     double out = 0;
-    boolean foundCone = false;
+    double outA = 0;
+    boolean foundNote = false;
 
     var results = LimelightHelpers.getLatestResults("limelight-right");
-    for (LimelightTarget_Detector target : results.targetingResults.targets_Detector) {
-      if (target.className.equals("cone")) {
+    for (LimelightTarget_Detector target : results.targets_Detector) {
+      if (target.className.equals("note")) {
         out = target.tx;
-        foundCone = false;
+        outA = target.ta;
+        foundNote = true;
+      } else {
+        System.out.println("unknown: " + target.className);
       }
     }
 
-    out = pid.calculate(out);
+    out = turningPid.calculate(out);
+    outA = movingPid.calculate(outA);
 
-    if (foundCone) {
-      System.out.println("out: " + out);
-      // out = MathUtil.clamp(out, -1, 1);
-      // swerve.setDrive(new DriveVector(fwd.getAsDouble(), str.getAsDouble(), -out),
+
+    if (foundNote) {
+      // System.out.println("out: "+ out);
+      // var result = results.targets_Detector[0];
+      
+      out = MathUtil.clamp(out, -1, 1);
+      driveTrain.drive(-outA + 10, str.getAsDouble(), -out, true);
+      // driveTrain.setDrive(new DriveVector(fwd.getAsDouble(), str.getAsDouble(), -out),
       // true);
     } else {
-      // swerve.setDrive(new DriveVector(fwd.getAsDouble(), str.getAsDouble(), 0));
+      // System.out.println("nothing found");
+     driveTrain.drive(0, str.getAsDouble(), 0, true);
     }
 
   }
