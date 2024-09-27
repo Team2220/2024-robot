@@ -1,0 +1,118 @@
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
+
+package frc.robot.KrackenSwerve;
+
+import frc.lib.CommandXBoxWrapper;
+import frc.lib.LimelightPortForwarding;
+import frc.lib.MusicToneCommand;
+import frc.lib.Note;
+import frc.lib.can.CanStream;
+import frc.lib.faults.Fault;
+import frc.lib.faults.PDHLogPowerFaults;
+import frc.lib.leds.CANdleWrapper;
+import frc.lib.leds.LEDs;
+import frc.lib.leds.LedSignal;
+import frc.lib.selfCheck.RobotSelfCheckCommand;
+import frc.robot.KrackenSwerve.Constants.OperatorConstants;
+
+import com.ctre.phoenix.led.CANdle;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
+
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
+
+public class RobotContainer {
+
+  // private final DriveTrain driveTrain = new DriveTrain();
+  private final PowerDistribution PowerDistribution = new PowerDistribution();
+  @SuppressWarnings("unused")
+  public static final DriverTab drivertab = new DriverTab();
+  private SendableChooser<Command> autoChooser;
+  private final CommandXBoxWrapper driverController = new CommandXBoxWrapper("Driver Controller",
+      OperatorConstants.kDriverControllerPort);
+  private final CommandXBoxWrapper operatorController = new CommandXBoxWrapper("Operator Controller",
+      OperatorConstants.kOperatorControllerPort);
+
+  public RobotContainer() {
+    PDHLogPowerFaults.setPdh(PowerDistribution, 8, 12, 13, 14, 15, 16, 17, 22, 23);
+    LimelightPortForwarding.setup();
+
+    configureBindings();
+
+    try {
+      autoChooser = AutoBuilder.buildAutoChooser();
+      SmartDashboard.putData("Auto Chooser", autoChooser);
+    } catch (Exception exception) {
+      autoChooser = new SendableChooser<>();
+      SmartDashboard.putData("Auto Chooser", autoChooser);
+      DriverStation.reportError(exception.toString(), exception.getStackTrace());
+      new Fault("Failed to set up Auto Chooser.").setIsActive(true);
+    }
+
+  }
+
+  boolean isArmHeld = false;
+
+  private void configureBindings() {
+    // driver controls
+
+    // var driveCommand = new DriveCommand(
+    //     driverController::getLeftX,
+    //     driverController::getLeftY,
+    //     driverController::getRightX,
+    //     () -> driverController.getHID().getLeftBumper(),
+    //     () -> driverController.getHID().getPOV() == 270,
+    //     () -> driverController.getHID().getPOV() == 90,
+    //     () -> driverController.getHID().getPOV() == 0,
+    //     () -> driverController.getHID().getPOV() == 180,
+    //     () -> driverController.getHID().getPOV() == 45,
+    //     () -> driverController.getHID().getPOV() == 135,
+    //     () -> driverController.getHID().getPOV() == 315,
+    //     () -> driverController.getHID().getPOV() == 225,
+    //     () -> driverController.getHID().getBButton(),
+    //     driveTrain);
+    // driveTrain.setDefaultCommand(driveCommand);
+    // // driverController.joysticksTrigger().onTrue(driveCommand);
+
+    // driverController.start().onTrue(driveTrain.zeroCommand());
+    // // duplacates on purpos
+    // driverController.back().onTrue(driveTrain.zeroCommand());
+
+    // //driverController.x().whileTrue((driveTrain.xcommand()));
+
+    // driverController.a().whileTrue(new ObjectTracker(driveTrain, driverController::getLeftX, driverController::getLeftY));
+  }
+
+  public Command getAutonomousCommand() {
+    return autoChooser.getSelected();
+  }
+
+  public Command getTestCommand() {
+    return null;
+    // return new RobotSelfCheckCommand(
+    //     Commands.sequence(
+    //         new MusicToneCommand(Note.MiddleC, driveTrain).withTimeout(0.25),
+    //         new MusicToneCommand(Note.HighC, driveTrain).withTimeout(0.25)),
+    //     Commands.sequence(
+    //         new MusicToneCommand(Note.MiddleC, driveTrain).withTimeout(0.25),
+    //         new MusicToneCommand(Note.LowC, driveTrain).withTimeout(0.25)),
+    //     driveTrain
+    //     // shooter,
+    //     // intake,
+    //     //  arm
+    //      );
+  }
+  // CanStream canStream = new CanStream();
+}

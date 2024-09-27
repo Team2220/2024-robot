@@ -27,10 +27,14 @@ public final class Main {
    * If you change your main robot class, change the parameter type.
    */
   public static void main(String... args) {
-    RobotBase.startRobot(RobotInstance.config((instance)->{
-      switch (instance){
-        case BoxyBot: return BoxysRobo:: new;
-        case Robot24: return Robot:: new;
+    RobotBase.startRobot(RobotInstance.config((instance) -> {
+      switch (instance) {
+        case BoxyBot:
+          return BoxysRobo::new;
+        case Robot24:
+          return frc.robot.Robot24.Robot::new;
+        case KrackenSwerve:
+          return frc.robot.KrackenSwerve.Robot::new;
       }
       return null;
     }));
