@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot;
+package frc.robot.Robot24;
 
 import frc.lib.CommandXBoxWrapper;
 import frc.lib.LimelightPortForwarding;
@@ -15,13 +15,13 @@ import frc.lib.leds.CANdleWrapper;
 import frc.lib.leds.LEDs;
 import frc.lib.leds.LedSignal;
 import frc.lib.selfCheck.RobotSelfCheckCommand;
-import frc.robot.Constants.OperatorConstants;
+import frc.robot.Robot24.Constants.OperatorConstants;
+import frc.robot.Robot24.subsystems.Arm;
+import frc.robot.Robot24.subsystems.Intake;
+import frc.robot.Robot24.subsystems.Shooter;
 import frc.robot.commands.Angles;
 import frc.robot.commands.AutoIntake;
 import frc.robot.commands.DriveCommand;
-import frc.robot.subsystems.Arm;
-import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Shooter;
 
 import com.ctre.phoenix.led.CANdle;
 import com.pathplanner.lib.auto.AutoBuilder;

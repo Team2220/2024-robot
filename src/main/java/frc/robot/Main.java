@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.RobotBase;
 import frc.lib.RobotInstance;
+import frc.robot.Robot24.Robot;
 import frc.robot.boxybot.BoxysRobo;
 
 /**

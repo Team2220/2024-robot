@@ -6,7 +6,7 @@ import edu.wpi.first.units.Angle;
 import edu.wpi.first.units.Measure;
 import edu.wpi.first.units.Units;
 import frc.lib.units.UnitsUtil;
-import frc.robot.SwerveModule;
+import frc.robot.Robot24.SwerveModule;
 
 public class SwerveModuleSelfCheck extends CheckCommand {
     private SwerveModule module;

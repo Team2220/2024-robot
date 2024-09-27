@@ -1,4 +1,4 @@
-package frc.robot.subsystems;
+package frc.robot.Robot24.subsystems;
 
 import static frc.lib.units.UnitsUtil.RotationsPerSecSquared;
 
@@ -18,7 +18,7 @@ import frc.lib.selfCheck.CheckableSubsystem;
 import frc.lib.selfCheck.SpinTalonCheck;
 import frc.lib.tunables.TunableMeasure;
 import frc.lib.units.UnitsUtil;
-import frc.robot.Constants;
+import frc.robot.Robot24.Constants;
 
 public class Shooter extends SubsystemBase implements CheckableSubsystem, ShuffleBoardTabWrapper {
     private TalonFXWrapper left;

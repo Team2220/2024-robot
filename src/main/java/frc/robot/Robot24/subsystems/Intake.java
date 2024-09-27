@@ -1,4 +1,4 @@
-package frc.robot.subsystems;
+package frc.robot.Robot24.subsystems;
 
 import java.util.function.DoubleSupplier;
 
@@ -14,7 +14,7 @@ import frc.lib.selfCheck.CheckCommand;
 import frc.lib.selfCheck.CheckableSubsystem;
 import frc.lib.selfCheck.SpinTalonCheck;
 import frc.lib.tunables.TunableDouble;
-import frc.robot.Constants;
+import frc.robot.Robot24.Constants;
 
 import static edu.wpi.first.units.Units.Rotations;
 import static edu.wpi.first.units.Units.RotationsPerSecond;

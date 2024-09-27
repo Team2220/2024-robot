@@ -1,10 +1,10 @@
-package frc.robot;
+package frc.robot.Robot24;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.HttpCamera;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import frc.robot.Constants.LimelightConfig;
+import frc.robot.Robot24.Constants.LimelightConfig;
 
 public class DriverTab {
   ShuffleboardTab tab = Shuffleboard.getTab("driver");

@@ -6,8 +6,8 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.LimelightHelpers;
-import frc.robot.subsystems.Arm;
+import frc.lib.LimelightHelpers;
+import frc.robot.Robot24.subsystems.Arm;
 
 public class Angles extends Command {
     Arm arm;

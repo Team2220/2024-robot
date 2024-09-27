@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.SuppliedValueWidget;
 import frc.lib.tunables.TunableDouble;
-import frc.robot.Constants;
+import frc.robot.Robot24.Constants;
 
 public interface ShuffleBoardTabWrapper {
     default void addGraph(String name, DoubleSupplier supplier) {

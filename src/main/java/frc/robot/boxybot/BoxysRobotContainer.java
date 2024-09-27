@@ -4,8 +4,8 @@
 
 package frc.robot.boxybot;
 
-import frc.robot.DriverTab;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Robot24.DriverTab;
 
 public class BoxysRobotContainer {
   @SuppressWarnings("unused")

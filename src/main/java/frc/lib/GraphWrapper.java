@@ -3,7 +3,7 @@ package frc.lib;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import frc.robot.Constants;
+import frc.robot.Robot24.Constants;
 
 public class GraphWrapper {
     private String name;

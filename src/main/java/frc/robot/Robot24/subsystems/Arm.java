@@ -1,4 +1,4 @@
-package frc.robot.subsystems;
+package frc.robot.Robot24.subsystems;
 
 import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.Rotations;
@@ -23,7 +23,7 @@ import frc.lib.TalonFXWrapper.FollowerConfig;
 import frc.lib.selfCheck.CheckCommand;
 import frc.lib.selfCheck.CheckableSubsystem;
 import frc.lib.selfCheck.PositionTalonCheck;
-import frc.robot.Constants;
+import frc.robot.Robot24.Constants;
 
 public class Arm extends SubsystemBase implements CheckableSubsystem, ShuffleBoardTabWrapper {
     TalonFXWrapper ArmTalonFX;
