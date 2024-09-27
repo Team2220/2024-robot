@@ -30,8 +30,8 @@ public class ObjectTracker extends Command {
     addRequirements(driveTrain);
     turningPid.setTolerance(0.5);
     turningPid.setSetpoint(0);
-    movingPid.setTolerance(0.5);
-    movingPid.setSetpoint(0);
+    movingPid.setTolerance(0.000001);
+    movingPid.setSetpoint(0.4);
     this.driveTrain = driveTrain;
     this.fwd = fwd;
     this.str = str;
@@ -61,6 +61,7 @@ public class ObjectTracker extends Command {
         out = target.tx;
         outA = target.ta;
         foundNote = true;
+        // System.out.println(outA);
       } else {
         System.out.println("unknown: " + target.className);
       }
@@ -75,7 +76,8 @@ public class ObjectTracker extends Command {
       // var result = results.targets_Detector[0];
       
       out = MathUtil.clamp(out, -1, 1);
-      driveTrain.drive(0, -outA + 3, -out, false);
+      // System.out.println(outA);
+      driveTrain.drive(0, outA, -out, false);
       // driveTrain.setDrive(new DriveVector(fwd.getAsDouble(), str.getAsDouble(), -out),
       // true);
     } else {
