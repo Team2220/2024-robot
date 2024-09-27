@@ -40,8 +40,9 @@ public class SwerveModuleSelfCheck extends CheckCommand {
 
     @Override
     public boolean isFinished() {
-        var currentPosition = getCurrentPosition();
-        var diff = (currentPosition.minus(position));
+        var currentPosition = UnitsUtil.modulus(getCurrentPosition(),Units.Degrees.of(0),Units.Degrees.of(180));
+        var wrappedPosition = UnitsUtil.modulus(getCurrentPosition(),Units.Degrees.of(0),Units.Degrees.of(180));
+        var diff = (currentPosition.minus(wrappedPosition));
         return UnitsUtil.abs(diff).lte(tolerance);
         
     }
