@@ -7,6 +7,7 @@ import static edu.wpi.first.units.Units.RotationsPerSecond;
 import static edu.wpi.first.units.Units.Seconds;
 import static edu.wpi.first.units.Units.derive;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.units.Angle;
 import edu.wpi.first.units.Distance;
 import edu.wpi.first.units.Measure;
@@ -47,5 +48,11 @@ public class UnitsUtil {
     public static final Velocity<Velocity<Angle>> RotationsPerSecSquared = RotationsPerSecond.per(Seconds);
 
     public static final Velocity<Velocity<Velocity<Angle>>> RotationsPerSecCubed = RotationsPerSecSquared.per(Seconds);
-
+    public static <U extends Unit<U>> Measure<U> modulus(Measure<U> value, Measure<U> min, Measure<U> max){
+        U unit = value.unit();
+        double dvalue = value.in(unit);
+        double dmin = value.in(unit);
+        double dmax = value.in(unit);
+        return unit.of(MathUtil.inputModulus(dvalue, dmin, dmax)); 
+    }
 }
