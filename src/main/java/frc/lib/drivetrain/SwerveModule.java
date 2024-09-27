@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.Robot24;
+package frc.lib.drivetrain;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.PositionDutyCycle;
@@ -31,16 +31,17 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
   private final PWMEncoder turningEncoder;
 
   public static final double DT_WHEEL_DIAMETER = Units.inchesToMeters(4);
-
+  public static final double DT_DRIVE_GEAR_RATIO = (50.0 / 14.0) * (16.0 / 28.0) * (45.0 / 15.0);
+  public static final double DT_STEER_GEAR_RATIO = 150.0 / 7.0;
   // Drive gear ratio (that number is the number of revolutions of the motor to
   // get one revolution of the output)
-  public static final double DT_DRIVE_GEAR_RATIO = Constants.SwerveModule.DT_DRIVE_GEAR_RATIO;
+  // public static final double DT_DRIVE_GEAR_RATIO = Constants.SwerveModule.DT_DRIVE_GEAR_RATIO;
   // Drive motor inverted
   // public static final boolean DT_DRIVE_MOTOR_INVERTED = true;
 
   // Steer gear ratio (that number is the number of revolutions of the steer motor
   // to get one revolution of the output)
-  public static final double DT_STEER_GEAR_RATIO = Constants.SwerveModule.DT_STEER_GEAR_RATIO;
+  // public static final double DT_STEER_GEAR_RATIO = Constants.SwerveModule.DT_STEER_GEAR_RATIO;
   // Steer motor inverted
   // public static final boolean DT_STEER_MOTOR_INVERTED = false;
 
@@ -53,9 +54,11 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
   private String name;
 
   public SwerveModule(
-      String name, int driveMotorChannel,
+      String name,
+      int driveMotorChannel,
       int turningMotorChannel,
-      int turningEncoderChannelA, double offset) {
+      int turningEncoderChannelA, 
+      double offset) {
     this.offset = offset;
     this.name = name;
     driveMotor = new TalonFX(driveMotorChannel);

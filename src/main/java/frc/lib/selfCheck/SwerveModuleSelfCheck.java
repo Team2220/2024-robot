@@ -5,8 +5,8 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.units.Angle;
 import edu.wpi.first.units.Measure;
 import edu.wpi.first.units.Units;
+import frc.lib.drivetrain.SwerveModule;
 import frc.lib.units.UnitsUtil;
-import frc.robot.Robot24.SwerveModule;
 
 public class SwerveModuleSelfCheck extends CheckCommand {
     private SwerveModule module;

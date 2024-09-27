@@ -1,4 +1,4 @@
-package frc.robot.Robot24;
+package frc.lib.drivetrain;
 
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.Vector;
@@ -33,14 +33,14 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.LimelightHelpers;
 import frc.lib.NavXWrapper;
-import frc.lib.RobotInstance;
 import frc.lib.ShuffleBoardTabWrapper;
 import frc.lib.TalonFXSubsystem;
+import frc.lib.LimelightHelpers.PoseEstimate;
 import frc.lib.selfCheck.CheckCommand;
 import frc.lib.selfCheck.CheckableSubsystem;
 import frc.lib.selfCheck.SwerveModuleSelfCheck;
 import frc.lib.selfCheck.UnwrappedTalonSpinCheck;
-
+import frc.robot.Robot24.Constants;
 
 /**
  * Standard deviations of the vision measurements. Increase these numbers to
@@ -50,7 +50,7 @@ import frc.lib.selfCheck.UnwrappedTalonSpinCheck;
  */
 
 public class DriveTrain extends SubsystemBase implements TalonFXSubsystem, CheckableSubsystem, ShuffleBoardTabWrapper {
-public static final PIDConstants rotationConstants = new PIDConstants(2, 0.0, 0.3);
+    public static final PIDConstants rotationConstants = new PIDConstants(2, 0.0, 0.3);
 
     double driveRadius = Math
             .sqrt(Math.pow(DRIVETRAIN_TRACKWIDTH_METERS / 2, 2) + Math.pow(DRIVETRAIN_WHEELBASE_METERS / 2, 2));
@@ -103,8 +103,8 @@ public static final PIDConstants rotationConstants = new PIDConstants(2, 0.0, 0.
     GenericEntry gyroAngle = Shuffleboard.getTab("swerve").add("gyroAngle", 0).getEntry();
 
     public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
-        double x = xSpeed  * MAX_VELOCITY_METERS_PER_SECOND * -1;
-        double y = ySpeed  * MAX_VELOCITY_METERS_PER_SECOND * -1;
+        double x = xSpeed * MAX_VELOCITY_METERS_PER_SECOND * -1;
+        double y = ySpeed * MAX_VELOCITY_METERS_PER_SECOND * -1;
         double r = rot * MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * -1;
         driveRobotRelative(
                 fieldRelative
@@ -138,23 +138,38 @@ public static final PIDConstants rotationConstants = new PIDConstants(2, 0.0, 0.
     @Override
     public CheckCommand[] getCheckCommands() {
         return new CheckCommand[] {
-            // new UnwrappedTalonSpinCheck("backLeftDrive", backLeft.getDriveMotor(), true),
-            // new UnwrappedTalonSpinCheck("backLeftDrive", backLeft.getDriveMotor(), false),
-            // new UnwrappedTalonSpinCheck("backLeftTurn", backLeft.getTurningMotor(), true),
-            // new UnwrappedTalonSpinCheck("backLeftTurn", backLeft.getTurningMotor(), false),
-            // new UnwrappedTalonSpinCheck("frontLeftDrive", frontLeft.getDriveMotor(), true),
-            // new UnwrappedTalonSpinCheck("frontLeftDrive", frontLeft.getDriveMotor(), false),
-            // new UnwrappedTalonSpinCheck("frontLeftTurn", frontLeft.getTurningMotor(), true),
-            // new UnwrappedTalonSpinCheck("frontLeftTurn", frontLeft.getTurningMotor(), false),
-            // new UnwrappedTalonSpinCheck("backRightDrive", backRight.getDriveMotor(), true),
-            // new UnwrappedTalonSpinCheck("backRightDrive", backRight.getDriveMotor(), false),
-            // new UnwrappedTalonSpinCheck("backRightTurn", backRight.getTurningMotor(), true),
-            // new UnwrappedTalonSpinCheck("backRightTurn", backRight.getTurningMotor(), false),
-            // new UnwrappedTalonSpinCheck("frontRightDrive", frontRight.getDriveMotor(), true),
-            // new UnwrappedTalonSpinCheck("frontRightDrive", frontRight.getDriveMotor(), false),
-            // new UnwrappedTalonSpinCheck("frontRightTurn", frontRight.getTurningMotor(), true),
-            // new UnwrappedTalonSpinCheck("frontRightTurn", frontRight.getTurningMotor(), false),
-            new SwerveModuleSelfCheck(backLeft, Degrees.of(90), Degrees.of(5))
+                // new UnwrappedTalonSpinCheck("backLeftDrive", backLeft.getDriveMotor(), true),
+                // new UnwrappedTalonSpinCheck("backLeftDrive", backLeft.getDriveMotor(),
+                // false),
+                // new UnwrappedTalonSpinCheck("backLeftTurn", backLeft.getTurningMotor(),
+                // true),
+                // new UnwrappedTalonSpinCheck("backLeftTurn", backLeft.getTurningMotor(),
+                // false),
+                // new UnwrappedTalonSpinCheck("frontLeftDrive", frontLeft.getDriveMotor(),
+                // true),
+                // new UnwrappedTalonSpinCheck("frontLeftDrive", frontLeft.getDriveMotor(),
+                // false),
+                // new UnwrappedTalonSpinCheck("frontLeftTurn", frontLeft.getTurningMotor(),
+                // true),
+                // new UnwrappedTalonSpinCheck("frontLeftTurn", frontLeft.getTurningMotor(),
+                // false),
+                // new UnwrappedTalonSpinCheck("backRightDrive", backRight.getDriveMotor(),
+                // true),
+                // new UnwrappedTalonSpinCheck("backRightDrive", backRight.getDriveMotor(),
+                // false),
+                // new UnwrappedTalonSpinCheck("backRightTurn", backRight.getTurningMotor(),
+                // true),
+                // new UnwrappedTalonSpinCheck("backRightTurn", backRight.getTurningMotor(),
+                // false),
+                // new UnwrappedTalonSpinCheck("frontRightDrive", frontRight.getDriveMotor(),
+                // true),
+                // new UnwrappedTalonSpinCheck("frontRightDrive", frontRight.getDriveMotor(),
+                // false),
+                // new UnwrappedTalonSpinCheck("frontRightTurn", frontRight.getTurningMotor(),
+                // true),
+                // new UnwrappedTalonSpinCheck("frontRightTurn", frontRight.getTurningMotor(),
+                // false),
+                new SwerveModuleSelfCheck(backLeft, Degrees.of(90), Degrees.of(5))
         };
     }
 
@@ -180,7 +195,6 @@ public static final PIDConstants rotationConstants = new PIDConstants(2, 0.0, 0.
             poseEstimator.resetPosition(getGyroscopeRotation(), getModulePositions(), startPose);
         });
     }
-    
 
     public ChassisSpeeds getSpeeds() {
         return KINEMATICS.toChassisSpeeds(getModuleStates());
@@ -216,13 +230,15 @@ public static final PIDConstants rotationConstants = new PIDConstants(2, 0.0, 0.
 
         LimelightHelpers.PoseEstimate limelightMeasurement = LimelightHelpers
                 .getBotPoseEstimate_wpiBlue("limelight-right");
-        if (limelightMeasurement.tagCount >= 1) {
-            poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(0.5, 0.5, 0.5));
-            poseEstimator.addVisionMeasurement(
-                    limelightMeasurement.pose,
-                    limelightMeasurement.timestampSeconds);
+        if (limelightMeasurement != null) {
+            if (limelightMeasurement.tagCount >= 1) {
+                poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(0.5, 0.5, 0.5));
+                poseEstimator.addVisionMeasurement(
+                        limelightMeasurement.pose,
+                        limelightMeasurement.timestampSeconds);
+            }
+            limeLightField.setRobotPose(limelightMeasurement.pose);
         }
-        limeLightField.setRobotPose(limelightMeasurement.pose);
         gyroAngle.setDouble(getGyroscopeRotation().getDegrees());
         poseEstimator.update(
                 getGyroscopeRotation(), getModulePositions());

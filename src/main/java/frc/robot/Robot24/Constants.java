@@ -41,11 +41,6 @@ public final class Constants {
     public static final double DT_BACKRIGHT_SE_OFFSET = 358.24 - 90 - 180;
   }
 
-  public static class SwerveModule {
-    public static final double DT_DRIVE_GEAR_RATIO = (50.0 / 14.0) * (16.0 / 28.0) * (45.0 / 15.0);
-    public static final double DT_STEER_GEAR_RATIO = 150.0 / 7.0;
-  }
-
   public static class Shooter {
     public static final int id_left = 23;
     public static final int id_right = 24;
