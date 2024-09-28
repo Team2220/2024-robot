@@ -7,7 +7,6 @@ import com.ctre.phoenix6.controls.MusicTone;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.lib.Note;
 
 public class MusicToneCommand extends Command {
     public final List<TalonFX> talonFXs = new ArrayList<>();
