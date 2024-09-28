@@ -26,13 +26,13 @@ public final class Constants {
 
 
   public static class DriveTrain {
-    public static final double DT_BACKLEFT_SE_OFFSET = 254.53 - 90 - 180;
+    public static final double DT_BACKLEFT_SE_OFFSET = 0;
 
-    public static final double DT_FRONTRIGHT_SE_OFFSET = 309.46 - 90 - 180;
+    public static final double DT_FRONTRIGHT_SE_OFFSET = 0;
 
-    public static final double DT_FRONTLEFT_SE_OFFSET = 37.96 - 90 - 180;
+    public static final double DT_FRONTLEFT_SE_OFFSET = 0;
 
-    public static final double DT_BACKRIGHT_SE_OFFSET = 358.24 - 90 - 180;
+    public static final double DT_BACKRIGHT_SE_OFFSET = 0;
   }
 
   public static class SwerveModule {
