@@ -5,7 +5,7 @@ import static frc.lib.units.UnitsUtil.abs;
 
 import edu.wpi.first.units.Angle;
 import edu.wpi.first.units.Measure;
-import frc.lib.TalonFXWrapper;
+import frc.lib.devices.TalonFXWrapper;
 
 public class SpinTalonCheck extends CheckCommand {
     TalonFXWrapper talon;

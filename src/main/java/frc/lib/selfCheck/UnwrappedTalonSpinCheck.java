@@ -8,7 +8,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.units.Angle;
 import edu.wpi.first.units.Measure;
-import frc.lib.TalonFXWrapper;
+import frc.lib.devices.TalonFXWrapper;
 
 public class UnwrappedTalonSpinCheck extends CheckCommand {
     TalonFX talon;

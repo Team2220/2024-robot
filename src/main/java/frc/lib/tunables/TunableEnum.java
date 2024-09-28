@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ComplexWidget;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.lib.BooleanObjectConsumer;
+import frc.lib.functional.BooleanObjectConsumer;
 
 public class TunableEnum<V extends Enum<V>> {
   private V defaultValue;

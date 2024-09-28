@@ -1,4 +1,4 @@
-package frc.lib;
+package frc.lib.drivetrain;
 
 import java.util.function.DoubleSupplier;
 
@@ -7,8 +7,8 @@ import edu.wpi.first.math.controller.PIDController;
 // import frc.twilight.swerve.subsystems.Swerve;
 // import frc.twilight.swerve.vectors.DriveVector;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.lib.LimelightHelpers.LimelightTarget_Detector;
-import frc.lib.drivetrain.DriveTrain;
+import frc.lib.limeLight.LimelightHelpers;
+import frc.lib.limeLight.LimelightHelpers.LimelightTarget_Detector;
 import frc.lib.tunables.TunableDouble;
 
 public class ObjectTracker extends Command {

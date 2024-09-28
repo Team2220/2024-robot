@@ -1,4 +1,4 @@
-package frc.lib;
+package frc.lib.functional;
 
 @FunctionalInterface
 public interface BooleanDoubleConsumer {

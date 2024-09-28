@@ -31,11 +31,11 @@ import com.pathplanner.lib.util.ReplanningConfig;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.lib.LimelightHelpers;
-import frc.lib.NavXWrapper;
 import frc.lib.ShuffleBoardTabWrapper;
-import frc.lib.TalonFXSubsystem;
-import frc.lib.LimelightHelpers.PoseEstimate;
+import frc.lib.devices.NavXWrapper;
+import frc.lib.limeLight.LimelightHelpers;
+import frc.lib.limeLight.LimelightHelpers.PoseEstimate;
+import frc.lib.music.TalonFXSubsystem;
 import frc.lib.selfCheck.CheckCommand;
 import frc.lib.selfCheck.CheckableSubsystem;
 import frc.lib.selfCheck.SwerveModuleSelfCheck;

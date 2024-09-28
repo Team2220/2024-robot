@@ -1,4 +1,4 @@
-package frc.lib;
+package frc.lib.devices;
 
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
@@ -27,6 +27,7 @@ import edu.wpi.first.units.Time;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.units.Velocity;
 import edu.wpi.first.units.Voltage;
+import frc.lib.ShuffleBoardTabWrapper;
 import frc.lib.eventLoops.EventLoops;
 import frc.lib.faults.Fault;
 import frc.lib.tunables.TunableDebouncer;

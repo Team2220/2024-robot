@@ -5,7 +5,7 @@ import java.util.function.DoubleFunction;
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.StatusSignal;
 
-import frc.lib.TalonFXWrapper;
+import frc.lib.devices.TalonFXWrapper;
 import frc.lib.eventLoops.EventLoops;
 
 public class TalonFXLogPowerFaults {

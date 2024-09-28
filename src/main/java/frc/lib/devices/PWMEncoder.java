@@ -1,4 +1,4 @@
-package frc.lib;
+package frc.lib.devices;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 

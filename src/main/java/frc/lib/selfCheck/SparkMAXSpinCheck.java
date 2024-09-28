@@ -3,7 +3,7 @@ package frc.lib.selfCheck;
 import edu.wpi.first.units.Angle;
 import edu.wpi.first.units.Measure;
 import edu.wpi.first.units.Units;
-import frc.lib.SparkMaxWrapper;
+import frc.lib.devices.SparkMaxWrapper;
 import frc.lib.units.UnitsUtil;
 
 public class SparkMAXSpinCheck extends CheckCommand {

@@ -1,4 +1,4 @@
-package frc.lib;
+package frc.lib.music;
 
 //  website for note freqency www.liutaiomottola.com
 public enum Note {

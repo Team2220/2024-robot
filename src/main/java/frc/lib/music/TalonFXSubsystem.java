@@ -1,4 +1,4 @@
-package frc.lib;
+package frc.lib.music;
 
 import com.ctre.phoenix6.hardware.TalonFX;
 

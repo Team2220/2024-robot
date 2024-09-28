@@ -3,7 +3,7 @@ package frc.lib.tunables;
 import java.util.function.Consumer;
 import edu.wpi.first.units.Measure;
 import edu.wpi.first.units.Unit;
-import frc.lib.BooleanObjectConsumer;
+import frc.lib.functional.BooleanObjectConsumer;
 
 public class TunableMeasure<U extends Unit<U>> {
     private TunableDouble tunable;

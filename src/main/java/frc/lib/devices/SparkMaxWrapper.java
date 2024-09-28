@@ -1,4 +1,4 @@
-package frc.lib;
+package frc.lib.devices;
 
 import static edu.wpi.first.units.Units.Celsius;
 import static edu.wpi.first.units.Units.RPM;

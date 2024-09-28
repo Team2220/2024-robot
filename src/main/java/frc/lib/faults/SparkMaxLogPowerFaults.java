@@ -6,7 +6,7 @@ import com.revrobotics.CANSparkBase;
 import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.units.Units;
-import frc.lib.SparkMaxWrapper;
+import frc.lib.devices.SparkMaxWrapper;
 import frc.lib.eventLoops.EventLoops;
 
 public class SparkMaxLogPowerFaults {

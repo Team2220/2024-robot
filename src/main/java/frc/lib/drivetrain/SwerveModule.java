@@ -17,8 +17,8 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import frc.lib.PWMEncoder;
 import frc.lib.ShuffleBoardTabWrapper;
+import frc.lib.devices.PWMEncoder;
 import frc.lib.tunables.TunableDouble;
 
 public class SwerveModule implements ShuffleBoardTabWrapper {

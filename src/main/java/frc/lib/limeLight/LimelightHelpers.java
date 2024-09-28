@@ -1,14 +1,14 @@
 //LimelightHelpers v1.9 (REQUIRES 2024.9.1)
 
-package frc.lib;
+package frc.lib.limeLight;
 
 import edu.wpi.first.networktables.DoubleArrayEntry;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.TimestampedDoubleArray;
-import frc.lib.LimelightHelpers.LimelightResults;
-import frc.lib.LimelightHelpers.PoseEstimate;
+import frc.lib.limeLight.LimelightHelpers.LimelightResults;
+import frc.lib.limeLight.LimelightHelpers.PoseEstimate;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;

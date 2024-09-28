@@ -12,7 +12,7 @@ import edu.wpi.first.units.Velocity;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.ShuffleBoardTabWrapper;
-import frc.lib.TalonFXWrapper;
+import frc.lib.devices.TalonFXWrapper;
 import frc.lib.selfCheck.CheckCommand;
 import frc.lib.selfCheck.CheckableSubsystem;
 import frc.lib.selfCheck.SpinTalonCheck;

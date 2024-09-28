@@ -6,7 +6,7 @@ import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.lib.BooleanDoubleConsumer;
+import frc.lib.functional.BooleanDoubleConsumer;
 
 public class TunableDouble {
   private double defaultValue;
