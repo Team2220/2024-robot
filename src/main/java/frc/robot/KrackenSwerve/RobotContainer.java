@@ -38,11 +38,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public class RobotContainer {
 
-  private final DriveTrain driveTrain = new DriveTrain(
-    Constants.DriveTrain.DT_FRONTLEFT_SE_OFFSET,
-    Constants.DriveTrain.DT_FRONTRIGHT_SE_OFFSET,
-    Constants.DriveTrain.DT_BACKLEFT_SE_OFFSET,
-    Constants.DriveTrain.DT_BACKRIGHT_SE_OFFSET);
+  private final DriveTrain driveTrain = new DriveTrain();
   private final PowerDistribution PowerDistribution = new PowerDistribution();
   @SuppressWarnings("unused")
   public static final DriverTab drivertab = new DriverTab();

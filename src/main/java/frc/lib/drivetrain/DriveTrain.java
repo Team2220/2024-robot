@@ -40,6 +40,7 @@ import frc.lib.selfCheck.CheckCommand;
 import frc.lib.selfCheck.CheckableSubsystem;
 import frc.lib.selfCheck.SwerveModuleSelfCheck;
 import frc.lib.selfCheck.UnwrappedTalonSpinCheck;
+import frc.robot.Robot24.Constants;
 
 /**
  * Standard deviations of the vision measurements. Increase these numbers to
@@ -53,45 +54,13 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem, Check
 
     double driveRadius = Math
             .sqrt(Math.pow(DRIVETRAIN_TRACKWIDTH_METERS / 2, 2) + Math.pow(DRIVETRAIN_WHEELBASE_METERS / 2, 2));
-    private final SwerveModule frontLeft;
-    private final SwerveModule frontRight;
-    private final SwerveModule backLeft;
-    private final SwerveModule backRight;
 
-    public DriveTrain(double frontLeftOffset, double frontRightOffset, double backLeftOffset, double backRightOffset) {
-        frontLeft = new SwerveModule(
-            "frontleft",
-            12,
-            11,
-            1,
-            frontLeftOffset
-        );
-        frontRight = new SwerveModule(
-            "frontright",
-            18,
-            17,
-            2,
-            frontRightOffset
-        );
-        backLeft = new SwerveModule(
-            "backleft",
-            16,
-            15,
-            3,
-            backLeftOffset
-        );
-        backRight = new SwerveModule(
-            "backright",
-            14,
-            13,
-            0,
-            backRightOffset
-        );
+    public DriveTrain() {
         Shuffleboard.getTab("field").add("Field", poseEstimatorField).withSize(4, 3);
         Shuffleboard.getTab("limeLight").add("limeLight", limeLightField)
                 .withSize(4, 4)
                 .withPosition(0, 0);
-        GenericEntry bruh = Shuffleboard.getTab("field").add("tag-count", 0).getEntry();
+        GenericEntry skibidi = Shuffleboard.getTab("field").add("tag-count", 0).getEntry();
         // System.out.println("Velocity" + MAX_VELOCITY_METERS_PER_SECOND);
         AutoBuilder.configureHolonomic(
                 this::getPose, // Robot pose supplier
@@ -230,6 +199,31 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem, Check
     public ChassisSpeeds getSpeeds() {
         return KINEMATICS.toChassisSpeeds(getModuleStates());
     }
+
+    private final SwerveModule frontLeft = new SwerveModule(
+            "frontleft",
+            12,
+            11,
+            1,
+            Constants.DriveTrain.DT_FRONTLEFT_SE_OFFSET);
+    private final SwerveModule frontRight = new SwerveModule(
+            "frontright",
+            18,
+            17,
+            2,
+            Constants.DriveTrain.DT_FRONTRIGHT_SE_OFFSET);
+    private final SwerveModule backLeft = new SwerveModule(
+            "backleft",
+            16,
+            15,
+            3,
+            Constants.DriveTrain.DT_BACKLEFT_SE_OFFSET);
+    private final SwerveModule backRight = new SwerveModule(
+            "backright",
+            14,
+            13,
+            0,
+            Constants.DriveTrain.DT_BACKRIGHT_SE_OFFSET);
 
     public void periodic() {
         poseEstimatorField.setRobotPose(getPose());

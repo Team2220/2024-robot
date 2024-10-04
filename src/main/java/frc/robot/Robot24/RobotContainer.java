@@ -45,11 +45,7 @@ public class RobotContainer {
 
   @SuppressWarnings("unused")
   private final LEDs leds;
-  private final DriveTrain driveTrain = new DriveTrain(
-      Constants.DriveTrain.DT_FRONTLEFT_SE_OFFSET,
-      Constants.DriveTrain.DT_FRONTRIGHT_SE_OFFSET,
-      Constants.DriveTrain.DT_BACKLEFT_SE_OFFSET,
-      Constants.DriveTrain.DT_BACKRIGHT_SE_OFFSET);
+  private final DriveTrain driveTrain = new DriveTrain();
   private final PowerDistribution PowerDistribution = new PowerDistribution();
   @SuppressWarnings("unused")
   public static final DriverTab drivertab = new DriverTab();
@@ -83,10 +79,10 @@ public class RobotContainer {
             LedSignal.isDSConnected(),
             LedSignal.isEndGame(),
             LedSignal.probalynotgoingtowork(driverController.x()),
-            // LedSignal.customrainbow(driverController.x()),
+           // LedSignal.customrainbow(driverController.x()),
             LedSignal.hasgamepiceTopLedSignal(intake::getTopNoteSensor),
             LedSignal.intakeStalled(intake::isStalled),
-            LedSignal.hasgamepiceBottomLedSignal(intake::getBottomNoteSensor),
+            LedSignal.hasgamepiceBottomLedSignal(intake::getBottomNoteSensor),                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
             LedSignal.coastButton(arm::getcoastButton),
             LedSignal.getLowBatteryLedSignal(),
             LedSignal.erolsPurpleLight(() -> operatorController.getHID().getPOV() == 90), // left dpad
@@ -163,7 +159,7 @@ public class RobotContainer {
     // duplacates on purpos
     driverController.back().onTrue(driveTrain.zeroCommand());
 
-    // driverController.x().whileTrue((driveTrain.xcommand()));
+    //driverController.x().whileTrue((driveTrain.xcommand()));
 
     driverController.povRight().whileTrue(new Angles(arm));
 
@@ -173,8 +169,7 @@ public class RobotContainer {
 
     driverController.b().onTrue(arm.setPositionCommand(55));
 
-    driverController.a()
-        .whileTrue(new ObjectTracker(driveTrain, driverController::getLeftX, driverController::getLeftY));
+    driverController.a().whileTrue(new ObjectTracker(driveTrain, driverController::getLeftX, driverController::getLeftY));
 
     driverController.y()
         .whileTrue(arm.setPositionOnceCommand(100))
@@ -208,11 +203,15 @@ public class RobotContainer {
 
     driverController.leftTrigger().whileTrue(arm.setPositionOnceCommand(0).andThen(intake.intakeUntilQueued()));
 
+
     driverController.rightBumper().whileTrue(shooter.setDutyCycleCommand(-0.75));
     driverController.leftBumper().whileTrue(intake.setDutyCycleCommand(-0.5));
 
-    // Operator controls
-    // #######################################################################################################
+
+
+
+
+    // Operator controls #######################################################################################################
     intake.setDefaultCommand(intake.dutyCycleCommand(() -> {
       return operatorController.getRightY();
     }));
@@ -279,10 +278,10 @@ public class RobotContainer {
             new MusicToneCommand(Note.MiddleC, driveTrain).withTimeout(0.25),
             new MusicToneCommand(Note.LowC, driveTrain).withTimeout(0.25)),
         driveTrain
-    // shooter,
-    // intake,
-    // arm
-    );
+        // shooter,
+        // intake,
+        //  arm
+         );
   }
   // CanStream canStream = new CanStream();
 }
