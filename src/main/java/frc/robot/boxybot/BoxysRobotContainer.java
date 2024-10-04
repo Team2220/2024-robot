@@ -6,8 +6,9 @@ package frc.robot.boxybot;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Robot24.DriverTab;
+import frc.lib.RobotContainerType;
 
-public class BoxysRobotContainer {
+public class BoxysRobotContainer implements RobotContainerType {
   @SuppressWarnings("unused")
   private final BoxysDriveTrain driveTrain = new BoxysDriveTrain();
 
@@ -27,6 +28,11 @@ public class BoxysRobotContainer {
   }
 
   public Command getAutonomousCommand() {
+    return null;
+  }
+
+  @Override
+  public Command getTestCommand() {
     return null;
   }
 

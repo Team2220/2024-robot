@@ -4,6 +4,7 @@
 
 package frc.robot.Robot24;
 
+import frc.lib.RobotContainerType;
 import frc.lib.can.CanStream;
 import frc.lib.drivetrain.DriveCommand;
 import frc.lib.drivetrain.DriveTrain;
@@ -41,7 +42,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
-public class RobotContainer {
+public class RobotContainer implements RobotContainerType {
 
   @SuppressWarnings("unused")
   private final LEDs leds;

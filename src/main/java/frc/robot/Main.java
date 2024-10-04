@@ -6,8 +6,6 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.RobotBase;
 import frc.lib.RobotInstance;
-import frc.robot.Robot24.Robot;
-import frc.robot.boxybot.BoxysRobo;
 
 /**
  * Do NOT add any static variables to this class, or any initialization at all.
@@ -29,12 +27,12 @@ public final class Main {
   public static void main(String... args) {
     RobotBase.startRobot(RobotInstance.config((instance) -> {
       switch (instance) {
-        case BoxyBot:
-          return BoxysRobo::new;
+        // case BoxyBot:
+        //   return BoxysRobo::new;
         case Robot24:
-          return frc.robot.Robot24.Robot::new;
-        case KrackenSwerve:
-          return frc.robot.KrackenSwerve.Robot::new;
+          return frc.robot.Robot::new;
+        // case KrackenSwerve:
+        //   return frc.robot.KrackenSwerve.Robot::new;
       }
       return null;
     }));
