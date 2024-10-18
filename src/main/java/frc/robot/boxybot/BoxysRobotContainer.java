@@ -5,6 +5,7 @@
 package frc.robot.boxybot;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.lib.Arduino.Arduino;
 import frc.robot.Robot24.DriverTab;
 
 public class BoxysRobotContainer {
@@ -13,6 +14,8 @@ public class BoxysRobotContainer {
 
   
   public static final DriverTab drivertab = new DriverTab();
+
+  public static final Arduino ARDUINO = new Arduino();
 
   public BoxysRobotContainer() {
   
