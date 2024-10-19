@@ -161,7 +161,7 @@ public class RobotContainer {
 
     //driverController.x().whileTrue((driveTrain.xcommand()));
 
-    driverController.povRight().whileTrue(new Angles(arm));
+    // driverController.povRight().whileTrue(new Angles(arm));
 
     new Trigger(shooter::isGoingWrongWay)
         .whileTrue(driverController.rumbleCommand(.50))
@@ -169,7 +169,8 @@ public class RobotContainer {
 
     driverController.b().onTrue(arm.setPositionCommand(55));
 
-    driverController.a().whileTrue(new ObjectTracker(driveTrain, driverController::getLeftX, driverController::getLeftY));
+    driverController.a().whileTrue(new Angles(arm, driveTrain));
+    // driverController.a().whileTrue(new ObjectTracker(driveTrain, driverController::getLeftX, driverController::getLeftY));
 
     driverController.y()
         .whileTrue(arm.setPositionOnceCommand(100))
