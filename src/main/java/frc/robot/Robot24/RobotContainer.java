@@ -4,6 +4,7 @@
 
 package frc.robot.Robot24;
 
+import frc.lib.Arduino.Arduino;
 import frc.lib.can.CanStream;
 import frc.lib.drivetrain.DriveCommand;
 import frc.lib.drivetrain.DriveTrain;
@@ -18,6 +19,7 @@ import frc.lib.music.MusicToneCommand;
 import frc.lib.music.Note;
 import frc.lib.selfCheck.RobotSelfCheckCommand;
 import frc.lib.xbox.CommandXBoxWrapper;
+import frc.lib.xbox.LazyCommandXboxWrapper;
 import frc.robot.Robot24.Constants.OperatorConstants;
 import frc.robot.Robot24.commands.Angles;
 import frc.robot.Robot24.commands.AutoIntake;
@@ -40,20 +42,29 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import static frc.lib.Arduino.ArduinoCommand.*;
 
 public class RobotContainer {
+
+  
+    // driverController.a().onTrue(arduino.runCommand(BLUE));
+    // driverController.b().onTrue(arduino.runCommand(GREEN));
 
   @SuppressWarnings("unused")
   private final LEDs leds;
   private final DriveTrain driveTrain = new DriveTrain();
   private final PowerDistribution PowerDistribution = new PowerDistribution();
   @SuppressWarnings("unused")
-  public static final DriverTab drivertab = new DriverTab();
+  public final DriverTab drivertab = new DriverTab();
   private SendableChooser<Command> autoChooser;
   private final CommandXBoxWrapper driverController = new CommandXBoxWrapper("Driver Controller",
       OperatorConstants.kDriverControllerPort);
   private final CommandXBoxWrapper operatorController = new CommandXBoxWrapper("Operator Controller",
       OperatorConstants.kOperatorControllerPort);
+  private final CommandXBoxWrapper testController = new CommandXBoxWrapper("Test Controller",
+      OperatorConstants.kTestControllerPort);
+
+  public final Arduino arduino = new Arduino();
 
   private final Shooter shooter = new Shooter();
   final Arm arm = new Arm();
@@ -263,6 +274,35 @@ public class RobotContainer {
     operatorController.povDown().whileTrue(shooter.setDutyCycleCommand(-1));
 
     // _operatorController.povDown().whileTrue(shooter.setDutyCycleCommand(-1));
+
+
+
+// ###############test commands####################
+
+testController.a().onTrue(arduino.runCommand(GREEN));
+testController.b().onTrue(arduino.runCommand(POLICE));
+testController.x().onTrue(arduino.runCommand(BLUE));
+testController.y().onTrue(arduino.runCommand(YELLOW));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   }
 

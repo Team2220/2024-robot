@@ -9,7 +9,8 @@ public enum ArduinoCommand {
     GREEN(0x16),
     BLUE(0x17),
     PINK(0x18),
-    PURPLE(0x19);
+    PURPLE(0x19),
+    POLICE(0x20);
 
     private byte value;
 

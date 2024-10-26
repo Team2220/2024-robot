@@ -6,16 +6,22 @@ package frc.robot.boxybot;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.lib.Arduino.Arduino;
+import static frc.lib.Arduino.ArduinoCommand.*;
+import frc.lib.xbox.CommandXBoxWrapper;
+import frc.robot.Robot24.Constants.OperatorConstants;
 import frc.robot.Robot24.DriverTab;
 
 public class BoxysRobotContainer {
   @SuppressWarnings("unused")
   private final BoxysDriveTrain driveTrain = new BoxysDriveTrain();
 
+  private final CommandXBoxWrapper driverController = new CommandXBoxWrapper("Driver Controller",
+      OperatorConstants.kDriverControllerPort);
+
   
   public static final DriverTab drivertab = new DriverTab();
 
-  public static final Arduino ARDUINO = new Arduino();
+  public static final Arduino arduino = new Arduino();
 
   public BoxysRobotContainer() {
   
@@ -24,8 +30,13 @@ public class BoxysRobotContainer {
 
   }
 
+  
+
   private void configureBindings() {
     // driver controls
+
+    driverController.a().onTrue(arduino.runCommand(BLUE));
+    driverController.b().onTrue(arduino.runCommand(GREEN));
 
   }
 
