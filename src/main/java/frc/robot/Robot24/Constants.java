@@ -33,13 +33,38 @@ public final class Constants {
   public static final boolean isGraphsEnabled = false;
 
   public static class DriveTrain {
-    public static final double DT_BACKLEFT_SE_OFFSET = 254.53 - 90 - 180;
+    public static final double DT_BACKLEFT_SE_OFFSET = RobotInstance.config((instance) -> {
+      return switch (instance) {
+        case Robot24 -> 254.53;
+        case BoxyBot -> throw new UnsupportedOperationException("Unimplemented case: " + instance);
+        case KrackenSwerve -> 248.81;
+      };
+    });
 
-    public static final double DT_FRONTRIGHT_SE_OFFSET = 309.46 - 90 - 180;
+    public static final double DT_FRONTRIGHT_SE_OFFSET = RobotInstance.config((instance) -> {
+      return switch (instance) {
+        case Robot24 -> 309.46;
+        case BoxyBot -> throw new UnsupportedOperationException("Unimplemented case: " + instance);
+        case KrackenSwerve -> 260.41;
+      };
+    });
 
-    public static final double DT_FRONTLEFT_SE_OFFSET = 37.96 - 90 - 180;
+    public static final double DT_FRONTLEFT_SE_OFFSET = RobotInstance.config((instance) -> {
+      return switch (instance) {
+        case Robot24 -> 37.96;
+        case BoxyBot -> throw new UnsupportedOperationException("Unimplemented case: " + instance);
+        case KrackenSwerve -> 186.94;
+      };
+    });
 
-    public static final double DT_BACKRIGHT_SE_OFFSET = 358.24 - 90 - 180;
+    public static final double DT_BACKRIGHT_SE_OFFSET = RobotInstance.config((instance) -> {
+      return switch (instance) {
+        case Robot24 -> 358.24;
+        case BoxyBot -> throw new UnsupportedOperationException("Unimplemented case: " + instance);
+        case KrackenSwerve -> 155.74;
+      };
+    });
+
   }
 
   public static class Shooter {

@@ -12,7 +12,7 @@ import frc.lib.faults.Fault;
 
 public enum RobotInstance {
     Robot24("ashwin"),
-    KrackenSwerve("00-80-2F-17-60-67"),
+    KrackenSwerve("00-80-2F-17-F8-19"),
     BoxyBot("00-80-2F-36-FD-D6");
 
     private String address;

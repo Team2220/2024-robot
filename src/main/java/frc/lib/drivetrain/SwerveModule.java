@@ -59,7 +59,7 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
       int turningMotorChannel,
       int turningEncoderChannelA, 
       double offset) {
-    this.offset = offset;
+    this.offset = offset + 90; // when we zero it's to 90 deg on the unit circle
     this.name = name;
     driveMotor = new TalonFX(driveMotorChannel);
     turningMotor = new TalonFX(turningMotorChannel);

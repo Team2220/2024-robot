@@ -4,15 +4,11 @@
 
 package frc.robot.KrackenSwerve;
 
-import frc.lib.can.CanStream;
 import frc.lib.drivetrain.DriveCommand;
 import frc.lib.drivetrain.DriveTrain;
 import frc.lib.drivetrain.ObjectTracker;
 import frc.lib.faults.Fault;
 import frc.lib.faults.PDHLogPowerFaults;
-import frc.lib.leds.CANdleWrapper;
-import frc.lib.leds.LEDs;
-import frc.lib.leds.LedSignal;
 import frc.lib.limeLight.LimelightPortForwarding;
 import frc.lib.music.MusicToneCommand;
 import frc.lib.music.Note;
@@ -20,21 +16,13 @@ import frc.lib.selfCheck.RobotSelfCheckCommand;
 import frc.lib.xbox.CommandXBoxWrapper;
 import frc.robot.KrackenSwerve.Constants.OperatorConstants;
 
-import com.ctre.phoenix.led.CANdle;
 import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.auto.NamedCommands;
-
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
-import edu.wpi.first.wpilibj.RobotController;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public class RobotContainer {
 
