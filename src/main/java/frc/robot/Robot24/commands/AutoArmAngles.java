@@ -15,7 +15,7 @@ import frc.lib.limeLight.LimelightHelpers;
 import frc.lib.tunables.TunableDouble;
 import frc.robot.Robot24.subsystems.Arm;
 
-public class Angles extends Command {
+public class AutoArmAngles extends Command {
     Arm arm;
     DriveTrain driveTrain;
     DoubleSupplier xSupplier;
@@ -30,7 +30,7 @@ public class Angles extends Command {
     private static TunableDouble d = new TunableDouble("D", 0.00001, true, "limelight");
     InterpolatingDoubleTreeMap map = new InterpolatingDoubleTreeMap();
 
-    public Angles(Arm arm, DriveTrain driveTrain, DoubleSupplier xSupplier, DoubleSupplier ySupplier, DoubleSupplier rotSupplier) {
+    public AutoArmAngles(Arm arm, DriveTrain driveTrain, DoubleSupplier xSupplier, DoubleSupplier ySupplier, DoubleSupplier rotSupplier) {
         addRequirements(driveTrain, arm);
         this.arm = arm;
         this.driveTrain = driveTrain;
