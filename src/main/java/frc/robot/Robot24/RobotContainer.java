@@ -22,7 +22,8 @@ import frc.lib.selfCheck.RobotSelfCheckCommand;
 import frc.lib.xbox.CommandXBoxWrapper;
 import frc.lib.xbox.LazyCommandXboxWrapper;
 import frc.robot.Robot24.Constants.OperatorConstants;
-import frc.robot.Robot24.commands.Angles;
+import frc.robot.Robot24.commands.AutoArmAngles;
+import frc.robot.Robot24.commands.AutoArmAngles;
 import frc.robot.Robot24.commands.AutoIntake;
 import frc.robot.Robot24.subsystems.Arm;
 import frc.robot.Robot24.subsystems.Intake;
@@ -181,7 +182,7 @@ public class RobotContainer {
 
     driverController.b().onTrue(arm.setPositionCommand(55));
 
-    driverController.a().whileTrue(new Angles(arm, driveTrain));
+    driverController.a().whileTrue(new AutoArmAngles(arm, driveTrain, driverController::getLeftX, driverController:: getLeftY, driverController:: getRightX ));
     // driverController.a().whileTrue(new ObjectTracker(driveTrain, driverController::getLeftX, driverController::getLeftY));
 
     driverController.y()
