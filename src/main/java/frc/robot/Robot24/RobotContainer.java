@@ -17,6 +17,7 @@ import frc.lib.leds.LedSignal;
 import frc.lib.limeLight.LimelightPortForwarding;
 import frc.lib.music.MusicToneCommand;
 import frc.lib.music.Note;
+import frc.lib.music.TalonOrchestra;
 import frc.lib.selfCheck.RobotSelfCheckCommand;
 import frc.lib.xbox.CommandXBoxWrapper;
 import frc.lib.xbox.LazyCommandXboxWrapper;
@@ -280,7 +281,7 @@ public class RobotContainer {
 // ###############test commands####################
 
 testController.a().onTrue(arduino.runCommand(GREEN));
-testController.b().onTrue(arduino.runCommand(POLICE));
+testController.b().onTrue(arduino.runCommand(POLICE).alongWith(new TalonOrchestra("PoliceSirin.chrp", driveTrain)));
 testController.x().onTrue(arduino.runCommand(BLUE));
 testController.y().onTrue(arduino.runCommand(YELLOW));
 
