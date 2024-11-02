@@ -42,10 +42,13 @@ public class Arduino extends SubsystemBase {
     public Command runCommand(ArduinoCommand command) {
         return this.runOnce(() -> {
             // System.out.println(Sent to Arduino);
-            arduino.write(new byte[] { command.getvalue() }, 1);
-
-            if (arduino.getBytesReceived() > 0) {
-                System.out.print(arduino.readString());
+            if (arduino != null) {
+                arduino.write(new byte[] { command.getvalue() }, 1);
+                if (arduino.getBytesReceived() > 0) {
+                    System.out.print(arduino.readString());
+                }
+            } else {
+                System.out.println("No Ardunio Detected");
             }
         });
 
