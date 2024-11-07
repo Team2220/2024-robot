@@ -143,9 +143,9 @@ public class DriveCommand extends Command {
                     wantedAngle);
         }
         this.driveTrain.drive(
-                this.xspeed.getAsDouble() * coefficient * -0.25,
-                this.yspeed.getAsDouble() * coefficient * -0.25,
-                rotate * -0.25,
+                this.xspeed.getAsDouble() * coefficient * -1,
+                this.yspeed.getAsDouble() * coefficient * -1,
+                rotate * -1,
                 true);
     }
 }
