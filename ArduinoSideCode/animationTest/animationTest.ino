@@ -42,7 +42,7 @@ void loop() {
   {
     case 0x12:
     {
-      fill_solid(leds, NUM_LEDS, CRGB(255, 0, 0));
+      fill_solid(leds, NUM_LEDS, CRGB(0, 0, 0));
     }break;
     case 0x13:
     {
@@ -50,27 +50,27 @@ void loop() {
     }break;
     case 0x14:
     { 
-      fill_solid(leds, NUM_LEDS, CRGB(255, 0, 0));
+      fill_solid(leds, NUM_LEDS, CRGB(255, 140, 0));
     }break;
     case 0x15:
     {
-      fill_solid(leds, NUM_LEDS, CRGB(0, 0, 0));
+      fill_solid(leds, NUM_LEDS, CRGB(255, 255, 0));
     }break;
     case 0x16:
     {
-      fill_solid(leds, NUM_LEDS, CRGB(0, 0, 0));
+      fill_solid(leds, NUM_LEDS, CRGB(0, 128, 0));
     }break;
     case 0x17:
     {
-      fill_solid(leds, NUM_LEDS, CRGB(0, 0, 0));
+      fill_solid(leds, NUM_LEDS, CRGB(0, 0, 255));
     }break;
     case 0x18:
     {
-      fill_solid(leds, NUM_LEDS, CRGB(0, 0, 0));
+      fill_solid(leds, NUM_LEDS, CRGB(255, 192, 203));
     }break;
     case 0x19:
     {
-      fill_solid(leds, NUM_LEDS, CRGB(0, 0, 0));
+      fill_solid(leds, NUM_LEDS, CRGB(108, 92, 231));
     }break;
     case 0x20:
     {
