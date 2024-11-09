@@ -3,6 +3,7 @@
 #define LED_PIN 7
 #define NUM_LEDS 100
 // number of leds on the strip
+// FastLED.show(); (ill just keep this here)
 
 CRGB leds[NUM_LEDS];
 byte value = -1;
@@ -16,13 +17,13 @@ void setup()
   FastLED.addLeds<WS2812, LED_PIN, GRB>(leds, NUM_LEDS);
 }
 
-void command1()
+void Red()
 {
   fill_solid(leds, NUM_LEDS, CRGB(255, 0, 0));
   FastLED.show();
 }
 
-void command2()
+void Blue()
 {
   fill_solid(leds, NUM_LEDS, CRGB(0, 0, 255));
   FastLED.show();
@@ -44,41 +45,50 @@ void loop()
   case 0x12:
   {
     fill_solid(leds, NUM_LEDS, CRGB(0, 0, 0));
+    FastLED.show();
   }
   break;
   case 0x13:
   {
+    
     fill_solid(leds, NUM_LEDS, CRGB(255, 0, 0));
+    FastLED.show();
   }
   break;
   case 0x14:
   {
     fill_solid(leds, NUM_LEDS, CRGB(255, 140, 0));
+    FastLED.show();
   }
   break;
   case 0x15:
   {
     fill_solid(leds, NUM_LEDS, CRGB(255, 255, 0));
+    FastLED.show();
   }
   break;
   case 0x16:
   {
     fill_solid(leds, NUM_LEDS, CRGB(0, 128, 0));
+    FastLED.show();
   }
   break;
   case 0x17:
   {
     fill_solid(leds, NUM_LEDS, CRGB(0, 0, 255));
+    FastLED.show();
   }
   break;
   case 0x18:
   {
     fill_solid(leds, NUM_LEDS, CRGB(255, 192, 203));
+    FastLED.show();
   }
   break;
   case 0x19:
   {
     fill_solid(leds, NUM_LEDS, CRGB(108, 92, 231));
+    FastLED.show();
   }
   break;
   case 0x20:
@@ -90,14 +100,13 @@ void loop()
 
       if (toggleState)
       {
-        command1();
+        Blue();
       }
       else
       {
-        command2();
+        Red();
       }
     }
   }
-    FastLED.show();
   }
 }
