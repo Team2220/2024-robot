@@ -22,6 +22,8 @@ import static edu.wpi.first.units.Units.Degrees;
 
 import java.util.function.DoubleSupplier;
 
+import org.ejml.equation.Function;
+
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
@@ -326,6 +328,15 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem, Check
             frontLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(-45)));
             backRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(135)));
             frontRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
+        });
+    }
+
+    public Command zeroTurningMotors() {
+        return this.runOnce(() -> {
+            backLeft.zeroTurningMotor();
+            backRight.zeroTurningMotor();
+            frontLeft.zeroTurningMotor();
+            frontRight.zeroTurningMotor();
         });
     }
 }

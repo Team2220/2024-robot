@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.RobotBase;
 import frc.lib.faults.Fault;
 
 public enum RobotInstance {
-    Robot24("ashwin"),
+    Robot24("00-80-2F-36-FE-34"),
     KrackenSwerve("00-80-2F-17-F8-19"),
     BoxyBot("00-80-2F-36-FD-D6");
 
@@ -69,6 +69,7 @@ public enum RobotInstance {
                 System.err.println("no mac address found");
                 return Robot24;
             } else {
+                System.out.println("Current robot: " + check.toString());
                 return check;
             }
         }

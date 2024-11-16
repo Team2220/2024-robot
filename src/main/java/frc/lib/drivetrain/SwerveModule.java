@@ -70,7 +70,9 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
     speed = Shuffleboard.getTab("swerve").add(name + " speed", 0).getEntry();
     angle = Shuffleboard.getTab("swerve").add(name + " angle", 0).getEntry();
     drivePositionEntry = Shuffleboard.getTab("swerve").add(name + " drivePostion", 0).getEntry();
-    Shuffleboard.getTab("swerve").addDouble(name + "encoder", turningEncoder::getPosition);
+    Shuffleboard.getTab("swerve").addDouble(name + " abs encoder", turningEncoder::getPosition);
+    Shuffleboard.getTab("swerve").addDouble(name + " motor encoder", () -> getTurningMotorRotation2d().getDegrees());
+
 
     SwerveModule.DT_DRIVE_P.addChangeListener((isInit, value) -> {
       driveConfig.Slot0.kP = value;
@@ -121,7 +123,7 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
       }
     });
 
-    turningMotor.setPosition(-angleToEncoderTicks(getAngle().getDegrees()));
+    zeroTurningMotor();
 
     // Shuffleboard.getTab("current")
     // .addDouble(name, ()->{
@@ -140,9 +142,15 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
     turningMotor.getConfigurator().apply(turningconfig);
   }
 
+  public void zeroTurningMotor() {
+    double degrees = getAngle().getDegrees();
+    turningMotor.setPosition(-angleToEncoderTicks(degrees));
+    System.out.println("zero turingin motor " + name + ": " + degrees);
+  }
+
   private static TalonFXConfiguration makeConfiguration() {
     var config = new TalonFXConfiguration();
-    config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+    config.MotorOutput.NeutralMode = NeutralModeValue.Coast; // TODO: don't commit this
     config.CurrentLimits.StatorCurrentLimit = 60;
     config.CurrentLimits.StatorCurrentLimitEnable = true;
     config.CurrentLimits.SupplyCurrentLimit = 60;
@@ -221,14 +229,18 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
   public void setDesiredState(SwerveModuleState desiredState) {
     drivePositionEntry.setDouble(getDrivePosition());
 
-    Rotation2d rotation2d = Rotation2d
-        .fromDegrees(steerEncoderTicksToAngle(-turningMotor.getPosition().getValueAsDouble()));
+    Rotation2d rotation2d = getTurningMotorRotation2d();
     SwerveModuleState state = SwerveModuleState.optimize(desiredState, rotation2d);
     speed.setDouble(mpsToEncoderTicks(state.speedMetersPerSecond));
     driveMotor.setControl(new VelocityDutyCycle(mpsToEncoderTicks(state.speedMetersPerSecond) * -1));
     turningMotor.setControl(new PositionDutyCycle(
         angleToEncoderTicks(convertAngle(rotation2d.getDegrees(), state.angle.getDegrees()) * -1)));
 
+  }
+
+  private Rotation2d getTurningMotorRotation2d() {
+    return Rotation2d
+        .fromDegrees(steerEncoderTicksToAngle(-turningMotor.getPosition().getValueAsDouble()));
   }
 
   public static double convertAngle(double start, double end) {

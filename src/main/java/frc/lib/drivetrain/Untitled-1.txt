@@ -1,0 +1,64 @@
+
+Kraken Swerve:
+
+before
+front left abs = 297.7734375
+front left motor = 226.48417968750002
+
+after (180)
+front left abs = 119.267578125
+front left motor = 45.0884765625
+
+
+297.7734375 - 119.267578125 = 178.505859375
+226.4841796 - 45.0884765625 = 181.3957030375
+
+----------
+
+Robot24
+
+before
+front left abs = 48.8671875
+front motor encoder = 283.8158203125
+
+after (180)
+front left abs = 228.251953125
+front motor encoder = 100.3857421875
+
+48.8671875 - 228.251953125 = -179.384765625
+283.8158203125 - 100.3857421875 = 183.430078125
+
+
+
+
+
+-----
+
+zero turingin motor frontleft: 246.00921875
+zero turingin motor frontright: 96.60171874999997
+zero turingin motor backleft: 171.48296875
+zero turingin motor backright: 199.16234375
+
+
+zero turingin motor frontleft: 246.18500000000003
+zero turingin motor frontright: 96.51382812499992
+zero turingin motor backleft: 171.48296875
+zero turingin motor backright: 199.16234375
+n
+
+zero turingin motor frontleft: 246.09710937500003
+zero turingin motor frontright: 96.60171874999997
+zero turingin motor backleft: 171.48296875
+zero turingin motor backright: 198.898671875
+
+zero turingin motor frontleft: 246.09710937500003
+zero turingin motor frontright: 96.60171874999997
+zero turingin motor backleft: 171.48296875
+zero turingin motor backright: 199.07445312500002
+
+
+
+- encoder keeps the same value across restarts
+- 180 degress of module rotation = 180 of encoder
+- 180 degrees of module rotation = 180 of motor encoder
+- 

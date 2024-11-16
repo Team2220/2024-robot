@@ -91,7 +91,7 @@ public class RobotContainer {
             LedSignal.isBrownedOut(),
             LedSignal.isDSConnected(),
             LedSignal.isEndGame(),
-            LedSignal.probalynotgoingtowork(driverController.x()),
+            // LedSignal.probalynotgoingtowork(driverController.x()),
            // LedSignal.customrainbow(driverController.x()),
             LedSignal.hasgamepiceTopLedSignal(intake::getTopNoteSensor),
             LedSignal.intakeStalled(intake::isStalled),
@@ -173,6 +173,7 @@ public class RobotContainer {
     driverController.back().onTrue(driveTrain.zeroCommand());
 
     //driverController.x().whileTrue((driveTrain.xcommand()));
+    driverController.x().onTrue(driveTrain.zeroTurningMotors());
 
     // driverController.povRight().whileTrue(new Angles(arm));
 

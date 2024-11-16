@@ -79,9 +79,9 @@ public class RobotContainer {
     // duplacates on purpos
     driverController.back().onTrue(driveTrain.zeroCommand());
 
-    driverController.x().whileTrue((driveTrain.xcommand()));
-
-    driverController.a().whileTrue(new ObjectTracker(driveTrain, driverController::getLeftX, driverController::getLeftY));
+    // driverController.x().onTrue(new MusicToneCommand(Note.HigherC, driveTrain).withTimeout(0.25));
+  
+    driverController.x().onTrue(driveTrain.zeroTurningMotors());
   }
 
   public Command getAutonomousCommand() {
