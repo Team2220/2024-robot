@@ -4,6 +4,8 @@
 
 package frc.lib.drivetrain;
 
+import static edu.wpi.first.units.Units.Degrees;
+
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.PositionDutyCycle;
 import com.ctre.phoenix6.controls.VelocityDutyCycle;
@@ -19,6 +21,9 @@ import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import frc.lib.ShuffleBoardTabWrapper;
 import frc.lib.devices.PWMEncoder;
+import frc.lib.selfCheck.CheckCommand;
+import frc.lib.selfCheck.SwerveModuleSelfCheck;
+import frc.lib.selfCheck.UnwrappedTalonSpinCheck;
 import frc.lib.tunables.TunableDouble;
 
 public class SwerveModule implements ShuffleBoardTabWrapper {
@@ -35,13 +40,15 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
   public static final double DT_STEER_GEAR_RATIO = 150.0 / 7.0;
   // Drive gear ratio (that number is the number of revolutions of the motor to
   // get one revolution of the output)
-  // public static final double DT_DRIVE_GEAR_RATIO = Constants.SwerveModule.DT_DRIVE_GEAR_RATIO;
+  // public static final double DT_DRIVE_GEAR_RATIO =
+  // Constants.SwerveModule.DT_DRIVE_GEAR_RATIO;
   // Drive motor inverted
   // public static final boolean DT_DRIVE_MOTOR_INVERTED = true;
 
   // Steer gear ratio (that number is the number of revolutions of the steer motor
   // to get one revolution of the output)
-  // public static final double DT_STEER_GEAR_RATIO = Constants.SwerveModule.DT_STEER_GEAR_RATIO;
+  // public static final double DT_STEER_GEAR_RATIO =
+  // Constants.SwerveModule.DT_STEER_GEAR_RATIO;
   // Steer motor inverted
   // public static final boolean DT_STEER_MOTOR_INVERTED = false;
 
@@ -57,7 +64,7 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
       String name,
       int driveMotorChannel,
       int turningMotorChannel,
-      int turningEncoderChannelA, 
+      int turningEncoderChannelA,
       double offset) {
     this.offset = offset + 90; // when we zero it's to 90 deg on the unit circle
     this.name = name;
@@ -72,7 +79,6 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
     drivePositionEntry = Shuffleboard.getTab("swerve").add(name + " drivePostion", 0).getEntry();
     Shuffleboard.getTab("swerve").addDouble(name + " abs encoder", turningEncoder::getPosition);
     Shuffleboard.getTab("swerve").addDouble(name + " motor encoder", () -> getTurningMotorRotation2d().getDegrees());
-
 
     SwerveModule.DT_DRIVE_P.addChangeListener((isInit, value) -> {
       driveConfig.Slot0.kP = value;
@@ -177,6 +183,16 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
     return ticks * revolutionsMotorToRevolutionsWheel;
   }
 
+  public CheckCommand[] getCheckCommands() {
+    return new CheckCommand[] {
+        new UnwrappedTalonSpinCheck("backLeftDrive", getDriveMotor(), true),
+        new UnwrappedTalonSpinCheck("backLeftDrive", getDriveMotor(), false),
+        new UnwrappedTalonSpinCheck("backLeftTurn", getTurningMotor(), true),
+        new UnwrappedTalonSpinCheck("backLeftTurn", getTurningMotor(), false),
+        new SwerveModuleSelfCheck(this, Degrees.of(90), Degrees.of(5)),
+    };
+  }
+
   public static final TunableDouble DT_DRIVE_P = new TunableDouble("DT_DRIVE_P", 0.025, "swerve").setSpot(0, 0);
   public static final TunableDouble DT_DRIVE_I = new TunableDouble("DT_DRIVE_I", 0, "swerve").setSpot(1, 0);
   public static final TunableDouble DT_DRIVE_D = new TunableDouble("DT_DRIVE_D", 0.00001, "swerve").setSpot(2, 0);
@@ -270,7 +286,7 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
     return name;
   }
 
-  public void toggleCoast(){
+  public void toggleCoast() {
 
   };
 }
