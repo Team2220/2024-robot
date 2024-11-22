@@ -57,13 +57,45 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem, Check
     double driveRadius = Math
             .sqrt(Math.pow(DRIVETRAIN_TRACKWIDTH_METERS / 2, 2) + Math.pow(DRIVETRAIN_WHEELBASE_METERS / 2, 2));
 
-    public DriveTrain() {
+    public DriveTrain(double frontLeftOffset, double frontrightoffset, double backleftoffset, double backrightoffset) {
+        this.frontLeft = new SwerveModule(
+            "frontleft",
+            12,
+            11,
+            1,
+            frontLeftOffset);
+        this.frontRight = new SwerveModule(
+            "frontright",
+            18,
+            17,
+            2,
+            frontrightoffset);
+        this.backLeft = new SwerveModule(
+            "backleft",
+            16,
+            15,
+            3,
+            backleftoffset);
+        this.backRight = new SwerveModule(
+            "backright",
+            14,
+            13,
+            0,
+            backrightoffset);
+
+
+        this.poseEstimator = new SwerveDrivePoseEstimator(
+            KINEMATICS,
+            getGyroscopeRotation(),
+            getModulePositions(),
+            startPose,
+            stateStdDevs,
+            visionMeasurementStdDevs);
+
         Shuffleboard.getTab("field").add("Field", poseEstimatorField).withSize(4, 3);
         Shuffleboard.getTab("limeLight").add("limeLight", limeLightField)
                 .withSize(4, 4)
                 .withPosition(0, 0);
-        GenericEntry skibidi = Shuffleboard.getTab("field").add("tag-count", 0).getEntry();
-        // System.out.println("Velocity" + MAX_VELOCITY_METERS_PER_SECOND);
         AutoBuilder.configureHolonomic(
                 this::getPose, // Robot pose supplier
                 this::resetPose, // Method to reset odometry (will be called if your auto has a starting pose)
@@ -190,30 +222,10 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem, Check
         return KINEMATICS.toChassisSpeeds(getModuleStates());
     }
 
-    private final SwerveModule frontLeft = new SwerveModule(
-            "frontleft",
-            12,
-            11,
-            1,
-            Constants.DriveTrain.DT_FRONTLEFT_SE_OFFSET);
-    private final SwerveModule frontRight = new SwerveModule(
-            "frontright",
-            18,
-            17,
-            2,
-            Constants.DriveTrain.DT_FRONTRIGHT_SE_OFFSET);
-    private final SwerveModule backLeft = new SwerveModule(
-            "backleft",
-            16,
-            15,
-            3,
-            Constants.DriveTrain.DT_BACKLEFT_SE_OFFSET);
-    private final SwerveModule backRight = new SwerveModule(
-            "backright",
-            14,
-            13,
-            0,
-            Constants.DriveTrain.DT_BACKRIGHT_SE_OFFSET);
+    private final SwerveModule frontLeft;
+    private final SwerveModule frontRight;
+    private final SwerveModule backLeft;
+    private final SwerveModule backRight;
 
     public void periodic() {
         poseEstimatorField.setRobotPose(getPose());
@@ -293,13 +305,7 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem, Check
             // Back right
             new Translation2d(-DRIVETRAIN_TRACKWIDTH_METERS / 2.0, DRIVETRAIN_WHEELBASE_METERS / 2.0));
 
-    SwerveDrivePoseEstimator poseEstimator = new SwerveDrivePoseEstimator(
-            KINEMATICS,
-            getGyroscopeRotation(),
-            getModulePositions(),
-            startPose,
-            stateStdDevs,
-            visionMeasurementStdDevs);
+    private final SwerveDrivePoseEstimator poseEstimator;
 
     /**
      * The maximum velocity of the robot in meters per second.

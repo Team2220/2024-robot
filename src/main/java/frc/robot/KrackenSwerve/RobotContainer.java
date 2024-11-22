@@ -26,7 +26,12 @@ import edu.wpi.first.wpilibj2.command.Commands;
 
 public class RobotContainer {
 
-  private final DriveTrain driveTrain = new DriveTrain();
+  private final DriveTrain driveTrain = new DriveTrain(
+    Constants.DriveTrain.frontLeftOffset,
+    Constants.DriveTrain.frontrightoffset, 
+    Constants.DriveTrain.backleftoffset, 
+    Constants.DriveTrain.backrightoffset
+  );
   private final PowerDistribution PowerDistribution = new PowerDistribution();
   @SuppressWarnings("unused")
   public static final DriverTab drivertab = new DriverTab();

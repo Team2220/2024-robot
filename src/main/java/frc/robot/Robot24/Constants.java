@@ -33,38 +33,13 @@ public final class Constants {
   public static final boolean isGraphsEnabled = false;
 
   public static class DriveTrain {
-    public static final double DT_BACKLEFT_SE_OFFSET = RobotInstance.config((instance) -> {
-      return switch (instance) {
-        case Robot24 -> 254.53;
-        case BoxyBot -> throw new UnsupportedOperationException("Unimplemented case: " + instance);
-        case KrackenSwerve -> 154.00 + 180;
-      };
-    });
+    public static final double frontLeftOffset = 37.96;
 
-    public static final double DT_FRONTRIGHT_SE_OFFSET = RobotInstance.config((instance) -> {
-      return switch (instance) {
-        case Robot24 -> 309.46;
-        case BoxyBot -> throw new UnsupportedOperationException("Unimplemented case: " + instance);
-        case KrackenSwerve -> 121.41 + 180;
-      };
-    });
+    public static final double  frontrightoffset = 309.46;
 
-    public static final double DT_FRONTLEFT_SE_OFFSET = RobotInstance.config((instance) -> {
-      return switch (instance) {
-        case Robot24 -> 37.96;
-        case BoxyBot -> throw new UnsupportedOperationException("Unimplemented case: " + instance);
-        case KrackenSwerve -> 259.94 + 180;
-      };
-    });
+    public static final double backleftoffset = 254.53;
 
-    public static final double DT_BACKRIGHT_SE_OFFSET = RobotInstance.config((instance) -> {
-      return switch (instance) {
-        case Robot24 -> 358.24;
-        case BoxyBot -> throw new UnsupportedOperationException("Unimplemented case: " + instance);
-        case KrackenSwerve -> 184.74 + 180;
-      };
-    });
-
+    public static final double backrightoffset = 358.24;
   }
 
   public static class Shooter {
