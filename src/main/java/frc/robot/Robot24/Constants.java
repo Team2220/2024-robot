@@ -35,33 +35,33 @@ public final class Constants {
   public static class DriveTrain {
     public static final double DT_BACKLEFT_SE_OFFSET = RobotInstance.config((instance) -> {
       return switch (instance) {
-        case Robot24 -> throw new UnsupportedOperationException("Unimplemented case: " + instance); // 254.53;
+        case Robot24 -> 254.53;
         case BoxyBot -> throw new UnsupportedOperationException("Unimplemented case: " + instance);
-        case KrackenSwerve -> 248.81;
+        case KrackenSwerve -> 154.00 + 180;
       };
     });
 
     public static final double DT_FRONTRIGHT_SE_OFFSET = RobotInstance.config((instance) -> {
       return switch (instance) {
-        case Robot24 -> throw new UnsupportedOperationException("Unimplemented case: " + instance); // 309.46;
+        case Robot24 -> 309.46;
         case BoxyBot -> throw new UnsupportedOperationException("Unimplemented case: " + instance);
-        case KrackenSwerve -> 260.41;
+        case KrackenSwerve -> 121.41 + 180;
       };
     });
 
     public static final double DT_FRONTLEFT_SE_OFFSET = RobotInstance.config((instance) -> {
       return switch (instance) {
-        case Robot24 -> throw new UnsupportedOperationException("Unimplemented case: " + instance); // 37.96;
+        case Robot24 -> 37.96;
         case BoxyBot -> throw new UnsupportedOperationException("Unimplemented case: " + instance);
-        case KrackenSwerve -> 186.94;
+        case KrackenSwerve -> 259.94 + 180;
       };
     });
 
     public static final double DT_BACKRIGHT_SE_OFFSET = RobotInstance.config((instance) -> {
       return switch (instance) {
-        case Robot24 -> throw new UnsupportedOperationException("Unimplemented case: " + instance); // 358.24;
+        case Robot24 -> 358.24;
         case BoxyBot -> throw new UnsupportedOperationException("Unimplemented case: " + instance);
-        case KrackenSwerve -> 155.74;
+        case KrackenSwerve -> 184.74 + 180;
       };
     });
 

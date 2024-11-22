@@ -150,7 +150,7 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
 
   private static TalonFXConfiguration makeConfiguration() {
     var config = new TalonFXConfiguration();
-    config.MotorOutput.NeutralMode = NeutralModeValue.Coast; // TODO: don't commit this
+    config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
     config.CurrentLimits.StatorCurrentLimit = 60;
     config.CurrentLimits.StatorCurrentLimitEnable = true;
     config.CurrentLimits.SupplyCurrentLimit = 60;
