@@ -28,8 +28,6 @@ import frc.robot.Robot24.Constants;
 public class Arm extends SubsystemBase implements CheckableSubsystem, ShuffleBoardTabWrapper {
     TalonFXWrapper ArmTalonFX;
 
-    private static DigitalInputWrapper coastButton = new DigitalInputWrapper(Constants.Arm.coastButtonID,
-            "coastButton", true);
     private DigitalInputWrapper zeroLimitSwitch = new DigitalInputWrapper(Constants.Arm.zeroSwitchID,
             "zeroLimitSwitch", true);
 
@@ -58,24 +56,15 @@ public class Arm extends SubsystemBase implements CheckableSubsystem, ShuffleBoa
                 () -> ArmTalonFX.getPosition().in(Degrees));
     }
 
-    @Override
-    public void periodic() {
-        if (coastButton.get() != lastButtonValue && DriverStation.isDisabled() && coastButton.get()) {
+    public Command toggleCoast() {
+        return this.runOnce(() -> {
             if (ArmTalonFX.getNeutralMode() == NeutralModeValue.Coast) {
                 ArmTalonFX.setNeutralMode(NeutralModeValue.Brake);
             } else {
                 ArmTalonFX.setNeutralMode(NeutralModeValue.Coast);
             }
-        }
-        lastButtonValue = coastButton.get();
-    }
-
-    public boolean getcoastButton() {
-
-        return coastButton.get();
-    }
-
-    private boolean lastButtonValue = false;
+        }).ignoringDisable(true);
+    };;
 
     public Command dutyCycleCommand(DoubleSupplier speed) {
         return this.run(() -> {
@@ -152,5 +141,5 @@ public class Arm extends SubsystemBase implements CheckableSubsystem, ShuffleBoa
 
         };
     }
-    
+
 }

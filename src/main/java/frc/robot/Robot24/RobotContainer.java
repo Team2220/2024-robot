@@ -4,8 +4,10 @@
 
 package frc.robot.Robot24;
 
+import frc.lib.DriverStationTriggers;
 import frc.lib.Arduino.Arduino;
 import frc.lib.can.CanStream;
+import frc.lib.devices.DigitalInputWrapper;
 import frc.lib.drivetrain.DriveCommand;
 import frc.lib.drivetrain.DriveTrain;
 import frc.lib.drivetrain.ObjectTracker;
@@ -101,7 +103,7 @@ public class RobotContainer {
             LedSignal.hasgamepiceTopLedSignal(intake::getTopNoteSensor),
             LedSignal.intakeStalled(intake::isStalled),
             LedSignal.hasgamepiceBottomLedSignal(intake::getBottomNoteSensor),                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
-            LedSignal.coastButton(arm::getcoastButton),
+            LedSignal.coastButton(coastButton::get),
             LedSignal.getLowBatteryLedSignal(),
             LedSignal.erolsPurpleLight(() -> operatorController.getHID().getPOV() == 90), // left dpad
         // LedSignal.seanscolors(() -> driverController.getHID().getPOV() != -1), //
@@ -150,9 +152,14 @@ public class RobotContainer {
 
   }
 
+   private static DigitalInputWrapper coastButton = new DigitalInputWrapper(Constants.Arm.coastButtonID,
+            "coastButton", true);
+
   boolean isArmHeld = false;
 
   private void configureBindings() {
+coastButton.asTrigger().and(DriverStationTriggers.isDisabled()).onTrue(arm.toggleCoast());
+
     // driver controls
 
     var driveCommand = new DriveCommand(

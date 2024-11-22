@@ -2,6 +2,7 @@ package frc.lib.devices;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public class DigitalInputWrapper {
     int channel;
@@ -21,6 +22,10 @@ public class DigitalInputWrapper {
         } else {
             return dInput.get();
         }
+    }
+
+    public Trigger asTrigger() {
+        return new Trigger(this::get);
     }
 
     // GenericEntry digInputStatus = Shuffleboard.getTab("sensors").addBoolean(name,
