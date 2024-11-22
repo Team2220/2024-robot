@@ -269,4 +269,8 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
   public String getName() {
     return name;
   }
+
+  public void toggleCoast(){
+
+  };
 }

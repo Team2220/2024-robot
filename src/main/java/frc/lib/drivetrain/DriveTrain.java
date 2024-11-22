@@ -59,38 +59,37 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem, Check
 
     public DriveTrain(double frontLeftOffset, double frontrightoffset, double backleftoffset, double backrightoffset) {
         this.frontLeft = new SwerveModule(
-            "frontleft",
-            12,
-            11,
-            1,
-            frontLeftOffset);
+                "frontleft",
+                12,
+                11,
+                1,
+                frontLeftOffset);
         this.frontRight = new SwerveModule(
-            "frontright",
-            18,
-            17,
-            2,
-            frontrightoffset);
+                "frontright",
+                18,
+                17,
+                2,
+                frontrightoffset);
         this.backLeft = new SwerveModule(
-            "backleft",
-            16,
-            15,
-            3,
-            backleftoffset);
+                "backleft",
+                16,
+                15,
+                3,
+                backleftoffset);
         this.backRight = new SwerveModule(
-            "backright",
-            14,
-            13,
-            0,
-            backrightoffset);
-
+                "backright",
+                14,
+                13,
+                0,
+                backrightoffset);
 
         this.poseEstimator = new SwerveDrivePoseEstimator(
-            KINEMATICS,
-            getGyroscopeRotation(),
-            getModulePositions(),
-            startPose,
-            stateStdDevs,
-            visionMeasurementStdDevs);
+                KINEMATICS,
+                getGyroscopeRotation(),
+                getModulePositions(),
+                startPose,
+                stateStdDevs,
+                visionMeasurementStdDevs);
 
         Shuffleboard.getTab("field").add("Field", poseEstimatorField).withSize(4, 3);
         Shuffleboard.getTab("limeLight").add("limeLight", limeLightField)
@@ -221,6 +220,16 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem, Check
     public ChassisSpeeds getSpeeds() {
         return KINEMATICS.toChassisSpeeds(getModuleStates());
     }
+
+    public void toggleCoast(){
+        frontLeft.toggleCoast();
+        frontRight.toggleCoast();
+        backLeft.toggleCoast();
+        backRight.toggleCoast();
+
+
+    };
+
 
     private final SwerveModule frontLeft;
     private final SwerveModule frontRight;
