@@ -6,8 +6,10 @@ package frc.robot.boxybot;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.lib.Arduino.Arduino;
+import frc.lib.controllers.CommandXBoxWrapper;
+
 import static frc.lib.Arduino.ArduinoCommand.*;
-import frc.lib.xbox.CommandXBoxWrapper;
+
 import frc.robot.Robot24.Constants.OperatorConstants;
 import frc.robot.Robot24.DriverTab;
 

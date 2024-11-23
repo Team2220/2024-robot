@@ -4,6 +4,7 @@
 
 package frc.robot.KrackenSwerve;
 
+import frc.lib.controllers.CommandXBoxWrapper;
 import frc.lib.drivetrain.DriveCommand;
 import frc.lib.drivetrain.DriveTrain;
 import frc.lib.drivetrain.ObjectTracker;
@@ -13,7 +14,6 @@ import frc.lib.limeLight.LimelightPortForwarding;
 import frc.lib.music.MusicToneCommand;
 import frc.lib.music.Note;
 import frc.lib.selfCheck.RobotSelfCheckCommand;
-import frc.lib.xbox.CommandXBoxWrapper;
 import frc.robot.KrackenSwerve.Constants.OperatorConstants;
 
 import com.pathplanner.lib.auto.AutoBuilder;

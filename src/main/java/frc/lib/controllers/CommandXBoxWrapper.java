@@ -1,4 +1,4 @@
-package frc.lib.xbox;
+package frc.lib.controllers;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DriverStation;

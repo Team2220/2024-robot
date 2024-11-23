@@ -1,4 +1,4 @@
-package frc.lib.xbox;
+package frc.lib.controllers;
 
 import java.util.function.DoubleSupplier;
 
