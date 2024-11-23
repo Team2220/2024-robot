@@ -23,7 +23,7 @@ public class CommandJoystickWrapper {
         this.throttleDeadZone = throttleDeadZone;
 
         if (faultsWhenDisconnected) {
-            Fault.autoUpdating("Controller " + name + " (Port: " + inPort + ") is disconnected.", this::isConnected);
+            Fault.autoUpdating("Controller " + name + " (Port: " + inPort + ") is disconnected.", () -> !isConnected());
         }
     }
 
@@ -32,25 +32,25 @@ public class CommandJoystickWrapper {
     }
 
     public boolean isConnected() {
-        return !DriverStation.isJoystickConnected(joystick.getHID().getPort());
+        return DriverStation.isJoystickConnected(joystick.getHID().getPort());
     }
 
     private Trigger lazyTrigger(Trigger trigger) {
         return new Trigger(() -> {
-            // if (isConnected()) {
+            if (isConnected()) {
                 return trigger.getAsBoolean();
-            // } else {
-                // return false;
-            // }
+            } else {
+                return false;
+            }
         });
     }
 
     private double lazyDouble(DoubleSupplier doubleSup) {
-        // if (isConnected()) {
+        if (isConnected()) {
             return doubleSup.getAsDouble();
-        // } else {
-            // return 0.0;
-        // }
+        } else {
+            return 0.0;
+        }
     }
 
     public Joystick getHID() {

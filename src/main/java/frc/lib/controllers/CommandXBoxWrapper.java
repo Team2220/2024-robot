@@ -28,7 +28,7 @@ public class CommandXBoxWrapper {
         this.joystickDeadband = joystickDeadband;
         this.triggerDeadZone = triggerDeadZone;
 
-        Fault.autoUpdating("Controller " + name + " (Port: " + inPort + ") is disconnected.", this::isConnected);
+        Fault.autoUpdating("Controller " + name + " (Port: " + inPort + ") is disconnected.", () -> !isConnected());
     }
 
     public CommandXBoxWrapper(String name, int inPort) {
@@ -58,8 +58,8 @@ public class CommandXBoxWrapper {
     }
 
     public boolean isConnected() {
-        return !DriverStation.isJoystickConnected(xbox.getHID().getPort())
-                || !DriverStation.getJoystickIsXbox(xbox.getHID().getPort());
+        return DriverStation.isJoystickConnected(xbox.getHID().getPort())
+                && DriverStation.getJoystickIsXbox(xbox.getHID().getPort());
     }
 
     /**
