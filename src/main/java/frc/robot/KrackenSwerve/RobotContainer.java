@@ -68,6 +68,8 @@ public class RobotContainer {
 
   private void configureBindings() {
 
+   double joystick_x = -mainJoystick.getX();
+
         // Xbox controller bindings
     var driveCommand = new DriveCommand(
         mainJoystick::getX,
@@ -86,7 +88,7 @@ public class RobotContainer {
         driveTrain);
     driveTrain.setDefaultCommand(driveCommand);
 
-    mainJoystick.getX();
+ 
 
     // // Xbox controller bindings
     // var driveCommand = new DriveCommand(
@@ -120,7 +122,10 @@ public class RobotContainer {
 
     new Trigger(() -> mainJoystick.getRawButton(3)) // Example for button 3
         .onTrue(driveTrain.zeroCommand());
+
   }
+
+
 
   public Command getAutonomousCommand() {
     return autoChooser.getSelected();
@@ -137,4 +142,6 @@ public class RobotContainer {
         driveTrain
          );
   }
+
+  
 }
