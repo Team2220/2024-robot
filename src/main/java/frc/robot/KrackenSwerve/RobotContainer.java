@@ -4,6 +4,7 @@
 
 package frc.robot.KrackenSwerve;
 
+import frc.lib.controllers.CommandJoystickWrapper;
 import frc.lib.controllers.CommandXBoxWrapper;
 import frc.lib.drivetrain.DriveCommand;
 import frc.lib.drivetrain.DriveTrain;
@@ -38,6 +39,8 @@ public class RobotContainer {
   private SendableChooser<Command> autoChooser;
   private final CommandXBoxWrapper driverController = new CommandXBoxWrapper("Driver Controller",
       OperatorConstants.kDriverControllerPort);
+  
+  private final CommandJoystickWrapper joystick = new CommandJoystickWrapper("Driver Joystick", 4, false);
 
   public RobotContainer() {
     PDHLogPowerFaults.setPdh(PowerDistribution, 8, 12, 13, 14, 15, 16, 17, 22, 23);
@@ -64,6 +67,7 @@ public class RobotContainer {
 
     var driveCommand = new DriveCommand(
         driverController,
+        joystick,
         driveTrain);
     driveTrain.setDefaultCommand(driveCommand);
     // driverController.joysticksTrigger().onTrue(driveCommand);
@@ -71,11 +75,15 @@ public class RobotContainer {
     driverController.start().onTrue(driveTrain.zeroCommand());
     // duplacates on purpos
     driverController.back().onTrue(driveTrain.zeroCommand());
+    joystick.button(2).onTrue(driveTrain.zeroCommand());
 
     // driverController.x().onTrue(new MusicToneCommand(Note.HigherC, driveTrain).withTimeout(0.25));
   
     driverController.x().onTrue(driveTrain.zeroTurningMotors());
+
+
   }
+
 
   public Command getAutonomousCommand() {
     return autoChooser.getSelected();

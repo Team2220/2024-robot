@@ -8,11 +8,12 @@ import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.lib.controllers.CommandJoystickWrapper;
 import frc.lib.controllers.CommandXBoxWrapper;
 import frc.lib.limeLight.LimelightHelpers;
 import frc.lib.limeLight.LimelightHelpers.LimelightTarget_Detector;
-
 
 public class DriveCommand extends Command {
     double P = .005;
@@ -35,25 +36,44 @@ public class DriveCommand extends Command {
     PIDController controller = new PIDController(P, I, D);
     double wantedAngle = 0.0;
     boolean pid = false;
-
     boolean goal = false;
+
+    public DriveCommand(CommandXBoxWrapper xbox, CommandJoystickWrapper joystick, DriveTrain driveTrain) {
+        this(
+            ()-> (xbox.getLeftX())+(joystick.getX()),
+            ()-> (xbox.getLeftY())+(joystick.getY()),
+            ()-> (xbox.getRightX())+(joystick.getZ()),
+            xbox.leftBumper().or(joystick.button(4)),
+            xbox.povLeft().or(joystick.povLeft()),
+            xbox.povRight().or(joystick.povRight()),
+            xbox.povUp().or(joystick.povUp()),
+            xbox.povDown().or(joystick.povDown()),
+            xbox.povUpLeft().or(joystick.povUpLeft()),
+            xbox.povUpRight().or(joystick.povUpRight()),
+            xbox.povDownLeft().or(joystick.povDownLeft()),
+            xbox.povDownRight().or(joystick.povDownRight()),
+            xbox.b(),
+            driveTrain
+        );
+    }
 
     public DriveCommand(CommandXBoxWrapper xbox, DriveTrain driveTrain) {
         this(
-        xbox::getLeftX,
-        xbox::getLeftY,
-        xbox::getRightX,
-        xbox.leftBumper(),
-        xbox.povLeft(),
-        xbox.povRight(),
-        xbox.povUp(),
-        xbox.povDown(),
-        xbox.povUpLeft(),
-        xbox.povUpRight(),
-        xbox.povDownLeft(),
-        xbox.povDownRight(),
-        xbox.b(),
-        driveTrain);
+            xbox::getLeftX,
+            xbox::getLeftY,
+            xbox::getRightX,
+            xbox.leftBumper(),
+            xbox.povLeft(),
+            xbox.povRight(),
+            xbox.povUp(),
+            xbox.povDown(),
+            xbox.povUpLeft(),
+            xbox.povUpRight(),
+            xbox.povDownLeft(),
+            xbox.povDownRight(),
+            xbox.b(),
+            driveTrain
+        );
     }
 
     public DriveCommand(

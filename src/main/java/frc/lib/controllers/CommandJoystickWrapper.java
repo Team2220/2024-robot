@@ -27,8 +27,8 @@ public class CommandJoystickWrapper {
         }
     }
 
-    public CommandJoystickWrapper(String name, int inPort) {
-        this(name, inPort, .15, .05, true);
+    public CommandJoystickWrapper(String name, int inPort, boolean faultsWhenDisconnected) {
+        this(name, inPort, .15, .05, faultsWhenDisconnected);
     }
 
     public boolean isConnected() {
@@ -37,20 +37,20 @@ public class CommandJoystickWrapper {
 
     private Trigger lazyTrigger(Trigger trigger) {
         return new Trigger(() -> {
-            if (isConnected()) {
+            // if (isConnected()) {
                 return trigger.getAsBoolean();
-            } else {
-                return false;
-            }
+            // } else {
+                // return false;
+            // }
         });
     }
 
     private double lazyDouble(DoubleSupplier doubleSup) {
-        if (isConnected()) {
+        // if (isConnected()) {
             return doubleSup.getAsDouble();
-        } else {
-            return 0.0;
-        }
+        // } else {
+            // return 0.0;
+        // }
     }
 
     public Joystick getHID() {
