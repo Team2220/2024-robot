@@ -163,19 +163,7 @@ coastButton.asTrigger().and(DriverStationTriggers.isDisabled()).onTrue(arm.toggl
     // driver controls
 
     var driveCommand = new DriveCommand(
-        driverController::getLeftX,
-        driverController::getLeftY,
-        driverController::getRightX,
-        () -> driverController.getHID().getLeftBumper(),
-        () -> driverController.getHID().getPOV() == 270,
-        () -> driverController.getHID().getPOV() == 90,
-        () -> driverController.getHID().getPOV() == 0,
-        () -> driverController.getHID().getPOV() == 180,
-        () -> driverController.getHID().getPOV() == 45,
-        () -> driverController.getHID().getPOV() == 135,
-        () -> driverController.getHID().getPOV() == 315,
-        () -> driverController.getHID().getPOV() == 225,
-        () -> driverController.getHID().getBButton(),
+        driverController,
         driveTrain);
     driveTrain.setDefaultCommand(driveCommand);
     // driverController.joysticksTrigger().onTrue(driveCommand);

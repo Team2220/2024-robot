@@ -9,6 +9,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.lib.controllers.CommandXBoxWrapper;
 import frc.lib.limeLight.LimelightHelpers;
 import frc.lib.limeLight.LimelightHelpers.LimelightTarget_Detector;
 
@@ -36,6 +37,24 @@ public class DriveCommand extends Command {
     boolean pid = false;
 
     boolean goal = false;
+
+    public DriveCommand(CommandXBoxWrapper xbox, DriveTrain driveTrain) {
+        this(
+        xbox::getLeftX,
+        xbox::getLeftY,
+        xbox::getRightX,
+        xbox.leftBumper(),
+        xbox.povLeft(),
+        xbox.povRight(),
+        xbox.povUp(),
+        xbox.povDown(),
+        xbox.povUpLeft(),
+        xbox.povUpRight(),
+        xbox.povDownLeft(),
+        xbox.povDownRight(),
+        xbox.b(),
+        driveTrain);
+    }
 
     public DriveCommand(
             DoubleSupplier xspeed,
