@@ -16,13 +16,17 @@ import frc.lib.selfCheck.RobotSelfCheckCommand;
 import frc.lib.xbox.CommandXBoxWrapper;
 import frc.robot.KrackenSwerve.Constants.OperatorConstants;
 
+import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest.SwerveDriveBrake;
 import com.pathplanner.lib.auto.AutoBuilder;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public class RobotContainer {
 
@@ -36,6 +40,7 @@ public class RobotContainer {
   @SuppressWarnings("unused")
   public static final DriverTab drivertab = new DriverTab();
   private SendableChooser<Command> autoChooser;
+  Joystick mainJoystick = new Joystick(4); // Flight joystick on port 4
   private final CommandXBoxWrapper driverController = new CommandXBoxWrapper("Driver Controller",
       OperatorConstants.kDriverControllerPort);
 
@@ -54,14 +59,12 @@ public class RobotContainer {
       DriverStation.reportError(exception.toString(), exception.getStackTrace());
       new Fault("Failed to set up Auto Chooser.").setIsActive(true);
     }
-
   }
 
   boolean isArmHeld = false;
 
   private void configureBindings() {
-    // driver controls
-
+    // Xbox controller bindings
     var driveCommand = new DriveCommand(
         driverController::getLeftX,
         driverController::getLeftY,
@@ -78,15 +81,20 @@ public class RobotContainer {
         () -> driverController.getHID().getBButton(),
         driveTrain);
     driveTrain.setDefaultCommand(driveCommand);
-    // driverController.joysticksTrigger().onTrue(driveCommand);
 
     driverController.start().onTrue(driveTrain.zeroCommand());
-    // duplacates on purpos
     driverController.back().onTrue(driveTrain.zeroCommand());
-
-    // driverController.x().onTrue(new MusicToneCommand(Note.HigherC, driveTrain).withTimeout(0.25));
-  
     driverController.x().onTrue(driveTrain.zeroTurningMotors());
+
+    // Flight joystick bindings
+    new Trigger(() -> mainJoystick.getRawButton(1)) // Trigger button
+        .onTrue(Commands.runOnce(() -> System.out.println("Button 1 pressed!")));
+
+    new Trigger(() -> mainJoystick.getRawButton(2)) // Button 2
+        .onTrue(Commands.runOnce(() -> System.out.println("Button 2 pressed!")));
+
+    new Trigger(() -> mainJoystick.getRawButton(3)) // Example for button 3
+        .onTrue(Commands.runOnce(() -> System.out.println("Button 3 pressed!")));
   }
 
   public Command getAutonomousCommand() {
@@ -104,5 +112,4 @@ public class RobotContainer {
         driveTrain
          );
   }
-  // CanStream canStream = new CanStream();
 }
