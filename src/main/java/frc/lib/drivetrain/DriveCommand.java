@@ -144,8 +144,8 @@ public class DriveCommand extends Command {
         }
         this.driveTrain.drive(
                 this.xspeed.getAsDouble() * coefficient * -1,
-                this.yspeed.getAsDouble() * coefficient,
-                rotate,
+                this.yspeed.getAsDouble() * coefficient * -1,
+                rotate * -1,
                 true);
     }
 }
