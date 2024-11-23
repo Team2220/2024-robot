@@ -16,14 +16,11 @@ import frc.lib.selfCheck.RobotSelfCheckCommand;
 import frc.lib.xbox.CommandXBoxWrapper;
 import frc.robot.KrackenSwerve.Constants.OperatorConstants;
 
-import java.util.zip.Deflater;
-
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest.SwerveDriveBrake;
 import com.pathplanner.lib.auto.AutoBuilder;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistribution;
-import edu.wpi.first.wpilibj.Joystick.AxisType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -67,12 +64,11 @@ public class RobotContainer {
   boolean isArmHeld = false;
 
   private void configureBindings() {
-
-        // Xbox controller bindings
+    // Xbox controller bindings
     var driveCommand = new DriveCommand(
-        mainJoystick::getX,
-        mainJoystick::getY,
-        mainJoystick::getZ,
+        driverController::getLeftX,
+        driverController::getLeftY,
+        driverController::getRightX,
         () -> driverController.getHID().getLeftBumper(),
         () -> driverController.getHID().getPOV() == 270,
         () -> driverController.getHID().getPOV() == 90,
@@ -86,40 +82,19 @@ public class RobotContainer {
         driveTrain);
     driveTrain.setDefaultCommand(driveCommand);
 
-    mainJoystick.getX();
-
-    // // Xbox controller bindings
-    // var driveCommand = new DriveCommand(
-    //     driverController::getLeftX,
-    //     driverController::getLeftY,
-    //     driverController::getRightX,
-    //     () -> driverController.getHID().getLeftBumper(),
-    //     () -> driverController.getHID().getPOV() == 270,
-    //     () -> driverController.getHID().getPOV() == 90,
-    //     () -> driverController.getHID().getPOV() == 0,
-    //     () -> driverController.getHID().getPOV() == 180,
-    //     () -> driverController.getHID().getPOV() == 45,
-    //     () -> driverController.getHID().getPOV() == 135,
-    //     () -> driverController.getHID().getPOV() == 315,
-    //     () -> driverController.getHID().getPOV() == 225,
-    //     () -> driverController.getHID().getBButton(),
-    //     driveTrain);
-    // driveTrain.setDefaultCommand(driveCommand);
-
-
     driverController.start().onTrue(driveTrain.zeroCommand());
     driverController.back().onTrue(driveTrain.zeroCommand());
     driverController.x().onTrue(driveTrain.zeroTurningMotors());
 
     // Flight joystick bindings
     new Trigger(() -> mainJoystick.getRawButton(1)) // Trigger button
-        .onTrue(driveTrain.zeroCommand());
+        .onTrue(Commands.runOnce(() -> System.out.println("Button 1 pressed!")));
 
     new Trigger(() -> mainJoystick.getRawButton(2)) // Button 2
-        .onTrue(driveTrain.zeroCommand());
+        .onTrue(Commands.runOnce(() -> System.out.println("Button 2 pressed!")));
 
     new Trigger(() -> mainJoystick.getRawButton(3)) // Example for button 3
-        .onTrue(driveTrain.zeroCommand());
+        .onTrue(Commands.runOnce(() -> System.out.println("Button 3 pressed!")));
   }
 
   public Command getAutonomousCommand() {
