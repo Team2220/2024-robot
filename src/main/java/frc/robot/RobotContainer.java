@@ -169,7 +169,7 @@ public class RobotContainer {
         .whileTrue(driverController.rumbleCommand(.50))
         .whileTrue(operatorController.rumbleCommand(.80));
 
-    driverController.b().onTrue(arm.setPositionCommand(55));
+    // driverController.b().onTrue(arm.setPositionCommand(55));
 
     driverController.a().onTrue(arm.setPositionCommand(28));
 

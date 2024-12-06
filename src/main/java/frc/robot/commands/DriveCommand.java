@@ -40,7 +40,7 @@ public class DriveCommand extends Command {
     boolean pid = false;
 
     boolean goal = false;
-    TunableDouble speedMultiplier = new TunableDouble("SpeedMultiplier", 0.5, getName());
+    TunableDouble speedMultiplier = new TunableDouble("SpeedMultiplier", 0.2, getName());
 
     public DriveCommand(
             DoubleSupplier xspeed,
@@ -122,25 +122,25 @@ public class DriveCommand extends Command {
         //     wantedAngle = 225;
         // }
         // if (rot.getAsDouble() > 0) {
-        //     pid = false;
-        //     goal = false;
-        //     wantedAngle = 0;
-        // }
-        if (pointAtGoal.getAsBoolean()) {
-            pid = true;
-            goal = true;
+        // //     pid = false;
+        // //     goal = false;
+        // //     wantedAngle = 0;
+        // // }
+        // if (pointAtGoal.getAsBoolean()) {
+        //     pid = true;
+        //     goal = true;
           
             
-        }
-        if (goal){
-            AprilTagFieldLayout layout = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
-            Pose3d RED = layout.getTagPose(4).get();
-            Pose3d BLUE = layout.getTagPose(7).get();
-            var goal = DriverStation.getAlliance().get() == DriverStation.Alliance.Red ? RED : BLUE;
-            var Botpose = driveTrain.getPose().getTranslation().minus((goal).toPose2d().getTranslation());
+        // }
+        // if (goal){
+        //     AprilTagFieldLayout layout = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
+        //     Pose3d RED = layout.getTagPose(4).get();
+        //     Pose3d BLUE = layout.getTagPose(7).get();
+        //     var goal = DriverStation.getAlliance().get() == DriverStation.Alliance.Red ? RED : BLUE;
+        //     var Botpose = driveTrain.getPose().getTranslation().minus((goal).toPose2d().getTranslation());
             
-            wantedAngle = Math.toDegrees(Math.atan2(Botpose.getY(), Botpose.getX()));
-        }
+        //     wantedAngle = Math.toDegrees(Math.atan2(Botpose.getY(), Botpose.getX()));
+        // }
         double rotate = this.rot.getAsDouble() * coefficient * -1;
         if (pid) {
             rotate = controller.calculate(
