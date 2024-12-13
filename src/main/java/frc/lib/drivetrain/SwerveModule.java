@@ -77,8 +77,9 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
     speed = Shuffleboard.getTab("swerve").add(name + " speed", 0).getEntry();
     angle = Shuffleboard.getTab("swerve").add(name + " angle", 0).getEntry();
     drivePositionEntry = Shuffleboard.getTab("swerve").add(name + " drivePostion", 0).getEntry();
-    Shuffleboard.getTab("swerve").addDouble(name + " abs encoder", turningEncoder::getPosition);
+    
     Shuffleboard.getTab("swerve").addDouble(name + " motor encoder", () -> getTurningMotorRotation2d().getDegrees());
+    Shuffleboard.getTab("swerve").addDouble(name + "encoder", () -> turningEncoder.getPosition().in(Degrees));
 
     SwerveModule.DT_DRIVE_P.addChangeListener((isInit, value) -> {
       driveConfig.Slot0.kP = value;
@@ -238,7 +239,7 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
   }
 
   private Rotation2d getAngle() {
-    var rAngle = Rotation2d.fromDegrees(turningEncoder.getPosition() - offset);
+    var rAngle = Rotation2d.fromDegrees(turningEncoder.getPosition().in(Degrees) - offset);
     return Rotation2d.fromDegrees(MathUtil.inputModulus(rAngle.getDegrees(), 0, 360));
   }
 

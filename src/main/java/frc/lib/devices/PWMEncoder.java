@@ -1,5 +1,8 @@
-package frc.lib.devices;
+ package frc.lib.devices;
 
+import edu.wpi.first.units.Angle;
+import edu.wpi.first.units.Measure;
+import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj.AnalogInput;
 
 public class PWMEncoder {
@@ -11,8 +14,8 @@ public class PWMEncoder {
         encoder.setOversampleBits(oversampling);
     }
 
-    public double getPosition() {
+    public Measure<Angle> getPosition() {
         // return encoder.getAverageValue() * 360 / 4096.0 / Math.pow(2, oversampling);
-        return encoder.getValue() * 360 / 4096.0;
+        return Units.Degrees.of(encoder.getValue() * 360 / 4096.);
     }
 }
