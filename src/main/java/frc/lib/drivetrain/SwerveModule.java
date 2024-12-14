@@ -5,6 +5,8 @@
 package frc.lib.drivetrain;
 
 import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.Inches;
+import static edu.wpi.first.units.Units.Meter;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.PositionDutyCycle;
@@ -19,6 +21,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.units.Angle;
+import edu.wpi.first.units.Distance;
 import edu.wpi.first.units.Measure;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import frc.lib.ShuffleBoardTabWrapper;
@@ -38,10 +41,10 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
 
   private final PWMEncoder turningEncoder;
 
-  public static final double DT_WHEEL_DIAMETER = Units.inchesToMeters(4);
+  public static final Measure<Distance> DT_WHEEL_DIAMETER = Inches.of(4);
   public static final double DT_DRIVE_GEAR_RATIO = (50.0 / 14.0) * (16.0 / 28.0) * (45.0 / 15.0);
   public static final double DT_STEER_GEAR_RATIO = 150.0 / 7.0;
-  public static final double DT_WHEEL_CIRCUMFRENCE = DT_WHEEL_DIAMETER * Math.PI;
+  public static final Measure<Distance> DT_WHEEL_CIRCUMFRENCE = DT_WHEEL_DIAMETER.times(Math.PI);
   
   private Measure<Angle>  offset;
   private String name;
@@ -155,7 +158,7 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
   private double getDriveVelocity() {
     double ticks = driveMotor.getVelocity().getValueAsDouble();
     double revolutionsMotorToRevolutionsWheel = 1.0 / DT_DRIVE_GEAR_RATIO // Reduction from motor to output
-        * (1.0 / DT_WHEEL_CIRCUMFRENCE);
+        * (1.0 / DT_WHEEL_CIRCUMFRENCE.in(Meter));
 
     return ticks * revolutionsMotorToRevolutionsWheel;
   }
@@ -187,12 +190,12 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
   private double getDrivePosition() {
 
 return (driveMotor.getRotorPosition().getValueAsDouble()) * (1.0 / DT_DRIVE_GEAR_RATIO //Reduction from motor to output
-        * DT_WHEEL_CIRCUMFRENCE);
+        * DT_WHEEL_CIRCUMFRENCE.in(Meter));
 
   }
 
   private double mpsToEncoderTicks(double mps) {
-    return mps / DT_WHEEL_CIRCUMFRENCE * DT_DRIVE_GEAR_RATIO;
+    return mps / DT_WHEEL_CIRCUMFRENCE.in(Meter) * DT_DRIVE_GEAR_RATIO;
     // return mps / wheelRevolutions * DT_DRIVE_GEAR_RATIO;
   }
 

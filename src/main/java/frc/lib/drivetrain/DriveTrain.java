@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import static edu.wpi.first.math.util.Units.inchesToMeters;
 import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.Meter;
 
 import java.util.function.DoubleSupplier;
 import java.util.stream.Stream;
@@ -311,7 +312,7 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem, Check
      * line.
      */
     public static final double MAX_VELOCITY_METERS_PER_SECOND = 6380.0 / 60.0 / SwerveModule.DT_DRIVE_GEAR_RATIO
-            * SwerveModule.DT_WHEEL_DIAMETER * Math.PI;
+            * SwerveModule.DT_WHEEL_CIRCUMFRENCE.in(Meter);
     // ModuleConfiguration.MK4I_L2.getDriveReduction() *
     // ModuleConfiguration.MK4I_L2.getWheelDiameter() * PI;
 
