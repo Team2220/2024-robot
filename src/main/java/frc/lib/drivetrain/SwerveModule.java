@@ -18,6 +18,8 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.units.Angle;
+import edu.wpi.first.units.Measure;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import frc.lib.ShuffleBoardTabWrapper;
 import frc.lib.devices.PWMEncoder;
@@ -40,7 +42,7 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
   public static final double DT_STEER_GEAR_RATIO = 150.0 / 7.0;
   public static final double DT_WHEEL_CIRCUMFRENCE = DT_WHEEL_DIAMETER * Math.PI;
   
-  private double offset;
+  private Measure<Angle>  offset;
   private String name;
 
   public SwerveModule(
@@ -48,8 +50,8 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
       int driveMotorId,
       int turningMotorId,
       int turningEncoderPort,
-      double offset) {
-    this.offset = offset + 90; // when we zero it's to 90 deg on the unit circle
+      Measure<Angle> offset) {
+    this.offset = offset.plus(Degrees.of(90)); // when we zero it's to 90 deg on the unit circle
     this.name = name;
     driveMotor = new TalonFX(driveMotorId);
     turningMotor = new TalonFX(turningMotorId);
@@ -208,8 +210,8 @@ return (driveMotor.getRotorPosition().getValueAsDouble()) * (1.0 / DT_DRIVE_GEAR
   }
 
   private Rotation2d getAngle() {
-    var rAngle = Rotation2d.fromDegrees(turningEncoder.getPosition().in(Degrees) - offset);
-    return Rotation2d.fromDegrees(MathUtil.inputModulus(rAngle.getDegrees(), 0, 360));
+    var rAngle = new Rotation2d(turningEncoder.getPosition().minus(offset));
+    return Rotation2d.fromRadians(MathUtil.angleModulus(rAngle.getRadians()));
   }
 
   public void setDesiredState(SwerveModuleState desiredState) {

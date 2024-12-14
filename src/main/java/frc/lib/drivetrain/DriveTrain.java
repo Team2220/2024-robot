@@ -14,6 +14,8 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.units.Angle;
+import edu.wpi.first.units.Measure;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -58,7 +60,7 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem, Check
     double driveRadius = Math
             .sqrt(Math.pow(DRIVETRAIN_TRACKWIDTH_METERS / 2, 2) + Math.pow(DRIVETRAIN_WHEELBASE_METERS / 2, 2));
 
-    public DriveTrain(double frontLeftOffset, double frontrightoffset, double backleftoffset, double backrightoffset) {
+    public DriveTrain(Measure<Angle> frontLeftOffset, Measure<Angle> frontrightoffset, Measure<Angle> backleftoffset, Measure<Angle> backrightoffset) {
         this.frontLeft = new SwerveModule(
                 "frontleft",
                 12,

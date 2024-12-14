@@ -48,7 +48,7 @@ public class UnitsUtil {
     public static final Velocity<Velocity<Angle>> RotationsPerSecSquared = RotationsPerSecond.per(Seconds);
 
     public static final Velocity<Velocity<Velocity<Angle>>> RotationsPerSecCubed = RotationsPerSecSquared.per(Seconds);
-    public static <U extends Unit<U>> Measure<U> modulus(Measure<U> value, Measure<U> min, Measure<U> max){
+    public static <U extends Unit<U>> Measure<U> inputModulus(Measure<U> value, Measure<U> min, Measure<U> max){
         U unit = value.unit();
         double dvalue = value.in(unit);
         double dmin = value.in(unit);
