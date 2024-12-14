@@ -39,42 +39,24 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
   public static final double DT_DRIVE_GEAR_RATIO = (50.0 / 14.0) * (16.0 / 28.0) * (45.0 / 15.0);
   public static final double DT_STEER_GEAR_RATIO = 150.0 / 7.0;
   public static final double DT_WHEEL_CIRCUMFRENCE = DT_WHEEL_DIAMETER * Math.PI;
-  // Drive gear ratio (that number is the number of revolutions of the motor to
-  // get one revolution of the output)
-  // public static final double DT_DRIVE_GEAR_RATIO =
-  // Constants.SwerveModule.DT_DRIVE_GEAR_RATIO;
-  // Drive motor inverted
-  // public static final boolean DT_DRIVE_MOTOR_INVERTED = true;
-
-  // Steer gear ratio (that number is the number of revolutions of the steer motor
-  // to get one revolution of the output)
-  // public static final double DT_STEER_GEAR_RATIO =
-  // Constants.SwerveModule.DT_STEER_GEAR_RATIO;
-  // Steer motor inverted
-  // public static final boolean DT_STEER_MOTOR_INVERTED = false;
-
-  // Steer encoder gear ratio
-  // public static final double DT_STEER_ENCODER_GEAR_RATIO = 1;
-  // Steer encoder inverted
-  // public static final boolean DT_STEER_ENCODER_INVERTED = false;
-
+  
   private double offset;
   private String name;
 
   public SwerveModule(
       String name,
-      int driveMotorChannel,
-      int turningMotorChannel,
-      int turningEncoderChannelA,
+      int driveMotorId,
+      int turningMotorId,
+      int turningEncoderPort,
       double offset) {
     this.offset = offset + 90; // when we zero it's to 90 deg on the unit circle
     this.name = name;
-    driveMotor = new TalonFX(driveMotorChannel);
-    turningMotor = new TalonFX(turningMotorChannel);
+    driveMotor = new TalonFX(driveMotorId);
+    turningMotor = new TalonFX(turningMotorId);
     var driveConfig = makeConfiguration(1);
     var turningconfig = makeConfiguration(1);
 
-    turningEncoder = new PWMEncoder(turningEncoderChannelA);
+    turningEncoder = new PWMEncoder(turningEncoderPort);
     speed = Shuffleboard.getTab("swerve").add(name + " speed", 0).getEntry();
     angle = Shuffleboard.getTab("swerve").add(name + " angle", 0).getEntry();
     drivePositionEntry = Shuffleboard.getTab("swerve").add(name + " drivePostion", 0).getEntry();
@@ -133,18 +115,7 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
 
     zeroTurningMotor();
 
-    // Shuffleboard.getTab("current")
-    // .addDouble(name, ()->{
-    // return
-    // turningMotor.getTorqueCurrent().getValueAsDouble();
-    // })
-    // .withWidget(BuiltInWidgets.kGraph);
-
-    // if (Constants.isGraphsEnabled) {
-    // Shuffleboard.getTab("swerve")
-    // .addDouble(name, this::getDriveVelocity)
-    // .withWidget(BuiltInWidgets.kGraph).withSize(1, 1);
-    // }
+   
 
     driveMotor.getConfigurator().apply(driveConfig);
     turningMotor.getConfigurator().apply(turningconfig);
@@ -215,11 +186,6 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
 return (driveMotor.getRotorPosition().getValueAsDouble()) * (1.0 / DT_DRIVE_GEAR_RATIO //Reduction from motor to output
         * DT_WHEEL_CIRCUMFRENCE);
 
-    // double ticks = driveMotor.getRotorPosition().getValueAsDouble();
-    // double revolutionsMotorToRevolutionsWheel = 1.0 / DT_DRIVE_GEAR_RATIO // Reduction from motor to output
-    //     * ((SwerveModule.DT_WHEEL_DIAMETER * Math.PI));
-
-    // return ticks * revolutionsMotorToRevolutionsWheel;
   }
 
   private double mpsToEncoderTicks(double mps) {
