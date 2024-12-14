@@ -8,6 +8,7 @@ import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.Inches;
 import static edu.wpi.first.units.Units.Meter;
 import static edu.wpi.first.units.Units.Rotation;
+import static edu.wpi.first.units.Units.RotationsPerSecond;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.PositionDutyCycle;
@@ -24,6 +25,7 @@ import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.units.Angle;
 import edu.wpi.first.units.Distance;
 import edu.wpi.first.units.Measure;
+import edu.wpi.first.units.Velocity;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import frc.lib.ShuffleBoardTabWrapper;
 import frc.lib.devices.PWMEncoder;
@@ -154,12 +156,12 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
         getDriveVelocity(), getAngle());
   }
 
-  private double getDriveVelocity() {
-    double ticks = driveMotor.getVelocity().getValueAsDouble();
-    double revolutionsMotorToRevolutionsWheel = 1.0 / DT_DRIVE_GEAR_RATIO // Reduction from motor to output
-        * (1.0 / DT_WHEEL_CIRCUMFRENCE.in(Meter));
+  private Measure<Velocity<Distance>> getDriveVelocity() {
 
-    return ticks * revolutionsMotorToRevolutionsWheel;
+    return UnitsUtil.velocityForWheel(
+        DT_WHEEL_DIAMETER,
+        RotationsPerSecond.of(driveMotor.getVelocity().getValueAsDouble() * (1.0 / DT_DRIVE_GEAR_RATIO)));
+
   }
 
   public CheckCommand[] getCheckCommands() {

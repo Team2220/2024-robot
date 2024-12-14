@@ -39,11 +39,9 @@ public final class UnitsUtil {
         return Meters.of(distance);
     }
 
-    public static final Measure<Velocity<Distance>> velocityForWheel(Measure<Velocity<Distance>> velocity, Measure<Angle> rotation) {
-        double vel = velocity.in(MetersPerSecond);
-        double ang = rotation.in(Rotations);
-        double velForWheel = vel * ang * Math.PI;
-        return MetersPerSecond.of(velForWheel);
+    public static final Measure<Velocity<Distance>> velocityForWheel(Measure<Distance> wheelDiameter, Measure<Velocity<Angle>> rotations) {
+        var distance = Math.PI * wheelDiameter.in(Meters) * rotations.in(RotationsPerSecond);
+        return MetersPerSecond.of(distance);
     }
 
     public static final Velocity<Velocity<Angle>> RotationsPerSecSquared = RotationsPerSecond.per(Seconds);
