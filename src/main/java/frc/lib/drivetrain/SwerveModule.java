@@ -7,6 +7,7 @@ package frc.lib.drivetrain;
 import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.Inches;
 import static edu.wpi.first.units.Units.Meter;
+import static edu.wpi.first.units.Units.Rotation;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.PositionDutyCycle;
@@ -45,8 +46,8 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
   public static final double DT_DRIVE_GEAR_RATIO = (50.0 / 14.0) * (16.0 / 28.0) * (45.0 / 15.0);
   public static final double DT_STEER_GEAR_RATIO = 150.0 / 7.0;
   public static final Measure<Distance> DT_WHEEL_CIRCUMFRENCE = DT_WHEEL_DIAMETER.times(Math.PI);
-  
-  private Measure<Angle>  offset;
+
+  private Measure<Angle> offset;
   private String name;
 
   public SwerveModule(
@@ -66,7 +67,7 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
     speed = Shuffleboard.getTab("swerve").add(name + " speed", 0).getEntry();
     angle = Shuffleboard.getTab("swerve").add(name + " angle", 0).getEntry();
     drivePositionEntry = Shuffleboard.getTab("swerve").add(name + " drivePostion", 0).getEntry();
-    
+
     Shuffleboard.getTab("swerve").addDouble(name + " motor encoder", () -> getTurningMotorRotation2d().getDegrees());
     Shuffleboard.getTab("swerve").addDouble(name + "encoder", () -> turningEncoder.getPosition().in(Degrees));
 
@@ -120,8 +121,6 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
     });
 
     zeroTurningMotor();
-
-   
 
     driveMotor.getConfigurator().apply(driveConfig);
     turningMotor.getConfigurator().apply(turningconfig);
@@ -187,11 +186,10 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
   public static final TunableDouble DT_STEER_D = new TunableDouble("DT_STEER_D", 0.0001, "swerve").setSpot(2, 1);
   public static final TunableDouble DT_STEER_F = new TunableDouble("DT_STEER_F", 0, "swerve").setSpot(3, 1);
 
-  private double getDrivePosition() {
-
-return (driveMotor.getRotorPosition().getValueAsDouble()) * (1.0 / DT_DRIVE_GEAR_RATIO //Reduction from motor to output
-        * DT_WHEEL_CIRCUMFRENCE.in(Meter));
-
+  private Measure<Distance> getDrivePosition() {
+    return UnitsUtil.distanceForWheel(
+        DT_WHEEL_DIAMETER,
+        Rotation.of(driveMotor.getRotorPosition().getValueAsDouble() * (1.0 / DT_DRIVE_GEAR_RATIO)));
   }
 
   private double mpsToEncoderTicks(double mps) {
@@ -200,12 +198,12 @@ return (driveMotor.getRotorPosition().getValueAsDouble()) * (1.0 / DT_DRIVE_GEAR
   }
 
   private double angleToEncoderTicks(double angle) {
-    return (angle / 360.0) * DT_STEER_GEAR_RATIO;}
-    
+    return (angle / 360.0) * DT_STEER_GEAR_RATIO;
+  }
 
   private double steerEncoderTicksToAngle(double ticks) {
     return (ticks / DT_STEER_GEAR_RATIO) * 360;
-    
+
   }
 
   public SwerveModulePosition getPosition() {
@@ -219,7 +217,7 @@ return (driveMotor.getRotorPosition().getValueAsDouble()) * (1.0 / DT_DRIVE_GEAR
   }
 
   public void setDesiredState(SwerveModuleState desiredState) {
-    drivePositionEntry.setDouble(getDrivePosition());
+    drivePositionEntry.setDouble(getDrivePosition().in(Meter));
 
     Rotation2d rotation2d = getTurningMotorRotation2d();
     SwerveModuleState state = SwerveModuleState.optimize(desiredState, rotation2d);

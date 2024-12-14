@@ -7,7 +7,6 @@ import static edu.wpi.first.units.Units.Rotations;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
 import static edu.wpi.first.units.Units.Seconds;
 import static edu.wpi.first.units.Units.derive;
-import static frc.lib.Arduino.ArduinoCommand.valueOf;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.units.Angle;
@@ -16,7 +15,7 @@ import edu.wpi.first.units.Measure;
 import edu.wpi.first.units.Unit;
 import edu.wpi.first.units.Velocity;
 
-public class UnitsUtil {
+public final class UnitsUtil {
     private UnitsUtil() {
         // hi - dont make instances
     }
@@ -35,12 +34,12 @@ public class UnitsUtil {
         return measure.unit().of(Math.abs(dMeasure));
     }
 
-    public Measure<Distance> distanceForWheel(Measure<Distance> wheelDiameter, Measure<Angle> rotations) {
+    public static final Measure<Distance> distanceForWheel(Measure<Distance> wheelDiameter, Measure<Angle> rotations) {
         var distance = Math.PI * wheelDiameter.in(Meters) * rotations.in(Rotations);
         return Meters.of(distance);
     }
 
-    public Measure<Velocity<Distance>> velocityForWheel(Measure<Velocity<Distance>> velocity, Measure<Angle> rotation) {
+    public static final Measure<Velocity<Distance>> velocityForWheel(Measure<Velocity<Distance>> velocity, Measure<Angle> rotation) {
         double vel = velocity.in(MetersPerSecond);
         double ang = rotation.in(Rotations);
         double velForWheel = vel * ang * Math.PI;
