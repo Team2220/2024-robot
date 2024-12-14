@@ -2,10 +2,12 @@ package frc.lib.units;
 
 import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.MetersPerSecond;
+import static edu.wpi.first.units.Units.Radian;
 import static edu.wpi.first.units.Units.Rotations;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
 import static edu.wpi.first.units.Units.Seconds;
 import static edu.wpi.first.units.Units.derive;
+import static frc.lib.Arduino.ArduinoCommand.valueOf;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.units.Angle;
@@ -55,4 +57,10 @@ public class UnitsUtil {
         double dmax = value.in(unit);
         return unit.of(MathUtil.inputModulus(dvalue, dmin, dmax)); 
     }
+
+    public static final Measure<Angle> angleModulus(Measure<Angle> value){
+
+      return Radian.of(MathUtil.angleModulus(value.in(Radian)));
+
+    };
 }

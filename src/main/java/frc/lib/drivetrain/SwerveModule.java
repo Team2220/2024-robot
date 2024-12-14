@@ -27,6 +27,7 @@ import frc.lib.selfCheck.CheckCommand;
 import frc.lib.selfCheck.SwerveModuleSelfCheck;
 import frc.lib.selfCheck.UnwrappedTalonSpinCheck;
 import frc.lib.tunables.TunableDouble;
+import frc.lib.units.UnitsUtil;
 
 public class SwerveModule implements ShuffleBoardTabWrapper {
   GenericEntry speed;
@@ -210,8 +211,8 @@ return (driveMotor.getRotorPosition().getValueAsDouble()) * (1.0 / DT_DRIVE_GEAR
   }
 
   private Rotation2d getAngle() {
-    var rAngle = new Rotation2d(turningEncoder.getPosition().minus(offset));
-    return Rotation2d.fromRadians(MathUtil.angleModulus(rAngle.getRadians()));
+    var rAngle = (turningEncoder.getPosition().minus(offset));
+    return new Rotation2d(UnitsUtil.angleModulus(rAngle));
   }
 
   public void setDesiredState(SwerveModuleState desiredState) {
