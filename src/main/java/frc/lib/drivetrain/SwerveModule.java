@@ -71,8 +71,8 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
     this.name = name;
     driveMotor = new TalonFX(driveMotorChannel);
     turningMotor = new TalonFX(turningMotorChannel);
-    var driveConfig = makeConfiguration();
-    var turningconfig = makeConfiguration();
+    var driveConfig = makeConfiguration(1);
+    var turningconfig = makeConfiguration(1);
 
     turningEncoder = new PWMEncoder(turningEncoderChannelA);
     speed = Shuffleboard.getTab("swerve").add(name + " speed", 0).getEntry();
@@ -156,7 +156,7 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
     System.out.println("zero turingin motor " + name + ": " + degrees);
   }
 
-  private static TalonFXConfiguration makeConfiguration() {
+  private static TalonFXConfiguration makeConfiguration(double gearRatio) {
     var config = new TalonFXConfiguration();
     config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
     config.CurrentLimits.StatorCurrentLimit = 60;
@@ -168,6 +168,7 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
     config.Audio.BeepOnBoot = false;
     config.Audio.BeepOnConfig = false;
     config.Audio.AllowMusicDurDisable = true;
+    config.Feedback.SensorToMechanismRatio = gearRatio;
     return config;
 
   }
