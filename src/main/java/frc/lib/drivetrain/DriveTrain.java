@@ -15,13 +15,19 @@ import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.units.Angle;
+import edu.wpi.first.units.Distance;
 import edu.wpi.first.units.Measure;
+import edu.wpi.first.units.Velocity;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import static edu.wpi.first.math.util.Units.inchesToMeters;
 import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.Meter;
+import static edu.wpi.first.units.Units.MetersPerSecond;
+import static edu.wpi.first.units.Units.Radian;
+import static edu.wpi.first.units.Units.RadiansPerSecond;
+import static edu.wpi.first.units.Units.RotationsPerSecond;
 
 import java.util.function.DoubleSupplier;
 import java.util.stream.Stream;
@@ -46,6 +52,7 @@ import frc.lib.selfCheck.CheckCommand;
 import frc.lib.selfCheck.CheckableSubsystem;
 import frc.lib.selfCheck.SwerveModuleSelfCheck;
 import frc.lib.selfCheck.UnwrappedTalonSpinCheck;
+import frc.lib.units.UnitsUtil;
 import frc.robot.Robot24.Constants;
 
 /**
@@ -108,7 +115,7 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem, Check
                                                  // Constants class
                         new PIDConstants(.001, 0.0, 0.0), // Translation PID constants
                         rotationConstants, // Rotation PID constants
-                        MAX_VELOCITY_METERS_PER_SECOND, // Max module speed, in m/s
+                        MAX_VELOCITY.in(MetersPerSecond), // Max module speed, in m/s
                         driveRadius, // Drive base radius in meters. Distance from robot center to furthest module.
                         new ReplanningConfig() // Default path replanning config. See the API for the options here
                 ),
@@ -140,9 +147,9 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem, Check
     GenericEntry gyroAngle = Shuffleboard.getTab("swerve").add("gyroAngle", 0).getEntry();
 
     public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
-        double x = xSpeed * MAX_VELOCITY_METERS_PER_SECOND * -1;
-        double y = ySpeed * MAX_VELOCITY_METERS_PER_SECOND * -1;
-        double r = rot * MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * -1;
+        Measure<Velocity<Distance>> x = MAX_VELOCITY.times(-xSpeed);
+        Measure<Velocity<Distance>> y = MAX_VELOCITY.times(-ySpeed);
+        Measure<Velocity<Angle>> r = MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND.times(-rot);
         driveRobotRelative(
                 fieldRelative
                         ? ChassisSpeeds.fromFieldRelativeSpeeds(x, y, r, getGyroscopeRotation())
@@ -151,7 +158,7 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem, Check
 
     public void driveRobotRelative(ChassisSpeeds speed) {
         var swerveModuleStates = KINEMATICS.toSwerveModuleStates(speed);
-        SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, MAX_VELOCITY_METERS_PER_SECOND);
+        SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, MAX_VELOCITY);
         frontLeft.setDesiredState(swerveModuleStates[0]);
         frontRight.setDesiredState(swerveModuleStates[1]);
         backLeft.setDesiredState(swerveModuleStates[2]);
@@ -311,8 +318,10 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem, Check
      * This is a measure of how fast the robot should be able to drive in a straight
      * line.
      */
-    public static final double MAX_VELOCITY_METERS_PER_SECOND = 6380.0 / 60.0 / SwerveModule.DT_DRIVE_GEAR_RATIO
-            * SwerveModule.DT_WHEEL_CIRCUMFRENCE.in(Meter);
+    public static final Measure<Velocity<Distance>> MAX_VELOCITY = UnitsUtil.velocityForWheel(
+        SwerveModule.DT_WHEEL_DIAMETER,
+                RotationsPerSecond.of(6380.0 / 60.0 / SwerveModule.DT_DRIVE_GEAR_RATIO));
+        
     // ModuleConfiguration.MK4I_L2.getDriveReduction() *
     // ModuleConfiguration.MK4I_L2.getWheelDiameter() * PI;
 
@@ -323,7 +332,7 @@ public class DriveTrain extends SubsystemBase implements TalonFXSubsystem, Check
      */
     // Here we calculate the theoretical maximum angular velocity. You can also
     // replace this with a measured amount.
-    public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = (MAX_VELOCITY_METERS_PER_SECOND /
+    public static final Measure<Velocity<Angle>> MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = RadiansPerSecond.of(MAX_VELOCITY.in(MetersPerSecond) /
             Math.hypot(DRIVETRAIN_TRACKWIDTH_METERS / 2.0, DRIVETRAIN_WHEELBASE_METERS / 2.0));
 
     public Command xcommand() {
