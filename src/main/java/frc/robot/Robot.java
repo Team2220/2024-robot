@@ -2,22 +2,26 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.Robot24;
+package frc.robot;
 
 import com.ctre.phoenix6.SignalLogger;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.lib.CommandObserver;
 import frc.lib.LoopTimer;
+import frc.lib.RobotContainerInterface;
+import frc.lib.RobotInstance;
 import frc.lib.eventLoops.EventLoops;
 import frc.lib.faults.Fault;
-import frc.robot.BuildConstToString;
+import frc.robot.Robot24.RobotContainer;
+import frc.robot.boxybot.BoxysRobotContainer;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -33,7 +37,7 @@ public class Robot extends TimedRobot {
   private Command autonomousCommand;
   private Command testCommand;
 
-  private RobotContainer robotContainer;
+  private RobotContainerInterface robotContainer;
 
   @Override
   public void robotInit() {
@@ -52,7 +56,13 @@ public class Robot extends TimedRobot {
 
     DriverStation.silenceJoystickConnectionWarning(true);
 
-    robotContainer = new RobotContainer();
+    robotContainer = (RobotContainerInterface) RobotInstance.config((instance) -> {
+      return switch (instance) {
+        case BoxyBot -> new BoxysRobotContainer();
+        case Robot24 -> new frc.robot.Robot24.RobotContainer();
+        case KrackenSwerve -> new frc.robot.KrackenSwerve.RobotContainer();
+      };
+    });
     Shuffleboard.getTab("Scheduler").add("Scheduler", CommandScheduler.getInstance()).withSize(3, 2);
   }
 
@@ -88,7 +98,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    robotContainer.arm.setNeturalMode(NeutralModeValue.Brake);
     if (autonomousCommand != null) {
       autonomousCommand.cancel();
     }
@@ -122,4 +131,6 @@ public class Robot extends TimedRobot {
   @Override
   public void simulationPeriodic() {
   }
+
+  
 }

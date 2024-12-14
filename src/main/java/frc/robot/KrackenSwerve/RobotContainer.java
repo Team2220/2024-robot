@@ -4,6 +4,7 @@
 
 package frc.robot.KrackenSwerve;
 
+import frc.lib.RobotContainerInterface;
 import frc.lib.controllers.CommandJoystickWrapper;
 import frc.lib.controllers.CommandXBoxWrapper;
 import frc.lib.drivetrain.DriveCommand;
@@ -25,7 +26,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 
-public class RobotContainer {
+public class RobotContainer implements RobotContainerInterface {
 
   private final DriveTrain driveTrain = new DriveTrain(
     Constants.DriveTrain.frontLeftOffset,

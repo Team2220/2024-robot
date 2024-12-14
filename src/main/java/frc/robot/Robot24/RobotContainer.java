@@ -5,6 +5,7 @@
 package frc.robot.Robot24;
 
 import frc.lib.DriverStationTriggers;
+import frc.lib.RobotContainerInterface;
 import frc.lib.Arduino.Arduino;
 import frc.lib.can.CanStream;
 import frc.lib.controllers.CommandXBoxWrapper;
@@ -48,7 +49,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import static frc.lib.Arduino.ArduinoCommand.*;
 
-public class RobotContainer {
+public class RobotContainer implements RobotContainerInterface{
 
   
     // driverController.a().onTrue(arduino.runCommand(BLUE));

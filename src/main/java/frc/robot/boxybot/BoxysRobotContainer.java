@@ -5,6 +5,7 @@
 package frc.robot.boxybot;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import frc.lib.Arduino.Arduino;
 import frc.lib.controllers.CommandXBoxWrapper;
 
@@ -14,6 +15,7 @@ import frc.robot.Robot24.Constants.OperatorConstants;
 import frc.robot.Robot24.DriverTab;
 
 public class BoxysRobotContainer {
+
   @SuppressWarnings("unused")
   private final BoxysDriveTrain driveTrain = new BoxysDriveTrain();
 
@@ -46,6 +48,7 @@ public class BoxysRobotContainer {
     return null;
   }
 
-
-  // CanStream canStream = new CanStream();
+  public Command getTestCommand() {
+    return Commands.print("test");
+  }
 }

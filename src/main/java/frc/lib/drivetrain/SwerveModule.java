@@ -38,6 +38,7 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
   public static final double DT_WHEEL_DIAMETER = Units.inchesToMeters(4);
   public static final double DT_DRIVE_GEAR_RATIO = (50.0 / 14.0) * (16.0 / 28.0) * (45.0 / 15.0);
   public static final double DT_STEER_GEAR_RATIO = 150.0 / 7.0;
+  public static final double DT_WHEEL_CIRCUMFRENCE = DT_WHEEL_DIAMETER * Math.PI;
   // Drive gear ratio (that number is the number of revolutions of the motor to
   // get one revolution of the output)
   // public static final double DT_DRIVE_GEAR_RATIO =
@@ -179,7 +180,7 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
   private double getDriveVelocity() {
     double ticks = driveMotor.getVelocity().getValueAsDouble();
     double revolutionsMotorToRevolutionsWheel = 1.0 / DT_DRIVE_GEAR_RATIO // Reduction from motor to output
-        * (1.0 / (SwerveModule.DT_WHEEL_DIAMETER * Math.PI));
+        * (1.0 / DT_WHEEL_CIRCUMFRENCE);
 
     return ticks * revolutionsMotorToRevolutionsWheel;
   }
@@ -190,7 +191,10 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
         new UnwrappedTalonSpinCheck("backLeftDrive", getDriveMotor(), false),
         new UnwrappedTalonSpinCheck("backLeftTurn", getTurningMotor(), true),
         new UnwrappedTalonSpinCheck("backLeftTurn", getTurningMotor(), false),
+        new SwerveModuleSelfCheck(this, Degrees.of(0), Degrees.of(5)),
         new SwerveModuleSelfCheck(this, Degrees.of(90), Degrees.of(5)),
+        new SwerveModuleSelfCheck(this, Degrees.of(180), Degrees.of(5)),
+        new SwerveModuleSelfCheck(this, Degrees.of(270), Degrees.of(5)),
     };
   }
 
@@ -206,31 +210,29 @@ public class SwerveModule implements ShuffleBoardTabWrapper {
   public static final TunableDouble DT_STEER_F = new TunableDouble("DT_STEER_F", 0, "swerve").setSpot(3, 1);
 
   private double getDrivePosition() {
-    double ticks = driveMotor.getRotorPosition().getValueAsDouble();
-    double revolutionsMotorToRevolutionsWheel = 1.0 / DT_DRIVE_GEAR_RATIO // Reduction from motor to output
-        * (1.0 * (SwerveModule.DT_WHEEL_DIAMETER * Math.PI));
 
-    return ticks * revolutionsMotorToRevolutionsWheel;
+return (driveMotor.getRotorPosition().getValueAsDouble()) * (1.0 / DT_DRIVE_GEAR_RATIO //Reduction from motor to output
+        * DT_WHEEL_CIRCUMFRENCE);
+
+    // double ticks = driveMotor.getRotorPosition().getValueAsDouble();
+    // double revolutionsMotorToRevolutionsWheel = 1.0 / DT_DRIVE_GEAR_RATIO // Reduction from motor to output
+    //     * ((SwerveModule.DT_WHEEL_DIAMETER * Math.PI));
+
+    // return ticks * revolutionsMotorToRevolutionsWheel;
   }
 
   private double mpsToEncoderTicks(double mps) {
-    double wheelRevolutions = (DT_WHEEL_DIAMETER * Math.PI);
-    double motorRev = mps / wheelRevolutions * DT_DRIVE_GEAR_RATIO;
-    double ticks = motorRev;
-    return ticks;
+    return mps / DT_WHEEL_CIRCUMFRENCE * DT_DRIVE_GEAR_RATIO;
+    // return mps / wheelRevolutions * DT_DRIVE_GEAR_RATIO;
   }
 
   private double angleToEncoderTicks(double angle) {
-    double angleToWheelRev = angle / 360.0;
-    double motorRev = angleToWheelRev * DT_STEER_GEAR_RATIO;
-    return motorRev;
-  }
+    return (angle / 360.0) * DT_STEER_GEAR_RATIO;}
+    
 
   private double steerEncoderTicksToAngle(double ticks) {
-    double motorRotation = ticks;
-    double moduleRotation = motorRotation / DT_STEER_GEAR_RATIO;
-    double angle = moduleRotation * 360;
-    return angle;
+    return (ticks / DT_STEER_GEAR_RATIO) * 360;
+    
   }
 
   public SwerveModulePosition getPosition() {
